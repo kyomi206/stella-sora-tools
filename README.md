@@ -1,6 +1,6 @@
 # Stella Sora Tools
 
-A modern, fast web companion for Yostar's top-down action RPG **Stella Sora**. Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4.
+A web companion for Yostar's top-down action RPG **Stella Sora**. Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4.
 
 
 ## 📜 Credits & Acknowledgments
@@ -9,8 +9,6 @@ A modern, fast web companion for Yostar's top-down action RPG **Stella Sora**. B
 - **StellaSoraData**: Datamined by [Hiro420](https://github.com/Hiro420/StellaSoraData).
 - **Blue Archive Tools**: UI layout inspiration from [jozsefsallai/ba-tools](https://github.com/jozsefsallai/ba-tools).
 - **Stella Sora Miraheze Wiki**: Community documentation at [stellasora.miraheze.org](https://stellasora.miraheze.org/wiki/Stella_Sora_Wiki).
-
----
 
 ## License
 
