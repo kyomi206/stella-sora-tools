@@ -1,0 +1,1965 @@
+{
+ "talentNames": {
+  "158": "S.Laru",
+  "159": "S.Coronis",
+  "160": "S.Willow",
+  "162": "F.Noya"
+ },
+ "talents": {
+  "Amber": [
+   [
+    {
+     "stat": "Skill",
+     "value": 0.16,
+     "target": "Amber"
+    }
+   ],
+   [
+    {
+     "stat": "Crit rate%",
+     "value": 0.1,
+     "target": "Amber"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.6,
+     "target": "Amber"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.3,
+     "target": "Amber"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.6,
+     "target": "Amber"
+    }
+   ]
+  ],
+  "Tilia": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.084,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.24,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.28,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.12,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.13,
+     "target": "Squad"
+    }
+   ]
+  ],
+  "Kasimira": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.48,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.175,
+     "target": "Kasimira"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.085,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.23,
+     "target": "Kasimira"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.2,
+     "target": "Kasimira"
+    }
+   ]
+  ],
+  "Firenze": [
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.21,
+     "target": "Firenze"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Firenze"
+    },
+    {
+     "stat": "Minion",
+     "value": 0.2,
+     "target": "Firenze"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Firenze"
+    },
+    {
+     "stat": "Minion",
+     "value": 0.2,
+     "target": "Firenze"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.8,
+     "target": "Firenze"
+    }
+   ],
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.2,
+     "target": "Firenze"
+    }
+   ]
+  ],
+  "Iris": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.35,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.12,
+     "target": "Iris"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.084,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.12,
+     "target": "Iris"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.144,
+     "target": "Iris"
+    }
+   ]
+  ],
+  "Noya": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.18,
+     "target": "Noya"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.14,
+     "target": "Noya"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.12,
+     "target": "Noya"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.14,
+     "target": "Noya"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.4,
+     "target": "Noya"
+    }
+   ]
+  ],
+  "Shimiao": [
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.24,
+     "target": "Shimiao"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.12,
+     "target": "Shimiao"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 3.3,
+     "target": "Shimiao"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.12,
+     "target": "Shimiao"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.12,
+     "target": "Shimiao"
+    }
+   ]
+  ],
+  "Chaton": [
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.32,
+     "target": "Chaton"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.28,
+     "target": "Chaton"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Chaton"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.3,
+     "target": "Chaton"
+    }
+   ],
+   [
+    {
+     "stat": "Ignis",
+     "value": 0.24,
+     "target": "Chaton"
+    }
+   ]
+  ],
+  "Firefly": [
+   [
+    {
+     "stat": "Lux taken",
+     "value": 0.14,
+     "target": "Lux"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Firefly"
+    }
+   ],
+   [
+    {
+     "stat": "Lux taken",
+     "value": 0.14,
+     "target": "Lux"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Firefly"
+    }
+   ],
+   [
+    {
+     "stat": "Lux",
+     "value": 0.24,
+     "target": "Firefly"
+    }
+   ]
+  ],
+  "Ridge": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.168,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.12,
+     "target": "Ridge"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.11,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.12,
+     "target": "Ridge"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.24,
+     "target": "Ridge"
+    }
+   ]
+  ],
+  "Jinglin": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.26,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.2,
+     "target": "Jinglin"
+    }
+   ],
+   [
+    {
+     "stat": "Lux taken",
+     "value": 0.09,
+     "target": "Lux"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.084,
+     "target": "Jinglin"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.2,
+     "target": "Jinglin"
+    }
+   ]
+  ],
+  "Coronis": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.084,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.3,
+     "target": "Coronis"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.1,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.168,
+     "target": "Coronis"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.34,
+     "target": "Coronis"
+    }
+   ]
+  ],
+  "Nanoha": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.47,
+     "target": "Nanoha"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Nanoha"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.4,
+     "target": "Nanoha"
+    }
+   ],
+   [
+    {
+     "stat": "AA",
+     "value": 0.22,
+     "target": "Nanoha"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.24,
+     "target": "Nanoha"
+    }
+   ]
+  ],
+  "Canace": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.168,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.12,
+     "target": "Canace"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.17,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.12,
+     "target": "Canace"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.144,
+     "target": "Canace"
+    }
+   ]
+  ],
+  "Ann": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.103,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.32,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.12,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.13,
+     "target": "Squad"
+    }
+   ]
+  ],
+  "Freesia": [
+   [
+    {
+     "stat": "Aqua taken",
+     "value": 0.21,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.4,
+     "target": "Freesia"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua taken",
+     "value": 0.014,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Crit rate%",
+     "value": 0.1,
+     "target": "Freesia"
+    }
+   ],
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.48,
+     "target": "Freesia"
+    }
+   ]
+  ],
+  "Flora": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.084,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill Crit rate%",
+     "value": 0.1,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.084,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Ignis",
+     "value": 0.12,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.12,
+     "target": "Squad"
+    }
+   ]
+  ],
+  "Teresa": [
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.084,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.13,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.11,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.12,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.13,
+     "target": "Squad"
+    }
+   ]
+  ],
+  "Donna": [
+   [
+    {
+     "stat": "Aqua taken",
+     "value": 0.141,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.285,
+     "target": "Donna"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua taken",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.2,
+     "target": "Donna"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.34,
+     "target": "Donna"
+    }
+   ]
+  ],
+  "Minova": [
+   [
+    {
+     "stat": "Lux taken",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.25,
+     "target": "Minova"
+    }
+   ],
+   [
+    {
+     "stat": "Lux taken",
+     "value": 0.175,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Minova"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.3,
+     "target": "Minova"
+    }
+   ]
+  ],
+  "Nazuka": [
+   [
+    {
+     "stat": "Skill",
+     "value": 0.45,
+     "target": "Trekker1"
+    },
+    {
+     "stat": "Skill",
+     "value": 0.45,
+     "target": "Trekker2"
+    },
+    {
+     "stat": "Skill",
+     "value": 0.45,
+     "target": "Trekker3"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.2,
+     "target": "Nazuka"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus taken",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.28,
+     "target": "Nazuka"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.24,
+     "target": "Nazuka"
+    }
+   ]
+  ],
+  "Fuyuka": [
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.4,
+     "target": "Fuyuka"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.66,
+     "target": "Fuyuka"
+    }
+   ],
+   [
+    {
+     "stat": "Ignis",
+     "value": 0.25,
+     "target": "Fuyuka"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.66,
+     "target": "Fuyuka"
+    }
+   ],
+   [
+    {
+     "stat": "Ignis",
+     "value": 0.24,
+     "target": "Fuyuka"
+    }
+   ]
+  ],
+  "Mistique": [
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.14,
+     "target": "Trekker1"
+    },
+    {
+     "stat": "Umbra",
+     "value": 0.14,
+     "target": "Trekker2"
+    },
+    {
+     "stat": "Umbra",
+     "value": 0.14,
+     "target": "Trekker3"
+    }
+   ],
+   [
+    {
+     "stat": "Minion",
+     "value": 0.26,
+     "target": "Mistique"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.35,
+     "target": "Trekker1"
+    },
+    {
+     "stat": "ATK%",
+     "value": 0.35,
+     "target": "Trekker2"
+    },
+    {
+     "stat": "ATK%",
+     "value": 0.35,
+     "target": "Trekker3"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Mistique"
+    }
+   ],
+   [
+    {
+     "stat": "Minion",
+     "value": 0.26,
+     "target": "Mistique"
+    }
+   ]
+  ],
+  "Eleanor": [
+   [
+    {
+     "stat": "Ventus taken",
+     "value": 0.21,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK% (Perma)",
+     "value": 0.33,
+     "target": "Eleanor"
+    },
+    {
+     "stat": "ATK%",
+     "value": 0.33,
+     "target": "Eleanor"
+    }
+   ],
+   [
+    {
+     "stat": "AA",
+     "value": 0.25,
+     "target": "Ventus"
+    },
+    {
+     "stat": "Skill",
+     "value": 0.25,
+     "target": "Ventus"
+    }
+   ],
+   [
+    {
+     "stat": "AA",
+     "value": 0.32,
+     "target": "Eleanor"
+    },
+    {
+     "stat": "Skill",
+     "value": 0.32,
+     "target": "Eleanor"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.3,
+     "target": "Eleanor"
+    }
+   ]
+  ],
+  "Allie": [
+   [
+    {
+     "stat": "Skill Crit rate%",
+     "value": 0.15,
+     "target": "Allie"
+    },
+    {
+     "stat": "Aqua",
+     "value": 0.4,
+     "target": "Allie"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.36,
+     "target": "Allie"
+    },
+    {
+     "stat": "Mark",
+     "value": 0.66,
+     "target": "Allie"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.24,
+     "target": "Allie"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.15,
+     "target": "Allie"
+    },
+    {
+     "stat": "Mark",
+     "value": 0.3,
+     "target": "Allie"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.3,
+     "target": "Allie"
+    }
+   ]
+  ],
+  "Sparkla": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Sparkla"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.38,
+     "target": "Sparkla"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Sparkla"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.2,
+     "target": "Sparkla"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.24,
+     "target": "Sparkla"
+    }
+   ]
+  ],
+  "Chixia": [
+   [
+    {
+     "stat": "Ignis",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Crit rate%",
+     "value": 0.1,
+     "target": "Chixia"
+    },
+    {
+     "stat": "Crit dmg%",
+     "value": 0.31,
+     "target": "Chixia"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.28,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Chixia"
+    }
+   ],
+   [
+    {
+     "stat": "Ignis",
+     "value": 0.24,
+     "target": "Chixia"
+    }
+   ]
+  ],
+  "Cosette": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.084,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.138,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.13,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.14,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.13,
+     "target": "Squad"
+    }
+   ]
+  ],
+  "Wraith": [
+   [
+    {
+     "stat": "Skill",
+     "value": 0.18,
+     "target": "Wraith"
+    },
+    {
+     "stat": "AA",
+     "value": 0.18,
+     "target": "Wraith"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Wraith"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.18,
+     "target": "Wraith"
+    },
+    {
+     "stat": "AA",
+     "value": 0.18,
+     "target": "Wraith"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Wraith"
+    }
+   ],
+   [
+    {
+     "stat": "Ventus",
+     "value": 0.24,
+     "target": "Wraith"
+    }
+   ]
+  ],
+  "Chitose": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.3,
+     "target": "Chitose"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.2,
+     "target": "Chitose"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Chitose"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.22,
+     "target": "Chitose"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.24,
+     "target": "Chitose"
+    }
+   ]
+  ],
+  "Otoha": [
+   [
+    {
+     "stat": "Umbra taken",
+     "value": 0.141,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.2,
+     "target": "Otoha"
+    }
+   ],
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.15,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.2,
+     "target": "Otoha"
+    }
+   ],
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.24,
+     "target": "Otoha"
+    }
+   ]
+  ],
+  "Caramel": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.12,
+     "target": "Caramel"
+    }
+   ],
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.144,
+     "target": "Caramel"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.4,
+     "target": "Caramel"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.12,
+     "target": "Caramel"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.4,
+     "target": "Caramel"
+    }
+   ]
+  ],
+  "Gerie": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Gerie"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.2,
+     "target": "Gerie"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.581,
+     "target": "Gerie"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Gerie"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.24,
+     "target": "Gerie"
+    }
+   ]
+  ],
+  "Laru": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.12,
+     "target": "Laru"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.12,
+     "target": "Laru"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.24,
+     "target": "Laru"
+    }
+   ],
+   [
+    {
+     "stat": "Lux",
+     "value": 0.12,
+     "target": "Laru"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.15,
+     "target": "Laru"
+    }
+   ]
+  ],
+  "Shia": [
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.42,
+     "target": "Shia"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.6,
+     "target": "Shia"
+    }
+   ],
+   [
+    {
+     "stat": "Lux",
+     "value": 0.2,
+     "target": "Shia"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.5,
+     "target": "Shia"
+    }
+   ],
+   [
+    {
+     "stat": "Lux",
+     "value": 0.2,
+     "target": "Shia"
+    }
+   ]
+  ],
+  "Nazuna": [
+   [
+    {
+     "stat": "Terra",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.4,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Terra taken",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.2,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.14,
+     "target": "Squad"
+    }
+   ]
+  ],
+  "Karin": [
+   [
+    {
+     "stat": "Ult",
+     "value": 0.5,
+     "target": "Karin"
+    }
+   ],
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.4,
+     "target": "Karin"
+    }
+   ],
+   [
+    {
+     "stat": "AA",
+     "value": 0.4,
+     "target": "Karin"
+    },
+    {
+     "stat": "Ult",
+     "value": 0.2,
+     "target": "Karin"
+    }
+   ],
+   [
+    {
+     "stat": "ATK%",
+     "value": 0.27,
+     "target": "Karin"
+    }
+   ],
+   [
+    {
+     "stat": "Umbra",
+     "value": 0.3,
+     "target": "Karin"
+    }
+   ]
+  ],
+  "S.Laru": [
+   [
+    {
+     "stat": "Skill Crit rate%",
+     "value": 0.1,
+     "target": "Ignis"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.3,
+     "target": "S.Laru"
+    },
+    {
+     "stat": "Minion",
+     "value": 0.3,
+     "target": "S.Laru"
+    }
+   ],
+   [
+    {
+     "stat": "Ignis",
+     "value": 0.24,
+     "target": "S.Laru"
+    }
+   ],
+   [
+    {
+     "stat": "Ult",
+     "value": 0.8,
+     "target": "S.Laru"
+    }
+   ],
+   [
+    {
+     "stat": "Crit rate%",
+     "value": 0.1,
+     "target": "Ignis"
+    }
+   ]
+  ],
+  "S.Coronis": [
+   [
+    {
+     "stat": "Terra taken",
+     "value": 0.141,
+     "target": "Terra"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.285,
+     "target": "S.Coronis"
+    }
+   ],
+   [
+    {
+     "stat": "Terra taken",
+     "value": 0.21,
+     "target": "Terra"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.34,
+     "target": "S.Coronis"
+    }
+   ],
+   [
+    {
+     "stat": "Terra",
+     "value": 0.24,
+     "target": "S.Coronis"
+    }
+   ]
+  ],
+  "S.Willow": [
+   [
+    {
+     "stat": "Aqua",
+     "value": 0.3,
+     "target": "Aqua"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua taken",
+     "value": 0.27,
+     "target": "Aqua"
+    }
+   ],
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.32,
+     "target": "Squad"
+    }
+   ],
+   [
+    {
+     "stat": "Skill",
+     "value": 0.18,
+     "target": "Main"
+    },
+    {
+     "stat": "AA",
+     "value": 0.18,
+     "target": "Main"
+    }
+   ],
+   [
+    {
+     "stat": "Aqua taken",
+     "value": 0.24,
+     "target": "Aqua"
+    }
+   ]
+  ],
+  "F.Noya": [
+   [
+    {
+     "stat": "Crit dmg%",
+     "value": 0.12,
+     "target": "F.Noya"
+    }
+   ],
+   [
+    {
+     "stat": "HP",
+     "value": 0.1,
+     "target": "F.Noya"
+    },
+    {
+     "stat": "DMG Multiplier",
+     "value": 0.36,
+     "target": "F.Noya"
+    }
+   ],
+   [
+    {
+     "stat": "Lux",
+     "value": 0.18,
+     "target": "F.Noya"
+    }
+   ],
+   [
+    {
+     "stat": "AA",
+     "value": 0.24,
+     "target": "F.Noya"
+    }
+   ],
+   [
+    {
+     "stat": "DMG Multiplier",
+     "value": 0.21,
+     "target": "F.Noya"
+    },
+    {
+     "stat": "DMG Multiplier",
+     "value": 0.18,
+     "target": "F.Noya"
+    }
+   ]
+  ]
+ },
+ "emblems": {
+  "70": {
+   "RES PEN": {
+    "Green": 35.0,
+    "Blue": 40.0,
+    "Yellow": 53.0,
+    "Rainbow": 110.0
+   },
+   "ATK% (Perma)": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "HP%": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "DEF%": {
+    "Green": 0.1,
+    "Blue": 0.12,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Base ATK": {
+    "Green": 70.0,
+    "Blue": 88.0,
+    "Yellow": 105.0
+   },
+   "Base HP": {
+    "Green": 680.0,
+    "Blue": 850.0,
+    "Yellow": 1020.0
+   },
+   "Base DEF": {
+    "Green": 35.0,
+    "Blue": 44.0,
+    "Yellow": 53.0
+   },
+   "AA": {
+    "Green": 0.1,
+    "Blue": 0.125,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Skill": {
+    "Green": 0.07,
+    "Blue": 0.08,
+    "Yellow": 0.1,
+    "Rainbow": 0.2
+   },
+   "Ult": {
+    "Green": 0.1,
+    "Blue": 0.13,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Mark": {
+    "Green": 0.27,
+    "Blue": 0.33,
+    "Yellow": 0.4,
+    "Rainbow": 0.8
+   },
+   "Minion": {
+    "Green": 0.07,
+    "Blue": 0.08,
+    "Yellow": 0.1,
+    "Rainbow": 0.2
+   },
+   "Element": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "Crit dmg%": {
+    "Green": 0.08,
+    "Blue": 0.1,
+    "Yellow": 0.12
+   },
+   "Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075,
+    "Rainbow": 0.15
+   },
+   "AA Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Skill Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Ult Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Mark Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Minion Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Charge (M)": {
+    "Green": 0.1,
+    "Blue": 0.125,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Charge (S)": {
+    "Green": 0.135,
+    "Blue": 0.17,
+    "Yellow": 0.203,
+    "Rainbow": 0.4
+   }
+  },
+  "80": {
+   "RES PEN": {
+    "Green": 35.0,
+    "Blue": 40.0,
+    "Yellow": 53.0,
+    "Rainbow": 110.0
+   },
+   "ATK% (Perma)": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "HP%": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "DEF%": {
+    "Green": 0.1,
+    "Blue": 0.12,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Base ATK": {
+    "Green": 70.0,
+    "Blue": 88.0,
+    "Yellow": 105.0
+   },
+   "Base HP": {
+    "Green": 680.0,
+    "Blue": 850.0,
+    "Yellow": 1020.0
+   },
+   "Base DEF": {
+    "Green": 35.0,
+    "Blue": 44.0,
+    "Yellow": 53.0
+   },
+   "AA": {
+    "Green": 0.1,
+    "Blue": 0.125,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Skill": {
+    "Green": 0.07,
+    "Blue": 0.08,
+    "Yellow": 0.1,
+    "Rainbow": 0.2
+   },
+   "Ult": {
+    "Green": 0.1,
+    "Blue": 0.13,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Mark": {
+    "Green": 0.27,
+    "Blue": 0.33,
+    "Yellow": 0.4,
+    "Rainbow": 0.8
+   },
+   "Minion": {
+    "Green": 0.07,
+    "Blue": 0.08,
+    "Yellow": 0.1,
+    "Rainbow": 0.2
+   },
+   "Element": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "Crit dmg%": {
+    "Green": 0.08,
+    "Blue": 0.1,
+    "Yellow": 0.12
+   },
+   "Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075,
+    "Rainbow": 0.15
+   },
+   "AA Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Skill Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Ult Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Mark Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Minion Crit rate%": {
+    "Green": 0.05,
+    "Blue": 0.063,
+    "Yellow": 0.075
+   },
+   "Charge (M)": {
+    "Green": 0.1,
+    "Blue": 0.125,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Charge (S)": {
+    "Green": 0.135,
+    "Blue": 0.17,
+    "Yellow": 0.203,
+    "Rainbow": 0.4
+   }
+  },
+  "90": {
+   "ATK% (Perma)": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "HP%": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "DEF%": {
+    "Green": 0.1,
+    "Blue": 0.12,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Base ATK": {
+    "Green": 70.0,
+    "Blue": 88.0,
+    "Yellow": 105.0
+   },
+   "Base HP": {
+    "Green": 680.0,
+    "Blue": 850.0,
+    "Yellow": 1020.0
+   },
+   "Base DEF": {
+    "Green": 35.0,
+    "Blue": 44.0,
+    "Yellow": 53.0
+   },
+   "AA": {
+    "Green": 0.1,
+    "Blue": 0.125,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Skill": {
+    "Green": 0.07,
+    "Blue": 0.08,
+    "Yellow": 0.1,
+    "Rainbow": 0.2
+   },
+   "Ult": {
+    "Green": 0.1,
+    "Blue": 0.13,
+    "Yellow": 0.15,
+    "Rainbow": 0.3
+   },
+   "Mark": {
+    "Green": 0.27,
+    "Blue": 0.33,
+    "Yellow": 0.4,
+    "Rainbow": 0.8
+   },
+   "Minion": {
+    "Green": 0.07,
+    "Blue": 0.08,
+    "Yellow": 0.1,
+    "Rainbow": 0.2
+   },
+   "Element": {
+    "Green": 0.04,
+    "Blue": 0.05,
+    "Yellow": 0.06,
+    "Rainbow": 0.12
+   },
+   "Crit dmg%": {
+    "Green": 0.08,
+    "Blue": 0.1,
+    "Yellow": 0.12
+   }
+  }
+ }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "stella-sora-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Unofficial Stella Sora fan toolkit: team builder, bond calculator, roadmap and trekker encyclopedia.",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "^1.4.9",
+    "clsx": "^2.1.1",
+    "elysia": "^1.4.30",
+    "html2canvas-pro": "^2.5.2",
+    "lucide-react": "^1.61.0",
+    "lz-string": "^1.5.0",
+    "next": "16.4.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/lz-string": "^1.3.34",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

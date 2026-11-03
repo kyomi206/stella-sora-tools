@@ -1,0 +1,573 @@
+/* Hallmark · theme: Stella Sora Game-inspired · genre modern-minimal · checked */
+/* Hallmark · waive 2a · five-star card borders · the authentic game client uses prismatic gradient for 5-star trekkers */
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  /* Soft sky blue background inspired by game's daylight scenes */
+  --color-base: #e8f4f8;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f0f7fb;
+  --color-surface-subtle: #f8fcff;
+  --color-surface-card: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-border: #d4e7f0;
+  --color-border-subtle: #e5f1f7;
+  --color-border-hover: #b8d9e8;
+  --color-accent: #14b8a6; /* Teal accent from game UI */
+  --color-text: #1e3a5f;
+  --color-text-muted: #5b7a99;
+  
+  /* Game-inspired accent colors */
+  --color-cyan: #22d3ee;
+  --color-pink: #ec4899;
+  --color-purple: #a855f7;
+  --color-amber: #f59e0b;
+  --color-navy: #1e3a5f;
+}
+
+/* Dark theme: deep navy-blue night inspired by game's menu screens */
+.dark {
+  color-scheme: dark;
+
+  --background-color-base: #0a1628;
+  --color-base: #0a1628;
+  --color-surface: #132844;
+  --color-surface-hover: #1a3354;
+  --color-surface-subtle: #0d1f38;
+  --color-surface-card: #112338;
+  --color-surface-elevated: #1a3354;
+  --color-border: #1e4061;
+  --color-border-subtle: #152d48;
+  --color-border-hover: #2a5178;
+  --color-text: #e8f4f8;
+  --color-text-muted: #8dacc4;
+  --color-foreground: #e8f4f8;
+  --color-muted-foreground: #8dacc4;
+  --color-card: #112338;
+  --color-muted: #1a3354;
+  --color-secondary: #1a3354;
+
+  /* Navy-blue scale inversion */
+  --color-slate-50: #0a1628;
+  --color-slate-100: #132844;
+  --color-slate-200: #152d48;
+  --color-slate-300: #1e4061;
+  --color-slate-600: #b8d9e8;
+  --color-slate-700: #d4e7f0;
+  --color-slate-800: #e8f4f8;
+  --color-slate-900: #f8fcff;
+
+  /* Accent tints and ink. Solid 400/500 shades are shared by both themes. */
+  --color-amber-50: #332919;
+  --color-amber-100: #4c3417;
+  --color-amber-300: #b45309;
+  --color-amber-600: #fbbf24;
+  --color-amber-700: #fcd34d;
+  --color-amber-800: #fde68a;
+  --color-amber-900: #fef3c7;
+  --color-amber-950: #fffbeb;
+
+  --color-sky-50: #132a3c;
+  --color-sky-100: #15354e;
+  --color-sky-300: #0369a1;
+  --color-sky-600: #38bdf8;
+  --color-sky-700: #7dd3fc;
+  --color-sky-800: #bae6fd;
+  --color-sky-900: #e0f2fe;
+
+  --color-rose-50: #331a26;
+  --color-rose-100: #4a1b2c;
+  --color-rose-300: #be123c;
+  --color-rose-600: #fb7185;
+  --color-rose-700: #fda4af;
+  --color-rose-800: #fecdd3;
+  --color-rose-900: #ffe4e6;
+
+  --color-emerald-50: #142a25;
+  --color-emerald-100: #153a30;
+  --color-emerald-300: #047857;
+  --color-emerald-600: #34d399;
+  --color-emerald-700: #6ee7b7;
+  --color-emerald-800: #a7f3d0;
+  --color-emerald-900: #d1fae5;
+  --color-emerald-950: #ecfdf5;
+
+  --color-purple-50: #261a3d;
+  --color-purple-100: #362254;
+  --color-purple-300: #7e22ce;
+  --color-purple-600: #c084fc;
+  --color-purple-700: #d8b4fe;
+  --color-purple-800: #e9d5ff;
+
+  --color-indigo-50: #1d1d39;
+  --color-indigo-100: #22234f;
+  --color-indigo-300: #4338ca;
+  --color-indigo-600: #818cf8;
+  --color-indigo-700: #a5b4fc;
+  --color-indigo-800: #c7d2fe;
+  --color-indigo-900: #e0e7ff;
+
+  --color-violet-50: #201c3d;
+  --color-violet-100: #2d2453;
+  --color-violet-300: #6d28d9;
+  --color-violet-600: #a78bfa;
+  --color-violet-700: #c4b5fd;
+  --color-violet-800: #ddd6fe;
+  --color-violet-900: #ede9fe;
+
+  --color-orange-50: #33251a;
+  --color-orange-100: #4a2e19;
+  --color-orange-300: #c2410c;
+  --color-orange-600: #fb923c;
+  --color-orange-700: #fdba74;
+  --color-orange-800: #fed7aa;
+  --color-orange-900: #ffedd5;
+
+  --color-yellow-50: #302b18;
+  --color-yellow-100: #453b17;
+  --color-yellow-300: #a16207;
+  --color-yellow-600: #facc15;
+  --color-yellow-700: #fde047;
+
+  --color-teal-50: #142a2b;
+  --color-teal-100: #153a3a;
+  --color-teal-300: #0f766e;
+  --color-teal-600: #2dd4bf;
+  --color-teal-700: #5eead4;
+
+  --color-blue-50: #17233a;
+  --color-blue-100: #193050;
+  --color-blue-300: #1d4ed8;
+  --color-blue-600: #60a5fa;
+  --color-blue-700: #93c5fd;
+
+  --color-pink-50: #321a2c;
+  --color-pink-100: #471b39;
+  --color-pink-300: #be185d;
+  --color-pink-600: #f472b6;
+  --color-pink-700: #f9a8d4;
+  --color-pink-800: #fbcfe8;
+
+  --color-zinc-50: #1d1c1d;
+  --color-zinc-100: #262527;
+  --color-zinc-300: #3f3f46;
+  --color-zinc-600: #a1a1aa;
+}
+
+/* Solid status/role fills keep their saturated value in both themes. */
+.dark .bg-rose-600,
+.dark .hover\:bg-rose-600:hover {
+  background-color: #e11d48;
+}
+.dark .bg-emerald-600 {
+  background-color: #059669;
+}
+.dark .bg-indigo-600 {
+  background-color: #4f46e5;
+}
+.dark .bg-sky-600 {
+  background-color: #0284c7;
+}
+.dark .bg-violet-600 {
+  background-color: #7c3aed;
+}
+
+/* Keep the shareable build card light in both themes. */
+.light-scope {
+  color-scheme: light;
+
+  --color-base: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-surface-subtle: #f8fafc;
+  --color-surface-card: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #eef2f7;
+  --color-border-hover: #cbd5e1;
+  --color-accent: #f59e0b;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+
+  --color-sky-50: #f0f9ff;
+  --color-emerald-600: #059669;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+}
+
+@theme {
+  --background-color-base: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-surface-subtle: #f8fafc;
+  --color-surface-card: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #eef2f7;
+  --color-border-hover: #cbd5e1;
+  --color-accent: #f59e0b;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-foreground: #0f172a;
+  --color-muted-foreground: #64748b;
+  --color-card: #ffffff;
+  --color-muted: #f1f5f9;
+  --color-secondary: #f1f5f9;
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+html {
+  color-scheme: light;
+}
+
+html, body {
+  overflow-x: clip;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-base);
+  /* radial-gradient backdrop removed per user request: solid base used */
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+/* Game-styled Runic Disc hover card. Fixed palette with its own light/dark set,
+   so it keeps the in-game identity in either app theme. */
+.disc-card {
+  color-scheme: light;
+
+  --dc-panel: #e9f3fa;
+  --dc-panel-border: #bcdcee;
+  --dc-divider: #cfe5f2;
+  --dc-ink: #16344f;
+  --dc-body: #27465f;
+  --dc-plate: #ffffff;
+  --dc-plate-border: #d9e9f5;
+  --dc-row: #eef7fc;
+  --dc-row-ink: #23455f;
+  --dc-ribbon: #10aec6;
+  --dc-tab: rgba(255, 255, 255, 0.55);
+  --dc-tab-hover: rgba(255, 255, 255, 0.8);
+  --dc-tab-active: #ffffff;
+  --dc-tab-ink: #3d5f7c;
+  --dc-value: #e0721d;
+  --dc-term: #2f6fb0;
+  --dc-pager: #eaf4fa;
+  --dc-pager-hover: #d5e7f3;
+  --dc-pager-ink: #3d6e8c;
+  --dc-pager-strong: #1c5f7e;
+  --dc-pill-border: #2eb3c8;
+  --dc-pill-badge: #1aafc4;
+  --dc-pill-bg: rgba(255, 255, 255, 0.9);
+  --dc-chip: #e8f4fa;
+  --dc-chip-ink: #2b5b7a;
+  --dc-tile: #8ecb70;
+  --dc-tile-border: #6cae54;
+  --dc-violet-bg: #e7ddfa;
+  --dc-violet-border: #c9b6ea;
+  --dc-violet-ink: #7b5ec2;
+  --dc-emblem-bg: rgba(255, 255, 255, 0.7);
+  --dc-emblem-ring: #e7b98a;
+  --dc-muted: #5d7f98;
+  --dc-shadow: 0 18px 45px -18px rgba(15, 48, 70, 0.55);
+}
+
+.dark .disc-card {
+  color-scheme: dark;
+
+  --dc-panel: #141d26;
+  --dc-panel-border: #2c4152;
+  --dc-divider: #24333f;
+  --dc-ink: #ecf5fb;
+  --dc-body: #c2d5e2;
+  --dc-plate: #1b2731;
+  --dc-plate-border: #2c3f4f;
+  --dc-row: #223240;
+  --dc-row-ink: #d6e6f1;
+  --dc-ribbon: #0f96ad;
+  --dc-tab: rgba(255, 255, 255, 0.06);
+  --dc-tab-hover: rgba(255, 255, 255, 0.12);
+  --dc-tab-active: #2b3e4e;
+  --dc-tab-ink: #a9c4d6;
+  --dc-value: #f4a45a;
+  --dc-term: #86b9ee;
+  --dc-pager: #233442;
+  --dc-pager-hover: #2d4354;
+  --dc-pager-ink: #a6c6da;
+  --dc-pager-strong: #c6e2f2;
+  --dc-pill-border: #2eb3c8;
+  --dc-pill-badge: #158ea0;
+  --dc-pill-bg: rgba(20, 32, 42, 0.85);
+  --dc-chip: #22384a;
+  --dc-chip-ink: #a9cade;
+  --dc-tile: #4c8a41;
+  --dc-tile-border: #356b2c;
+  --dc-violet-bg: #372b4e;
+  --dc-violet-border: #5a4880;
+  --dc-violet-ink: #c8b3f3;
+  --dc-emblem-bg: rgba(255, 255, 255, 0.08);
+  --dc-emblem-ring: #7d6544;
+  --dc-muted: #8aa9be;
+  --dc-shadow: 0 18px 45px -18px rgba(0, 0, 0, 0.8);
+}
+
+/* Skill icon plate: saturated green tile so the white glyph reads, like the game. */
+.disc-icon-tile {
+  background-color: var(--dc-tile);
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 65%),
+    repeating-conic-gradient(
+      rgba(255, 255, 255, 0.06) 0deg 90deg,
+      transparent 90deg 180deg
+    );
+  background-size: auto, 12px 12px;
+  border: 1px solid var(--dc-tile-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dark .disc-icon-tile {
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 65%),
+    repeating-conic-gradient(
+      rgba(255, 255, 255, 0.04) 0deg 90deg,
+      transparent 90deg 180deg
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.disc-icon-tile img {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.18));
+}
+
+/* Notes board layout (in-game board structure: section ribbons + note row +
+   harmony plate grid) rendered with the site's own theme tokens. */
+.note-panel {
+  --dc-tile: #8ecb70;
+  --dc-tile-border: #6cae54;
+
+  --np-ink: var(--color-text);
+  --np-ink-muted: var(--color-text-muted);
+  --np-plate: var(--color-surface-elevated);
+  --np-plate-border: var(--color-border);
+  --np-plate-ink: var(--color-text);
+  --np-plate-sub: var(--color-text-muted);
+}
+
+.harmony-plate {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.3rem;
+  background-color: var(--np-plate);
+  border: 1px solid var(--np-plate-border);
+}
+
+.celestial-card {
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 1),
+    0 6px 20px -6px rgba(15, 23, 42, 0.10);
+}
+
+.dark .celestial-card {
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06),
+    0 6px 20px -6px rgba(0, 0, 0, 0.45);
+}
+
+.celestial-slider {
+  accent-color: var(--color-accent);
+  height: 0.375rem;
+  border-radius: 9999px;
+  background-color: #e2e8f0;
+  cursor: pointer;
+}
+
+.dark .celestial-slider {
+  background-color: #1e293b;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+input[type="range"]:focus-visible,
+input[type="range"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .press-feedback:active {
+    transform: scale(0.98);
+    transition: transform 120ms ease-out;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes drawerUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-entrance {
+  animation: modalIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.drawer-entrance {
+  animation: drawerUp 220ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+@keyframes materialArrive {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.material-row {
+  animation: materialArrive 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.material-row:nth-child(2) { animation-delay: 20ms; }
+.material-row:nth-child(3) { animation-delay: 40ms; }
+.material-row:nth-child(4) { animation-delay: 60ms; }
+.material-row:nth-child(5) { animation-delay: 80ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .material-row { animation: none; }
+}
+
+/* Game-inspired visual enhancements */
+.game-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  border: 2px solid rgba(212, 231, 240, 0.6);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.08), 0 2px 6px rgba(30, 58, 95, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .game-card {
+  background: rgba(19, 40, 68, 0.95);
+  border: 2px solid rgba(30, 64, 97, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.game-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(30, 58, 95, 0.12), 0 4px 10px rgba(30, 58, 95, 0.06);
+}
+
+.dark .game-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.frosted-panel {
+  background: linear-gradient(180deg, rgba(232, 244, 248, 0.85) 0%, rgba(212, 231, 240, 0.85) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  border: 1px solid rgba(212, 231, 240, 0.4);
+}
+
+.dark .frosted-panel {
+  background: linear-gradient(180deg, rgba(10, 22, 40, 0.85) 0%, rgba(19, 40, 68, 0.85) 100%);
+  border: 1px solid rgba(30, 64, 97, 0.4);
+}
+
+.game-gradient-bg {
+  background: linear-gradient(180deg, #e8f4f8 0%, #d4e7f0 100%);
+}
+
+.dark .game-gradient-bg {
+  background: linear-gradient(180deg, #0a1628 0%, #132844 100%);
+}
+
+.role-badge-vanguard {
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+  color: #ffffff;
+}
+
+.role-badge-versatile {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+  color: #ffffff;
+}
+
+.role-badge-support {
+  background: linear-gradient(135deg, #14b8a6 0%, #2dd4bf 100%);
+  color: #ffffff;
+}
+
+.element-badge-ice {
+  background: linear-gradient(135deg, #22d3ee 0%, #67e8f9 100%);
+}
+
+.element-badge-fire {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+}
+
+.element-badge-lightning {
+  background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+}
+
+.element-badge-wind {
+  background: linear-gradient(135deg, #84cc16 0%, #a3e635 100%);
+}
+
+.stat-pill {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(20, 184, 166, 0.1);
+  color: #0d9488;
+  border: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.dark .stat-pill {
+  background: rgba(20, 184, 166, 0.15);
+  color: #5eead4;
+  border: 1px solid rgba(20, 184, 166, 0.25);
+}
