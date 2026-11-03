@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback, memo } from 'react';
 import charactersData from '@/data/characters.json';
 import {
   SSPotentialFull,
@@ -29,6 +29,75 @@ interface PotentialsPickerModalProps {
   onUpdateSlotPotentials: (slot: SlotType, potentials: SelectedPotential[]) => void;
   onSwapSlots?: (fromSlot: SlotType, toSlot: SlotType) => void;
 }
+
+// Memoized grid card so hovering one potential doesn't re-render every sibling
+// in the grid (same pattern as DiscGridCard / TrekkerTile).
+const AvailablePotentialCard = memo(function AvailablePotentialCard({
+  pot,
+  isCoreLocked,
+  onSelect,
+  onHoverEnter,
+  onHoverEnd,
+}: {
+  pot: SSPotentialFull;
+  isCoreLocked: boolean;
+  onSelect: (pot: SSPotentialFull) => void;
+  onHoverEnter: (pot: SSPotentialFull, rect: DOMRect) => void;
+  onHoverEnd: () => void;
+}) {
+  return (
+    <div
+      onClick={() => onSelect(pot)}
+      onMouseEnter={(e) => onHoverEnter(pot, e.currentTarget.getBoundingClientRect())}
+      onMouseLeave={onHoverEnd}
+      className={cn(
+        /* Clean potential card: NO white outline, NO duplicate text banner */
+        'group relative aspect-[3/3.8] rounded-md overflow-hidden transition-transform select-none shadow-sm',
+        isCoreLocked
+          ? 'opacity-40 grayscale cursor-not-allowed'
+          : 'hover:scale-105 hover:ring-2 hover:ring-sky-400 hover:shadow-lg cursor-pointer'
+      )}
+    >
+      {/* The full-bleed potential graphic containing vestige, icon, subicon, and name directly inside */}
+      <img
+        src={getPotentialImageUrl(pot.id)}
+        alt={pot.name}
+        loading="lazy"
+        decoding="async"
+        className="w-full h-full object-contain pointer-events-none"
+        onError={(e) => {
+          (e.target as HTMLElement).style.opacity = '0.5';
+        }}
+      />
+
+      {/* Top-Right Info Circle Button (i) */}
+      <div
+        title="Hover to view combat effect"
+        className="absolute top-1 right-1 size-4 rounded-full bg-black/50 backdrop-blur-xs border border-white/40 text-white group-hover:bg-black/80 flex items-center justify-center text-[10px] font-bold z-20 pointer-events-none"
+      >
+        i
+      </div>
+
+      {/* Top-Left Core Badge */}
+      {pot.isCore && (
+        <div className="absolute top-1 left-1 z-20">
+          <span className="px-1 py-0.2 rounded bg-amber-500 text-black text-[7.5px] font-black uppercase shadow">
+            Core
+          </span>
+        </div>
+      )}
+
+      {isCoreLocked && (
+        <div className="absolute top-1 left-1 z-20">
+          <span className="px-1 py-0.2 rounded bg-rose-600 text-white text-[7px] font-bold flex items-center gap-0.5 shadow">
+            <Lock className="size-2" />
+            <span>2/2</span>
+          </span>
+        </div>
+      )}
+    </div>
+  );
+});
 
 export function PotentialsPickerModal({
   isOpen,
@@ -142,31 +211,40 @@ export function PotentialsPickerModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  const choosePotential = useCallback(
+    (p: SSPotentialFull) => {
+      // Only two core potentials can be chosen rule
+      if (p.isCore && selectedCoreCount >= 2) {
+        setAlertMessage('Maximum of 2 Core Potentials allowed per Trekker.');
+        setTimeout(() => setAlertMessage(null), 3000);
+        return;
+      }
+
+      // Default priority: Core potentials default to "Core", normal potentials default to "Medium"
+      const defaultPriority: PotentialPriority = p.isCore ? 'Core' : 'Medium';
+      // Default level: 6 (matching game preview standard) or maxLevel
+      const defaultLevel = p.isCore ? undefined : 6;
+
+      onUpdateSlotPotentials(activeSlot, [
+        ...currentSelectedPotentials,
+        {
+          id: p.id,
+          rarity: p.rarityNum,
+          level: defaultLevel,
+          priority: defaultPriority,
+        },
+      ]);
+    },
+    [activeSlot, currentSelectedPotentials, onUpdateSlotPotentials, selectedCoreCount]
+  );
+
+  const handleHoverEnter = useCallback((p: SSPotentialFull, rect: DOMRect) => {
+    setHoverState({ pot: p, level: p.isCore ? 1 : 6, targetRect: rect });
+  }, []);
+
+  const handleHoverEnd = useCallback(() => setHoverState(null), []);
+
   if (!isOpen) return null;
-
-  const choosePotential = (p: SSPotentialFull) => {
-    // Only two core potentials can be chosen rule
-    if (p.isCore && selectedCoreCount >= 2) {
-      setAlertMessage('Maximum of 2 Core Potentials allowed per Trekker.');
-      setTimeout(() => setAlertMessage(null), 3000);
-      return;
-    }
-
-    // Default priority: Core potentials default to "Core", normal potentials default to "Medium"
-    const defaultPriority: PotentialPriority = p.isCore ? 'Core' : 'Medium';
-    // Default level: 6 (matching game preview standard) or maxLevel
-    const defaultLevel = p.isCore ? undefined : 6;
-
-    onUpdateSlotPotentials(activeSlot, [
-      ...currentSelectedPotentials,
-      {
-        id: p.id,
-        rarity: p.rarityNum,
-        level: defaultLevel,
-        priority: defaultPriority,
-      },
-    ]);
-  };
 
   const removePotential = (id: number) => {
     onUpdateSlotPotentials(
@@ -204,7 +282,7 @@ export function PotentialsPickerModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="potentials-picker-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/40 animate-in fade-in duration-150"
       onClick={onClose}
     >
       <div
@@ -474,75 +552,14 @@ export function PotentialsPickerModal({
                     const isCoreLocked = p.isCore && selectedCoreCount >= 2;
 
                     return (
-                      <div
+                      <AvailablePotentialCard
                         key={p.id}
-                        onClick={() => {
-                          if (isCoreLocked) {
-                            setAlertMessage('Maximum of 2 Core Potentials allowed per Trekker.');
-                            setTimeout(() => setAlertMessage(null), 3000);
-                            return;
-                          }
-                          choosePotential(p);
-                        }}
-                        onMouseEnter={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setHoverState({
-                              pot: p,
-                              level: p.isCore ? 1 : 6,
-                              targetRect: rect,
-                            });
-                          }}
-                          onMouseMove={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setHoverState((prev) => (prev ? { ...prev, targetRect: rect } : null));
-                          }}
-                          onMouseLeave={() => setHoverState(null)}
-                        className={cn(
-                          /* Clean potential card: NO white outline, NO duplicate text banner */
-                          'group relative aspect-[3/3.8] rounded-md overflow-hidden transition-transform select-none shadow-sm',
-                          isCoreLocked
-                            ? 'opacity-40 grayscale cursor-not-allowed'
-                            : 'hover:scale-105 hover:ring-2 hover:ring-sky-400 hover:shadow-lg cursor-pointer'
-                        )}
-                      >
-                        {/* The full-bleed potential graphic containing vestige, icon, subicon, and name directly inside */}
-                        <img
-                          src={getPotentialImageUrl(p.id)}
-                          alt={p.name}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-contain pointer-events-none"
-                          onError={(e) => {
-                            (e.target as HTMLElement).style.opacity = '0.5';
-                          }}
-                        />
-
-                        {/* Top-Right Info Circle Button (i) */}
-                        <div
-                          title="Hover to view combat effect"
-                          className="absolute top-1 right-1 size-4 rounded-full bg-black/50 backdrop-blur-xs border border-white/40 text-white group-hover:bg-black/80 flex items-center justify-center text-[10px] font-bold z-20 pointer-events-none"
-                        >
-                          i
-                        </div>
-
-                        {/* Top-Left Core Badge */}
-                        {p.isCore && (
-                          <div className="absolute top-1 left-1 z-20">
-                            <span className="px-1 py-0.2 rounded bg-amber-500 text-black text-[7.5px] font-black uppercase shadow">
-                              Core
-                            </span>
-                          </div>
-                        )}
-
-                        {isCoreLocked && (
-                          <div className="absolute top-1 left-1 z-20">
-                            <span className="px-1 py-0.2 rounded bg-rose-600 text-white text-[7px] font-bold flex items-center gap-0.5 shadow">
-                              <Lock className="size-2" />
-                              <span>2/2</span>
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                        pot={p}
+                        isCoreLocked={isCoreLocked}
+                        onSelect={choosePotential}
+                        onHoverEnter={handleHoverEnter}
+                        onHoverEnd={handleHoverEnd}
+                      />
                     );
                   })}
                 </div>
@@ -590,10 +607,6 @@ export function PotentialsPickerModal({
                                 level: levelVal,
                                 targetRect: rect,
                               });
-                            }}
-                            onMouseMove={(e) => {
-                              const rect = e.currentTarget.getBoundingClientRect();
-                              setHoverState((prev) => (prev ? { ...prev, targetRect: rect } : null));
                             }}
                             onMouseLeave={() => setHoverState(null)}
                             className="relative aspect-[3/3.8] rounded-md overflow-hidden bg-surface-card shadow-sm border border-slate-200/70 cursor-pointer"

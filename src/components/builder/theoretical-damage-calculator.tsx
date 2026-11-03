@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ComponentType, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type {
   AdvancedTeamBuild,
   ElementType,
@@ -60,18 +60,10 @@ import {
 import { PieChart, PieLegend } from './damage-charts';
 import type { PieSlice } from './damage-charts';
 import {
-  Calculator,
-  ChartPie,
   Disc3,
-  Gem,
   Info,
-  Layers,
-  Music,
   Plus,
   Save,
-  Sparkles,
-  Swords,
-  Target,
   Trash2,
   TrendingDown,
   TrendingUp,
@@ -403,32 +395,25 @@ function getSupportStartingNoteCount(disc: SSDisc | null, phase: number): number
 }
 
 function SectionHeader({
-  icon: Icon,
   title,
   subtitle,
   right,
 }: {
-  icon: ComponentType<{ className?: string }>;
   title: string;
   subtitle?: string;
   right?: ReactNode;
 }) {
   return (
     <div className="flex flex-wrap items-start justify-between gap-2.5">
-      <div className="flex min-w-0 items-start gap-2.5">
-        <div className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-lg border border-border-subtle bg-surface-subtle text-amber-600 dark:text-amber-400">
-          <Icon className="size-4" />
-        </div>
-        <div className="min-w-0">
-          <h3 className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
-            {title}
-          </h3>
-          {subtitle && (
-            <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55">
-              {subtitle}
-            </p>
-          )}
-        </div>
+      <div className="min-w-0">
+        <h3 className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
+          {title}
+        </h3>
+        {subtitle && (
+          <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55">
+            {subtitle}
+          </p>
+        )}
       </div>
       {right}
     </div>
@@ -1152,24 +1137,18 @@ export function TheoreticalDamageCalculator({
     <section id="damage-calculator" className="space-y-5">
       {/* Hero summary */}
       <div className="relative overflow-hidden rounded-2xl border border-border bg-surface-card">
-        <div className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-amber-500/[0.07] blur-3xl" />
         <div className="relative p-4 sm:p-5 lg:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
-            <div className="flex min-w-0 items-start gap-3">
-              <div className="grid size-10 shrink-0 place-items-center rounded-xl border border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400">
-                <Calculator className="size-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
-                  Theoretical damage
-                </p>
-                <h2 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
-                  Team Damage Calculator
-                </h2>
-                <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55 sm:text-xs">
-                  Rotation expected value · DEF / RES amendment · formula by AutumnVN &amp; Soh
-                </p>
-              </div>
+            <div className="min-w-0">
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
+                Theoretical damage
+              </p>
+              <h2 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
+                Team Damage Calculator
+              </h2>
+              <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55 sm:text-xs">
+                Rotation expected value · DEF / RES amendment · formula by AutumnVN &amp; Soh
+              </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
@@ -1349,7 +1328,6 @@ export function TheoreticalDamageCalculator({
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <SectionHeader
-            icon={Target}
             title="Target &amp; mitigation"
             subtitle="Enemy DEF / RES, resilience break, and the base amendment for the current target."
           />
@@ -1667,7 +1645,6 @@ export function TheoreticalDamageCalculator({
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
         <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
           <SectionHeader
-            icon={Layers}
             title="Equipped discs"
             subtitle="All six disc ATK values feed every Trekker's squad base ATK."
             right={
@@ -1734,7 +1711,6 @@ export function TheoreticalDamageCalculator({
 
         <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
           <SectionHeader
-            icon={Music}
             title="Musical notes"
             subtitle="Support starting notes, with preset overrides applied."
             right={
@@ -1783,7 +1759,6 @@ export function TheoreticalDamageCalculator({
       {/* Emblems */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          icon={Gem}
           title="Emblems"
           subtitle="Each Trekker has their own emblem sets at level 70, 80, and 90. Stats feed that Trekker's final stats."
         />
@@ -1824,7 +1799,6 @@ export function TheoreticalDamageCalculator({
       {/* Buffs and manual stats */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          icon={Sparkles}
           title="Buffs & manual stats"
           subtitle="Potentials and conditional team buffs. Target the whole team or a single Trekker. Talents and emblems are set per Trekker above."
           right={
@@ -1867,7 +1841,6 @@ export function TheoreticalDamageCalculator({
       {/* Rotation */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          icon={Zap}
           title="Rotation"
           subtitle="Ability sequence per Trekker. Pick an ability, tune its multiplier and notes, and the crit values update live."
           right={
@@ -2101,7 +2074,6 @@ export function TheoreticalDamageCalculator({
       {/* Damage breakdown */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          icon={Swords}
           title="Damage breakdown"
           subtitle="Expected damage per rotation entry after crit weighting, DEF / RES amendment, and taken multipliers."
           right={
@@ -2233,7 +2205,6 @@ export function TheoreticalDamageCalculator({
       {/* Optimization & Sensitivity */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          icon={TrendingUp}
           title="Optimization &amp; Sensitivity"
           subtitle="What-if sweeps computed from the current team: talent tiers, each equipped disc, and flat RES PEN."
         />
@@ -2420,7 +2391,6 @@ export function TheoreticalDamageCalculator({
       {/* Damage type & source */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          icon={ChartPie}
           title="Damage type breakdown"
           subtitle="How each Trekker's rotation splits across damage sources and damage types."
         />

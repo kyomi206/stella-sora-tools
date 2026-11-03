@@ -41,6 +41,16 @@ const ROUTE_BREADCRUMBS: Record<string, BreadcrumbConfig> = {
     name: 'Advanced Visualizer',
     href: '/builder/advanced',
   },
+  '/damage': {
+    category: 'Gameplay Tools',
+    categoryHref: '/',
+    items: [
+      { name: 'Preset Visualizer', href: '/builder' },
+      { name: 'Advanced Visualizer', href: '/builder/advanced' },
+    ],
+    name: 'Damage Calculator',
+    href: '/damage',
+  },
   '/bond': {
     category: 'Gameplay Tools',
     categoryHref: '/',

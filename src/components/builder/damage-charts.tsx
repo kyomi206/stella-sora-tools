@@ -98,10 +98,10 @@ export function PieLegend({
 
   return (
     <ul className={cn('min-w-0 space-y-1', className)}>
-      {visible.map((slice) => {
+      {visible.map((slice, index) => {
         const share = sum > 0 ? (slice.value / sum) * 100 : 0;
         return (
-          <li key={slice.label} className="flex min-w-0 items-center gap-1.5">
+          <li key={`${slice.label}-${index}`} className="flex min-w-0 items-center gap-1.5">
             <span
               className="size-2 shrink-0 rounded-[2px]"
               style={{ backgroundColor: slice.color }}

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Swords, Heart, Users, Calendar, Calculator, Target } from 'lucide-react';
+import { Swords, Heart, Users, Calendar, Calculator } from 'lucide-react';
 
 export function ToolsGrid() {
   const tools = [
@@ -26,14 +26,6 @@ export function ToolsGrid() {
       iconStyle: 'text-amber-700',
       description:
         'Calculate required promotion materials, level-up exp, and skill upgrade costs for trekkers.',
-    },
-    {
-      title: 'Theoretical Damage Calculator',
-      href: '/damage',
-      icon: Target,
-      iconStyle: 'text-rose-600',
-      description:
-        'Estimate non-crit, crit, and average damage from your preset, with enemy DEF, RES, buffs, and break states.',
     },
     {
       title: 'Events Roadmap & Schedule',

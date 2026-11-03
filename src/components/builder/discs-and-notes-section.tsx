@@ -735,7 +735,6 @@ export function DiscsAndNotesSection({
               className="inline-flex items-center gap-0.5 rounded border border-border bg-surface-elevated px-1.5 py-0.5 text-[11px] font-semibold text-slate-700 dark:text-white/80 transition-colors cursor-pointer hover:bg-border hover:text-slate-900 dark:hover:text-white"
               title="Auto-fill notes for Harmony Lv 1"
             >
-              <Sparkles className="size-3 text-slate-500 dark:text-white/60" />
               <span>Lv1</span>
             </button>
             <button
@@ -744,7 +743,6 @@ export function DiscsAndNotesSection({
               className="inline-flex items-center gap-0.5 rounded border border-border bg-surface-elevated px-1.5 py-0.5 text-[11px] font-semibold text-slate-700 dark:text-white/80 transition-colors cursor-pointer hover:bg-border hover:text-slate-900 dark:hover:text-white"
               title="Auto-fill notes for Harmony Lv 3"
             >
-              <Sparkles className="size-3 text-slate-500 dark:text-white/60" />
               <span>Lv3</span>
             </button>
             <button
@@ -753,7 +751,6 @@ export function DiscsAndNotesSection({
               className="inline-flex items-center gap-0.5 rounded border border-border bg-surface-elevated px-1.5 py-0.5 text-[11px] font-semibold text-slate-700 dark:text-white/80 transition-colors cursor-pointer hover:bg-border hover:text-slate-900 dark:hover:text-white"
               title="Auto-fill notes for max Harmony (Lv 5)"
             >
-              <Sparkles className="size-3 text-slate-500 dark:text-white/60" />
               <span>Max</span>
             </button>
             <button
@@ -872,13 +869,13 @@ export function DiscsAndNotesSection({
                   <input
                     type="number"
                     min={0}
-                    max={150}
+                    max={99}
                     aria-label={`${note.name} total count`}
                     value={totalVal}
                     onChange={(e) =>
                       onUpdateNoteCount(
                         note.name,
-                        Math.max(0, Math.min(150, Number(e.target.value) || 0))
+                        Math.max(0, Math.min(99, Number(e.target.value) || 0))
                       )
                     }
                     className={cn(
@@ -893,7 +890,7 @@ export function DiscsAndNotesSection({
                   <button
                     type="button"
                     aria-label={`Increase ${note.name}`}
-                    onClick={() => onUpdateNoteCount(note.name, Math.min(150, totalVal + 5))}
+                    onClick={() => onUpdateNoteCount(note.name, Math.min(99, totalVal + 5))}
                     className="flex size-5 items-center justify-center rounded border border-border bg-surface-card text-slate-700 dark:text-white transition-colors cursor-pointer hover:bg-surface-hover"
                     title="+5"
                   >

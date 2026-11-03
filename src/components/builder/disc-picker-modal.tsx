@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback, memo } from 'react';
 import { SSDisc, ElementType, AdvancedTeamBuild } from '@/types';
 import {
   getDiscOutfitIconUrl,
@@ -39,6 +39,192 @@ const ELEMENTS: ('All' | ElementType | 'None')[] = [
 
 const RARITIES: ('All' | 5 | 4 | 3)[] = ['All', 5, 4, 3];
 
+const DiscGridCard = memo(function DiscGridCard({
+  disc,
+  slotKind,
+  equippedIn,
+  isCurrentSlot,
+  isEquippedElsewhere,
+  onPick,
+  onHover,
+  onHoverEnd,
+}: {
+  disc: SSDisc;
+  slotKind: 'main' | 'support';
+  equippedIn?: string;
+  isCurrentSlot: boolean;
+  isEquippedElsewhere: boolean;
+  onPick: (discId: number) => void;
+  onHover: (disc: SSDisc, targetRect: DOMRect) => void;
+  onHoverEnd: () => void;
+}) {
+  const maxSupportNotes = disc.supportNote?.[disc.supportNote.length - 1] || {};
+  const reqNotes1 = disc.secondarySkill1?.requirements?.[0] || {};
+  const reqNotes2 = disc.secondarySkill2?.requirements?.[0] || {};
+  const harmonyNoteNames = Array.from(
+    new Set([...Object.keys(reqNotes1), ...Object.keys(reqNotes2)])
+  );
+
+  return (
+    <button
+      type="button"
+      disabled={isEquippedElsewhere}
+      onClick={() => onPick(disc.id)}
+      onMouseEnter={(e) => onHover(disc, e.currentTarget.getBoundingClientRect())}
+      onMouseLeave={onHoverEnd}
+      className={cn(
+        'text-left rounded-xl border p-3 flex gap-3.5 transition-colors relative group/card',
+        isCurrentSlot
+          ? 'border-amber-500 bg-amber-500/10 cursor-pointer shadow-sm'
+          : isEquippedElsewhere
+          ? 'border-border bg-surface-subtle opacity-50 cursor-not-allowed'
+          : 'border-border bg-surface-card hover:border-amber-500/60 hover:bg-surface-elevated cursor-pointer shadow-xs'
+      )}
+    >
+      {/* 1. Bigger Disc Image */}
+      <div
+        className={cn(
+          'relative size-24 sm:size-28 rounded-xl overflow-hidden shrink-0 border-2 flex items-center justify-center bg-base shadow-sm transition-transform group-hover/card:scale-[1.02]',
+          disc.star === 5
+            ? 'border-amber-500/70 shadow-amber-500/10'
+            : disc.star === 4
+            ? 'border-purple-500/70 shadow-purple-500/10'
+            : 'border-sky-500/70 shadow-sky-500/10'
+        )}
+      >
+        <img
+          src={getDiscOutfitIconUrl(disc.id, 'full')}
+          alt={disc.name}
+          loading="lazy"
+          decoding="async"
+          className="size-full object-cover"
+        />
+        {disc.element !== 'None' && (
+          <img
+            src={`/ss-element/${disc.element}.webp`}
+            alt={disc.element}
+            className="absolute top-1.5 left-1.5 size-5 sm:size-6 drop-shadow"
+          />
+        )}
+        <span className="absolute bottom-1 right-1 text-xs font-black px-1.5 py-0.5 rounded-md bg-black/85 text-amber-400 border border-amber-400/30 shadow-xs">
+          {disc.star}★
+        </span>
+      </div>
+
+      {/* 2. Details Column */}
+      <div className="min-w-0 flex-1 flex flex-col justify-between gap-1.5">
+        <div>
+          {/* Header line: Disc Name & Equipped badge */}
+          <div className="flex items-center justify-between gap-1.5">
+            <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate">
+              {disc.name}
+            </span>
+            {equippedIn && (
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 shrink-0">
+                {equippedIn}
+              </span>
+            )}
+          </div>
+
+          {/* Tags / Trekkers */}
+          {(disc.tag?.length || disc.char?.length) && (
+            <div className="flex items-center gap-1 flex-wrap mt-0.5 text-[11px] text-slate-500 dark:text-white/70">
+              {disc.tag?.map((t) => (
+                <span
+                  key={t}
+                  className="px-1.5 py-0.2 rounded bg-surface-subtle border border-border-subtle dark:text-white/80"
+                >
+                  {t}
+                </span>
+              ))}
+              {disc.char?.map((c) => (
+                <span
+                  key={c}
+                  className="px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* 3. Bigger Notes Display */}
+          {slotKind === 'support' ? (
+            <div className="flex items-center gap-1.5 flex-wrap mt-2">
+              {Object.entries(maxSupportNotes).map(([noteName, val]) => {
+                const meta = NOTE_BY_NAME[noteName as keyof typeof NOTE_BY_NAME];
+                return (
+                  <span
+                    key={noteName}
+                    className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold px-1.5 py-px rounded-md bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25 shadow-xs"
+                  >
+                    {meta && (
+                      <img
+                        src={getNoteIconUrl(meta.id)}
+                        alt={meta.name}
+                        className="size-5 sm:size-6 object-contain drop-shadow shrink-0"
+                      />
+                    )}
+                    <span>
+                      {meta?.shortName || noteName}{' '}
+                      <span className="font-extrabold text-indigo-600 dark:text-indigo-400">
+                        +{val}
+                      </span>
+                    </span>
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 flex-wrap mt-2">
+              {harmonyNoteNames.length > 0 ? (
+                <>
+                  <span className="text-[11px] font-semibold text-slate-500 dark:text-white/70 shrink-0">
+                    Harmony:
+                  </span>
+                  {harmonyNoteNames.map((n) => {
+                    const meta = NOTE_BY_NAME[n as keyof typeof NOTE_BY_NAME];
+                    return meta ? (
+                      <div
+                        key={n}
+                        className="inline-flex items-center gap-1 px-1.5 py-px rounded-md bg-amber-500/10 border border-amber-500/25 shadow-xs"
+                        title={meta.name}
+                      >
+                        <img
+                          src={getNoteIconUrl(meta.id)}
+                          alt={meta.shortName}
+                          className="size-5 sm:size-6 object-contain drop-shadow shrink-0"
+                        />
+                        <span className="text-[10px] sm:text-[11px] font-bold text-amber-700 dark:text-amber-400">
+                          {meta.shortName}
+                        </span>
+                      </div>
+                    ) : null;
+                  })}
+                </>
+              ) : (
+                <span className="text-xs text-slate-500 dark:text-white/60 italic">No harmony notes required</span>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Footer stats: Lv90 stats */}
+        <div className="flex items-center justify-between gap-2 pt-1 border-t border-border-subtle text-[11px] text-slate-600 dark:text-white/80">
+          <span className="font-mono font-medium">
+            ATK {disc.stats.lv90.ATK}
+            {Object.entries(disc.stats.lv90)
+              .filter(([k]) => k !== 'ATK' && k !== 'HP')
+              .map(([k, v]) => ` • ${k} ${v}`)
+              .join('')}
+          </span>
+          <span className="text-[10px] text-slate-500 dark:text-white/70">Lv90 Max</span>
+        </div>
+      </div>
+    </button>
+  );
+});
+
 export function DiscPickerModal({
   isOpen,
   activeSlot,
@@ -56,6 +242,29 @@ export function DiscPickerModal({
     targetRect: DOMRect;
   } | null>(null);
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handlePick = useCallback(
+    (discId: number) => {
+      onSelect(activeSlot, discId);
+      onClose();
+    },
+    [activeSlot, onSelect, onClose]
+  );
+
+  const handleHover = useCallback((disc: SSDisc, targetRect: DOMRect) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setHoveredDisc({ disc, targetRect });
+  }, []);
+
+  const handleHoverEnd = useCallback(() => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
+      setHoveredDisc(null);
+    }, 250);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -122,7 +331,7 @@ export function DiscPickerModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-3 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label="Select Runic Disc"
@@ -250,208 +459,21 @@ export function DiscPickerModal({
           onScroll={() => setHoveredDisc(null)}
           className="flex-1 overflow-y-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-3"
         >
-          {filteredDiscs.map((disc) => {
-            const equippedIn = equippedIds.get(disc.id);
-            const isCurrentSlot = currentSlotDiscId === disc.id;
-            const isEquippedElsewhere = !!equippedIn && !isCurrentSlot;
-
-            const maxSupportNotes =
-              disc.supportNote?.[disc.supportNote.length - 1] || {};
-            const reqNotes1 = disc.secondarySkill1?.requirements?.[0] || {};
-            const reqNotes2 = disc.secondarySkill2?.requirements?.[0] || {};
-            const harmonyNoteNames = Array.from(
-              new Set([...Object.keys(reqNotes1), ...Object.keys(reqNotes2)])
-            );
-
-            return (
-              <button
-                key={disc.id}
-                type="button"
-                disabled={isEquippedElsewhere}
-                onClick={() => {
-                  onSelect(activeSlot, disc.id);
-                  onClose();
-                }}
-                onMouseEnter={(e) => {
-                  if (closeTimerRef.current) {
-                    clearTimeout(closeTimerRef.current);
-                    closeTimerRef.current = null;
-                  }
-                  setHoveredDisc({
-                    disc,
-                    targetRect: e.currentTarget.getBoundingClientRect(),
-                  });
-                }}
-                onMouseMove={(e) => {
-                  if (closeTimerRef.current) {
-                    clearTimeout(closeTimerRef.current);
-                    closeTimerRef.current = null;
-                  }
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  setHoveredDisc((prev) =>
-                    prev && prev.disc.id === disc.id
-                      ? { ...prev, targetRect: rect }
-                      : { disc, targetRect: rect }
-                  );
-                }}
-                onMouseLeave={() => {
-                  if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-                  closeTimerRef.current = setTimeout(() => {
-                    setHoveredDisc(null);
-                  }, 250);
-                }}
-                className={cn(
-                  'text-left rounded-xl border p-3 flex gap-3.5 transition-colors relative group/card',
-                  isCurrentSlot
-                    ? 'border-amber-500 bg-amber-500/10 cursor-pointer shadow-sm'
-                    : isEquippedElsewhere
-                    ? 'border-border bg-surface-subtle opacity-50 cursor-not-allowed'
-                    : 'border-border bg-surface-card hover:border-amber-500/60 hover:bg-surface-elevated cursor-pointer shadow-xs'
-                )}
-              >
-                {/* 1. Bigger Disc Image */}
-                <div
-                  className={cn(
-                    'relative size-24 sm:size-28 rounded-xl overflow-hidden shrink-0 border-2 flex items-center justify-center bg-base shadow-sm transition-transform group-hover/card:scale-[1.02]',
-                    disc.star === 5
-                      ? 'border-amber-500/70 shadow-amber-500/10'
-                      : disc.star === 4
-                      ? 'border-purple-500/70 shadow-purple-500/10'
-                      : 'border-sky-500/70 shadow-sky-500/10'
-                  )}
-                >
-                  <img
-                    src={getDiscOutfitIconUrl(disc.id, 'full')}
-                    alt={disc.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="size-full object-cover"
-                  />
-                  {disc.element !== 'None' && (
-                    <img
-                      src={`/ss-element/${disc.element}.webp`}
-                      alt={disc.element}
-                      className="absolute top-1.5 left-1.5 size-5 sm:size-6 drop-shadow"
-                    />
-                  )}
-                  <span className="absolute bottom-1 right-1 text-xs font-black px-1.5 py-0.5 rounded-md bg-black/85 text-amber-400 border border-amber-400/30 shadow-xs">
-                    {disc.star}★
-                  </span>
-                </div>
-
-                {/* 2. Details Column */}
-                <div className="min-w-0 flex-1 flex flex-col justify-between gap-1.5">
-                  <div>
-                    {/* Header line: Disc Name & Equipped badge */}
-                    <div className="flex items-center justify-between gap-1.5">
-                      <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate">
-                        {disc.name}
-                      </span>
-                      {equippedIn && (
-                        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 shrink-0">
-                          {equippedIn}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Tags / Trekkers */}
-                    {(disc.tag?.length || disc.char?.length) && (
-                      <div className="flex items-center gap-1 flex-wrap mt-0.5 text-[11px] text-slate-500 dark:text-white/70">
-                        {disc.tag?.map((t) => (
-                          <span
-                            key={t}
-                            className="px-1.5 py-0.2 rounded bg-surface-subtle border border-border-subtle dark:text-white/80"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                        {disc.char?.map((c) => (
-                          <span
-                            key={c}
-                            className="px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20"
-                          >
-                            {c}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* 3. Bigger Notes Display */}
-                    {activeSlot.kind === 'support' ? (
-                      <div className="flex items-center gap-1.5 flex-wrap mt-2">
-                        {Object.entries(maxSupportNotes).map(([noteName, val]) => {
-                          const meta = NOTE_BY_NAME[noteName as keyof typeof NOTE_BY_NAME];
-                          return (
-                            <span
-                              key={noteName}
-                              className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold px-1.5 py-px rounded-md bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25 shadow-xs"
-                            >
-                              {meta && (
-                                <img
-                                  src={getNoteIconUrl(meta.id)}
-                                  alt={meta.name}
-                                  className="size-5 sm:size-6 object-contain drop-shadow shrink-0"
-                                />
-                              )}
-                              <span>
-                                {meta?.shortName || noteName}{' '}
-                                <span className="font-extrabold text-indigo-600 dark:text-indigo-400">
-                                  +{val}
-                                </span>
-                              </span>
-                            </span>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1.5 flex-wrap mt-2">
-                        {harmonyNoteNames.length > 0 ? (
-                          <>
-                            <span className="text-[11px] font-semibold text-slate-500 dark:text-white/70 shrink-0">
-                              Harmony:
-                            </span>
-                            {harmonyNoteNames.map((n) => {
-                              const meta = NOTE_BY_NAME[n as keyof typeof NOTE_BY_NAME];
-                              return meta ? (
-                                <div
-                                  key={n}
-                                  className="inline-flex items-center gap-1 px-1.5 py-px rounded-md bg-amber-500/10 border border-amber-500/25 shadow-xs"
-                                  title={meta.name}
-                                >
-                                  <img
-                                    src={getNoteIconUrl(meta.id)}
-                                    alt={meta.shortName}
-                                    className="size-5 sm:size-6 object-contain drop-shadow shrink-0"
-                                  />
-                                  <span className="text-[10px] sm:text-[11px] font-bold text-amber-700 dark:text-amber-400">
-                                    {meta.shortName}
-                                  </span>
-                                </div>
-                              ) : null;
-                            })}
-                          </>
-                        ) : (
-                          <span className="text-xs text-slate-500 dark:text-white/60 italic">No harmony notes required</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Footer stats: Lv90 stats */}
-                  <div className="flex items-center justify-between gap-2 pt-1 border-t border-border-subtle text-[11px] text-slate-600 dark:text-white/80">
-                    <span className="font-mono font-medium">
-                      ATK {disc.stats.lv90.ATK}
-                      {Object.entries(disc.stats.lv90)
-                        .filter(([k]) => k !== 'ATK' && k !== 'HP')
-                        .map(([k, v]) => ` • ${k} ${v}`)
-                        .join('')}
-                    </span>
-                    <span className="text-[10px] text-slate-500 dark:text-white/70">Lv90 Max</span>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
+          {filteredDiscs.map((disc) => (
+            <DiscGridCard
+              key={disc.id}
+              disc={disc}
+              slotKind={activeSlot.kind}
+              equippedIn={equippedIds.get(disc.id)}
+              isCurrentSlot={currentSlotDiscId === disc.id}
+              isEquippedElsewhere={
+                !!equippedIds.get(disc.id) && currentSlotDiscId !== disc.id
+              }
+              onPick={handlePick}
+              onHover={handleHover}
+              onHoverEnd={handleHoverEnd}
+            />
+          ))}
         </div>
       </div>
 

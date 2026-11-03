@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback, memo } from 'react';
 import charactersData from '@/data/characters.json';
 import { SSCharacter, ElementType, ClassType, SlotType, TeamBuild } from '@/types';
 import { X, Search } from 'lucide-react';
@@ -19,6 +19,169 @@ interface TrekkerPickerModalProps {
   onSelect: (characterId: number) => void;
   onSwitchSlot?: (slot: SlotType) => void;
 }
+
+const ELEMENTS: ElementType[] = ['Ignis', 'Aqua', 'Terra', 'Ventus', 'Umbra', 'Lux'];
+const CLASSES: ClassType[] = ['Vanguard', 'Versatile', 'Support'];
+
+const SLOTS_META: Array<{ slot: SlotType; label: string; badge: string }> = [
+  { slot: 'vanguard', label: 'Vanguard', badge: 'bg-rose-500/20 text-rose-600 border-rose-500/40' },
+  { slot: 'versatile', label: 'Versatile', badge: 'bg-indigo-500/20 text-indigo-700 border-indigo-500/40' },
+  { slot: 'support', label: 'Support', badge: 'bg-emerald-500/20 text-emerald-700 border-emerald-500/40' },
+];
+
+const ROLE_CONFIG: Record<string, { badgeBg: string }> = {
+  Vanguard: { badgeBg: 'bg-[#f43f5e]' },
+  Versatile: { badgeBg: 'bg-[#6366f1]' },
+  Support: { badgeBg: 'bg-[#10b981]' },
+};
+
+// MD5-based portrait URLs are expensive to derive and stable per name, so cache them.
+const trekkerImageCache = new Map<string, string>();
+
+function getTrekkerImage(char: SSCharacter): string {
+  const key = char.name.EN;
+  const cached = trekkerImageCache.get(key);
+  if (cached !== undefined) return cached;
+  const url = getWikiTideTrekkerUrl(char.name.EN) ?? '';
+  trekkerImageCache.set(key, url);
+  return url;
+}
+
+const TrekkerTile = memo(function TrekkerTile({
+  char,
+  isAssignedElsewhere,
+  isSelected,
+  onPick,
+}: {
+  char: SSCharacter;
+  isAssignedElsewhere: boolean;
+  isSelected: boolean;
+  onPick: (characterId: number) => void;
+}) {
+  const isFiveStar = (char.star || 4) >= 5;
+  const roleMeta = ROLE_CONFIG[char.class] || {
+    badgeBg: 'bg-slate-100 text-slate-700 border border-slate-300',
+  };
+
+  return (
+    <div
+      role="button"
+      tabIndex={isAssignedElsewhere ? -1 : 0}
+      onClick={() => {
+        if (isAssignedElsewhere) return;
+        onPick(char.id);
+      }}
+      onKeyDown={(e) => {
+        if (isAssignedElsewhere) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onPick(char.id);
+        }
+      }}
+      className={cn(
+        'group relative w-full aspect-[3.4/4.4] rounded-xl overflow-hidden bg-surface-card border select-none transition-[border-color,transform,box-shadow]',
+        isAssignedElsewhere
+          ? 'opacity-35 grayscale cursor-not-allowed border-border-subtle'
+          : 'cursor-pointer hover:scale-[1.02] hover:border-border-hover',
+        !isAssignedElsewhere && isFiveStar
+          ? 'border-2 border-purple-400/50 shadow-lg shadow-purple-500/10'
+          : !isAssignedElsewhere
+          ? 'border-2 border-border'
+          : '',
+        isSelected && 'ring-2 ring-amber-400 ring-offset-2 ring-offset-surface-card z-10'
+      )}
+    >
+      {/* Top Accent Line for 5-star vs 4-star */}
+      <div
+        className={cn(
+          'absolute inset-x-0 top-0 h-0.5 z-20',
+          isFiveStar
+            ? 'bg-gradient-to-r from-[#c084fc] via-[#818cf8] to-[#38bdf8]'
+            : 'bg-[#fde047]'
+        )}
+      />
+
+      {/* Top Dark Gradient Overlay */}
+      <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none z-10" />
+
+      {/* Top-Left Element Badge */}
+      <div className="absolute top-0.5 left-0.5 z-20 pointer-events-none">
+        <img
+          src={`/ss-element/${char.element}.webp`}
+          alt={char.element}
+          className="size-8 sm:size-8.5 object-contain drop-shadow-md"
+        />
+      </div>
+
+      {/* Top-Right Slanted Role Banner + Dark Navy Attack Type Box: High visibility */}
+      <div className="absolute top-0 right-0 z-20 flex items-stretch h-5.5 shadow-sm pointer-events-none">
+        <div
+          className={cn(
+            'flex items-center px-2 text-[10px] font-bold tracking-tight text-white',
+            '[clip-path:polygon(7px_0%,100%_0%,100%_100%,0%_100%)] pl-2.5',
+            roleMeta.badgeBg
+          )}
+        >
+          {char.class}
+        </div>
+        <div className="bg-[#0f172a] px-1.5 flex items-center justify-center border-l border-white/20">
+          <img
+            src={`/ss-class/${char.attackType}.png`}
+            alt={char.attackType}
+            className="size-3.5 object-contain filter brightness-0 invert drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]"
+          />
+        </div>
+      </div>
+
+      {/* Character Bust Artwork */}
+      <img
+        src={getTrekkerImage(char) || `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${char.id}01_XL.webp`}
+        alt={char.name.EN}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105 pointer-events-none"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          const autumnVnUrl = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${char.id}01_XL.webp`;
+          if (target.src !== autumnVnUrl && !target.src.includes('ssassets')) {
+            target.src = autumnVnUrl;
+          } else if (!target.src.includes('/characters/')) {
+            target.src = `/characters/head_${char.id}01_XL.webp`;
+          }
+        }}
+      />
+
+      {/* Bottom Dark Gradient Fade */}
+      <div className="absolute inset-x-0 bottom-1.5 h-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-10" />
+
+      {/* Character Name & Stars at Bottom */}
+      <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
+        <span className="font-bold text-xs sm:text-sm text-white tracking-tight drop-shadow truncate">
+          {char.name.EN}
+        </span>
+        {isFiveStar ? (
+          <span className="text-[10px] text-amber-400 font-mono font-bold shrink-0 drop-shadow">
+            5★
+          </span>
+        ) : (
+          <span className="text-[10px] text-amber-300 font-mono font-bold shrink-0 drop-shadow">
+            4★
+          </span>
+        )}
+      </div>
+
+      {/* Bottom Horizontal Bar: 5-Star Rainbow/Purple vs 4-Star Yellow/Gold */}
+      <div
+        className={cn(
+          'absolute inset-x-0 bottom-0 h-1.5 z-20',
+          isFiveStar
+            ? 'bg-gradient-to-r from-[#c084fc] via-[#818cf8] to-[#38bdf8] border-t border-purple-200/50'
+            : 'bg-gradient-to-r from-[#fde047] via-[#facc15] to-[#eab308] border-t border-yellow-200/50'
+        )}
+      />
+    </div>
+  );
+});
 
 export function TrekkerPickerModal({
   isOpen,
@@ -63,27 +226,23 @@ export function TrekkerPickerModal({
     return ids;
   }, [build, slot]);
 
-  const elements: ElementType[] = ['Ignis', 'Aqua', 'Terra', 'Ventus', 'Umbra', 'Lux'];
-  const classes: ClassType[] = ['Vanguard', 'Versatile', 'Support'];
-
-  const slotsMeta: Array<{ slot: SlotType; label: string; badge: string }> = [
-    { slot: 'vanguard', label: 'Vanguard', badge: 'bg-rose-500/20 text-rose-600 border-rose-500/40' },
-    { slot: 'versatile', label: 'Versatile', badge: 'bg-indigo-500/20 text-indigo-700 border-indigo-500/40' },
-    { slot: 'support', label: 'Support', badge: 'bg-emerald-500/20 text-emerald-700 border-emerald-500/40' },
-  ];
-
-  const roleConfig: Record<string, { badgeBg: string }> = {
-    Vanguard: { badgeBg: 'bg-[#f43f5e]' },
-    Versatile: { badgeBg: 'bg-[#6366f1]' },
-    Support: { badgeBg: 'bg-[#10b981]' },
-  };
+  const handlePick = useCallback(
+    (characterId: number) => {
+      onSelect(characterId);
+      onClose();
+    },
+    [onSelect, onClose]
+  );
 
   const filteredCharacters = useMemo(() => {
+    const q = search.trim().toLowerCase();
     return charList.filter((char) => {
       const matchSearch =
-        char.name.EN.toLowerCase().includes(search.toLowerCase()) ||
-        (char.name.JP && char.name.JP.includes(search)) ||
-        (char.name.CN && char.name.CN.includes(search));
+        !q ||
+        char.name.EN.toLowerCase().includes(q) ||
+        (char.name.JP && char.name.JP.toLowerCase().includes(q)) ||
+        (char.name.CN && char.name.CN.includes(search)) ||
+        (char.name.TW && char.name.TW.includes(search));
       const matchElement = selectedElement === 'All' || char.element === selectedElement;
       const matchClass = selectedClass === 'All' || char.class === selectedClass;
       return matchSearch && matchElement && matchClass;
@@ -97,7 +256,7 @@ export function TrekkerPickerModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="trekker-picker-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 animate-in fade-in duration-150"
       onClick={onClose}
     >
       <div
@@ -143,7 +302,7 @@ export function TrekkerPickerModal({
             <div className="flex items-center gap-2 pt-1 border-t border-border">
               <span className="text-xs text-slate-600 font-medium">Seat:</span>
               <div className="flex items-center gap-1.5">
-                {slotsMeta.map((s) => (
+                {SLOTS_META.map((s) => (
                   <button
                     key={s.slot}
                     type="button"
@@ -193,7 +352,7 @@ export function TrekkerPickerModal({
               >
                 All Elements
               </button>
-              {elements.map((el) => (
+              {ELEMENTS.map((el) => (
                 <button
                   key={el}
                   type="button"
@@ -217,7 +376,7 @@ export function TrekkerPickerModal({
 
             {/* Classes Filter */}
             <div className="flex items-center gap-1">
-              {classes.map((cls) => (
+              {CLASSES.map((cls) => (
                 <button
                   key={cls}
                   type="button"
@@ -244,136 +403,22 @@ export function TrekkerPickerModal({
                 No Trekkers match the current search or filters.
               </div>
             ) : (
-              filteredCharacters.map((char) => {
-                const isFiveStar = (char.star || 4) >= 5;
-                const roleMeta = roleConfig[char.class] || { badgeBg: 'bg-slate-100 text-slate-700 border border-slate-300' };
-                const isAssignedElsewhere = otherAssignedIds.has(char.id);
-                const isSelected = selectedId !== undefined
-                  ? selectedId === char.id
-                  : (slot && build ? build.slots[slot]?.characterId === char.id : false);
+              filteredCharacters.map((char) => (
+                <TrekkerTile
+                  key={char.id}
+                  char={char}
+                  isAssignedElsewhere={otherAssignedIds.has(char.id)}
+                  isSelected={
+                    selectedId !== undefined
+                      ? selectedId === char.id
+                      : slot && build
+                      ? build.slots[slot]?.characterId === char.id
+                      : false
+                  }
+                  onPick={handlePick}
+                />
+              ))
 
-                return (
-                  <div
-                    key={char.id}
-                    role="button"
-                    tabIndex={isAssignedElsewhere ? -1 : 0}
-                    onClick={() => {
-                      if (isAssignedElsewhere) return;
-                      onSelect(char.id);
-                      onClose();
-                    }}
-                    onKeyDown={(e) => {
-                      if (isAssignedElsewhere) return;
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        onSelect(char.id);
-                        onClose();
-                      }
-                    }}
-                    className={cn(
-                      'group relative w-full aspect-[3.4/4.4] rounded-xl overflow-hidden bg-surface-card border select-none transition-[border-color,transform,box-shadow]',
-                      isAssignedElsewhere
-                        ? 'opacity-35 grayscale cursor-not-allowed border-border-subtle'
-                        : 'cursor-pointer hover:scale-[1.02] hover:border-border-hover',
-                      !isAssignedElsewhere && isFiveStar
-                        ? 'border-2 border-purple-400/50 shadow-lg shadow-purple-500/10'
-                        : !isAssignedElsewhere
-                        ? 'border-2 border-border'
-                        : '',
-                      isSelected && 'ring-2 ring-amber-400 ring-offset-2 ring-offset-surface-card z-10'
-                    )}
-                  >
-                    {/* Top Accent Line for 5-star vs 4-star */}
-                    <div
-                      className={cn(
-                        'absolute inset-x-0 top-0 h-0.5 z-20',
-                        isFiveStar
-                          ? 'bg-gradient-to-r from-[#c084fc] via-[#818cf8] to-[#38bdf8]'
-                          : 'bg-[#fde047]'
-                      )}
-                    />
-
-                    {/* Top Dark Gradient Overlay */}
-                    <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none z-10" />
-
-                    {/* Top-Left Element Badge */}
-                    <div className="absolute top-0.5 left-0.5 z-20 pointer-events-none">
-                      <img
-                        src={`/ss-element/${char.element}.webp`}
-                        alt={char.element}
-                        className="size-8 sm:size-8.5 object-contain drop-shadow-md"
-                      />
-                    </div>
-
-                    {/* Top-Right Slanted Role Banner + Dark Navy Attack Type Box: High visibility */}
-                    <div className="absolute top-0 right-0 z-20 flex items-stretch h-5.5 shadow-sm pointer-events-none">
-                      <div
-                        className={cn(
-                          'flex items-center px-2 text-[10px] font-bold tracking-tight text-white',
-                          '[clip-path:polygon(7px_0%,100%_0%,100%_100%,0%_100%)] pl-2.5',
-                          roleMeta.badgeBg
-                        )}
-                      >
-                        {char.class}
-                      </div>
-                      <div className="bg-[#0f172a] px-1.5 flex items-center justify-center border-l border-white/20">
-                        <img
-                          src={`/ss-class/${char.attackType}.png`}
-                          alt={char.attackType}
-                          className="size-3.5 object-contain filter brightness-0 invert drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Character Bust Artwork */}
-                    <img
-                      src={getWikiTideTrekkerUrl(char.name.EN) || `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${char.id}01_XL.webp`}
-                      alt={char.name.EN}
-                      loading="lazy"
-                      decoding="async"
-                      className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105 pointer-events-none"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        const autumnVnUrl = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${char.id}01_XL.webp`;
-                        if (target.src !== autumnVnUrl && !target.src.includes('ssassets')) {
-                          target.src = autumnVnUrl;
-                        } else if (!target.src.includes('/characters/')) {
-                          target.src = `/characters/head_${char.id}01_XL.webp`;
-                        }
-                      }}
-                    />
-
-                    {/* Bottom Dark Gradient Fade */}
-                    <div className="absolute inset-x-0 bottom-1.5 h-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-10" />
-
-                    {/* Character Name & Stars at Bottom */}
-                    <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
-                      <span className="font-bold text-xs sm:text-sm text-white tracking-tight drop-shadow truncate">
-                        {char.name.EN}
-                      </span>
-                      {isFiveStar ? (
-                        <span className="text-[10px] text-amber-400 font-mono font-bold shrink-0 drop-shadow">
-                          5★
-                        </span>
-                      ) : (
-                        <span className="text-[10px] text-amber-300 font-mono font-bold shrink-0 drop-shadow">
-                          4★
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Bottom Horizontal Bar: 5-Star Rainbow/Purple vs 4-Star Yellow/Gold */}
-                    <div
-                      className={cn(
-                        'absolute inset-x-0 bottom-0 h-1.5 z-20',
-                        isFiveStar
-                          ? 'bg-gradient-to-r from-[#c084fc] via-[#818cf8] to-[#38bdf8] border-t border-purple-200/50'
-                          : 'bg-gradient-to-r from-[#fde047] via-[#facc15] to-[#eab308] border-t border-yellow-200/50'
-                      )}
-                    />
-                  </div>
-                );
-              })
             )}
           </div>
         </div>
