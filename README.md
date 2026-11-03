@@ -2,7 +2,7 @@
 
 A web companion for Yostar's top-down action RPG **Stella Sora**. Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4.
 
-## 📜 Credits & Acknowledgments
+## Credits & Acknowledgments
 - **Stella Sora**: Developed by Yostar.
 - **Noya**: Created by [maj-rf](https://github.com/maj-rf/noya).
 - **StellaDB**: Created by [AutumnVN](https://github.com/AutumnVN/stelladb).
