@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import { MaterialTally, SkillRankRange } from '@/lib/calculator/resource-engine';
 import {
   getMaterialIconUrl,
   getMaterialRarityStyle,
   MATERIAL_DATA,
 } from '@/lib/calculator/material-icons';
-import { Copy, Check, Coins, Layers } from 'lucide-react';
+import { Coins, Layers } from 'lucide-react';
 
 interface MaterialsBillProps {
   tally: MaterialTally;
@@ -53,77 +52,17 @@ export function MaterialsBill({
   targetLevel,
   skills,
 }: MaterialsBillProps) {
-  const [copied, setCopied] = useState(false);
-
   const formatNumber = (num: number): string => {
     return num.toLocaleString();
   };
-
-  const handleCopy = async () => {
-    const lines = [
-      `[Stella Sora Tools] Resource Plan: ${trekkerName}`,
-      `Level: Lv. ${startLevel} -> Lv. ${targetLevel}`,
-      `Skills: Combat ${skills.combat.current}->${skills.combat.target} | Support ${skills.support.current}->${skills.support.target} | Ult ${skills.ultimate.current}->${skills.ultimate.target} | Normal ${skills.normal.current}->${skills.normal.target}`,
-      `Total Dorra: ${formatNumber(tally.dorra)}`,
-    ];
-
-    if (tally.breakthroughItems.length > 0) {
-      lines.push('\nBreakthrough Drops:');
-      tally.breakthroughItems.forEach((item) => {
-        lines.push(`- ${item.name}: x${item.count}`);
-      });
-    }
-
-    if (tally.skillItems.length > 0) {
-      lines.push('\nSkill Materials:');
-      tally.skillItems.forEach((item) => {
-        lines.push(`- ${item.name}: x${item.count}`);
-      });
-    }
-
-    try {
-      await navigator.clipboard.writeText(lines.join('\n'));
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // fallback
-    }
-  };
-
-  const hasRequirements =
-    tally.dorra > 0 || tally.breakthroughItems.length > 0 || tally.skillItems.length > 0;
 
   const dorraIconUrl = getMaterialIconUrl('Dorra');
 
   return (
     <div className="bg-surface border border-border rounded-xl p-3 sm:p-3.5 space-y-2.5">
       {/* Bill Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-border">
-        <div className="flex items-center gap-2.5">
-          <div>
-            <h3 className="text-xs font-bold text-slate-900">Materials Needed</h3>
-            <p className="text-xs text-slate-600">Lv. {startLevel} &rarr; Lv. {targetLevel} Materials</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={handleCopy}
-          disabled={!hasRequirements}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-elevated hover:bg-border border border-border hover:border-slate-400 disabled:opacity-40 text-xs font-medium text-slate-800 transition-colors cursor-pointer focus-visible:outline-none focus:outline-none"
-          title="Copy plain text shopping list"
-        >
-          {copied ? (
-            <>
-              <Check className="w-3.5 h-3.5 text-emerald-600" aria-hidden="true" />
-              <span className="text-emerald-600 font-semibold text-xs">Copied!</span>
-            </>
-          ) : (
-            <>
-              <Copy className="w-3.5 h-3.5 text-slate-600" aria-hidden="true" />
-              <span>Copy</span>
-            </>
-          )}
-        </button>
+      <div className="pb-2 border-b border-border">
+        <h3 className="text-xs font-bold text-slate-900">Materials Needed</h3>
       </div>
 
       {/* Dorra Section */}

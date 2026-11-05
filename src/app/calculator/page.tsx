@@ -11,6 +11,8 @@ import { LevelStepper } from '@/components/calculator/level-stepper';
 import { SkillsMatrix } from '@/components/calculator/skills-matrix';
 import { MaterialsBill } from '@/components/calculator/materials-bill';
 import { Calculator, Coins, FileText, ChevronUp, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useOverlayExit } from '@/lib/use-overlay-exit';
 
 export default function ResourceCalculatorPage() {
   const [selectedCharId, setSelectedCharId] = useState<string>('103'); // Amber by default
@@ -31,14 +33,20 @@ export default function ResourceCalculatorPage() {
   });
 
   // Handle Escape key dismissal for mobile drawer
+  const { requestClose: closeDrawer, isClosing: isDrawerClosing } = useOverlayExit(
+    () => setIsMobileDrawerOpen(false),
+    isMobileDrawerOpen,
+    180
+  );
+
   useEffect(() => {
     if (!isMobileDrawerOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsMobileDrawerOpen(false);
+      if (e.key === 'Escape') closeDrawer();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isMobileDrawerOpen]);
+  }, [isMobileDrawerOpen, closeDrawer]);
 
   const activeChar = useMemo(() => getCharacterData(selectedCharId), [selectedCharId]);
 
@@ -176,17 +184,20 @@ export default function ResourceCalculatorPage() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="mobile-bill-drawer-title"
-          className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-180"
+          className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end bg-black/40 backdrop-blur-sm overlay-backdrop"
         >
           {/* Backdrop button */}
           <button
             type="button"
             aria-label="Dismiss bill drawer"
             className="absolute inset-0 w-full h-full cursor-default border-0"
-            onClick={() => setIsMobileDrawerOpen(false)}
+            onClick={closeDrawer}
           />
           <div
-            className="relative w-full max-h-[85vh] rounded-t-2xl border-t border-x border-border-subtle bg-surface-subtle flex flex-col shadow-2xl overflow-hidden drawer-entrance overscroll-contain"
+            className={cn(
+              'relative w-full max-h-[85vh] rounded-t-2xl border-t border-x border-border-subtle bg-surface-subtle flex flex-col shadow-2xl overflow-hidden drawer-entrance overscroll-contain',
+              isDrawerClosing && 'drawer-exit'
+            )}
           >
             {/* Drawer Drag Bar & Close Header */}
             <div className="flex items-center justify-between p-3.5 border-b border-border-subtle bg-surface-card shrink-0">
@@ -198,7 +209,7 @@ export default function ResourceCalculatorPage() {
               </div>
               <button
                 type="button"
-                onClick={() => setIsMobileDrawerOpen(false)}
+                onClick={closeDrawer}
                 aria-label="Close bill drawer"
                 className="size-8 rounded-lg border border-border-subtle flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-surface-hover transition-colors cursor-pointer press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
               >

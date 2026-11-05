@@ -9,21 +9,38 @@ import {
   Heart,
   Users,
   Calendar,
-  Menu,
-  X,
   Calculator,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/components/layout/sidebar-context';
+import { useOverlayExit } from '@/lib/use-overlay-exit';
 
 export function SideTab() {
   const pathname = usePathname();
   const { isCollapsed, isMobileOpen, setIsMobileOpen } = useSidebar();
 
+  const { requestClose: handleCloseMobile, isClosing: isMobileClosing } = useOverlayExit(
+    () => setIsMobileOpen(false),
+    isMobileOpen,
+    180
+  );
+
   // Close mobile drawer on route change
   useEffect(() => {
     setIsMobileOpen(false);
   }, [pathname, setIsMobileOpen]);
+
+  // Close mobile drawer on Escape key
+  useEffect(() => {
+    if (!isMobileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleCloseMobile();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileOpen, handleCloseMobile]);
 
   const gameplayTools = [
     {
@@ -61,12 +78,15 @@ export function SideTab() {
   return (
     <>
       {/* Mobile Backdrop Overlay */}
-      {isMobileOpen && (
+      {(isMobileOpen || isMobileClosing) && (
         <button
           type="button"
           aria-label="Close navigation menu"
-          className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm w-full h-full border-0 cursor-default"
-          onClick={() => setIsMobileOpen(false)}
+          className={cn(
+            'md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm w-full h-full border-0 cursor-default',
+            isMobileClosing ? 'backdrop-exit' : 'overlay-backdrop'
+          )}
+          onClick={handleCloseMobile}
         />
       )}
 
@@ -74,12 +94,15 @@ export function SideTab() {
       <aside
         aria-label="Tools Navigation Sidebar"
         className={cn(
-          'game-gradient-bg border-r border-border-subtle select-none z-40 flex flex-col',
+          'game-gradient-bg border-r border-border-subtle select-none z-40 flex flex-col rail-collapse',
           // Desktop styles: static in flex flow, sticky to viewport height
           'hidden md:flex md:shrink-0 md:h-screen md:sticky md:top-0',
           isCollapsed ? 'md:w-14' : 'md:w-60',
           // Mobile styles: fixed slide-over drawer below TopBar (h-12)
-          isMobileOpen && '!flex fixed left-0 top-12 bottom-0 w-64 shadow-2xl z-50'
+          (isMobileOpen || isMobileClosing) && [
+            '!flex fixed left-0 top-12 bottom-0 w-64 shadow-2xl z-50',
+            isMobileClosing ? 'sidebar-mobile-exit' : 'sidebar-mobile-enter'
+          ]
         )}
       >
         {/* Brand Header */}
@@ -92,17 +115,20 @@ export function SideTab() {
           <div className="relative group">
             <Link
               href="/"
-              aria-label={isCollapsed ? 'Stella Sora Tools' : undefined}
+              aria-label="Stella Sora Tools"
               className="flex items-center gap-2.5 overflow-hidden press-feedback rounded-md focus-visible:ring-2 focus-visible:ring-amber-400"
             >
               <div className="size-7 rounded-md bg-surface-elevated border border-amber-500/30 shadow-xs flex items-center justify-center overflow-hidden shrink-0">
                 <img src="/bastelina.png" alt="Bastelina" width={28} height={28} className="size-full object-contain" />
               </div>
-              {!isCollapsed && (
-                <span className="font-bold text-sm tracking-tight text-slate-900 leading-tight truncate">
-                  Stella Sora Tools
-                </span>
-              )}
+              <span
+                className={cn(
+                  'font-bold text-sm tracking-tight text-slate-900 leading-tight rail-label',
+                  isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                )}
+              >
+                Stella Sora Tools
+              </span>
             </Link>
             {isCollapsed && (
               <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 z-50 whitespace-nowrap rounded-md bg-surface-elevated px-2.5 py-1 text-xs font-medium text-slate-800 border border-border-hover shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">
@@ -120,10 +146,10 @@ export function SideTab() {
             <div className="relative group">
               <Link
                 href="/"
-                aria-label={isCollapsed ? 'Home' : undefined}
+                aria-label="Home"
+                onClick={() => { if (isMobileOpen) handleCloseMobile(); }}
                 className={cn(
-                  'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
-                  isCollapsed ? 'size-10 mx-auto justify-center' : 'px-3 py-2 gap-3',
+                  'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
                   pathname === '/'
                     ? 'bg-surface-elevated text-slate-900 font-medium border-l-2 border-amber-400 shadow-xs'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover'
@@ -136,7 +162,14 @@ export function SideTab() {
                   )}
                   aria-hidden="true"
                 />
-                {!isCollapsed && <span className="truncate">Home</span>}
+                <span
+                  className={cn(
+                    'rail-label',
+                    isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                  )}
+                >
+                  Home
+                </span>
               </Link>
               {isCollapsed && (
                 <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 z-50 whitespace-nowrap rounded-md bg-surface-elevated px-2.5 py-1 text-xs font-medium text-slate-800 border border-border-hover shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">
@@ -149,13 +182,22 @@ export function SideTab() {
 
           {/* 2. Gameplay Tools */}
           <div>
-            {!isCollapsed ? (
-              <div className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            <div className="h-5 flex items-center px-2.5 mb-1 overflow-hidden">
+              <span
+                className={cn(
+                  'text-[11px] font-semibold uppercase tracking-wider text-slate-500 rail-label',
+                  isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                )}
+              >
                 Tools
-              </div>
-            ) : (
-              <div className="w-5 h-px bg-border-subtle mx-auto my-1" />
-            )}
+              </span>
+              <div
+                className={cn(
+                  'w-5 h-px bg-border-subtle mx-auto transition-opacity duration-200',
+                  isCollapsed ? 'opacity-100' : 'opacity-0 hidden'
+                )}
+              />
+            </div>
 
             <div className="flex flex-col gap-0.5">
               {gameplayTools.map((tool) => {
@@ -168,10 +210,10 @@ export function SideTab() {
                   <div key={tool.href} className="relative group">
                     <Link
                       href={tool.href}
-                      aria-label={isCollapsed ? tool.name : undefined}
+                      aria-label={tool.name}
+                      onClick={() => { if (isMobileOpen) handleCloseMobile(); }}
                       className={cn(
-                        'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
-                        isCollapsed ? 'size-10 mx-auto justify-center' : 'px-3 py-2 gap-3',
+                        'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
                         isActive
                           ? 'bg-surface-elevated text-slate-900 font-medium border-l-2 border-amber-400 shadow-xs'
                           : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover'
@@ -184,7 +226,14 @@ export function SideTab() {
                         )}
                         aria-hidden="true"
                       />
-                      {!isCollapsed && <span className="truncate">{tool.name}</span>}
+                      <span
+                        className={cn(
+                          'rail-label',
+                          isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                        )}
+                      >
+                        {tool.name}
+                      </span>
                     </Link>
                     {isCollapsed && (
                       <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 z-50 whitespace-nowrap rounded-md bg-surface-elevated px-2.5 py-1 text-xs font-medium text-slate-800 border border-border-hover shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">

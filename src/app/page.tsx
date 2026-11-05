@@ -12,7 +12,7 @@ export default function HomePage() {
           Stella Sora Tools
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
-          A minimal web companion for Stella Sora. Squad builder with potentials, heartlink affinity optimizer, and datamined event timelines.
+          A minimal web companion for Stella Sora. Squad builder with potentials, heartlink affinity optimizer, and event timelines.
         </p>
       </section>
 

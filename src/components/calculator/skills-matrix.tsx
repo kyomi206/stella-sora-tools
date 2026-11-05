@@ -188,7 +188,7 @@ export function SkillsMatrix({ skills, character, onChange, onBulkSet, onReset }
 
                   {/* Target Rank Stepper */}
                   <div className="flex items-center gap-1.5">
-                    <span className="text-amber-600 font-medium">Target:</span>
+                    <span className="text-slate-600 font-medium">Target:</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
@@ -199,7 +199,7 @@ export function SkillsMatrix({ skills, character, onChange, onBulkSet, onReset }
                       >
                         <Minus className="w-3.5 h-3.5 sm:w-3 sm:h-3" aria-hidden="true" />
                       </button>
-                      <span className="text-xs font-bold text-amber-600 w-6 text-center font-mono tabular-nums">
+                      <span className="text-xs font-bold text-slate-900 w-6 text-center font-mono tabular-nums">
                         {state.target}
                       </span>
                       <button

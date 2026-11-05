@@ -38,7 +38,7 @@ export function TrekkerCard({
       badgeBg: 'bg-rose-500/15 text-rose-600 border border-rose-500/30',
     },
     versatile: {
-      label: 'Versatile',
+      label: 'Support',
       badgeBg: 'bg-indigo-500/15 text-indigo-700 border border-indigo-500/30',
     },
     support: {

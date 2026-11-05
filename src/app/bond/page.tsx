@@ -15,9 +15,7 @@ import {
 import { TrekkerSelector } from '@/components/calculator/trekker-selector';
 import {
   Heart,
-  Gift,
   RotateCcw,
-  Calendar,
   Sparkles,
   Trash2,
   Minus,
@@ -251,10 +249,10 @@ function BondCalculatorContent() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-subtle pb-5">
         <div className="flex flex-col gap-1.5">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-            Bond &amp; Affinity Calculator
+            Affinity Calculator
           </h1>
           <p className="text-xs sm:text-sm text-slate-600">
-            Calculate the exact Affinity EXP required to level up your Trekkers and customize gift allocations.
+            Calculate the exact Affinity EXP required to level up your Trekkers' affinity level and customize gift allocations.
           </p>
         </div>
       </div>
@@ -269,13 +267,12 @@ function BondCalculatorContent() {
             onSelect={(id) => setSelectedCharId(Number(id))}
           />
 
-          {/* Heartlink Milestone Levels Card */}
+          {/* Affinity Milestone Levels Card */}
           <div className="p-5 rounded-2xl border border-border bg-surface-card celestial-card flex flex-col gap-5">
             <div className="flex items-center justify-between border-b border-border-subtle pb-3">
               <div className="flex items-center gap-2">
-                <Heart className="size-4 text-rose-600" aria-hidden="true" />
                 <span className="font-bold text-sm sm:text-base !text-slate-900">
-                  Heartlink Milestone
+                  Affinity Milestone
                 </span>
               </div>
               <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-700 border border-amber-500/30 tabular-nums">
@@ -330,7 +327,7 @@ function BondCalculatorContent() {
 
               <div className="bg-surface-subtle border border-border-subtle rounded-lg p-3 space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-amber-600">Target Level</span>
+                  <span className="font-medium text-slate-700">Target Level</span>
                   <div className="flex items-center gap-1.5">
                     <button
                       type="button"
@@ -341,7 +338,7 @@ function BondCalculatorContent() {
                     >
                       <Minus className="size-3" aria-hidden="true" />
                     </button>
-                    <span className="font-mono text-amber-600 font-bold w-8 text-center tabular-nums">Lv. {targetLevel}</span>
+                    <span className="font-mono text-slate-900 font-bold w-8 text-center tabular-nums">Lv. {targetLevel}</span>
                     <button
                       type="button"
                       onClick={() => setTargetLevel((prev) => Math.min(99, prev + 1))}
@@ -425,18 +422,11 @@ function BondCalculatorContent() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 text-xs font-mono bg-base px-3 py-2 rounded-lg border border-border">
-                <div>
-                  <span className="text-slate-600 block text-xs">Current</span>
-                  <strong className={cn('font-bold tabular-nums', totalExpProvided >= expStats.neededExp ? 'text-emerald-600' : 'text-slate-800')}>
-                    {totalExpProvided.toLocaleString()}
-                  </strong>
-                </div>
-                <span className="text-slate-600" aria-hidden="true">&rarr;</span>
-                <div>
-                  <span className="text-slate-600 block text-xs">Goal</span>
-                  <strong className="text-amber-700 tabular-nums">{expStats.neededExp.toLocaleString()}</strong>
-                </div>
+              <div className="text-xs font-mono bg-base px-3 py-2 rounded-lg border border-border">
+                <span className="text-slate-600 block text-xs">Current</span>
+                <strong className={cn('font-bold tabular-nums', totalExpProvided >= expStats.neededExp ? 'text-emerald-600' : 'text-slate-800')}>
+                  {totalExpProvided.toLocaleString()}
+                </strong>
               </div>
             </div>
 
@@ -468,12 +458,11 @@ function BondCalculatorContent() {
             {/* Header with Title and Quick Action Buttons */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
               <div>
-                <h3 className="font-semibold text-base text-slate-900 flex items-center gap-2">
-                  <Gift className="size-4 text-amber-600" aria-hidden="true" />
-                  <span>Gift Allocation</span>
+                <h3 className="font-semibold text-base text-slate-900">
+                  Gift Allocation
                 </h3>
                 <p className="text-xs text-slate-600 mt-0.5">
-                  Select and allocate authentic Heartlink gifts to reach your target Affinity EXP
+                  Select and allocate gifts to reach your target Affinity EXP
                 </p>
               </div>
 
@@ -528,7 +517,7 @@ function BondCalculatorContent() {
                     : 'bg-base text-slate-600 border-border hover:text-slate-900'
                 )}
               >
-                <span>5★ Exquisite Gift (2,000 EXP)</span>
+                <span>5★ Exquisite Gift</span>
               </button>
               <button
                 type="button"
@@ -540,7 +529,7 @@ function BondCalculatorContent() {
                     : 'bg-base text-slate-600 border-border hover:text-slate-900'
                 )}
               >
-                <span>4★ Rare Gift (500 EXP)</span>
+                <span>4★ Rare Gift</span>
               </button>
               <button
                 type="button"
@@ -552,7 +541,7 @@ function BondCalculatorContent() {
                     : 'bg-base text-slate-600 border-border hover:text-slate-900'
                 )}
               >
-                <span>3★ Common Gift (150 EXP)</span>
+                <span>3★ Common Gift</span>
               </button>
             </div>
 
@@ -651,7 +640,6 @@ function BondCalculatorContent() {
             {/* Days required counter based on 10 gifts/day Heartlink Mail limit */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs pt-3 border-t border-border">
               <div className="flex items-center gap-2 text-slate-600">
-                <Calendar className="size-4 text-amber-600" aria-hidden="true" />
                 <span>Days needed to send all gifts (10 gifts/day limit):</span>
               </div>
 

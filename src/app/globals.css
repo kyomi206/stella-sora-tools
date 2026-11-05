@@ -454,6 +454,104 @@ input[type="range"]:focus {
   animation: drawerUp 220ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
+/* Overlay scrim: fades so the page behind stays legible while the panel arrives. */
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.overlay-backdrop {
+  animation: overlayIn 150ms ease-out both;
+}
+
+/* Exits are shorter than entrances: dismissal should feel like it cleared. */
+@keyframes modalOut {
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to { opacity: 0; transform: scale(0.98) translateY(2px); }
+}
+
+@keyframes drawerOut {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+.modal-exit {
+  animation: modalOut 140ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.drawer-exit {
+  animation: drawerOut 180ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes sidebarSlideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes sidebarSlideOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@keyframes backdropOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.sidebar-mobile-enter {
+  animation: sidebarSlideIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.sidebar-mobile-exit {
+  animation: sidebarSlideOut 180ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.backdrop-exit {
+  animation: backdropOut 180ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Rail label smooth collapse/expand on desktop */
+.rail-label {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: middle;
+  transition: max-width 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rail-label-expanded {
+  max-width: 160px;
+  opacity: 1;
+}
+
+.rail-label-collapsed {
+  max-width: 0;
+  opacity: 0;
+}
+
+/* Damage pie: slices grow out of the hub once, then hold still while values change. */
+@keyframes chartSliceIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.chart-slice {
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  animation: chartSliceIn 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Copy confirmation: the label swaps in, it does not just appear. */
+@keyframes copyConfirm {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.copy-confirm {
+  animation: copyConfirm 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @keyframes materialArrive {
   from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
@@ -468,13 +566,45 @@ input[type="range"]:focus {
 .material-row:nth-child(4) { animation-delay: 60ms; }
 .material-row:nth-child(5) { animation-delay: 80ms; }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+/* Rail collapse: the only layout property the system animates. */
+@media (min-width: 768px) {
+  .rail-collapse {
+    transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .material-row { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Spatial movement, entrances and exits go; color and opacity feedback stays. */
+  .modal-entrance,
+  .modal-exit,
+  .drawer-entrance,
+  .drawer-exit,
+  .sidebar-mobile-enter,
+  .sidebar-mobile-exit,
+  .overlay-backdrop,
+  .backdrop-exit,
+  .material-row,
+  .chart-slice,
+  .copy-confirm {
+    animation: none;
+  }
+
+  .press-feedback:active {
+    transform: none;
+  }
+
+  .game-card {
+    transition-property: background-color, border-color, color, box-shadow;
+  }
+
+  .game-card:hover {
+    transform: none;
+  }
+
+  .rail-collapse,
+  .rail-label {
+    transition: none;
+  }
 }
 
 /* Game-inspired visual enhancements */
@@ -516,10 +646,12 @@ input[type="range"]:focus {
 
 .game-gradient-bg {
   background: linear-gradient(180deg, #e8f4f8 0%, #d4e7f0 100%);
+  background-attachment: fixed;
 }
 
 .dark .game-gradient-bg {
   background: linear-gradient(180deg, #0a1628 0%, #132844 100%);
+  background-attachment: fixed;
 }
 
 .role-badge-vanguard {

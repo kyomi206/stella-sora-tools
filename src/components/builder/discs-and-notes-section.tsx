@@ -296,13 +296,13 @@ function EmptyDiscSlot({ kind, index, onOpen }: EmptyDiscSlotProps) {
       type="button"
       onClick={onOpen}
       className="flex h-[104px] w-full flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-border bg-surface-subtle/60 p-2 transition-colors cursor-pointer group hover:bg-surface-elevated hover:border-slate-400"
-      title={`Equip ${isMain ? 'Main' : 'Support'} Disc #${index + 1}`}
+      title={`${isMain ? 'Equip Main' : 'Assign Support'} Disc #${index + 1}`}
     >
       <span className="flex size-6 items-center justify-center rounded-full border border-border bg-surface-card transition-colors group-hover:border-slate-400">
         <Plus className="size-3.5 text-slate-600 dark:text-white/80 group-hover:text-slate-900 dark:group-hover:text-white" />
       </span>
       <span className="text-[11px] font-semibold text-slate-900 dark:text-white">
-        Equip {isMain ? 'Main' : 'Support'} #{index + 1}
+        {isMain ? 'Equip Main' : 'Assign Support'} #{index + 1}
       </span>
     </button>
   );
@@ -615,18 +615,12 @@ export function DiscsAndNotesSection({
 
   return (
     <div className="grid w-full grid-cols-1 items-stretch gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.85fr)] xl:grid-cols-[minmax(0,1.3fr)_minmax(0,0.8fr)]">
-      {/* 1. Runic Discs Loadout — Main on the left, Support on the right */}
+      {/* 1. Runic Discs — Main on the left, Support on the right */}
       <section className="flex flex-col justify-between space-y-3 rounded-xl border border-border bg-surface-card p-3 sm:p-4 h-full">
         <div className="flex items-center gap-2 border-b border-border pb-2.5">
           <h2 className="truncate text-sm font-bold text-slate-900 dark:text-white sm:text-base">
-            Runic Discs Loadout
+            Runic Discs
           </h2>
-          <span
-            className="ml-auto shrink-0 text-[11px] text-slate-500 dark:text-white/60"
-            title="Main Discs activate Melody & Harmony skills. Support Discs supply starting Musical Notes."
-          >
-            Main L • Support R
-          </span>
         </div>
 
         <div className="grid grid-cols-2 items-start gap-2 sm:gap-3 flex-1">
@@ -636,7 +630,6 @@ export function DiscsAndNotesSection({
               <span className="text-xs font-semibold text-slate-900 dark:text-white">
                 Main Discs
               </span>
-              <span className="text-[11px] text-slate-500 dark:text-white/60">3 slots</span>
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -677,7 +670,6 @@ export function DiscsAndNotesSection({
               <span className="text-xs font-semibold text-slate-900 dark:text-white">
                 Support Discs
               </span>
-              <span className="text-[11px] text-slate-500 dark:text-white/60">3 slots</span>
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -719,12 +711,12 @@ export function DiscsAndNotesSection({
         </div>
       </section>
 
-      {/* 2. Musical Notes Planner — compact name/icon matrix with note and number closer */}
+      {/* 2. Musical Notes — compact name/icon matrix with note and number closer */}
       <section className="flex flex-col justify-between space-y-3 rounded-xl border border-border bg-surface-card p-3 sm:p-4 h-full">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2.5">
           <div className="flex min-w-0 items-center gap-2">
             <h2 className="truncate text-sm font-bold text-slate-900 dark:text-white sm:text-base">
-              Musical Notes Planner
+              Musical Notes
             </h2>
           </div>
 

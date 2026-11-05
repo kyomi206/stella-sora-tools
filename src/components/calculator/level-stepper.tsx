@@ -91,7 +91,7 @@ export function LevelStepper({ startLevel, targetLevel, onChange }: LevelStepper
         {/* Target Level */}
         <div className="bg-surface-subtle border border-border-subtle rounded-lg p-3 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-amber-600">Target Level</span>
+            <span className="text-xs font-medium text-slate-700">Target Level</span>
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
@@ -102,7 +102,7 @@ export function LevelStepper({ startLevel, targetLevel, onChange }: LevelStepper
               >
                 <Minus className="w-3.5 h-3.5 sm:w-3 sm:h-3" aria-hidden="true" />
               </button>
-              <span className="text-xs font-bold text-amber-600 w-6 text-center font-mono tabular-nums">{currentTarget}</span>
+              <span className="text-xs font-bold text-slate-900 w-6 text-center font-mono tabular-nums">{currentTarget}</span>
               <button
                 type="button"
                 onClick={() => handleTargetChange(currentTarget + 1)}

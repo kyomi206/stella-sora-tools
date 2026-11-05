@@ -48,6 +48,7 @@ next-env.d.ts
 .taste-skill
 .impeccable
 .playwright-cli
+AGENTS.md
 *.log
 scratch/
 Thumbs.db

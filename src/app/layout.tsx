@@ -51,7 +51,7 @@ export default function RootLayout({
             <SideTab />
             <div className="flex-1 min-w-0 flex flex-col min-h-screen">
               <TopBar />
-              <main id="main-content" className="flex-1 w-full game-gradient-bg" tabIndex={-1}>
+              <main id="main-content" className="flex-1 w-full bg-transparent" tabIndex={-1}>
                 {children}
               </main>
               <Footer />

@@ -32,7 +32,7 @@ import {
   compressAdvancedBuild,
   createEmptyAdvancedBuild,
 } from '@/lib/utils';
-import { RotateCcw, ArrowLeft, Calculator } from 'lucide-react';
+import { RotateCcw, ArrowLeft } from 'lucide-react';
 
 function AdvancedBuilderContent() {
   const searchParams = useSearchParams();
@@ -223,7 +223,6 @@ function AdvancedBuilderContent() {
             href={damageHref}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-elevated text-xs font-semibold text-slate-700 dark:text-white/80 hover:text-slate-900 dark:hover:text-white transition-colors press-feedback"
           >
-            <Calculator className="size-3.5" aria-hidden="true" />
             <span>Theoretical Damage Calculator</span>
           </Link>
         </div>

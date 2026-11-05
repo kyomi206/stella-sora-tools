@@ -188,21 +188,6 @@ export function AdvancedBuildCardExport({
         id="advanced-team-card-export"
         className="w-full bg-surface-card text-slate-900 p-4 sm:p-6 rounded-xl flex flex-col gap-5 relative overflow-x-auto select-none border border-border"
       >
-        {/* Card Title Header */}
-        <div className="flex items-center justify-between gap-3 pb-3 border-b border-border">
-          <div>
-            <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
-              {build.name || 'Advanced Squad Preset'}
-            </h3>
-            <p className="text-xs text-slate-600">
-              Stella Sora Tools • Characters, Runic Discs & Musical Notes Preset
-            </p>
-          </div>
-          <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-surface-subtle text-slate-700 border border-border">
-            Advanced Preset
-          </span>
-        </div>
-
         {/* 1. Trekkers & Potentials Rows */}
         <div className="flex flex-col gap-4">
           {squadRows.map(({ slotKey, roleBadge, roleBadgeBg, char, potentials }) => {
@@ -735,9 +720,6 @@ export function AdvancedBuildCardExport({
           <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
             Advanced Preset Export & Share
           </h4>
-          <p className="text-xs text-slate-600 dark:text-white/70">
-            Save a high-res PNG of your full squad, discs, and notes, or copy a compressed shareable link.
-          </p>
         </div>
 
         <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">

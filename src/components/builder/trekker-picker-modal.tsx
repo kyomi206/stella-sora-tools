@@ -5,6 +5,7 @@ import charactersData from '@/data/characters.json';
 import { SSCharacter, ElementType, ClassType, SlotType, TeamBuild } from '@/types';
 import { X, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useOverlayExit } from '@/lib/use-overlay-exit';
 import { getWikiTideTrekkerUrl } from '@/lib/wikitide';
 
 interface TrekkerPickerModalProps {
@@ -191,10 +192,11 @@ export function TrekkerPickerModal({
   title,
   subtitle,
   characters: externalCharacters,
-  onClose,
+  onClose: onCloseProp,
   onSelect,
   onSwitchSlot,
 }: TrekkerPickerModalProps) {
+  const { requestClose: onClose, isClosing } = useOverlayExit(onCloseProp, isOpen);
   const [search, setSearch] = useState('');
   const [selectedElement, setSelectedElement] = useState<ElementType | 'All'>('All');
   const [selectedClass, setSelectedClass] = useState<ClassType | 'All'>('All');
@@ -256,11 +258,14 @@ export function TrekkerPickerModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="trekker-picker-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 overlay-backdrop"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-4xl max-h-[88vh] rounded-2xl border border-border-subtle bg-surface-card text-slate-900 flex flex-col shadow-2xl overflow-hidden modal-entrance overscroll-contain"
+        className={cn(
+          'relative w-full max-w-4xl max-h-[88vh] rounded-2xl border border-border-subtle bg-surface-card text-slate-900 flex flex-col shadow-2xl overflow-hidden modal-entrance overscroll-contain',
+          isClosing && 'modal-exit'
+        )}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header with Slot Tabs */}

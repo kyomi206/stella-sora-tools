@@ -59,6 +59,7 @@ import {
 } from '@/lib/calculator/sensitivity-engine';
 import { PieChart, PieLegend } from './damage-charts';
 import type { PieSlice } from './damage-charts';
+import { AnimatedNumber } from '@/components/ui/animated-number';
 import {
   Disc3,
   Info,
@@ -1140,14 +1141,11 @@ export function TheoreticalDamageCalculator({
         <div className="relative p-4 sm:p-5 lg:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
-                Theoretical damage
-              </p>
               <h2 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
                 Team Damage Calculator
               </h2>
               <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55 sm:text-xs">
-                Rotation expected value · DEF / RES amendment · formula by AutumnVN &amp; Soh
+                Formula by AutumnVN &amp; Soh
               </p>
             </div>
 
@@ -1185,20 +1183,23 @@ export function TheoreticalDamageCalculator({
           <div className="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.7fr)_minmax(0,0.9fr)] lg:items-start">
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                <span className="size-1.5 rounded-full bg-amber-500" />
                 Expected team damage
               </div>
               <div className="mt-1 flex flex-wrap items-end gap-2">
-                <span className="font-mono text-4xl font-extrabold leading-none tracking-tight text-slate-900 tabular-nums dark:text-white sm:text-5xl">
-                  {formatNumber(totalExpected)}
-                </span>
+                <AnimatedNumber
+                  value={totalExpected}
+                  format={formatNumber}
+                  className="font-mono text-4xl font-extrabold leading-none tracking-tight text-slate-900 tabular-nums dark:text-white sm:text-5xl"
+                />
                 {snapshotDelta !== null && <DeltaChip value={snapshotDelta} />}
               </div>
-              <p className="mt-1.5 text-[11px] text-slate-500 dark:text-white/55">
-                {activeAbilities} {activeAbilities === 1 ? 'ability' : 'abilities'} ·{' '}
-                {formatNumber(totalHits)} hits · {teamSize}{' '}
-                {teamSize === 1 ? 'Trekker' : 'Trekkers'}
-              </p>
+              {teamSize > 0 && (
+                <p className="mt-1.5 text-[11px] text-slate-500 dark:text-white/55">
+                  {activeAbilities} {activeAbilities === 1 ? 'ability' : 'abilities'} ·{' '}
+                  {formatNumber(totalHits)} hits · {teamSize}{' '}
+                  {teamSize === 1 ? 'Trekker' : 'Trekkers'}
+                </p>
+              )}
 
               <div className="mt-4">
                 <div className="flex h-2 overflow-hidden rounded-full border border-border-subtle bg-surface-subtle">
@@ -1217,7 +1218,7 @@ export function TheoreticalDamageCalculator({
                 </div>
                 {teamSize === 0 ? (
                   <p className="mt-2 text-[11px] text-slate-500 dark:text-white/55">
-                    No team loaded — open a preset from the Advanced Visualizer to populate the slots.
+                    No team loaded.
                   </p>
                 ) : (
                   <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
@@ -1295,12 +1296,6 @@ export function TheoreticalDamageCalculator({
           </div>
 
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border-subtle pt-3">
-            <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-              Squad progress
-            </span>
-            <span className="text-[10px] text-slate-500 dark:text-slate-400">
-              Affinity Lv is set per Trekker in the cards below.
-            </span>
             <label className="inline-flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-white/60">
               Record Rating
               <input
@@ -1455,7 +1450,6 @@ export function TheoreticalDamageCalculator({
               key={state.slot}
               className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface-card"
             >
-              <div className={cn('h-1', SLOT_META[state.slot].accent)} />
               <div className="flex flex-1 flex-col gap-4 p-4">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex min-w-0 items-start gap-2.5">
@@ -1480,11 +1474,7 @@ export function TheoreticalDamageCalculator({
                       )}
                     </div>
                     <div className="min-w-0">
-                      <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                        <span className={cn('size-1 rounded-full', SLOT_META[state.slot].accent)} />
-                        {SLOT_META[state.slot].label}
-                      </div>
-                      <h3 className="mt-0.5 truncate text-sm font-bold tracking-tight text-slate-900 dark:text-white">
+                      <h3 className="truncate text-sm font-bold tracking-tight text-slate-900 dark:text-white">
                         {character?.name.EN ?? 'Empty slot'}
                       </h3>
                       <div className="mt-1 flex flex-wrap items-center gap-1">
@@ -1494,14 +1484,6 @@ export function TheoreticalDamageCalculator({
                             elementStyle.chip
                           )}
                         >
-                          <img
-                            src={`/ss-element/${element}.webp`}
-                            alt=""
-                            className="size-2.5 object-contain"
-                            onError={(event) => {
-                              event.currentTarget.style.display = 'none';
-                            }}
-                          />
                           {element}
                         </span>
                         {character && (
@@ -1646,12 +1628,6 @@ export function TheoreticalDamageCalculator({
         <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
           <SectionHeader
             title="Equipped discs"
-            subtitle="All six disc ATK values feed every Trekker's squad base ATK."
-            right={
-              <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 font-mono text-[10px] font-bold tabular-nums text-amber-700 dark:text-amber-300">
-                +{formatNumber(contributions.discBaseAtk)} ATK
-              </span>
-            }
           />
 
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -1702,17 +1678,11 @@ export function TheoreticalDamageCalculator({
               );
             })}
           </div>
-
-          <p className="mt-3 border-t border-border-subtle pt-3 text-[10px] leading-relaxed text-slate-500 dark:text-slate-400">
-            Main-disc Harmony effects and support-disc starting skills are not auto-applied.
-            Add their stats as manual rows in the buff table below.
-          </p>
         </div>
 
         <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
           <SectionHeader
             title="Musical notes"
-            subtitle="Support starting notes, with preset overrides applied."
             right={
               <span className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 font-mono text-[10px] font-bold tabular-nums text-slate-500 dark:text-white/60">
                 {Object.values(effectiveNotes).reduce((sum, count) => sum + count, 0)} notes

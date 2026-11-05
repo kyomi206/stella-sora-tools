@@ -18,6 +18,7 @@ import {
 } from '@/lib/potentials';
 import { X, Trash2, Sparkles, ChevronRight, SlidersHorizontal, Lock, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useOverlayExit } from '@/lib/use-overlay-exit';
 import { getWikiTideTrekkerUrl } from '@/lib/wikitide';
 
 interface PotentialsPickerModalProps {
@@ -103,11 +104,12 @@ export function PotentialsPickerModal({
   isOpen,
   activeSlot,
   build,
-  onClose,
+  onClose: onCloseProp,
   onSwitchSlot,
   onUpdateSlotPotentials,
   onSwapSlots,
 }: PotentialsPickerModalProps) {
+  const { requestClose: onClose, isClosing } = useOverlayExit(onCloseProp, isOpen);
   const [filterCategory, setFilterCategory] = useState<'all' | 'core' | 'normal' | 'common'>('all');
   const [showAllPool, setShowAllPool] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -282,11 +284,14 @@ export function PotentialsPickerModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="potentials-picker-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/40 animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/40 overlay-backdrop"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-5xl h-[92vh] max-h-[880px] rounded-2xl border border-border/70 bg-surface-card text-foreground flex flex-col shadow-2xl overflow-hidden modal-entrance overscroll-contain"
+        className={cn(
+          'relative w-full max-w-5xl h-[92vh] max-h-[880px] rounded-2xl border border-border/70 bg-surface-card text-foreground flex flex-col shadow-2xl overflow-hidden modal-entrance overscroll-contain',
+          isClosing && 'modal-exit'
+        )}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

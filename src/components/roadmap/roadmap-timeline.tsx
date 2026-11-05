@@ -5,7 +5,6 @@ import type { RoadmapItem, RoadmapCategoryKey } from '@/lib/roadmap/types';
 import { ROADMAP_CATEGORIES, getTrekkerAvatarUrl } from '@/data/roadmap';
 import { getMergedRoadmapItems } from '@/lib/roadmap/data-loader';
 import {
-  Clock,
   Search,
   Filter,
   Check,
@@ -688,12 +687,11 @@ export function RoadmapTimeline() {
 
   return (
     <div className="flex flex-col gap-5 w-full">
-      {/* Top Toolbar: Filters, Status, Search, Zoom, Jump Buttons */}
-      <div className="flex flex-col gap-4 p-4 rounded-xl border border-border bg-surface-card">
-        {/* Top Line: Category Filters & Status Filters */}
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+      {/* Top Toolbar: Filters, Search, Zoom, Jump Buttons */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 p-3 sm:p-3.5 rounded-xl border border-border bg-surface-card">
+        <div className="flex items-center gap-2.5 flex-1 max-w-xl">
           {/* Categories Dropdown Menu (matching exam.png) */}
-          <div ref={categoryMenuRef} className="relative self-start">
+          <div ref={categoryMenuRef} className="relative shrink-0">
             <button
               type="button"
               onClick={() => setIsCategoryMenuOpen((v) => !v)}
@@ -738,53 +736,8 @@ export function RoadmapTimeline() {
             )}
           </div>
 
-          {/* Status Sub-Filters */}
-          <div className="flex items-center gap-1 bg-base p-1 rounded-lg border border-border self-start xl:self-auto">
-            <button
-              type="button"
-              onClick={() => setStatusFilter('all')}
-              className={cn(
-                'px-2.5 py-1 rounded text-xs font-medium transition-colors cursor-pointer',
-                statusFilter === 'all'
-                  ? 'bg-secondary text-slate-900 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-800'
-              )}
-            >
-              All Status
-            </button>
-            <button
-              type="button"
-              onClick={() => setStatusFilter('active')}
-              className={cn(
-                'px-2.5 py-1 rounded text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5',
-                statusFilter === 'active'
-                  ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/30'
-                  : 'text-slate-600 hover:text-emerald-700'
-              )}
-            >
-              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Active Now</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setStatusFilter('upcoming')}
-              className={cn(
-                'px-2.5 py-1 rounded text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5',
-                statusFilter === 'upcoming'
-                  ? 'bg-sky-500/20 text-sky-700 border border-sky-500/30'
-                  : 'text-slate-600 hover:text-sky-700'
-              )}
-            >
-              <Clock className="size-3" />
-              <span>Upcoming</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Bottom Line: Search & Navigation Controls */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-3 border-t border-border">
           {/* Search Input */}
-          <div className="relative min-w-[240px] flex-1 max-w-md">
+          <div className="relative min-w-[200px] flex-1">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-slate-600" aria-hidden="true" />
             <input
               type="text"
@@ -796,62 +749,62 @@ export function RoadmapTimeline() {
               className="w-full bg-base border border-border rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-amber-400 focus:outline-none transition-colors"
             />
           </div>
+        </div>
 
-          {/* Right Toolbar Controls */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {/* Drag Hint */}
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-base text-xs text-slate-600 select-none">
-              <Move className="size-3 text-amber-600 shrink-0" aria-hidden="true" />
-              <span>Drag canvas to pan timeline</span>
-            </div>
+        {/* Right Toolbar Controls */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Drag Hint */}
+          <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-base text-xs text-slate-600 select-none">
+            <Move className="size-3 text-amber-600 shrink-0" aria-hidden="true" />
+            <span>Drag canvas to pan timeline</span>
+          </div>
 
-            {/* Zoom controls */}
-            <div className="flex items-center rounded-lg border border-border bg-base p-0.5 text-xs">
-              <button
-                type="button"
-                onClick={() => setDayWidth((w) => Math.max(18, w - 6))}
-                disabled={dayWidth <= 18}
-                aria-label="Zoom Out"
-                className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
-                title="Zoom Out"
-              >
-                <ZoomOut className="size-3.5" aria-hidden="true" />
-              </button>
-              <span className="px-2 font-mono text-xs font-semibold text-slate-600">
-                {dayWidth}px
-              </span>
-              <button
-                type="button"
-                onClick={() => setDayWidth((w) => Math.min(60, w + 6))}
-                disabled={dayWidth >= 60}
-                aria-label="Zoom In"
-                className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
-                title="Zoom In"
-              >
-                <ZoomIn className="size-3.5" aria-hidden="true" />
-              </button>
-            </div>
-
-            {/* Jump to Launch (Chitose Debut) */}
+          {/* Zoom controls */}
+          <div className="flex items-center rounded-lg border border-border bg-base p-0.5 text-xs">
             <button
               type="button"
-              onClick={handleJumpToLaunch}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-base text-amber-700 border border-amber-500/30 hover:bg-surface-hover text-xs font-semibold transition-colors cursor-pointer shrink-0"
-              title="Jump to Game Launch (Oct 19, 2025)"
+              onClick={() => setDayWidth((w) => Math.max(18, w - 6))}
+              disabled={dayWidth <= 18}
+              aria-label="Zoom Out"
+              className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
+              title="Zoom Out"
             >
-              <span>Launch (Oct '25)</span>
+              <ZoomOut className="size-3.5" aria-hidden="true" />
             </button>
-
-            {/* Jump to Active / Today */}
+            <span className="px-2 font-mono text-xs font-semibold text-slate-600">
+              {dayWidth}px
+            </span>
             <button
               type="button"
-              onClick={handleJumpToToday}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/15 text-rose-600 border border-rose-500/40 hover:bg-rose-500/25 text-xs font-semibold transition-colors cursor-pointer shrink-0 shadow-sm"
-              title="Jump to Current Time (Oct 26, 2026)"
+              onClick={() => setDayWidth((w) => Math.min(60, w + 6))}
+              disabled={dayWidth >= 60}
+              aria-label="Zoom In"
+              className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
+              title="Zoom In"
             >
-              <span>Jump to Active</span>
+              <ZoomIn className="size-3.5" aria-hidden="true" />
             </button>
           </div>
+
+          {/* Jump to Launch (Chitose Debut) */}
+          <button
+            type="button"
+            onClick={handleJumpToLaunch}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-base text-amber-700 border border-amber-500/30 hover:bg-surface-hover text-xs font-semibold transition-colors cursor-pointer shrink-0"
+            title="Jump to Game Launch (Oct 19, 2025)"
+          >
+            <span>Launch (Oct '25)</span>
+          </button>
+
+          {/* Jump to Active / Today */}
+          <button
+            type="button"
+            onClick={handleJumpToToday}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 border border-amber-600 hover:bg-amber-400 text-xs font-semibold transition-colors cursor-pointer shrink-0 shadow-sm"
+            title="Jump to Current Time (Oct 26, 2026)"
+          >
+            <span>Jump to Active</span>
+          </button>
         </div>
       </div>
 

@@ -53,7 +53,7 @@ export function PieChart({
       {total <= 0 ? (
         <circle cx={50} cy={50} r={49} className="fill-surface-subtle" />
       ) : visible.length === 1 ? (
-        <circle cx={50} cy={50} r={49} fill={visible[0].color} />
+        <circle cx={50} cy={50} r={49} fill={visible[0].color} className="chart-slice" />
       ) : (
         visible.map((slice, index) => {
           const start = visible
@@ -68,6 +68,8 @@ export function PieChart({
               stroke="var(--color-surface-card)"
               strokeWidth={1.2}
               strokeLinejoin="round"
+              className="chart-slice"
+              style={{ animationDelay: `${Math.min(index, 5) * 40}ms` }}
             >
               <title>{`${slice.label}: ${((slice.value / total) * 100).toFixed(1)}%`}</title>
             </path>

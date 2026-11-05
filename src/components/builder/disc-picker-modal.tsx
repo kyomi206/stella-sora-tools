@@ -10,6 +10,7 @@ import {
 import { DiscDetailCard } from './disc-detail-card';
 import { X, Search, Disc } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useOverlayExit } from '@/lib/use-overlay-exit';
 
 export type DiscSlotRef = {
   kind: 'main' | 'support';
@@ -156,6 +157,7 @@ const DiscGridCard = memo(function DiscGridCard({
                 return (
                   <span
                     key={noteName}
+                    title={`${meta?.name || noteName} +${val}`}
                     className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold px-1.5 py-px rounded-md bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25 shadow-xs"
                   >
                     {meta && (
@@ -165,11 +167,8 @@ const DiscGridCard = memo(function DiscGridCard({
                         className="size-5 sm:size-6 object-contain drop-shadow shrink-0"
                       />
                     )}
-                    <span>
-                      {meta?.shortName || noteName}{' '}
-                      <span className="font-extrabold text-indigo-600 dark:text-indigo-400">
-                        +{val}
-                      </span>
+                    <span className="font-extrabold text-indigo-600 dark:text-indigo-400">
+                      +{val}
                     </span>
                   </span>
                 );
@@ -187,17 +186,14 @@ const DiscGridCard = memo(function DiscGridCard({
                     return meta ? (
                       <div
                         key={n}
-                        className="inline-flex items-center gap-1 px-1.5 py-px rounded-md bg-amber-500/10 border border-amber-500/25 shadow-xs"
+                        className="inline-flex items-center justify-center p-0.5 rounded-md bg-amber-500/10 border border-amber-500/25 shadow-xs"
                         title={meta.name}
                       >
                         <img
                           src={getNoteIconUrl(meta.id)}
-                          alt={meta.shortName}
+                          alt={meta.name}
                           className="size-5 sm:size-6 object-contain drop-shadow shrink-0"
                         />
-                        <span className="text-[10px] sm:text-[11px] font-bold text-amber-700 dark:text-amber-400">
-                          {meta.shortName}
-                        </span>
                       </div>
                     ) : null;
                   })}
@@ -230,10 +226,11 @@ export function DiscPickerModal({
   activeSlot,
   build,
   discs,
-  onClose,
+  onClose: onCloseProp,
   onSelect,
   onSwitchSlot,
 }: DiscPickerModalProps) {
+  const { requestClose: onClose, isClosing } = useOverlayExit(onCloseProp, isOpen);
   const [search, setSearch] = useState('');
   const [elementFilter, setElementFilter] = useState<'All' | ElementType | 'None'>('All');
   const [rarityFilter, setRarityFilter] = useState<'All' | 5 | 4 | 3>('All');
@@ -331,12 +328,12 @@ export function DiscPickerModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 sm:p-6 overlay-backdrop"
       role="dialog"
       aria-modal="true"
       aria-label="Select Runic Disc"
     >
-      <div className="bg-surface border border-border rounded-2xl w-full max-w-4xl max-h-[88vh] flex flex-col shadow-2xl overflow-hidden animate-modal-in">
+      <div className={cn('bg-surface border border-border rounded-2xl w-full max-w-4xl max-h-[88vh] flex flex-col shadow-2xl overflow-hidden modal-entrance', isClosing && 'modal-exit')}>
         {/* Header */}
         <div className="flex flex-col gap-3 p-4 border-b border-border bg-surface-subtle">
           <div className="flex items-center justify-between gap-2">
@@ -524,7 +521,7 @@ export function DiscPickerModal({
                 setHoveredDisc(null);
               }, 200);
             }}
-            className="fixed z-[80] pointer-events-auto transition-opacity duration-150 animate-modal-in"
+            className="fixed z-[80] pointer-events-auto transition-opacity duration-150"
             style={{
               left: `${popupLeft}px`,
               top: '50%',
