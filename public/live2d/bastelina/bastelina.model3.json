@@ -1,0 +1,73 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "915201_L.moc3",
+    "Textures": [
+      "915201_L.2048/texture_00.png",
+      "915201_L.2048/texture_01.png"
+    ],
+    "Physics": "915201_L.physics3.json",
+    "DisplayInfo": "915201_L.cdi3.json",
+    "Motions": {
+      "Idle": [
+        {
+          "File": "motions/idle.motion3.json"
+        }
+      ],
+      "TapBody": [
+        {
+          "File": "motions/chat_a.motion3.json"
+        },
+        {
+          "File": "motions/chat_b.motion3.json"
+        },
+        {
+          "File": "motions/chat_c.motion3.json"
+        },
+        {
+          "File": "motions/chat_d.motion3.json"
+        },
+        {
+          "File": "motions/chat_e.motion3.json"
+        }
+      ],
+      "ChatA": [
+        {
+          "File": "motions/chat_a.motion3.json"
+        }
+      ],
+      "ChatB": [
+        {
+          "File": "motions/chat_b.motion3.json"
+        }
+      ],
+      "ChatC": [
+        {
+          "File": "motions/chat_c.motion3.json"
+        }
+      ],
+      "ChatD": [
+        {
+          "File": "motions/chat_d.motion3.json"
+        }
+      ],
+      "ChatE": [
+        {
+          "File": "motions/chat_e.motion3.json"
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": []
+    },
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": []
+    }
+  ]
+}
