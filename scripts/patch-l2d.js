@@ -18,6 +18,15 @@ if (!code.includes('Dt.getInstance().setGlContext(this.gl)')) {
   }
 }
 
+// 2. Fix Live2DCubismCore undefined in strict ESM / Turbopack production chunks
+if (!code.includes('var Live2DCubismCore = i;')) {
+  code = code.replace(
+    'window.Live2DCubismCore = i, console.log = r;',
+    'window.Live2DCubismCore = i, globalThis.Live2DCubismCore = i, console.log = r; var Live2DCubismCore = i;'
+  );
+  modified = true;
+}
+
 // 2. Cap DPR for performance
 if (!code.includes('window.__L2D_MAX_DPR || 1.25')) {
   code = code.replace(
