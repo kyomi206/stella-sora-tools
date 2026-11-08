@@ -10728,11 +10728,28 @@ var fo = class extends La {
 			}
 			this._modelSetting.getLayoutMap(e), this._modelMatrix.setupFromLayout(e), this._state = $.LoadMotion, f();
 		}, f = () => {
-			this._state = $.WaitLoadMotion, this._model.saveParameters(), this._allMotionCount = 0, this._motionCount = 0;
+			this._model.saveParameters();
+			this._allMotionCount = 0;
+			this._motionCount = 0;
+			this._textureCount = 0;
+			this._checkReady = () => {
+				let texTotal = this._modelSetting ? this._modelSetting.getTextureCount() : 0;
+				if (this._textureCount >= texTotal && (this._allMotionCount == 0 || this._motionCount >= this._allMotionCount)) {
+					this._motionManager.stopAllMotions();
+					this._updating = !1;
+					this._initialized = !0;
+					this._state = $.CompleteSetup;
+				}
+			};
+			this.createRenderer(this._subdelegate.getCanvas().width, this._subdelegate.getCanvas().height);
+			this.getRenderer().startUp(this._subdelegate.getGlManager().getGl());
+			this.getRenderer().loadShaders(Ft);
+			this._state = $.LoadTexture;
+			this.setupTextures();
 			let e = [], t = this._modelSetting.getMotionGroupCount();
 			for (let n = 0; n < t; n++) e[n] = this._modelSetting.getMotionGroupName(n), this._allMotionCount += this._modelSetting.getMotionCount(e[n]);
 			for (let n = 0; n < t; n++) this.preLoadMotionGroup(e[n]);
-			this._allMotionCount == 0 && (this._state = $.LoadTexture, this._motionManager.stopAllMotions(), this._updating = !1, this._initialized = !0, this.createRenderer(this._subdelegate.getCanvas().width, this._subdelegate.getCanvas().height), this.setupTextures(), this.getRenderer().startUp(this._subdelegate.getGlManager().getGl()), this.getRenderer().loadShaders(Ft));
+			this._allMotionCount == 0 && this._checkReady();
 		};
 	}
 	setupTextures() {
@@ -10745,7 +10762,7 @@ var fo = class extends La {
 				}
 				let n = this._modelSetting.getTextureFileName(t);
 				n = this._modelHomeDir + n, this._subdelegate.getTextureManager().createTextureFromPngFile(n, !0, (r) => {
-					this.getRenderer().bindTexture(t, r.id), this._textureCount++, this._progressLoaded++, this._notifyProgress(n), this._textureCount >= e && (this._state = $.CompleteSetup);
+					this.getRenderer().bindTexture(t, r.id), this._textureCount++, this._progressLoaded++, this._notifyProgress(n), this._checkReady && this._checkReady();
 				}), this.getRenderer().setIsPremultipliedAlpha(!0);
 			}
 			this._state = $.WaitLoadTexture;
@@ -10835,7 +10852,7 @@ var fo = class extends La {
 				if (e.status >= 400) return J(`Failed to load file ${this._modelHomeDir}${n}`), /* @__PURE__ */ new ArrayBuffer(0);
 			}).then((i) => {
 				let a = lo(i), o = this.loadMotion(a, a.byteLength, r, null, null, this._modelSetting, e, t, this._motionConsistency);
-				o == null ? (this._allMotionCount--, this._progressTotal--, this._progressLoaded++, this._notifyProgress(n)) : (o.setEffectIds(this._eyeBlinkIds, this._lipSyncIds), this._motions.get(r) != null && En.delete(this._motions.get(r)), this._motions.set(r, o), this._motionCount++, this._progressLoaded++, this._notifyProgress(n)), this._motionCount >= this._allMotionCount && (this._state = $.LoadTexture, this._motionManager.stopAllMotions(), this._updating = !1, this._initialized = !0, this.createRenderer(this._subdelegate.getCanvas().width, this._subdelegate.getCanvas().height), this.setupTextures(), this.getRenderer().startUp(this._subdelegate.getGlManager().getGl()), this.getRenderer().loadShaders(Ft));
+				o == null ? (this._allMotionCount--, this._progressTotal--, this._progressLoaded++, this._notifyProgress(n)) : (o.setEffectIds(this._eyeBlinkIds, this._lipSyncIds), this._motions.get(r) != null && En.delete(this._motions.get(r)), this._motions.set(r, o), this._motionCount++, this._progressLoaded++, this._notifyProgress(n)), this._motionCount >= this._allMotionCount && (this._checkReady && this._checkReady());
 			});
 		}
 	}
@@ -10924,7 +10941,7 @@ var fo = class extends La {
 	}
 	release() {}
 	initialize(e) {
-		this._subdelegate = e, this.changeScene(this._sceneIndex);
+		this._subdelegate = e;
 	}
 }, mo = class {
 	constructor() {
@@ -10939,13 +10956,41 @@ var fo = class extends La {
 			this._textures[r].img = new Image(), this._textures[r].img.crossOrigin = "anonymous", this._textures[r].img.addEventListener("load", () => n(this._textures[r]), { passive: !0 }), this._textures[r].img.src = e;
 			return;
 		}
-		let r = new Image();
-		r.crossOrigin = "anonymous", r.addEventListener("load", () => {
-			let i = this._glManager.getGl().createTexture();
-			this._glManager.getGl().bindTexture(this._glManager.getGl().TEXTURE_2D, i), this._glManager.getGl().texParameteri(this._glManager.getGl().TEXTURE_2D, this._glManager.getGl().TEXTURE_MIN_FILTER, this._glManager.getGl().LINEAR_MIPMAP_LINEAR), this._glManager.getGl().texParameteri(this._glManager.getGl().TEXTURE_2D, this._glManager.getGl().TEXTURE_MAG_FILTER, this._glManager.getGl().LINEAR), t && this._glManager.getGl().pixelStorei(this._glManager.getGl().UNPACK_PREMULTIPLY_ALPHA_WEBGL, 1), this._glManager.getGl().texImage2D(this._glManager.getGl().TEXTURE_2D, 0, this._glManager.getGl().RGBA, this._glManager.getGl().RGBA, this._glManager.getGl().UNSIGNED_BYTE, r), this._glManager.getGl().generateMipmap(this._glManager.getGl().TEXTURE_2D), this._glManager.getGl().bindTexture(this._glManager.getGl().TEXTURE_2D, null);
+		let upload = (imgSource, width, height) => {
+			let gl = this._glManager.getGl();
+			let i = gl.createTexture();
+			gl.bindTexture(gl.TEXTURE_2D, i);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+			if (t && !(typeof ImageBitmap !== "undefined" && imgSource instanceof ImageBitmap)) {
+				gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 1);
+			} else {
+				gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
+			}
+			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imgSource);
+			gl.generateMipmap(gl.TEXTURE_2D);
+			gl.bindTexture(gl.TEXTURE_2D, null);
 			let a = new ho();
-			a != null && (a.fileName = e, a.width = r.width, a.height = r.height, a.id = i, a.img = r, a.usePremultply = t, this._textures != null && this._textures.push(a)), n(a);
-		}, { passive: !0 }), r.src = e;
+			a != null && (a.fileName = e, a.width = width, a.height = height, a.id = i, a.img = imgSource, a.usePremultply = t, this._textures != null && this._textures.push(a));
+			n(a);
+		};
+		if (typeof createImageBitmap !== "undefined") {
+			fetch(e)
+				.then((res) => { if (!res.ok) throw new Error("Failed to fetch texture " + e); return res.blob(); })
+				.then((blob) => createImageBitmap(blob, { premultiplyAlpha: t ? "premultiply" : "none", colorSpaceConversion: "none" }))
+				.then((bitmap) => upload(bitmap, bitmap.width, bitmap.height))
+				.catch(() => {
+					let r = new Image();
+					r.crossOrigin = "anonymous";
+					r.addEventListener("load", () => upload(r, r.width, r.height), { passive: !0 });
+					r.src = e;
+				});
+		} else {
+			let r = new Image();
+			r.crossOrigin = "anonymous";
+			r.addEventListener("load", () => upload(r, r.width, r.height), { passive: !0 });
+			r.src = e;
+		}
 	}
 	releaseTextures() {
 		for (let e = 0; e < this._textures.length; e++) this._glManager.getGl().deleteTexture(this._textures[e].id), this._textures[e] = null;
@@ -11256,13 +11301,7 @@ var vo = class {
 	}
 	initializeSprite() {
 		let e = this._subdelegate.getCanvas().width, t = this._subdelegate.getCanvas().height, n = this._subdelegate.getTextureManager(), r = Pt, i = "";
-		i = It, n.createTextureFromPngFile(r + i, !1, (n) => {
-			let r = e * .5, i = t * .5, a = t * .95, o = a / n.height;
-			this._back = new vo(r, i, n.width * o, a, n.id), this._back.setSubdelegate(this._subdelegate);
-		}), i = Lt, n.createTextureFromPngFile(r + i, !1, (n) => {
-			let r = e - n.width * .5, i = t - n.height * .5, a = n.width, o = n.height;
-			this._gear = new vo(r, i, a, o, n.id), this._gear.setSubdelegate(this._subdelegate);
-		}), this._programId ??= this._subdelegate.createShader();
+		this._programId ??= this._subdelegate.createShader();
 	}
 	onTouchesBegan(e, t) {
 		this._touchManager.touchesBegan(e * window.devicePixelRatio, t * window.devicePixelRatio);

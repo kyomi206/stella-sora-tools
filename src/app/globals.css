@@ -647,10 +647,12 @@ input[type="range"]:focus {
 
 .game-gradient-bg {
   background: linear-gradient(180deg, #e8f4f8 0%, #d4e7f0 100%);
+  background-attachment: fixed;
 }
 
 .dark .game-gradient-bg {
   background: linear-gradient(180deg, #0a1628 0%, #132844 100%);
+  background-attachment: fixed;
 }
 
 .role-badge-vanguard {

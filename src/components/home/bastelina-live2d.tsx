@@ -57,7 +57,7 @@ export function BastelinaLive2D() {
   const playRandomInteractionRef = useRef(playRandomInteraction);
   useEffect(() => {
     playRandomInteractionRef.current = playRandomInteraction;
-  });
+  }, [playRandomInteraction]);
 
   // Manage render loop and play interaction when tab visibility changes
   useEffect(() => {
@@ -129,8 +129,12 @@ export function BastelinaLive2D() {
       (window as any).__L2D_MAX_DPR = 1.25;
     }
 
-    import('@/lib/l2d')
-      .then(({ init }) => {
+    let cancelTimer: any = null;
+    let cancelIdle: any = null;
+
+    const startLoad = () => {
+      import('@/lib/l2d')
+        .then(({ init }) => {
         if (!isMounted || !canvasRef.current) return;
 
         try {
@@ -174,9 +178,22 @@ export function BastelinaLive2D() {
         console.error('[Bastelina] Dynamic import error:', err);
         if (isMounted) setLoadError(true);
       });
+    };
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      cancelIdle = (window as any).requestIdleCallback(startLoad, { timeout: 250 });
+    } else {
+      cancelTimer = setTimeout(startLoad, 80);
+    }
 
     return () => {
       isMounted = false;
+      if (cancelIdle && typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+        (window as any).cancelIdleCallback(cancelIdle);
+      }
+      if (cancelTimer) {
+        clearTimeout(cancelTimer);
+      }
       if (l2d) {
         try {
           l2d.destroy();

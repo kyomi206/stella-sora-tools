@@ -3,8 +3,8 @@
   "FileReferences": {
     "Moc": "915201_L.moc3",
     "Textures": [
-      "915201_L.2048/texture_00.png",
-      "915201_L.2048/texture_01.png"
+      "915201_L.2048/texture_00.webp",
+      "915201_L.2048/texture_01.webp"
     ],
     "Physics": "915201_L.physics3.json",
     "DisplayInfo": "915201_L.cdi3.json",
@@ -12,23 +12,6 @@
       "Idle": [
         {
           "File": "motions/idle.motion3.json"
-        }
-      ],
-      "TapBody": [
-        {
-          "File": "motions/chat_a.motion3.json"
-        },
-        {
-          "File": "motions/chat_b.motion3.json"
-        },
-        {
-          "File": "motions/chat_c.motion3.json"
-        },
-        {
-          "File": "motions/chat_d.motion3.json"
-        },
-        {
-          "File": "motions/chat_e.motion3.json"
         }
       ],
       "ChatA": [
