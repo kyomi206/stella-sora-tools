@@ -78,7 +78,7 @@ export function ResetTimer() {
     <div className="flex flex-col gap-3 h-full">
       {/* Outer Section Title */}
       <h2 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
-        Reset Time Information
+        Server Time
       </h2>
 
       {/* Main Card */}
