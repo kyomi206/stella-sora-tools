@@ -10,7 +10,7 @@ import { TrekkerSelector } from '@/components/calculator/trekker-selector';
 import { LevelStepper } from '@/components/calculator/level-stepper';
 import { SkillsMatrix } from '@/components/calculator/skills-matrix';
 import { MaterialsBill } from '@/components/calculator/materials-bill';
-import { Calculator, Coins, FileText, ChevronUp, X } from 'lucide-react';
+import { Coins, FileText, ChevronUp, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useOverlayExit } from '@/lib/use-overlay-exit';
 
@@ -102,15 +102,6 @@ export default function ResourceCalculatorPage() {
           <p className="text-xs sm:text-sm text-slate-600 max-w-2xl text-pretty">
             Interactive investment planner for Stella Sora Trekkers. Calculate exact Dorra, class breakthrough drops, and skill cartridges.
           </p>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-xs px-2.5 py-1 rounded-full border border-border bg-surface-card celestial-card text-slate-700 font-medium">
-            Ascension &amp; Skills Planner
-          </span>
-          <span className="text-xs px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-700 font-medium font-mono tabular-nums">
-            Lv. {startLevel} &rarr; {targetLevel}
-          </span>
         </div>
       </div>
 
