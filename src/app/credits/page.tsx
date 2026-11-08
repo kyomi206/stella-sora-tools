@@ -15,7 +15,7 @@ export default function CreditsPage() {
       url: 'https://stellasora.yostar.net/',
     },
     {
-      title: 'StellaDB & Game Assets (ssassets, ss-data)',
+      title: 'StellaDB',
       author: 'AutumnVN',
       url: 'https://github.com/AutumnVN/stelladb',
     },
@@ -25,8 +25,8 @@ export default function CreditsPage() {
       url: 'https://github.com/Hiro420/StellaSoraData',
     },
     {
-      title: 'Damage Formula & Calculation Models (Eleanor 1.15, Noya 2.0b)',
-      author: 'Zilentz & AutumnVN',
+      title: 'Damage Formula',
+      author: 'AutumnVN',
       url: 'https://gist.github.com/AutumnVN/91afd7a37a9743488419b70f07225950',
     },
     {
