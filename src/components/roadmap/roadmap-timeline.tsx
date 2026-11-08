@@ -539,8 +539,30 @@ export function RoadmapTimeline() {
     }
   };
 
+  // Zoom in / out while keeping the current focal point centered
+  const handleZoom = (delta: number) => {
+    const prevDayWidth = dayWidth;
+    const nextDayWidth = Math.min(60, Math.max(18, prevDayWidth + delta));
+    if (nextDayWidth === prevDayWidth) return;
+
+    const container = scrollContainerRef.current;
+    if (container) {
+      const cw = container.clientWidth || 1200;
+      const currentCenter = container.scrollLeft + cw / 2;
+      const centerDay = currentCenter / prevDayWidth;
+      pendingZoomCenterRef.current = { centerDay };
+    }
+
+    setDayWidth(nextDayWidth);
+  };
+
+  // Track initial centering on mount so zooming doesn't jump back to today
+  const hasCenteredOnMountRef = useRef<boolean>(false);
+  const pendingZoomCenterRef = useRef<{ centerDay: number } | null>(null);
+
   // Center on today upon initial mount & track viewport width
   useEffect(() => {
+    if (hasCenteredOnMountRef.current) return;
     const timer = setTimeout(() => {
       if (scrollContainerRef.current) {
         const container = scrollContainerRef.current;
@@ -550,10 +572,25 @@ export function RoadmapTimeline() {
         container.scrollTo({ left: targetLeft, behavior: 'auto' });
         scrollAnchorRef.current = container.scrollLeft;
         setScrollAnchor(container.scrollLeft);
+        hasCenteredOnMountRef.current = true;
       }
     }, 100);
     return () => clearTimeout(timer);
-  }, [dayWidth, todayX]);
+  }, [todayX]);
+
+  // Adjust scroll position after zoom to keep the current focal date centered
+  useEffect(() => {
+    if (!pendingZoomCenterRef.current || !scrollContainerRef.current) return;
+    const { centerDay } = pendingZoomCenterRef.current;
+    pendingZoomCenterRef.current = null;
+    const container = scrollContainerRef.current;
+    const cw = container.clientWidth || 1200;
+    const newCenter = centerDay * dayWidth;
+    const newScrollLeft = Math.max(0, newCenter - cw / 2);
+    container.scrollLeft = newScrollLeft;
+    scrollAnchorRef.current = newScrollLeft;
+    setScrollAnchor(newScrollLeft);
+  }, [dayWidth]);
 
   // Keep the virtualization window in sync with the actual viewport width on resize
   useEffect(() => {
@@ -763,7 +800,7 @@ export function RoadmapTimeline() {
           <div className="flex items-center rounded-lg border border-border bg-base p-0.5 text-xs">
             <button
               type="button"
-              onClick={() => setDayWidth((w) => Math.max(18, w - 6))}
+              onClick={() => handleZoom(-6)}
               disabled={dayWidth <= 18}
               aria-label="Zoom Out"
               className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
@@ -776,7 +813,7 @@ export function RoadmapTimeline() {
             </span>
             <button
               type="button"
-              onClick={() => setDayWidth((w) => Math.min(60, w + 6))}
+              onClick={() => handleZoom(6)}
               disabled={dayWidth >= 60}
               aria-label="Zoom In"
               className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
