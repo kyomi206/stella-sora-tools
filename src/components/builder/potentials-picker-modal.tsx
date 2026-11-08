@@ -13,9 +13,9 @@ import {
 import {
   getCharacterPotentials,
   getPotentialById,
-  formatPotentialDesc,
   getPotentialImageUrl,
 } from '@/lib/potentials';
+import { PotentialDesc } from './potential-desc';
 import { X, Trash2, Sparkles, ChevronRight, SlidersHorizontal, Lock, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useOverlayExit } from '@/lib/use-overlay-exit';
@@ -756,7 +756,11 @@ export function PotentialsPickerModal({
           >
             <div className="relative bg-surface-card text-slate-800 text-[12px] sm:text-[13px] leading-snug rounded-xl px-4 py-2.5 shadow-2xl border border-slate-200/90 max-w-[280px] sm:max-w-[320px] text-left">
               <p className="font-normal select-none">
-                {formatPotentialDesc(hoverState.pot.descTemplate, hoverState.pot.params, hoverState.level)}
+                <PotentialDesc
+                  descTemplate={hoverState.pot.descTemplate}
+                  params={hoverState.pot.params}
+                  level={hoverState.level}
+                />
               </p>
 
               {/* Speech bubble tail pointer */}

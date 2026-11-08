@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { SelectedPotential, SlotType } from '@/types';
-import { getPotentialById, formatPotentialDesc, getPotentialImageUrl } from '@/lib/potentials';
+import { getPotentialById, getPotentialImageUrl } from '@/lib/potentials';
+import { PotentialDesc } from './potential-desc';
 import { SSPotentialFull } from '@/types';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -112,7 +113,11 @@ export function PotentialsSlotRow({
             </span>
           </div>
           <p className="text-[11px] text-slate-600 leading-relaxed">
-            {formatPotentialDesc(hoveredPot.pot.descTemplate, hoveredPot.pot.params, hoveredPot.level)}
+            <PotentialDesc
+              descTemplate={hoveredPot.pot.descTemplate}
+              params={hoveredPot.pot.params}
+              level={hoveredPot.level}
+            />
           </p>
         </div>
       )}

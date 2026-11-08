@@ -13,8 +13,8 @@ import {
 import {
   getPotentialById,
   getPotentialImageUrl,
-  formatPotentialDesc,
 } from '@/lib/potentials';
+import { PotentialDesc } from './potential-desc';
 import {
   MUSICAL_NOTES,
   getDiscOutfitIconUrl,
@@ -698,7 +698,11 @@ export function AdvancedBuildCardExport({
                 </span>
               </div>
               <p className="font-normal select-none">
-                {formatPotentialDesc(hoveredPot.pot.descTemplate, hoveredPot.pot.params, hoveredPot.level)}
+                <PotentialDesc
+                  descTemplate={hoveredPot.pot.descTemplate}
+                  params={hoveredPot.pot.params}
+                  level={hoveredPot.level}
+                />
               </p>
 
               {/* Speech bubble tail pointer */}

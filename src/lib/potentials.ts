@@ -1,5 +1,5 @@
-import potentialsDb from '@/data/potentials-db.json';
-import { SSPotentialFull } from '@/types';
+import potentialsDb from '../data/potentials-db.json' with { type: 'json' };
+import type { SSPotentialFull } from '../types/index.ts';
 
 const db = potentialsDb as Record<string, SSPotentialFull[]>;
 
@@ -43,3 +43,44 @@ export function formatPotentialDesc(
 export function getPotentialImageUrl(id: number): string {
   return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${id}.webp`;
 }
+
+export interface PotentialSegment {
+  text: string;
+  kind: 'text' | 'percent' | 'mark';
+}
+
+const POTENTIAL_MARK_REGEX =
+  /(?:(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?|(?:Butterfly|Bubble|Cat\s+Eye|Sweep|Dark|bite|claw)\s+Marks?|\bmarks?\b)/i;
+
+const POTENTIAL_PERCENT_REGEX = /[+\-]?\d+(?:\.\d+)?%/;
+
+const POTENTIAL_TOKEN_REGEX = new RegExp(
+  `(${POTENTIAL_MARK_REGEX.source}|${POTENTIAL_PERCENT_REGEX.source})`,
+  'gi'
+);
+
+export function formatPotentialSegments(
+  descTemplate: string,
+  params: (string | number)[],
+  level: number = 1
+): PotentialSegment[] {
+  const plain = formatPotentialDesc(descTemplate, params, level);
+  if (!plain) return [];
+
+  const parts = plain.split(POTENTIAL_TOKEN_REGEX);
+  const segments: PotentialSegment[] = [];
+
+  for (const part of parts) {
+    if (!part) continue;
+    if (POTENTIAL_PERCENT_REGEX.test(part)) {
+      segments.push({ text: part, kind: 'percent' });
+    } else if (POTENTIAL_MARK_REGEX.test(part)) {
+      segments.push({ text: part, kind: 'mark' });
+    } else {
+      segments.push({ text: part, kind: 'text' });
+    }
+  }
+
+  return segments;
+}
+

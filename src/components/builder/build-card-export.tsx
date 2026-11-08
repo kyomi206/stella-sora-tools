@@ -4,7 +4,8 @@ import { useRef, useState } from 'react';
 import html2canvas from 'html2canvas-pro';
 import { TeamBuild, SSCharacter, SSPotentialFull } from '@/types';
 import charactersData from '@/data/characters.json';
-import { getPotentialById, getPotentialImageUrl, formatPotentialDesc } from '@/lib/potentials';
+import { getPotentialById, getPotentialImageUrl } from '@/lib/potentials';
+import { PotentialDesc } from './potential-desc';
 import { Download, Share2, Check } from 'lucide-react';
 import { compressBuild, cn } from '@/lib/utils';
 import { getWikiTideTrekkerUrl } from '@/lib/wikitide';
@@ -409,7 +410,11 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
                 </span>
               </div>
               <p className="font-normal select-none">
-                {formatPotentialDesc(hoveredPot.pot.descTemplate, hoveredPot.pot.params, hoveredPot.level)}
+                <PotentialDesc
+                  descTemplate={hoveredPot.pot.descTemplate}
+                  params={hoveredPot.pot.params}
+                  level={hoveredPot.level}
+                />
               </p>
 
               {/* Speech bubble tail pointer */}
