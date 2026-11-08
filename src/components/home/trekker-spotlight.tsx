@@ -1,19 +1,18 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import charactersData from '@/data/characters.json';
 import { SSCharacter } from '@/types';
 import { getWikiTideTrekkerUrl } from '@/lib/wikitide';
 
-export function TrekkerSpotlight() {
-  const characters = charactersData as Record<string, SSCharacter>;
-  const charList = useMemo(() => Object.values(characters), [characters]);
+const CHAR_LIST = Object.values(charactersData as Record<string, SSCharacter>);
 
+export function TrekkerSpotlight() {
   // Default to first character on server, update on client
   const [featuredIndex, setFeaturedIndex] = useState<number>(0);
 
   useEffect(() => {
-    if (!charList.length) return;
+    if (!CHAR_LIST.length) return;
     const now = new Date();
     const dayOfYear = Math.floor(
       (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) /
@@ -22,10 +21,10 @@ export function TrekkerSpotlight() {
         60 /
         24
     );
-    setFeaturedIndex(dayOfYear % charList.length);
-  }, [charList]);
+    setFeaturedIndex(dayOfYear % CHAR_LIST.length);
+  }, []);
 
-  const featured = charList[featuredIndex];
+  const featured = CHAR_LIST[featuredIndex];
   if (!featured) return null;
 
   return (

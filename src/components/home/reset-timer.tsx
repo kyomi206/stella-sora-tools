@@ -6,69 +6,69 @@ import { useEffect, useState } from 'react';
 const RESET_HOUR_UTC = 20;
 const RESET_MINUTE_UTC = 0;
 
+interface TimerState {
+  daily: { hours: number; minutes: number; seconds: number };
+  weekly: { days: number; hours: number; minutes: number; seconds: number };
+  localResetText: string;
+}
+
+function computeTimerState(): TimerState {
+  const now = new Date();
+
+  // 1. Daily Reset: 13:00 UTC-7 = 20:00 UTC every day
+  const nextDaily = new Date(now);
+  nextDaily.setUTCHours(RESET_HOUR_UTC, RESET_MINUTE_UTC, 0, 0);
+  if (now.getTime() >= nextDaily.getTime()) {
+    nextDaily.setUTCDate(nextDaily.getUTCDate() + 1);
+  }
+  const diffDaily = Math.max(0, nextDaily.getTime() - now.getTime());
+
+  // 2. Weekly Reset: Monday 13:00 UTC-7 (Monday 20:00 UTC)
+  const nextWeekly = new Date(now);
+  nextWeekly.setUTCHours(RESET_HOUR_UTC, RESET_MINUTE_UTC, 0, 0);
+  let daysUntilMon = (1 - now.getUTCDay() + 7) % 7;
+  if (daysUntilMon === 0 && now.getTime() >= nextWeekly.getTime()) {
+    daysUntilMon = 7;
+  }
+  nextWeekly.setUTCDate(now.getUTCDate() + daysUntilMon);
+  const diffWeekly = Math.max(0, nextWeekly.getTime() - now.getTime());
+
+  let localText = '13:00 UTC-7';
+  try {
+    localText = nextDaily.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  } catch {}
+
+  return {
+    daily: {
+      hours: Math.floor(diffDaily / (1000 * 60 * 60)),
+      minutes: Math.floor((diffDaily % (1000 * 60 * 60)) / (1000 * 60)),
+      seconds: Math.floor((diffDaily % (1000 * 60)) / 1000),
+    },
+    weekly: {
+      days: Math.floor(diffWeekly / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diffWeekly % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+      minutes: Math.floor((diffWeekly % (1000 * 60 * 60)) / (1000 * 60)),
+      seconds: Math.floor((diffWeekly % (1000 * 60)) / 1000),
+    },
+    localResetText: localText,
+  };
+}
+
 export function ResetTimer() {
-  const [dailyTime, setDailyTime] = useState<{
-    hours: number;
-    minutes: number;
-    seconds: number;
-  }>({ hours: 0, minutes: 0, seconds: 0 });
-
-  const [weeklyTime, setWeeklyTime] = useState<{
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-  }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  const [localResetText, setLocalResetText] = useState<string>('');
+  const [timerState, setTimerState] = useState<TimerState>({
+    daily: { hours: 0, minutes: 0, seconds: 0 },
+    weekly: { days: 0, hours: 0, minutes: 0, seconds: 0 },
+    localResetText: '',
+  });
 
   useEffect(() => {
-    function calculateTime() {
-      const now = new Date();
-
-      // 1. Daily Reset: 13:00 UTC-7 = 20:00 UTC every day
-      const nextDaily = new Date(now);
-      nextDaily.setUTCHours(RESET_HOUR_UTC, RESET_MINUTE_UTC, 0, 0);
-      if (now.getTime() >= nextDaily.getTime()) {
-        nextDaily.setUTCDate(nextDaily.getUTCDate() + 1);
-      }
-      const diffDaily = Math.max(0, nextDaily.getTime() - now.getTime());
-      setDailyTime({
-        hours: Math.floor(diffDaily / (1000 * 60 * 60)),
-        minutes: Math.floor((diffDaily % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diffDaily % (1000 * 60)) / 1000),
-      });
-
-      // 2. Weekly Reset: Monday 13:00 UTC-7 (Monday 20:00 UTC)
-      const nextWeekly = new Date(now);
-      nextWeekly.setUTCHours(RESET_HOUR_UTC, RESET_MINUTE_UTC, 0, 0);
-      let daysUntilMon = (1 - now.getUTCDay() + 7) % 7;
-      if (daysUntilMon === 0 && now.getTime() >= nextWeekly.getTime()) {
-        daysUntilMon = 7;
-      }
-      nextWeekly.setUTCDate(now.getUTCDate() + daysUntilMon);
-      const diffWeekly = Math.max(0, nextWeekly.getTime() - now.getTime());
-      setWeeklyTime({
-        days: Math.floor(diffWeekly / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diffWeekly % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((diffWeekly % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diffWeekly % (1000 * 60)) / 1000),
-      });
-
-      // 3. User's local reset time format
-      try {
-        const timeStr = nextDaily.toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        });
-        setLocalResetText(timeStr);
-      } catch {
-        setLocalResetText('13:00 UTC-7');
-      }
-    }
-
-    calculateTime();
-    const interval = setInterval(calculateTime, 1000);
+    setTimerState(computeTimerState());
+    const interval = setInterval(() => {
+      setTimerState(computeTimerState());
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -87,14 +87,14 @@ export function ResetTimer() {
         <div className="flex flex-col items-center justify-center text-center">
           <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-600 font-medium">
             <span>Next reset in:</span>
-            {localResetText && (
+            {timerState.localResetText && (
               <span className="text-xs text-slate-500 font-normal">
-                ({localResetText} local)
+                ({timerState.localResetText} local)
               </span>
             )}
           </div>
           <div suppressHydrationWarning className="text-2xl sm:text-3xl font-mono font-bold tracking-wider text-slate-900 mt-0.5 tabular-nums">
-            {format2(dailyTime.hours)}:{format2(dailyTime.minutes)}:{format2(dailyTime.seconds)}
+            {format2(timerState.daily.hours)}:{format2(timerState.daily.minutes)}:{format2(timerState.daily.seconds)}
           </div>
         </div>
 
@@ -107,12 +107,12 @@ export function ResetTimer() {
             Next weekly reset in:
           </span>
           <div suppressHydrationWarning className="text-2xl sm:text-3xl font-mono font-bold tracking-wider text-slate-800 mt-0.5 tabular-nums">
-            {weeklyTime.days > 0 && (
+            {timerState.weekly.days > 0 && (
               <span className="text-slate-600 mr-2 text-xl sm:text-2xl font-normal">
-                {weeklyTime.days}d
+                {timerState.weekly.days}d
               </span>
             )}
-            {format2(weeklyTime.hours)}:{format2(weeklyTime.minutes)}:{format2(weeklyTime.seconds)}
+            {format2(timerState.weekly.hours)}:{format2(timerState.weekly.minutes)}:{format2(timerState.weekly.seconds)}
           </div>
         </div>
       </div>
