@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@elysiajs/eden": "^1.4.9",
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "elysia": "^1.4.30",
     "html2canvas-pro": "^2.5.2",

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 import { SidebarProvider } from '@/components/layout/sidebar-context';
 import { ThemeProvider } from '@/components/layout/theme-context';
 import { SideTab } from '@/components/layout/side-tab';
@@ -58,6 +59,7 @@ export default function RootLayout({
             </div>
           </SidebarProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
