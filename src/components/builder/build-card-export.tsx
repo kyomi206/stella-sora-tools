@@ -53,7 +53,11 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
       const dataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = dataUrl;
-      a.download = `${build.name.toLowerCase().replace(/\s+/g, '-')}-stella-sora-build.png`;
+      const safeName = (build.name || 'stella-sora-build')
+        .toLowerCase()
+        .replace(/[^a-z0-9_-]/g, '-')
+        .replace(/-+/g, '-');
+      a.download = `${safeName}-stella-sora-build.png`;
       a.click();
     } catch (err) {
       console.error('Failed to export image', err);

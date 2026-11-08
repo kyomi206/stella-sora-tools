@@ -108,7 +108,11 @@ export function AdvancedBuildCardExport({
       const dataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = dataUrl;
-      a.download = `${build.name.toLowerCase().replace(/\s+/g, '-')}-advanced-preset.png`;
+      const safeName = (build.name || 'advanced-preset')
+        .toLowerCase()
+        .replace(/[^a-z0-9_-]/g, '-')
+        .replace(/-+/g, '-');
+      a.download = `${safeName}-advanced-preset.png`;
       a.click();
     } catch (err) {
       console.error('Failed to export advanced preset image', err);

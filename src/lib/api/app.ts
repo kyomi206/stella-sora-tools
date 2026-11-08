@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import { Elysia, t } from 'elysia';
 import {
   getSyncedCharacters,
@@ -5,6 +6,13 @@ import {
   getSyncedRoadmap,
   triggerDataSync,
 } from '../sync-engine.ts';
+
+function safeCompare(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
+}
 
 export const app = new Elysia({ prefix: '/api' })
   .get('/health', () => ({
@@ -28,7 +36,7 @@ export const app = new Elysia({ prefix: '/api' })
   .post('/sync', async ({ headers, set }) => {
     const auth = headers['authorization'];
     const secret = process.env.SYNC_SECRET;
-    if (!secret || auth !== `Bearer ${secret}`) {
+    if (!secret || !auth || !safeCompare(auth, `Bearer ${secret}`)) {
       set.status = 401;
       return { error: 'Unauthorized' };
     }
