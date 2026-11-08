@@ -1,7 +1,6 @@
 import { ToolsGrid } from '@/components/home/tools-grid';
 import { TrekkerSpotlight } from '@/components/home/trekker-spotlight';
 import { ResetTimer } from '@/components/home/reset-timer';
-import { Changelog } from '@/components/home/changelog';
 
 export default function HomePage() {
   return (
@@ -31,9 +30,6 @@ export default function HomePage() {
         <TrekkerSpotlight />
         <ResetTimer />
       </section>
-
-      {/* Changelog & Feedback */}
-      <Changelog />
     </article>
   );
 }
