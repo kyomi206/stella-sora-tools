@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ShieldCheck, HeartHandshake, Layers, Sparkles } from 'lucide-react';
+import { ShieldCheck, HeartHandshake, Layers } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Credits — Stella Sora Tools',
@@ -150,9 +150,11 @@ export default function CreditsPage() {
       role: 'Type-Safe Server Engine & REST API Endpoints',
       url: 'https://elysiajs.com/',
       icon: (
-        <div className="size-8 rounded-lg bg-pink-500/15 border border-pink-500/30 flex items-center justify-center text-pink-600 font-mono font-bold text-xs">
-          ELY
-        </div>
+        <img
+          src="/elysia_v.webp"
+          alt="ElysiaJS"
+          className="h-8 w-auto max-w-[48px] object-contain rounded"
+        />
       ),
     },
     {
@@ -160,9 +162,24 @@ export default function CreditsPage() {
       role: 'Minimalist Icon Library',
       url: 'https://lucide.dev/',
       icon: (
-        <div className="size-8 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-600">
-          <Sparkles className="size-4.5" />
-        </div>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="size-8"
+          id="lucide-logo"
+        >
+          <path
+            d="M14 12C14 9.79086 12.2091 8 10 8C7.79086 8 6 9.79086 6 12C6 16.4183 9.58172 20 14 20C18.4183 20 22 16.4183 22 12C22 8.446 20.455 5.25285 18 3.05557"
+            className="stroke-slate-900 dark:stroke-white"
+          />
+          <path
+            d="M10 12C10 14.2091 11.7909 16 14 16C16.2091 16 18 14.2091 18 12C18 7.58172 14.4183 4 10 4C5.58172 4 2 7.58172 2 12C2 15.5841 3.57127 18.8012 6.06253 21"
+            stroke="#F56565"
+          />
+        </svg>
       ),
     },
   ];
