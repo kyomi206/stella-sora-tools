@@ -633,7 +633,7 @@ input[type="range"]:focus {
 }
 
 .frosted-panel {
-  background: linear-gradient(180deg, rgba(232, 244, 248, 0.85) 0%, rgba(212, 231, 240, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(212, 231, 240, 0.85) 0%, rgba(232, 244, 248, 0.85) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 12px;
@@ -641,7 +641,7 @@ input[type="range"]:focus {
 }
 
 .dark .frosted-panel {
-  background: linear-gradient(180deg, rgba(10, 22, 40, 0.85) 0%, rgba(19, 40, 68, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(19, 40, 68, 0.85) 0%, rgba(10, 22, 40, 0.85) 100%);
   border: 1px solid rgba(30, 64, 97, 0.4);
 }
 
