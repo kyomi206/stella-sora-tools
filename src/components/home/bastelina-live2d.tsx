@@ -129,7 +129,7 @@ export function BastelinaLive2D() {
       (window as any).__L2D_MAX_DPR = 1.25;
     }
 
-    import('l2d')
+    import('@/lib/l2d')
       .then(({ init }) => {
         if (!isMounted || !canvasRef.current) return;
 
