@@ -22,6 +22,15 @@ export function Footer() {
           </Link>
           <span className="w-px h-3 bg-border" aria-hidden="true" />
           <a
+            href="https://github.com/kyomi206/stella-sora-tools"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline hover:text-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-amber-400 rounded px-1"
+          >
+            Website
+          </a>
+          <span className="w-px h-3 bg-border" aria-hidden="true" />
+          <a
             href="https://stellasora.miraheze.org/wiki/Stella_Sora_Wiki"
             target="_blank"
             rel="noopener noreferrer"
