@@ -6,7 +6,8 @@ document.head.append(t), t.append("\nvar __NONECONSOLE = {log(){}};(function(){v
 var n = /* @__PURE__ */ e(((e, t) => {
 	t.exports = {};
 }));
-(/* @__PURE__ */ e(((e, t) => {
+var Live2DCubismCore;
+((e, t) => {
 	var r = console.log;
 	console.log = () => {};
 	var i;
@@ -3962,8 +3963,8 @@ var n = /* @__PURE__ */ e(((e, t) => {
 			return d;
 		}) : typeof e == "object" && (e._em_module = d);
 		var f = d();
-	})(i ||= {}), window.Live2DCubismCore = i, globalThis.Live2DCubismCore = i, console.log = r; var Live2DCubismCore = i;
-})))();
+	})(i ||= {}), Live2DCubismCore = i, window.Live2DCubismCore = i, globalThis.Live2DCubismCore = i, console.log = r;
+})({}, {});
 function r(e) {
 	if (!e.style.width && !e.style.height) {
 		let t = getComputedStyle(e);
