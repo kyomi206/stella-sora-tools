@@ -58,7 +58,7 @@ export interface PotentialSegment {
 }
 
 const POTENTIAL_MARK_REGEX =
-  /(?:(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?|(?:Butterfly|Bubble|Cat\s+Eye|Sweep|Dark|bite|claw)\s+Marks?|\bmarks?\b)(?!\s+DMG\b)/i;
+  /\b(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?(?!\s+DMG\b)/i;
 
 const POTENTIAL_PERCENT_REGEX = /[+\-]?\d+(?:\.\d+)?%/;
 

@@ -32,25 +32,22 @@ describe('formatPotentialSegments', () => {
     ]);
   });
 
-  it('underlines generic mark and plural marks with default element', () => {
+  it('does not format standalone Mark or non-element marks', () => {
     const descTemplate =
       'When the Mark is triggered, consumes all Sweep Marks and grants max stacks of Sweep Mark buffs.';
     const segments = formatPotentialSegments(descTemplate, [], 1, 'Aqua');
 
     assert.deepEqual(segments, [
-      { text: 'When the ', kind: 'text' },
-      { text: 'Mark', kind: 'mark', element: 'Aqua' },
-      { text: ' is triggered, consumes all ', kind: 'text' },
-      { text: 'Sweep Marks', kind: 'mark', element: 'Aqua' },
-      { text: ' and grants max stacks of ', kind: 'text' },
-      { text: 'Sweep Mark', kind: 'mark', element: 'Aqua' },
-      { text: ' buffs.', kind: 'text' },
+      {
+        text: 'When the Mark is triggered, consumes all Sweep Marks and grants max stacks of Sweep Mark buffs.',
+        kind: 'text',
+      },
     ]);
   });
 });
 
 describe('formatDiscSkillSegments', () => {
-  it('underlines element marks and associates element in disc select', () => {
+  it('underlines {element} Mark with icon and keeps standalone Mark as plain text', () => {
     const desc =
       'Increases HP by <color=#ec6d21>{1}</color>.\u000bAfter triggers ##Lux Mark#1015#, gains Starwish.\u000bWhen triggers the Mark to generate ##Lucent#4028#, increases Crit Rate by <color=#ec6d21>{2}</color>.';
     const segments = formatDiscSkillSegments(desc, '15%,15%', 1, 'Lux');
@@ -60,9 +57,10 @@ describe('formatDiscSkillSegments', () => {
       { text: '15%', kind: 'value' },
       { text: '.\nAfter triggers ', kind: 'text' },
       { text: 'Lux Mark', kind: 'mark', element: 'Lux' },
-      { text: ', gains Starwish.\nWhen triggers the ', kind: 'text' },
-      { text: 'Mark', kind: 'mark', element: 'Lux' },
-      { text: ' to generate ', kind: 'text' },
+      {
+        text: ', gains Starwish.\nWhen triggers the Mark to generate ',
+        kind: 'text',
+      },
       { text: 'Lucent', kind: 'term' },
       { text: ', increases Crit Rate by ', kind: 'text' },
       { text: '15%', kind: 'value' },

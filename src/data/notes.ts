@@ -182,7 +182,7 @@ export interface DiscSkillSegment {
 }
 
 const DISC_MARK_REGEX =
-  /(?:(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?|(?:Butterfly|Bubble|Cat\s+Eye|Sweep|Dark|bite|claw)\s+Marks?|\bmarks?\b)(?!\s+DMG\b)/i;
+  /\b(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?(?!\s+DMG\b)/i;
 
 const DISC_MARK_SPLIT_REGEX = new RegExp(`(${DISC_MARK_REGEX.source})`, 'gi');
 
