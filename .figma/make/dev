@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-exec npx next dev -p "$PORT" -H "${FIGMA_DEV_SERVER_HOST:-0.0.0.0}"
