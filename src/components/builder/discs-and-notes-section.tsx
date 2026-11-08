@@ -20,6 +20,7 @@ import {
   getHarmonyActivationLevel,
 } from '@/data/notes';
 import { DiscSlotRef } from './disc-picker-modal';
+import { DiscSkillText } from './disc-detail-card';
 import { Disc, Plus, Minus, Trash2, Sparkles, RotateCcw, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -147,11 +148,12 @@ function DiscSkillBubble({
                     <span className="shrink-0 font-mono text-[11px] text-slate-500 dark:text-white/60">C{crescendo}/6</span>
                   </div>
                   <p className="text-[11px] leading-relaxed text-slate-600 dark:text-white/90">
-                    {formatDiscSkillDesc(
-                      disc.mainSkill.desc,
-                      disc.mainSkill.params,
-                      crescendo
-                    )}
+                    <DiscSkillText
+                      desc={disc.mainSkill.desc}
+                      params={disc.mainSkill.params}
+                      level={crescendo}
+                      discElement={disc.element}
+                    />
                   </p>
                 </div>
               )}
@@ -204,7 +206,12 @@ function DiscSkillBubble({
                     </div>
 
                     <p className="mb-1 text-[11px] leading-relaxed text-slate-600 dark:text-white/90">
-                      {formatDiscSkillDesc(skill.desc, skill.params, Math.max(1, activeLv))}
+                      <DiscSkillText
+                        desc={skill.desc}
+                        params={skill.params}
+                        level={Math.max(1, activeLv)}
+                        discElement={disc.element}
+                      />
                     </p>
 
                     <div className="flex flex-wrap items-center gap-1">

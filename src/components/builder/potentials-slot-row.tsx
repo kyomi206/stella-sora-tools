@@ -117,6 +117,7 @@ export function PotentialsSlotRow({
               descTemplate={hoveredPot.pot.descTemplate}
               params={hoveredPot.pot.params}
               level={hoveredPot.level}
+              characterId={hoveredPot.pot.characterId ?? characterId}
             />
           </p>
         </div>

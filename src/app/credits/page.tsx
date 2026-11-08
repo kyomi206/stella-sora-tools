@@ -15,9 +15,19 @@ export default function CreditsPage() {
       url: 'https://stellasora.yostar.net/',
     },
     {
+      title: 'StellaDB & Game Assets (ssassets, ss-data)',
+      author: 'AutumnVN',
+      url: 'https://github.com/AutumnVN/stelladb',
+    },
+    {
       title: 'Imported Data',
       author: 'StellaSoraData',
       url: 'https://github.com/Hiro420/StellaSoraData',
+    },
+    {
+      title: 'Damage Formula & Calculation Models (Eleanor 1.15, Noya 2.0b)',
+      author: 'Zilentz & AutumnVN',
+      url: 'https://gist.github.com/AutumnVN/91afd7a37a9743488419b70f07225950',
     },
     {
       title: 'Miraheze Community Wiki',
@@ -28,6 +38,11 @@ export default function CreditsPage() {
       title: 'Noya Team Builder',
       author: 'Noya',
       url: 'https://noyanoya.vercel.app/',
+    },
+    {
+      title: 'Noya (Open Source Repository)',
+      author: 'maj-rf',
+      url: 'https://github.com/maj-rf/noya',
     },
     {
       title: 'Lucide Icons',
@@ -128,6 +143,16 @@ export default function CreditsPage() {
         <svg viewBox="0 0 256 222" className="size-8 text-slate-900">
           <path fill="currentColor" d="M128 0L256 221.7H0z" />
         </svg>
+      ),
+    },
+    {
+      name: 'ElysiaJS & Eden',
+      role: 'Type-Safe Server Engine & REST API Endpoints',
+      url: 'https://elysiajs.com/',
+      icon: (
+        <div className="size-8 rounded-lg bg-pink-500/15 border border-pink-500/30 flex items-center justify-center text-pink-600 font-mono font-bold text-xs">
+          ELY
+        </div>
       ),
     },
     {

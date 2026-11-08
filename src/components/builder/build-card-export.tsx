@@ -414,6 +414,7 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
                   descTemplate={hoveredPot.pot.descTemplate}
                   params={hoveredPot.pot.params}
                   level={hoveredPot.level}
+                  characterId={hoveredPot.pot.characterId}
                 />
               </p>
 

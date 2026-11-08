@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { NoteName, SSDisc, SSDiscSecondarySkill } from '@/types';
+import type { ElementType, NoteName, SSDisc, SSDiscSecondarySkill } from '@/types';
 import {
   NOTE_BY_NAME,
   formatDiscSkillSegments,
@@ -54,26 +54,43 @@ function SectionBanner({ label }: { label: string }) {
   );
 }
 
-function SkillDescription({
+export function DiscSkillText({
   desc,
   params,
-  level,
+  level = 1,
+  discElement,
+  className,
 }: {
   desc: string;
   params: string;
-  level: number;
+  level?: number;
+  discElement?: ElementType | 'None';
+  className?: string;
 }) {
   const segments = useMemo(
-    () => formatDiscSkillSegments(desc, params, level),
-    [desc, params, level]
+    () => formatDiscSkillSegments(desc, params, level, discElement),
+    [desc, params, level, discElement]
   );
 
   return (
-    <p className={cn('mt-1.5 whitespace-pre-line text-[13px] leading-[1.5]', BODY)}>
+    <span className={className}>
       {segments.map((segment, index) =>
         segment.kind === 'value' ? (
           <span key={index} className="font-bold text-[var(--dc-value)]">
             {segment.text}
+          </span>
+        ) : segment.kind === 'mark' ? (
+          <span key={index}>
+            <span className="font-semibold underline underline-offset-2 text-[var(--dc-term)]">
+              {segment.text}
+            </span>
+            {segment.element && (
+              <img
+                src={`/ss-element/${segment.element}.webp`}
+                alt={segment.element}
+                className="inline-block size-[1.15em] object-contain align-[-0.15em] ml-1 select-none pointer-events-none"
+              />
+            )}
           </span>
         ) : segment.kind === 'term' ? (
           <span key={index} className="font-semibold text-[var(--dc-term)]">
@@ -83,6 +100,24 @@ function SkillDescription({
           <span key={index}>{segment.text}</span>
         )
       )}
+    </span>
+  );
+}
+
+function SkillDescription({
+  desc,
+  params,
+  level,
+  discElement,
+}: {
+  desc: string;
+  params: string;
+  level: number;
+  discElement?: ElementType | 'None';
+}) {
+  return (
+    <p className={cn('mt-1.5 whitespace-pre-line text-[13px] leading-[1.5]', BODY)}>
+      <DiscSkillText desc={desc} params={params} level={level} discElement={discElement} />
     </p>
   );
 }
@@ -200,12 +235,18 @@ function MelodySkill({ disc }: { disc: SSDisc }) {
           <Disc className="size-4 text-[var(--dc-violet-ink)]" />
         </span>
       </SkillNamePlate>
-      <SkillDescription desc={skill.desc} params={skill.params} level={1} />
+      <SkillDescription desc={skill.desc} params={skill.params} level={1} discElement={disc.element} />
     </div>
   );
 }
 
-function HarmonySkillCard({ skill }: { skill: SSDiscSecondarySkill }) {
+function HarmonySkillCard({
+  skill,
+  discElement,
+}: {
+  skill: SSDiscSecondarySkill;
+  discElement?: ElementType | 'None';
+}) {
   const maxTier = Math.max(1, Math.min(5, skill.requirements?.length || 5));
   const [tier, setTier] = useState(1);
 
@@ -219,7 +260,7 @@ function HarmonySkillCard({ skill }: { skill: SSDiscSecondarySkill }) {
           label={`${skill.name} tier`}
         />
       </SkillNamePlate>
-      <SkillDescription desc={skill.desc} params={skill.params} level={tier} />
+      <SkillDescription desc={skill.desc} params={skill.params} level={tier} discElement={discElement} />
       <RequirementList requirement={skill.requirements?.[tier - 1] || {}} />
     </div>
   );
@@ -229,16 +270,18 @@ function HarmonySkillCard({ skill }: { skill: SSDiscSecondarySkill }) {
 export function HarmonySkillDetail({
   skill,
   level,
+  discElement,
 }: {
   skill: SSDiscSecondarySkill;
   level: number;
+  discElement?: ElementType | 'None';
 }) {
   const tier = Math.max(1, Math.min(5, level || 1));
 
   return (
     <div className={cn(PLATE, 'p-2.5')}>
       <SkillNamePlate icon={getDiscSkillIconUrl(skill.icon)} name={skill.name} />
-      <SkillDescription desc={skill.desc} params={skill.params} level={tier} />
+      <SkillDescription desc={skill.desc} params={skill.params} level={tier} discElement={discElement} />
       <RequirementList requirement={skill.requirements?.[tier - 1] || {}} />
     </div>
   );
@@ -461,12 +504,14 @@ export function DiscDetailCard({ disc, slotKind }: DiscDetailCardProps) {
                     <HarmonySkillCard
                       key={disc.secondarySkill1.id}
                       skill={disc.secondarySkill1}
+                      discElement={disc.element}
                     />
                   )}
                   {disc.secondarySkill2 && (
                     <HarmonySkillCard
                       key={disc.secondarySkill2.id}
                       skill={disc.secondarySkill2}
+                      discElement={disc.element}
                     />
                   )}
                 </div>

@@ -2,12 +2,15 @@
 
 import { useMemo } from 'react';
 import { formatPotentialSegments } from '@/lib/potentials';
+import type { ElementType } from '@/types';
 
 interface PotentialDescProps {
   descTemplate: string;
   params: (string | number)[];
   level?: number;
   className?: string;
+  defaultElement?: ElementType;
+  characterId?: number | null;
 }
 
 export function PotentialDesc({
@@ -15,10 +18,12 @@ export function PotentialDesc({
   params,
   level = 1,
   className,
+  defaultElement,
+  characterId,
 }: PotentialDescProps) {
   const segments = useMemo(
-    () => formatPotentialSegments(descTemplate, params, level),
-    [descTemplate, params, level]
+    () => formatPotentialSegments(descTemplate, params, level, defaultElement, characterId),
+    [descTemplate, params, level, defaultElement, characterId]
   );
 
   return (
@@ -33,8 +38,17 @@ export function PotentialDesc({
         }
         if (segment.kind === 'mark') {
           return (
-            <span key={index} className="underline underline-offset-2 font-medium">
-              {segment.text}
+            <span key={index}>
+              <span className="underline underline-offset-2 font-medium text-sky-600 dark:text-sky-400">
+                {segment.text}
+              </span>
+              {segment.element && (
+                <img
+                  src={`/ss-element/${segment.element}.webp`}
+                  alt={segment.element}
+                  className="inline-block size-[1.15em] object-contain align-[-0.15em] ml-1 select-none pointer-events-none"
+                />
+              )}
             </span>
           );
         }

@@ -177,7 +177,23 @@ export function getDiscSkillIconUrl(iconName?: string): string {
 
 export interface DiscSkillSegment {
   text: string;
-  kind: 'text' | 'value' | 'term';
+  kind: 'text' | 'value' | 'term' | 'mark';
+  element?: ElementType;
+}
+
+const DISC_MARK_REGEX =
+  /(?:(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?|(?:Butterfly|Bubble|Cat\s+Eye|Sweep|Dark|bite|claw)\s+Marks?|\bmarks?\b)(?!\s+DMG\b)/i;
+
+const DISC_MARK_SPLIT_REGEX = new RegExp(`(${DISC_MARK_REGEX.source})`, 'gi');
+
+export function getDiscMarkElement(text: string, fallback?: ElementType | 'None'): ElementType | undefined {
+  if (/Ignis/i.test(text)) return 'Ignis';
+  if (/Aqua/i.test(text)) return 'Aqua';
+  if (/Ventus/i.test(text)) return 'Ventus';
+  if (/Terra/i.test(text)) return 'Terra';
+  if (/Lux/i.test(text)) return 'Lux';
+  if (/Umbra|Dark/i.test(text)) return 'Umbra';
+  return fallback && fallback !== 'None' ? fallback : undefined;
 }
 
 /**
@@ -188,7 +204,8 @@ export interface DiscSkillSegment {
 export function formatDiscSkillSegments(
   desc: string,
   paramsStr: string,
-  level = 1
+  level = 1,
+  discElement?: ElementType | 'None'
 ): DiscSkillSegment[] {
   if (!desc) return [];
 
@@ -207,7 +224,7 @@ export function formatDiscSkillSegments(
     formatted = formatted.split(`{${idx + 1}}`).join(val.trim());
   });
 
-  const segments: DiscSkillSegment[] = [];
+  const rawSegments: DiscSkillSegment[] = [];
   let kind: DiscSkillSegment['kind'] = 'text';
 
   for (const part of formatted.split(/([\u0001-\u0004])/)) {
@@ -224,7 +241,38 @@ export function formatDiscSkillSegments(
       kind = 'text';
       continue;
     }
-    segments.push({ text: part, kind });
+    rawSegments.push({ text: part, kind });
+  }
+
+  const segments: DiscSkillSegment[] = [];
+  for (const seg of rawSegments) {
+    if (seg.kind === 'value') {
+      segments.push(seg);
+    } else if (seg.kind === 'term') {
+      if (DISC_MARK_REGEX.test(seg.text)) {
+        segments.push({
+          text: seg.text,
+          kind: 'mark',
+          element: getDiscMarkElement(seg.text, discElement),
+        });
+      } else {
+        segments.push(seg);
+      }
+    } else {
+      const parts = seg.text.split(DISC_MARK_SPLIT_REGEX);
+      for (const part of parts) {
+        if (!part) continue;
+        if (DISC_MARK_REGEX.test(part)) {
+          segments.push({
+            text: part,
+            kind: 'mark',
+            element: getDiscMarkElement(part, discElement),
+          });
+        } else {
+          segments.push({ text: part, kind: 'text' });
+        }
+      }
+    }
   }
 
   return segments;

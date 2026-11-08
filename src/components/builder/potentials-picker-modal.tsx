@@ -760,6 +760,8 @@ export function PotentialsPickerModal({
                   descTemplate={hoverState.pot.descTemplate}
                   params={hoverState.pot.params}
                   level={hoverState.level}
+                  characterId={hoverState.pot.characterId}
+                  defaultElement={activeChar?.element}
                 />
               </p>
 

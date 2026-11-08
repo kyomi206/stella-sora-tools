@@ -1,7 +1,14 @@
 import potentialsDb from '../data/potentials-db.json' with { type: 'json' };
-import type { SSPotentialFull } from '../types/index.ts';
+import charactersData from '../data/characters.json' with { type: 'json' };
+import type { ElementType, SSPotentialFull } from '../types/index.ts';
 
 const db = potentialsDb as Record<string, SSPotentialFull[]>;
+const chars = charactersData as Record<string, { element?: ElementType }>;
+
+export function getCharacterElement(characterId: number | null): ElementType | undefined {
+  if (!characterId) return undefined;
+  return chars[String(characterId)]?.element;
+}
 
 export function getCharacterPotentials(characterId: number | null): SSPotentialFull[] {
   if (!characterId) return [];
@@ -47,10 +54,11 @@ export function getPotentialImageUrl(id: number): string {
 export interface PotentialSegment {
   text: string;
   kind: 'text' | 'percent' | 'mark';
+  element?: ElementType;
 }
 
 const POTENTIAL_MARK_REGEX =
-  /(?:(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?|(?:Butterfly|Bubble|Cat\s+Eye|Sweep|Dark|bite|claw)\s+Marks?|\bmarks?\b)/i;
+  /(?:(?:Ignis|Aqua|Ventus|Terra|Lux|Umbra)\s+Mark(?::\s*(?:Sacred\s+Flame|Torrent\/Chill\/Freeze|Torrent\/Chill|Torrent|Breeze|Earth\s+Vein|Radiance|Gloom))?|(?:Butterfly|Bubble|Cat\s+Eye|Sweep|Dark|bite|claw)\s+Marks?|\bmarks?\b)(?!\s+DMG\b)/i;
 
 const POTENTIAL_PERCENT_REGEX = /[+\-]?\d+(?:\.\d+)?%/;
 
@@ -59,13 +67,27 @@ const POTENTIAL_TOKEN_REGEX = new RegExp(
   'gi'
 );
 
+export function getMarkElement(text: string, fallback?: ElementType): ElementType | undefined {
+  if (/Ignis/i.test(text)) return 'Ignis';
+  if (/Aqua/i.test(text)) return 'Aqua';
+  if (/Ventus/i.test(text)) return 'Ventus';
+  if (/Terra/i.test(text)) return 'Terra';
+  if (/Lux/i.test(text)) return 'Lux';
+  if (/Umbra|Dark/i.test(text)) return 'Umbra';
+  return fallback;
+}
+
 export function formatPotentialSegments(
   descTemplate: string,
   params: (string | number)[],
-  level: number = 1
+  level: number = 1,
+  defaultElement?: ElementType,
+  characterId?: number | null
 ): PotentialSegment[] {
   const plain = formatPotentialDesc(descTemplate, params, level);
   if (!plain) return [];
+
+  const resolvedFallback = defaultElement || getCharacterElement(characterId ?? null);
 
   const parts = plain.split(POTENTIAL_TOKEN_REGEX);
   const segments: PotentialSegment[] = [];
@@ -75,7 +97,11 @@ export function formatPotentialSegments(
     if (POTENTIAL_PERCENT_REGEX.test(part)) {
       segments.push({ text: part, kind: 'percent' });
     } else if (POTENTIAL_MARK_REGEX.test(part)) {
-      segments.push({ text: part, kind: 'mark' });
+      segments.push({
+        text: part,
+        kind: 'mark',
+        element: getMarkElement(part, resolvedFallback),
+      });
     } else {
       segments.push({ text: part, kind: 'text' });
     }

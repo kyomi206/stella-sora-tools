@@ -9,6 +9,7 @@ import {
   SSDiscSecondarySkill,
   SSPotentialFull,
   NoteName,
+  ElementType,
 } from '@/types';
 import {
   getPotentialById,
@@ -52,6 +53,7 @@ export function AdvancedBuildCardExport({
     skill: SSDiscSecondarySkill;
     level: number;
     targetRect: DOMRect;
+    discElement?: ElementType | 'None';
   } | null>(null);
 
   const vanguardChar = build.slots.vanguard.characterId
@@ -87,6 +89,7 @@ export function AdvancedBuildCardExport({
               name: skill.name,
               icon: skill.icon,
               level: getHarmonyActivationLevel(skill, effectiveNotes),
+              discElement: disc.element,
             },
           ]
         : []
@@ -602,6 +605,7 @@ export function AdvancedBuildCardExport({
                         setHoveredHarmony({
                           skill: skill.skill,
                           level: skill.level,
+                          discElement: skill.discElement,
                           targetRect: e.currentTarget.getBoundingClientRect(),
                         })
                       }
@@ -609,6 +613,7 @@ export function AdvancedBuildCardExport({
                         setHoveredHarmony({
                           skill: skill.skill,
                           level: skill.level,
+                          discElement: skill.discElement,
                           targetRect: e.currentTarget.getBoundingClientRect(),
                         })
                       }
@@ -666,7 +671,11 @@ export function AdvancedBuildCardExport({
             }}
           >
             <div className="disc-card w-[360px] max-w-[calc(100vw-2rem)] rounded-xl border border-[var(--dc-panel-border)] bg-[var(--dc-panel)] p-2 shadow-2xl">
-              <HarmonySkillDetail skill={hoveredHarmony.skill} level={hoveredHarmony.level} />
+              <HarmonySkillDetail
+                skill={hoveredHarmony.skill}
+                level={hoveredHarmony.level}
+                discElement={hoveredHarmony.discElement}
+              />
             </div>
           </div>
         );
@@ -702,6 +711,7 @@ export function AdvancedBuildCardExport({
                   descTemplate={hoveredPot.pot.descTemplate}
                   params={hoveredPot.pot.params}
                   level={hoveredPot.level}
+                  characterId={hoveredPot.pot.characterId}
                 />
               </p>
 
