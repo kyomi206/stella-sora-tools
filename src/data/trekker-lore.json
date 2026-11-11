@@ -1,0 +1,1232 @@
+{
+  "103": {
+    "name": "Amber",
+    "profile": "\"The agile dual pistols allow Amber to sashay across the battlefield. Enemies who try to get close to her will turn into ashes long before they can reach her perimeter.\"",
+    "birthday": "August 8th",
+    "address": "Roof of the Lucky Oasis",
+    "weapon": "Cat Treat-1911 Dual-Wield",
+    "experience": "2 years",
+    "style": "Collector",
+    "faction": "New Star Guild",
+    "skillsText": "Investigation, locating lost cats",
+    "voiceActor": {
+      "jp": "高田 憂希 (Takada Yuki)",
+      "cn": "四白(Si Bai)"
+    }
+  },
+  "107": {
+    "name": "Tilia",
+    "profile": "\"Tilia will always be charging at the forefront, using her shield to protect everyone. Guess only another Imperial Knight might break through her defense.\"",
+    "birthday": "November 18th",
+    "address": "Slope Apartments 2-3 (Next to the Stargate Inn in Emor City's Ash District)",
+    "weapon": "Freedom and Glory",
+    "experience": "1 year",
+    "style": "Steady",
+    "faction": "Imperial Guard",
+    "skillsText": "Light vehicle driving",
+    "voiceActor": {
+      "jp": "大久保 瑠美 (Ōkubo Rumi)",
+      "cn": ""
+    }
+  },
+  "108": {
+    "name": "Kasimira",
+    "profile": "\"Kasimira wields a brutal shotgun. She often puts herself in the line of fire in order to get a hit on her enemies. No matter what, her enemy will fall first.\"",
+    "birthday": "October 8th",
+    "address": "Leave a message on the flagpole at the southern entrance of Mirage. I'll find you",
+    "weapon": "Catnip-1886",
+    "experience": "Extensive",
+    "style": "Adventurous",
+    "faction": "White Cat Troupe",
+    "skillsText": "Firearm modification, close-quarters combat, origami",
+    "voiceActor": {
+      "jp": "安野 希世乃 (Yasuno Kiyono)",
+      "cn": ""
+    }
+  },
+  "110": {
+    "name": "Firenze",
+    "profile": "\"Firenze can summon doppelgangers to fight for her on the battlefield. Rumor has it that she does the same in her office, which is how she always manages to stay so graceful.\"",
+    "birthday": "November 16th",
+    "address": "Building 6, Xueshi Ave, Gold District, Philae",
+    "weapon": "Starlight",
+    "experience": "Less than 1 year",
+    "style": "Steady",
+    "faction": "United Harvest",
+    "skillsText": "Business management, investment actuarial valuation, negotiation and diplomacy, Philae traditional swordsmanship",
+    "voiceActor": {
+      "jp": "斎藤 千和 (Chiwa Saitō)",
+      "cn": "斎藤 千和 (Chiwa Saitō)"
+    }
+  },
+  "111": {
+    "name": "Iris",
+    "profile": "\"Iris' notebook is filled with magical formulas. Little-trained in close combat, she prefers to use ice to wear down the enemy from a safe distance.\"",
+    "birthday": "May 1st",
+    "address": "The Lucky Oasis",
+    "weapon": "286 Series Magic Book",
+    "experience": "1 year",
+    "style": "Creative",
+    "faction": "New Star Guild",
+    "skillsText": "Office work, accounting, inventory management, sales, civil engineering, etc",
+    "voiceActor": {
+      "jp": "夏吉 ゆうこ (Natsuyoshi Yūko)",
+      "cn": "夏吉 ゆうこ (Natsuyoshi Yūko)"
+    }
+  },
+  "112": {
+    "name": "Noya",
+    "profile": "\"Noya uses techniques no one has ever seen, learned from an unknown source. Even skill-casting does not interrupt her long sword's movements.\"",
+    "birthday": "June 21st",
+    "address": "The Lucky Oasis",
+    "weapon": "Unmarked",
+    "experience": "2 years",
+    "style": "Creative",
+    "faction": "New Star Guild",
+    "skillsText": "Anything Trekker or car-related",
+    "voiceActor": {
+      "jp": "今泉りおな (Riona Imaizumi)",
+      "cn": "今泉りおな (Riona Imaizumi)"
+    }
+  },
+  "113": {
+    "name": "Shimiao",
+    "profile": "\"In addition to offering long-term on-site support to her companions, Shimiao is also skilled at handling problems herself. Perhaps this is why she embodies the perfect secretary.\"",
+    "birthday": "July 6th",
+    "address": "No. 6 Zhulin Road, Cang Wu City",
+    "weapon": "Shimiao's Miaovelous Sword",
+    "experience": "2 years",
+    "style": "Inquisitive",
+    "faction": "Baize Bureau",
+    "skillsText": "Designing chalkboard displays, creating plans, and overseeing their execution",
+    "voiceActor": {
+      "jp": "小澤亜李 (Ozawa Ari)",
+      "cn": ""
+    }
+  },
+  "114": {
+    "name": "Chaton",
+    "profile": "\"Chaton is the sniper of White Cat Troupe. Though fond of close combat, in the end she chose a customized weapon as tall as herself, one that can only be used from a distance.\"",
+    "birthday": "August 5th",
+    "address": "Eureka Bar, Mirage",
+    "weapon": "Cat Wand: Uncompleted Codex Entry MK Ⅰ",
+    "experience": "There is literally nothing the great Chaton can't do.",
+    "style": "Creative",
+    "faction": "White Cat Troupe",
+    "skillsText": "Sniping, assault tactics, rhythm games",
+    "voiceActor": {
+      "jp": "佐倉 綾音 (Ayane Sakura)",
+      "cn": "佐倉 綾音 (Ayane Sakura)"
+    }
+  },
+  "115": {
+    "name": "Firefly",
+    "profile": "\"Firefly, who controls transformable armament, is said to be a super weapon secretly developed by Grace Imperium. The firefly-like glow, when gathered in multitude, can become a cannon capable of extreme destruction.\"",
+    "birthday": "May 5th",
+    "address": "Room 2707, Building 7, Grace Light Academy Dormitory, Emor City",
+    "weapon": "Avalanche",
+    "experience": "1 year",
+    "style": "Collector",
+    "faction": "Grace Imperium",
+    "skillsText": "Combat, Monolith climbing",
+    "voiceActor": {
+      "jp": "長縄まりあ (Maria Naganawa)",
+      "cn": "長縄まりあ (Maria Naganawa)"
+    }
+  },
+  "116": {
+    "name": "Ridge",
+    "profile": "\"Ridge is a United Harvest Forester with a habit of stockpiling food. She has a shovel that can fire energy blasts, and she fights alongside the seed plants she scatters on the field.\"",
+    "birthday": "September 22nd",
+    "address": "United Harvest, Philae City, South Sector, Greenhouse No. 6",
+    "weapon": "United Industrial - Prototype 205 Multifunction Shovel",
+    "experience": "Less than one year",
+    "style": "Collector",
+    "faction": "United Harvest",
+    "skillsText": "Digging cellars, planting crops, breeding new varieties",
+    "voiceActor": {
+      "jp": "七瀬けろ (Kero Nanase)",
+      "cn": ""
+    }
+  },
+  "117": {
+    "name": "Jinglin",
+    "profile": "\"Jinglin can summon lightning and fill the area around her with golden strikes. Though there is no consensus on the origin of this power, Jinglin herself believes that it was granted to her by the Divine Tree in Cang Wu city.\"",
+    "birthday": "May 10th",
+    "address": "8 Aswan Street, Philae",
+    "weapon": "Thunder God's Grasp",
+    "experience": "2 years",
+    "style": "Inquisitive",
+    "faction": "Fenghuang Diner",
+    "skillsText": "Bookkeeping, serving customers, channeling lightning",
+    "voiceActor": {
+      "jp": "田嶌紗蘭 (Tajima Saran)",
+      "cn": ""
+    }
+  },
+  "118": {
+    "name": "Coronis",
+    "profile": "\"A doctor obsessed with researching strange malady. She wields a scythe, dispenses deadly poisons, and moves through the battlefield with grace.\"",
+    "birthday": "October 15th",
+    "address": "Philae",
+    "weapon": "Charon",
+    "experience": "2 years",
+    "style": "Adventurous",
+    "faction": "Freelance Trekker",
+    "skillsText": "Medical treatment, dissection, medical research",
+    "voiceActor": {
+      "jp": "斉藤 佑圭 (Yuka Saitō)",
+      "cn": ""
+    }
+  },
+  "119": {
+    "name": "Nanoha",
+    "profile": "\"Nanoha is a maid working at Goodwind who is also skilled in \"Flower\" Ninjutsu. She takes pride in her Sunflower Shuriken, which can hit its target while moving at high speed.\"",
+    "birthday": "April 20th",
+    "address": "Unknown",
+    "weapon": "Solar Arashi",
+    "experience": "Unknown",
+    "style": "Inquisitive",
+    "faction": "Goodwind Homecare",
+    "skillsText": "Housekeeping, dessert making",
+    "voiceActor": {
+      "jp": "佐藤 聡美 (Sato Satomi)",
+      "cn": ""
+    }
+  },
+  "120": {
+    "name": "Canace",
+    "profile": "\"The legendary \"Devil Teacher\" as the students called. Her mysterious laurel bracelet can unleashes unexpected effects in battle.\"",
+    "birthday": "January 22nd",
+    "address": "Teacher's Office, Building 3, Grace Light Academy, Emor City",
+    "weapon": "Laurel Bracelet of the Starless Night",
+    "experience": "Not disclosed",
+    "style": "Adventurous",
+    "faction": "Grace Imperium",
+    "skillsText": "Teaching, specializing in Grace Energy-related subjects",
+    "voiceActor": {
+      "jp": "豊口 めぐみ (Toyoguchi Megumi)",
+      "cn": ""
+    }
+  },
+  "123": {
+    "name": "Ann",
+    "profile": "\"Coco the Firefang is Ann's best friend. Wind is also Ann's friend. With help from these friends, Ann is the fastest Trekker around.\"",
+    "birthday": "June 1st",
+    "address": "Eaze Village",
+    "weapon": "Coco (Definitely not a weapon)",
+    "experience": "None",
+    "style": "Adventurous",
+    "faction": "Freelance Trekker",
+    "skillsText": "Scouting",
+    "voiceActor": {
+      "jp": "日高 里菜 (Hidaka Rina)",
+      "cn": "日高 里菜 (Hidaka Rina)"
+    }
+  },
+  "125": {
+    "name": "Freesia",
+    "profile": "Graceful, polite, and disciplined, that's the first impression that Freesia leaves on most.",
+    "birthday": "September 9th",
+    "address": "No. 9 Tenth Street, Port Bellin",
+    "weapon": "Reason's Edge",
+    "experience": "1 year",
+    "style": "Adventurous",
+    "faction": "Post Haste",
+    "skillsText": "Dueling, cycling, handling lawsuits",
+    "voiceActor": {
+      "jp": "りん (Lynn)",
+      "cn": "りん (Lynn)"
+    }
+  },
+  "126": {
+    "name": "Flora",
+    "profile": "\"Flora goes on tour in Nova to perform her original magic performance. Her fiery butterflies may seem fragile, but they are perfect fire starters that can burn her enemies into ashes.\"",
+    "birthday": "September 5th",
+    "address": "Southern Forest, near Flavio",
+    "weapon": "Phoenix Wand",
+    "experience": "Above 3 years",
+    "style": "Collector",
+    "faction": "Freelance Trekker",
+    "skillsText": "Magic performances",
+    "voiceActor": {
+      "jp": "長谷川 育美 (Hasegawa Ikumi)",
+      "cn": ""
+    }
+  },
+  "127": {
+    "name": "Teresa",
+    "profile": "\"Teresa has extensive experience in wilderness exploration and understands the importance of conserving stamina.\"",
+    "birthday": "February 21st",
+    "address": "No. 9 Tenth Street, Port Bellin",
+    "weapon": "Gram",
+    "experience": "1-2 years",
+    "style": "Steady",
+    "faction": "Post Haste",
+    "skillsText": "Rock climbing, treasure hunting, Artifact repairing",
+    "voiceActor": {
+      "jp": "石見 舞菜香 (Iwami Manaka)",
+      "cn": ""
+    }
+  },
+  "130": {
+    "name": "Donna",
+    "profile": "\"Donna, brimming with energy and optimism, is the heart and leader of Post Haste. Her arrows make short work of anything standing in the mail's way.\"",
+    "birthday": "October 9th",
+    "address": "No. 9 Tenth Street, Port Bellin",
+    "weapon": "Domina",
+    "experience": "3 years",
+    "style": "Creative",
+    "faction": "Post Haste",
+    "skillsText": "Communication, sewing",
+    "voiceActor": {
+      "jp": "阿澄 佳奈 (Kana Asumi)",
+      "cn": "阿澄 佳奈 (Kana Asumi)"
+    }
+  },
+  "132": {
+    "name": "Minova",
+    "profile": "\"As the leader of the Ashwind Clan, Minova rarely operates alone. Her greatest asset in battle is not her skateboard or baseball bat, but her companions.\"",
+    "birthday": "Date missing",
+    "address": "Under the Waterway in Emor City, Ash District",
+    "weapon": "Syougi Ketsu",
+    "experience": "Challenged four or five Monoliths and reached final level each time in the past year",
+    "style": "Steady",
+    "faction": "Ashwind Clan",
+    "skillsText": "Vehicle repair, skateboarding, hand-to-hand combat",
+    "voiceActor": {
+      "jp": "ファイルーズ あい (Fairouz Ai)",
+      "cn": ""
+    }
+  },
+  "133": {
+    "name": "Nazuka",
+    "profile": "Nazuka is a member of the Petal Bloom Guild. She specializes in using large-scale magic to control the battlefield, favoring \"brains, not brawn.\"[1][2]",
+    "birthday": "June 17th",
+    "address": "Original: ■■ Guild Camp, Eastern Forest, Philae Outskirts Updated: Petal Bloom Camp, Eastern Forest, Philae Outskirts",
+    "weapon": "Timeless Grace",
+    "experience": "3 years",
+    "style": "Steady",
+    "faction": "Petal Bloom",
+    "skillsText": "Magic, wilderness adventures, Monolith climbing, and paperwork",
+    "voiceActor": {
+      "jp": "伊藤 静 (Shizuka Ito)",
+      "cn": "伊藤 静 (Shizuka Ito)"
+    }
+  },
+  "134": {
+    "name": "Fuyuka",
+    "profile": "\"Though somewhat shy, she has formidable strength. It's hard to imagine that her heavy gauntlets are in fact \"restraints\" for her natural immense power.\"",
+    "birthday": "January 31st",
+    "address": "Petal Bloom Camp, Eastern Forest, Philae Outskirts",
+    "weapon": "Protection",
+    "experience": "1 year",
+    "style": "Inquisitive",
+    "faction": "Petal Bloom",
+    "skillsText": "Boxing, crafting",
+    "voiceActor": {
+      "jp": "安済 知佳 (Anzai Chika)",
+      "cn": "安済 知佳 (Anzai Chika)"
+    }
+  },
+  "135": {
+    "name": "Mistique",
+    "profile": "\"Mistique is the witch of Scarlet Sights Media. She has two summons that help her strike down her enemies in exchange for their \"sustenance\": Real news and truth.\"",
+    "birthday": "November 8th",
+    "address": "Traveling from place to place. For news tips, please visit the Scarlet Sights Beacon",
+    "weapon": "Dread Comet",
+    "experience": "3 years",
+    "style": "Creative",
+    "faction": "Scarlet Sights Media",
+    "skillsText": "News gathering, flying, photography, floor sweeping (with broomstick)",
+    "voiceActor": {
+      "jp": "古賀 葵 (Koga Aoi)",
+      "cn": ""
+    }
+  },
+  "137": {
+    "name": "Eleanor",
+    "profile": "\"Eleanor, both a noble lady and a traveler, excels at switching weapons fluidly to unleash varied attacks and confuse her enemies with versatile tactics.\"",
+    "birthday": "March 24th",
+    "address": "Fitzroy Family Estate, Gold District, Emor",
+    "weapon": "The Myriad Case",
+    "experience": "Three months",
+    "style": "Steady",
+    "faction": "Freelance Trekker",
+    "skillsText": "Painting, Jewelry Appraisal, and Free-Style Combat",
+    "voiceActor": {
+      "jp": "花岩香奈 (Kana Hanaiwa)",
+      "cn": "花岩香奈 (Kana Hanaiwa)"
+    }
+  },
+  "139": {
+    "name": "Allie",
+    "profile": "\"As the mother of the orphanage, Allie wields her long blade to protect her children at all costs.\"",
+    "birthday": "March 21st",
+    "address": "Daisy Orphanage, Mirage",
+    "weapon": "Cleaver and clothesline pole",
+    "experience": "Original: ██ Updated: 8 Years",
+    "style": "Steady",
+    "faction": "Freelance Trekker",
+    "skillsText": "Sewing, treating wounds",
+    "voiceActor": {
+      "jp": "石飛 恵里花 (Erika Ishitobi)",
+      "cn": "石飛 恵里花 (Erika Ishitobi)"
+    }
+  },
+  "140": {
+    "name": "Sparkla",
+    "profile": "\"Sparkla's Super Action Pie and Rabbit Pie builds can shift into different modes to counter enemies depending on battlefield conditions.\"",
+    "birthday": "July 26th",
+    "address": "Private Workshop (Classified)",
+    "weapon": "Rabbit Pie",
+    "experience": "Under a year",
+    "style": "Creative",
+    "faction": "Neo Grace Organization",
+    "skillsText": "Inventing, Modding",
+    "voiceActor": {
+      "jp": "工藤 文音 (Ayane Kudo)",
+      "cn": "工藤 文音 (Ayane Kudo)"
+    }
+  },
+  "141": {
+    "name": "Chixia",
+    "profile": "\"Nobody would expect a Xuan Shi to be so timid. Her giant writing brush is a modified flamethrower and also her instrument in drawing powerful talismans.\"",
+    "birthday": "April 10th",
+    "address": "I spend four months a year in Cangwu City",
+    "weapon": "The Art of Fire",
+    "experience": "2 years",
+    "style": "Collector",
+    "faction": "Yunji Studio",
+    "skillsText": "Talisman drawing, fire breathing",
+    "voiceActor": {
+      "jp": "徳井 青空 (Tokui Sora)",
+      "cn": ""
+    }
+  },
+  "142": {
+    "name": "Cosette",
+    "profile": "\"Whether the steel claws she'd scavenged or the left hand imbued with special magic, Cosette uses her weapons to break the chains of fate.\"",
+    "birthday": "May 2nd",
+    "address": "Emor City",
+    "weapon": "Steel Claw",
+    "experience": "1 year",
+    "style": "Inquisitive",
+    "faction": "Freelance Trekker",
+    "skillsText": "Undercover, disguise, Monolith climbing",
+    "voiceActor": {
+      "jp": "佳原 萌枝 (Kahara Moe)",
+      "cn": ""
+    }
+  },
+  "143": {
+    "name": "Wraith",
+    "profile": "\"Hailing from the frozen land of Norstheim, she is an elite warrior of the Sentinel of Dawn. A master of all weapons, she pays extra attention to cases involving Nocturn Eterna.\"",
+    "birthday": "December 24th",
+    "address": "Confidential",
+    "weapon": "Bayonet Zero Alter",
+    "experience": "Not disclosed",
+    "style": "Adventurous",
+    "faction": "Grace Imperium",
+    "skillsText": "Weapon Testing, Equipment Modification",
+    "voiceActor": {
+      "jp": "髙橋 ミナミ (Minami Takahashi)",
+      "cn": "髙橋 ミナミ (Minami Takahashi)"
+    }
+  },
+  "144": {
+    "name": "Chitose",
+    "profile": "\"Chitose is a formidable warrior who sees herself as the blade, with a presence as sharp as steel. Her blade can summon flowing currents, shaping them into water serpents that crash through enemy lines.\"",
+    "birthday": "November 3rd",
+    "address": "Amekiku Inn",
+    "weapon": "Her Majesty the Blade",
+    "experience": "Half a year",
+    "style": "Inquisitive",
+    "faction": "Freelance Trekker",
+    "skillsText": "Swordsmanship",
+    "voiceActor": {
+      "jp": "月城 日花 (Tsukishiro Hika)",
+      "cn": "月城 日花 (Tsukishiro Hika)"
+    }
+  },
+  "145": {
+    "name": "Otoha",
+    "profile": "\"A mysterious ninja who walks the night, wielding a long umbrella—its ribs as blades, its sleeves concealing deadly edges.\"",
+    "birthday": "January 14",
+    "address": "Unknown",
+    "weapon": "Hidden Moon",
+    "experience": "Unknown",
+    "style": "Inquisitive",
+    "faction": "Freelance Trekker",
+    "skillsText": "Ninjutsu, Performance, Recon",
+    "voiceActor": {
+      "jp": "加隈 亜衣 (Ai Kakuma)",
+      "cn": "加隈 亜衣 (Ai Kakuma)"
+    }
+  },
+  "147": {
+    "name": "Caramel",
+    "profile": "\"Enchanted by the music in the Monolith, the virtuoso bassist dazzles her audience with ease. Not even Stellaroids or monsters can withstand the shockwaves she creates.\"",
+    "birthday": "November 11th",
+    "address": "Somewhere near Flavio, maybe",
+    "weapon": "A bass guitar named \"Midas\"",
+    "experience": "2 years",
+    "style": "Creative",
+    "faction": "Freelance Trekker",
+    "skillsText": "Playing Bass",
+    "voiceActor": {
+      "jp": "鈴代 紗弓 (Suzushiro Sayumi)",
+      "cn": ""
+    }
+  },
+  "149": {
+    "name": "Gerie",
+    "profile": "\"Gerie brandishes her chain-shovel \"Mercy\" with reckless abandon on the battlefield, crushing swathes of foes. She sows terror into her opponent's soul before delivering judgment.\"",
+    "birthday": "March 28th",
+    "address": "Silver District, Emor Grand Sanctum of Grace",
+    "weapon": "Mercy",
+    "experience": "███",
+    "style": "Inquisitive",
+    "faction": "Grace Imperium",
+    "skillsText": "Prayer, Inquisition, Punishment",
+    "voiceActor": {
+      "jp": "天音ゆかり (Amane Yukari)",
+      "cn": ""
+    }
+  },
+  "150": {
+    "name": "Laru",
+    "profile": "\"Cutting through her enemies with her spear of thunder, Laru is a flash darting across the battlefield. Here, her free spirit is out in full force.\"",
+    "birthday": "August 20th",
+    "address": "Deep water near the grove outside Emor",
+    "weapon": "Silver Gull",
+    "experience": "3 years",
+    "style": "Adventurous",
+    "faction": "Grace Imperium",
+    "skillsText": "Fishing, Skipping Work",
+    "voiceActor": {
+      "jp": "田中 あいみ (Aimi Tanaka)",
+      "cn": "田中 あいみ (Aimi Tanaka)"
+    }
+  },
+  "155": {
+    "name": "Shia",
+    "profile": "Shia's grandmother is Marlene, a legendary seafaring Trekker. She is also close to Karin.",
+    "birthday": "August 26th",
+    "address": "78 Dawn Street, Sailstead",
+    "weapon": "Snow Rabbit &amp; Night Rabbit",
+    "experience": "3 years",
+    "style": "Adventurous",
+    "faction": "Freelance Trekker",
+    "skillsText": "Fishing, sailing, sea rescue, swimsuit quality inspection",
+    "voiceActor": {
+      "jp": "堀江 由衣 (Horie Yui)",
+      "cn": "堀江 由衣 (Horie Yui)"
+    }
+  },
+  "156": {
+    "name": "Nazuna",
+    "profile": "\"Nazuna fights with her trusty hand crossbow and her puppet companions at her side. Her out-of-the-box ideas and uncanny luck always bring pleasant surprises to the squad.\"",
+    "birthday": "March 3rd",
+    "address": "Petal Bloom Camp, Eastern Forest, Philae Outskirts",
+    "weapon": "Heartblossom",
+    "experience": "3 years",
+    "style": "Collector",
+    "faction": "Petal Bloom",
+    "skillsText": "Claw machines, marksmanship",
+    "voiceActor": {
+      "jp": "江原萌依 (Ehara Moe)",
+      "cn": "江原萌依 (Ehara Moe)"
+    }
+  },
+  "157": {
+    "name": "Karin",
+    "profile": "\"Karin carries her fishing harpoon and charges in alongside the fierce Boss Shark. Together, they'll raise havoc on the battlefield!\"",
+    "birthday": "September 1st",
+    "address": "78 Dawn Street, Sailstead",
+    "weapon": "No-Bubble Gun",
+    "experience": "2.5 years",
+    "style": "Creative",
+    "faction": "Freelance Trekker",
+    "skillsText": "Fishing, sailing, sound tracking",
+    "voiceActor": {
+      "jp": "小倉唯 (Yui Ogura)",
+      "cn": "小倉唯 (Yui Ogura)"
+    }
+  },
+  "158": {
+    "name": "Snowish Laru",
+    "profile": "\"Laru, dressed as the Holy Night Messenger, is on a special mission for the Snow Wish Festival. In the chiming bells at midnight, tin soldiers and saluting cannons will bear witness to a shimmering miracle.\"",
+    "birthday": "August 20th",
+    "address": "Deep water near the grove outside Emor",
+    "weapon": "Caribo",
+    "experience": "3 years",
+    "style": "Creative",
+    "faction": "Grace Imperium",
+    "skillsText": "Fishing, Skipping Work",
+    "voiceActor": {
+      "jp": "田中 あいみ (Aimi Tanaka)",
+      "cn": "田中 あいみ (Aimi Tanaka)"
+    }
+  },
+  "159": {
+    "name": "Springseek Coronis",
+    "profile": "\"Clad in traditional Loong attire, Coronis is enjoying her vacation in Cangwu. Her carefully brewed potions are a testament to her intense \"affection.\"\"",
+    "birthday": "October 15th",
+    "address": "Philae",
+    "weapon": "Healer's Heart",
+    "experience": "2 years",
+    "style": "Collector",
+    "faction": "Freelance Trekker",
+    "skillsText": "Medical treatment, dissection, medical research",
+    "voiceActor": {
+      "jp": "斉藤 佑圭 (Yuka Saitō)",
+      "cn": ""
+    }
+  },
+  "160": {
+    "name": "Suntide Willow",
+    "profile": "\"Rocking a swimsuit chosen by everyone, Willow is finally learning how to kick back and enjoy a work-free vacation.\"",
+    "birthday": "December 14th",
+    "address": "Emor City",
+    "weapon": "Warning Smile",
+    "experience": "Retired",
+    "style": "Steady",
+    "faction": "Trekker Association",
+    "skillsText": "Operation Coordination, Training Management",
+    "voiceActor": {
+      "jp": "生天目仁美 (Hitomi Nabatame)",
+      "cn": "生天目仁美 (Hitomi Nabatame)"
+    }
+  },
+  "162": {
+    "name": "Firstlight Noya",
+    "profile": "\"Swinging a greatsword that buried her past, Noya relies on years of brutal arena combat to carve out a path to the future.\"",
+    "birthday": "June 21st",
+    "address": "Filanis",
+    "weapon": "Original: ██ Updated: Daybreak&amp;Dawn",
+    "experience": "Original: ██ Updated: Cannot be verified",
+    "style": "Inquisitive",
+    "faction": "The Night Watch",
+    "skillsText": "Swordsmanship",
+    "voiceActor": {
+      "jp": "今泉りおな (Riona Imaizumi)",
+      "cn": "今泉りおな (Riona Imaizumi)"
+    }
+  },
+  "Amber": {
+    "name": "Amber",
+    "profile": "\"The agile dual pistols allow Amber to sashay across the battlefield. Enemies who try to get close to her will turn into ashes long before they can reach her perimeter.\"",
+    "birthday": "August 8th",
+    "address": "Roof of the Lucky Oasis",
+    "weapon": "Cat Treat-1911 Dual-Wield",
+    "experience": "2 years",
+    "style": "Collector",
+    "faction": "New Star Guild",
+    "skillsText": "Investigation, locating lost cats",
+    "voiceActor": {
+      "jp": "高田 憂希 (Takada Yuki)",
+      "cn": "四白(Si Bai)"
+    }
+  },
+  "Tilia": {
+    "name": "Tilia",
+    "profile": "\"Tilia will always be charging at the forefront, using her shield to protect everyone. Guess only another Imperial Knight might break through her defense.\"",
+    "birthday": "November 18th",
+    "address": "Slope Apartments 2-3 (Next to the Stargate Inn in Emor City's Ash District)",
+    "weapon": "Freedom and Glory",
+    "experience": "1 year",
+    "style": "Steady",
+    "faction": "Imperial Guard",
+    "skillsText": "Light vehicle driving",
+    "voiceActor": {
+      "jp": "大久保 瑠美 (Ōkubo Rumi)",
+      "cn": ""
+    }
+  },
+  "Kasimira": {
+    "name": "Kasimira",
+    "profile": "\"Kasimira wields a brutal shotgun. She often puts herself in the line of fire in order to get a hit on her enemies. No matter what, her enemy will fall first.\"",
+    "birthday": "October 8th",
+    "address": "Leave a message on the flagpole at the southern entrance of Mirage. I'll find you",
+    "weapon": "Catnip-1886",
+    "experience": "Extensive",
+    "style": "Adventurous",
+    "faction": "White Cat Troupe",
+    "skillsText": "Firearm modification, close-quarters combat, origami",
+    "voiceActor": {
+      "jp": "安野 希世乃 (Yasuno Kiyono)",
+      "cn": ""
+    }
+  },
+  "Firenze": {
+    "name": "Firenze",
+    "profile": "\"Firenze can summon doppelgangers to fight for her on the battlefield. Rumor has it that she does the same in her office, which is how she always manages to stay so graceful.\"",
+    "birthday": "November 16th",
+    "address": "Building 6, Xueshi Ave, Gold District, Philae",
+    "weapon": "Starlight",
+    "experience": "Less than 1 year",
+    "style": "Steady",
+    "faction": "United Harvest",
+    "skillsText": "Business management, investment actuarial valuation, negotiation and diplomacy, Philae traditional swordsmanship",
+    "voiceActor": {
+      "jp": "斎藤 千和 (Chiwa Saitō)",
+      "cn": "斎藤 千和 (Chiwa Saitō)"
+    }
+  },
+  "Iris": {
+    "name": "Iris",
+    "profile": "\"Iris' notebook is filled with magical formulas. Little-trained in close combat, she prefers to use ice to wear down the enemy from a safe distance.\"",
+    "birthday": "May 1st",
+    "address": "The Lucky Oasis",
+    "weapon": "286 Series Magic Book",
+    "experience": "1 year",
+    "style": "Creative",
+    "faction": "New Star Guild",
+    "skillsText": "Office work, accounting, inventory management, sales, civil engineering, etc",
+    "voiceActor": {
+      "jp": "夏吉 ゆうこ (Natsuyoshi Yūko)",
+      "cn": "夏吉 ゆうこ (Natsuyoshi Yūko)"
+    }
+  },
+  "Noya": {
+    "name": "Noya",
+    "profile": "\"Noya uses techniques no one has ever seen, learned from an unknown source. Even skill-casting does not interrupt her long sword's movements.\"",
+    "birthday": "June 21st",
+    "address": "The Lucky Oasis",
+    "weapon": "Unmarked",
+    "experience": "2 years",
+    "style": "Creative",
+    "faction": "New Star Guild",
+    "skillsText": "Anything Trekker or car-related",
+    "voiceActor": {
+      "jp": "今泉りおな (Riona Imaizumi)",
+      "cn": "今泉りおな (Riona Imaizumi)"
+    }
+  },
+  "Shimiao": {
+    "name": "Shimiao",
+    "profile": "\"In addition to offering long-term on-site support to her companions, Shimiao is also skilled at handling problems herself. Perhaps this is why she embodies the perfect secretary.\"",
+    "birthday": "July 6th",
+    "address": "No. 6 Zhulin Road, Cang Wu City",
+    "weapon": "Shimiao's Miaovelous Sword",
+    "experience": "2 years",
+    "style": "Inquisitive",
+    "faction": "Baize Bureau",
+    "skillsText": "Designing chalkboard displays, creating plans, and overseeing their execution",
+    "voiceActor": {
+      "jp": "小澤亜李 (Ozawa Ari)",
+      "cn": ""
+    }
+  },
+  "Chaton": {
+    "name": "Chaton",
+    "profile": "\"Chaton is the sniper of White Cat Troupe. Though fond of close combat, in the end she chose a customized weapon as tall as herself, one that can only be used from a distance.\"",
+    "birthday": "August 5th",
+    "address": "Eureka Bar, Mirage",
+    "weapon": "Cat Wand: Uncompleted Codex Entry MK Ⅰ",
+    "experience": "There is literally nothing the great Chaton can't do.",
+    "style": "Creative",
+    "faction": "White Cat Troupe",
+    "skillsText": "Sniping, assault tactics, rhythm games",
+    "voiceActor": {
+      "jp": "佐倉 綾音 (Ayane Sakura)",
+      "cn": "佐倉 綾音 (Ayane Sakura)"
+    }
+  },
+  "Firefly": {
+    "name": "Firefly",
+    "profile": "\"Firefly, who controls transformable armament, is said to be a super weapon secretly developed by Grace Imperium. The firefly-like glow, when gathered in multitude, can become a cannon capable of extreme destruction.\"",
+    "birthday": "May 5th",
+    "address": "Room 2707, Building 7, Grace Light Academy Dormitory, Emor City",
+    "weapon": "Avalanche",
+    "experience": "1 year",
+    "style": "Collector",
+    "faction": "Grace Imperium",
+    "skillsText": "Combat, Monolith climbing",
+    "voiceActor": {
+      "jp": "長縄まりあ (Maria Naganawa)",
+      "cn": "長縄まりあ (Maria Naganawa)"
+    }
+  },
+  "Ridge": {
+    "name": "Ridge",
+    "profile": "\"Ridge is a United Harvest Forester with a habit of stockpiling food. She has a shovel that can fire energy blasts, and she fights alongside the seed plants she scatters on the field.\"",
+    "birthday": "September 22nd",
+    "address": "United Harvest, Philae City, South Sector, Greenhouse No. 6",
+    "weapon": "United Industrial - Prototype 205 Multifunction Shovel",
+    "experience": "Less than one year",
+    "style": "Collector",
+    "faction": "United Harvest",
+    "skillsText": "Digging cellars, planting crops, breeding new varieties",
+    "voiceActor": {
+      "jp": "七瀬けろ (Kero Nanase)",
+      "cn": ""
+    }
+  },
+  "Jinglin": {
+    "name": "Jinglin",
+    "profile": "\"Jinglin can summon lightning and fill the area around her with golden strikes. Though there is no consensus on the origin of this power, Jinglin herself believes that it was granted to her by the Divine Tree in Cang Wu city.\"",
+    "birthday": "May 10th",
+    "address": "8 Aswan Street, Philae",
+    "weapon": "Thunder God's Grasp",
+    "experience": "2 years",
+    "style": "Inquisitive",
+    "faction": "Fenghuang Diner",
+    "skillsText": "Bookkeeping, serving customers, channeling lightning",
+    "voiceActor": {
+      "jp": "田嶌紗蘭 (Tajima Saran)",
+      "cn": ""
+    }
+  },
+  "Coronis": {
+    "name": "Coronis",
+    "profile": "\"A doctor obsessed with researching strange malady. She wields a scythe, dispenses deadly poisons, and moves through the battlefield with grace.\"",
+    "birthday": "October 15th",
+    "address": "Philae",
+    "weapon": "Charon",
+    "experience": "2 years",
+    "style": "Adventurous",
+    "faction": "Freelance Trekker",
+    "skillsText": "Medical treatment, dissection, medical research",
+    "voiceActor": {
+      "jp": "斉藤 佑圭 (Yuka Saitō)",
+      "cn": ""
+    }
+  },
+  "Nanoha": {
+    "name": "Nanoha",
+    "profile": "\"Nanoha is a maid working at Goodwind who is also skilled in \"Flower\" Ninjutsu. She takes pride in her Sunflower Shuriken, which can hit its target while moving at high speed.\"",
+    "birthday": "April 20th",
+    "address": "Unknown",
+    "weapon": "Solar Arashi",
+    "experience": "Unknown",
+    "style": "Inquisitive",
+    "faction": "Goodwind Homecare",
+    "skillsText": "Housekeeping, dessert making",
+    "voiceActor": {
+      "jp": "佐藤 聡美 (Sato Satomi)",
+      "cn": ""
+    }
+  },
+  "Canace": {
+    "name": "Canace",
+    "profile": "\"The legendary \"Devil Teacher\" as the students called. Her mysterious laurel bracelet can unleashes unexpected effects in battle.\"",
+    "birthday": "January 22nd",
+    "address": "Teacher's Office, Building 3, Grace Light Academy, Emor City",
+    "weapon": "Laurel Bracelet of the Starless Night",
+    "experience": "Not disclosed",
+    "style": "Adventurous",
+    "faction": "Grace Imperium",
+    "skillsText": "Teaching, specializing in Grace Energy-related subjects",
+    "voiceActor": {
+      "jp": "豊口 めぐみ (Toyoguchi Megumi)",
+      "cn": ""
+    }
+  },
+  "Ann": {
+    "name": "Ann",
+    "profile": "\"Coco the Firefang is Ann's best friend. Wind is also Ann's friend. With help from these friends, Ann is the fastest Trekker around.\"",
+    "birthday": "June 1st",
+    "address": "Eaze Village",
+    "weapon": "Coco (Definitely not a weapon)",
+    "experience": "None",
+    "style": "Adventurous",
+    "faction": "Freelance Trekker",
+    "skillsText": "Scouting",
+    "voiceActor": {
+      "jp": "日高 里菜 (Hidaka Rina)",
+      "cn": "日高 里菜 (Hidaka Rina)"
+    }
+  },
+  "Freesia": {
+    "name": "Freesia",
+    "profile": "Graceful, polite, and disciplined, that's the first impression that Freesia leaves on most.",
+    "birthday": "September 9th",
+    "address": "No. 9 Tenth Street, Port Bellin",
+    "weapon": "Reason's Edge",
+    "experience": "1 year",
+    "style": "Adventurous",
+    "faction": "Post Haste",
+    "skillsText": "Dueling, cycling, handling lawsuits",
+    "voiceActor": {
+      "jp": "りん (Lynn)",
+      "cn": "りん (Lynn)"
+    }
+  },
+  "Flora": {
+    "name": "Flora",
+    "profile": "\"Flora goes on tour in Nova to perform her original magic performance. Her fiery butterflies may seem fragile, but they are perfect fire starters that can burn her enemies into ashes.\"",
+    "birthday": "September 5th",
+    "address": "Southern Forest, near Flavio",
+    "weapon": "Phoenix Wand",
+    "experience": "Above 3 years",
+    "style": "Collector",
+    "faction": "Freelance Trekker",
+    "skillsText": "Magic performances",
+    "voiceActor": {
+      "jp": "長谷川 育美 (Hasegawa Ikumi)",
+      "cn": ""
+    }
+  },
+  "Teresa": {
+    "name": "Teresa",
+    "profile": "\"Teresa has extensive experience in wilderness exploration and understands the importance of conserving stamina.\"",
+    "birthday": "February 21st",
+    "address": "No. 9 Tenth Street, Port Bellin",
+    "weapon": "Gram",
+    "experience": "1-2 years",
+    "style": "Steady",
+    "faction": "Post Haste",
+    "skillsText": "Rock climbing, treasure hunting, Artifact repairing",
+    "voiceActor": {
+      "jp": "石見 舞菜香 (Iwami Manaka)",
+      "cn": ""
+    }
+  },
+  "Donna": {
+    "name": "Donna",
+    "profile": "\"Donna, brimming with energy and optimism, is the heart and leader of Post Haste. Her arrows make short work of anything standing in the mail's way.\"",
+    "birthday": "October 9th",
+    "address": "No. 9 Tenth Street, Port Bellin",
+    "weapon": "Domina",
+    "experience": "3 years",
+    "style": "Creative",
+    "faction": "Post Haste",
+    "skillsText": "Communication, sewing",
+    "voiceActor": {
+      "jp": "阿澄 佳奈 (Kana Asumi)",
+      "cn": "阿澄 佳奈 (Kana Asumi)"
+    }
+  },
+  "Minova": {
+    "name": "Minova",
+    "profile": "\"As the leader of the Ashwind Clan, Minova rarely operates alone. Her greatest asset in battle is not her skateboard or baseball bat, but her companions.\"",
+    "birthday": "Date missing",
+    "address": "Under the Waterway in Emor City, Ash District",
+    "weapon": "Syougi Ketsu",
+    "experience": "Challenged four or five Monoliths and reached final level each time in the past year",
+    "style": "Steady",
+    "faction": "Ashwind Clan",
+    "skillsText": "Vehicle repair, skateboarding, hand-to-hand combat",
+    "voiceActor": {
+      "jp": "ファイルーズ あい (Fairouz Ai)",
+      "cn": ""
+    }
+  },
+  "Nazuka": {
+    "name": "Nazuka",
+    "profile": "Nazuka is a member of the Petal Bloom Guild. She specializes in using large-scale magic to control the battlefield, favoring \"brains, not brawn.\"[1][2]",
+    "birthday": "June 17th",
+    "address": "Original: ■■ Guild Camp, Eastern Forest, Philae Outskirts Updated: Petal Bloom Camp, Eastern Forest, Philae Outskirts",
+    "weapon": "Timeless Grace",
+    "experience": "3 years",
+    "style": "Steady",
+    "faction": "Petal Bloom",
+    "skillsText": "Magic, wilderness adventures, Monolith climbing, and paperwork",
+    "voiceActor": {
+      "jp": "伊藤 静 (Shizuka Ito)",
+      "cn": "伊藤 静 (Shizuka Ito)"
+    }
+  },
+  "Fuyuka": {
+    "name": "Fuyuka",
+    "profile": "\"Though somewhat shy, she has formidable strength. It's hard to imagine that her heavy gauntlets are in fact \"restraints\" for her natural immense power.\"",
+    "birthday": "January 31st",
+    "address": "Petal Bloom Camp, Eastern Forest, Philae Outskirts",
+    "weapon": "Protection",
+    "experience": "1 year",
+    "style": "Inquisitive",
+    "faction": "Petal Bloom",
+    "skillsText": "Boxing, crafting",
+    "voiceActor": {
+      "jp": "安済 知佳 (Anzai Chika)",
+      "cn": "安済 知佳 (Anzai Chika)"
+    }
+  },
+  "Mistique": {
+    "name": "Mistique",
+    "profile": "\"Mistique is the witch of Scarlet Sights Media. She has two summons that help her strike down her enemies in exchange for their \"sustenance\": Real news and truth.\"",
+    "birthday": "November 8th",
+    "address": "Traveling from place to place. For news tips, please visit the Scarlet Sights Beacon",
+    "weapon": "Dread Comet",
+    "experience": "3 years",
+    "style": "Creative",
+    "faction": "Scarlet Sights Media",
+    "skillsText": "News gathering, flying, photography, floor sweeping (with broomstick)",
+    "voiceActor": {
+      "jp": "古賀 葵 (Koga Aoi)",
+      "cn": ""
+    }
+  },
+  "Eleanor": {
+    "name": "Eleanor",
+    "profile": "\"Eleanor, both a noble lady and a traveler, excels at switching weapons fluidly to unleash varied attacks and confuse her enemies with versatile tactics.\"",
+    "birthday": "March 24th",
+    "address": "Fitzroy Family Estate, Gold District, Emor",
+    "weapon": "The Myriad Case",
+    "experience": "Three months",
+    "style": "Steady",
+    "faction": "Freelance Trekker",
+    "skillsText": "Painting, Jewelry Appraisal, and Free-Style Combat",
+    "voiceActor": {
+      "jp": "花岩香奈 (Kana Hanaiwa)",
+      "cn": "花岩香奈 (Kana Hanaiwa)"
+    }
+  },
+  "Allie": {
+    "name": "Allie",
+    "profile": "\"As the mother of the orphanage, Allie wields her long blade to protect her children at all costs.\"",
+    "birthday": "March 21st",
+    "address": "Daisy Orphanage, Mirage",
+    "weapon": "Cleaver and clothesline pole",
+    "experience": "Original: ██ Updated: 8 Years",
+    "style": "Steady",
+    "faction": "Freelance Trekker",
+    "skillsText": "Sewing, treating wounds",
+    "voiceActor": {
+      "jp": "石飛 恵里花 (Erika Ishitobi)",
+      "cn": "石飛 恵里花 (Erika Ishitobi)"
+    }
+  },
+  "Sparkla": {
+    "name": "Sparkla",
+    "profile": "\"Sparkla's Super Action Pie and Rabbit Pie builds can shift into different modes to counter enemies depending on battlefield conditions.\"",
+    "birthday": "July 26th",
+    "address": "Private Workshop (Classified)",
+    "weapon": "Rabbit Pie",
+    "experience": "Under a year",
+    "style": "Creative",
+    "faction": "Neo Grace Organization",
+    "skillsText": "Inventing, Modding",
+    "voiceActor": {
+      "jp": "工藤 文音 (Ayane Kudo)",
+      "cn": "工藤 文音 (Ayane Kudo)"
+    }
+  },
+  "Chixia": {
+    "name": "Chixia",
+    "profile": "\"Nobody would expect a Xuan Shi to be so timid. Her giant writing brush is a modified flamethrower and also her instrument in drawing powerful talismans.\"",
+    "birthday": "April 10th",
+    "address": "I spend four months a year in Cangwu City",
+    "weapon": "The Art of Fire",
+    "experience": "2 years",
+    "style": "Collector",
+    "faction": "Yunji Studio",
+    "skillsText": "Talisman drawing, fire breathing",
+    "voiceActor": {
+      "jp": "徳井 青空 (Tokui Sora)",
+      "cn": ""
+    }
+  },
+  "Cosette": {
+    "name": "Cosette",
+    "profile": "\"Whether the steel claws she'd scavenged or the left hand imbued with special magic, Cosette uses her weapons to break the chains of fate.\"",
+    "birthday": "May 2nd",
+    "address": "Emor City",
+    "weapon": "Steel Claw",
+    "experience": "1 year",
+    "style": "Inquisitive",
+    "faction": "Freelance Trekker",
+    "skillsText": "Undercover, disguise, Monolith climbing",
+    "voiceActor": {
+      "jp": "佳原 萌枝 (Kahara Moe)",
+      "cn": ""
+    }
+  },
+  "Wraith": {
+    "name": "Wraith",
+    "profile": "\"Hailing from the frozen land of Norstheim, she is an elite warrior of the Sentinel of Dawn. A master of all weapons, she pays extra attention to cases involving Nocturn Eterna.\"",
+    "birthday": "December 24th",
+    "address": "Confidential",
+    "weapon": "Bayonet Zero Alter",
+    "experience": "Not disclosed",
+    "style": "Adventurous",
+    "faction": "Grace Imperium",
+    "skillsText": "Weapon Testing, Equipment Modification",
+    "voiceActor": {
+      "jp": "髙橋 ミナミ (Minami Takahashi)",
+      "cn": "髙橋 ミナミ (Minami Takahashi)"
+    }
+  },
+  "Chitose": {
+    "name": "Chitose",
+    "profile": "\"Chitose is a formidable warrior who sees herself as the blade, with a presence as sharp as steel. Her blade can summon flowing currents, shaping them into water serpents that crash through enemy lines.\"",
+    "birthday": "November 3rd",
+    "address": "Amekiku Inn",
+    "weapon": "Her Majesty the Blade",
+    "experience": "Half a year",
+    "style": "Inquisitive",
+    "faction": "Freelance Trekker",
+    "skillsText": "Swordsmanship",
+    "voiceActor": {
+      "jp": "月城 日花 (Tsukishiro Hika)",
+      "cn": "月城 日花 (Tsukishiro Hika)"
+    }
+  },
+  "Otoha": {
+    "name": "Otoha",
+    "profile": "\"A mysterious ninja who walks the night, wielding a long umbrella—its ribs as blades, its sleeves concealing deadly edges.\"",
+    "birthday": "January 14",
+    "address": "Unknown",
+    "weapon": "Hidden Moon",
+    "experience": "Unknown",
+    "style": "Inquisitive",
+    "faction": "Freelance Trekker",
+    "skillsText": "Ninjutsu, Performance, Recon",
+    "voiceActor": {
+      "jp": "加隈 亜衣 (Ai Kakuma)",
+      "cn": "加隈 亜衣 (Ai Kakuma)"
+    }
+  },
+  "Caramel": {
+    "name": "Caramel",
+    "profile": "\"Enchanted by the music in the Monolith, the virtuoso bassist dazzles her audience with ease. Not even Stellaroids or monsters can withstand the shockwaves she creates.\"",
+    "birthday": "November 11th",
+    "address": "Somewhere near Flavio, maybe",
+    "weapon": "A bass guitar named \"Midas\"",
+    "experience": "2 years",
+    "style": "Creative",
+    "faction": "Freelance Trekker",
+    "skillsText": "Playing Bass",
+    "voiceActor": {
+      "jp": "鈴代 紗弓 (Suzushiro Sayumi)",
+      "cn": ""
+    }
+  },
+  "Gerie": {
+    "name": "Gerie",
+    "profile": "\"Gerie brandishes her chain-shovel \"Mercy\" with reckless abandon on the battlefield, crushing swathes of foes. She sows terror into her opponent's soul before delivering judgment.\"",
+    "birthday": "March 28th",
+    "address": "Silver District, Emor Grand Sanctum of Grace",
+    "weapon": "Mercy",
+    "experience": "███",
+    "style": "Inquisitive",
+    "faction": "Grace Imperium",
+    "skillsText": "Prayer, Inquisition, Punishment",
+    "voiceActor": {
+      "jp": "天音ゆかり (Amane Yukari)",
+      "cn": ""
+    }
+  },
+  "Laru": {
+    "name": "Laru",
+    "profile": "\"Cutting through her enemies with her spear of thunder, Laru is a flash darting across the battlefield. Here, her free spirit is out in full force.\"",
+    "birthday": "August 20th",
+    "address": "Deep water near the grove outside Emor",
+    "weapon": "Silver Gull",
+    "experience": "3 years",
+    "style": "Adventurous",
+    "faction": "Grace Imperium",
+    "skillsText": "Fishing, Skipping Work",
+    "voiceActor": {
+      "jp": "田中 あいみ (Aimi Tanaka)",
+      "cn": "田中 あいみ (Aimi Tanaka)"
+    }
+  },
+  "Shia": {
+    "name": "Shia",
+    "profile": "Shia's grandmother is Marlene, a legendary seafaring Trekker. She is also close to Karin.",
+    "birthday": "August 26th",
+    "address": "78 Dawn Street, Sailstead",
+    "weapon": "Snow Rabbit &amp; Night Rabbit",
+    "experience": "3 years",
+    "style": "Adventurous",
+    "faction": "Freelance Trekker",
+    "skillsText": "Fishing, sailing, sea rescue, swimsuit quality inspection",
+    "voiceActor": {
+      "jp": "堀江 由衣 (Horie Yui)",
+      "cn": "堀江 由衣 (Horie Yui)"
+    }
+  },
+  "Nazuna": {
+    "name": "Nazuna",
+    "profile": "\"Nazuna fights with her trusty hand crossbow and her puppet companions at her side. Her out-of-the-box ideas and uncanny luck always bring pleasant surprises to the squad.\"",
+    "birthday": "March 3rd",
+    "address": "Petal Bloom Camp, Eastern Forest, Philae Outskirts",
+    "weapon": "Heartblossom",
+    "experience": "3 years",
+    "style": "Collector",
+    "faction": "Petal Bloom",
+    "skillsText": "Claw machines, marksmanship",
+    "voiceActor": {
+      "jp": "江原萌依 (Ehara Moe)",
+      "cn": "江原萌依 (Ehara Moe)"
+    }
+  },
+  "Karin": {
+    "name": "Karin",
+    "profile": "\"Karin carries her fishing harpoon and charges in alongside the fierce Boss Shark. Together, they'll raise havoc on the battlefield!\"",
+    "birthday": "September 1st",
+    "address": "78 Dawn Street, Sailstead",
+    "weapon": "No-Bubble Gun",
+    "experience": "2.5 years",
+    "style": "Creative",
+    "faction": "Freelance Trekker",
+    "skillsText": "Fishing, sailing, sound tracking",
+    "voiceActor": {
+      "jp": "小倉唯 (Yui Ogura)",
+      "cn": "小倉唯 (Yui Ogura)"
+    }
+  },
+  "Snowish Laru": {
+    "name": "Snowish Laru",
+    "profile": "\"Laru, dressed as the Holy Night Messenger, is on a special mission for the Snow Wish Festival. In the chiming bells at midnight, tin soldiers and saluting cannons will bear witness to a shimmering miracle.\"",
+    "birthday": "August 20th",
+    "address": "Deep water near the grove outside Emor",
+    "weapon": "Caribo",
+    "experience": "3 years",
+    "style": "Creative",
+    "faction": "Grace Imperium",
+    "skillsText": "Fishing, Skipping Work",
+    "voiceActor": {
+      "jp": "田中 あいみ (Aimi Tanaka)",
+      "cn": "田中 あいみ (Aimi Tanaka)"
+    }
+  },
+  "Springseek Coronis": {
+    "name": "Springseek Coronis",
+    "profile": "\"Clad in traditional Loong attire, Coronis is enjoying her vacation in Cangwu. Her carefully brewed potions are a testament to her intense \"affection.\"\"",
+    "birthday": "October 15th",
+    "address": "Philae",
+    "weapon": "Healer's Heart",
+    "experience": "2 years",
+    "style": "Collector",
+    "faction": "Freelance Trekker",
+    "skillsText": "Medical treatment, dissection, medical research",
+    "voiceActor": {
+      "jp": "斉藤 佑圭 (Yuka Saitō)",
+      "cn": ""
+    }
+  },
+  "Suntide Willow": {
+    "name": "Suntide Willow",
+    "profile": "\"Rocking a swimsuit chosen by everyone, Willow is finally learning how to kick back and enjoy a work-free vacation.\"",
+    "birthday": "December 14th",
+    "address": "Emor City",
+    "weapon": "Warning Smile",
+    "experience": "Retired",
+    "style": "Steady",
+    "faction": "Trekker Association",
+    "skillsText": "Operation Coordination, Training Management",
+    "voiceActor": {
+      "jp": "生天目仁美 (Hitomi Nabatame)",
+      "cn": "生天目仁美 (Hitomi Nabatame)"
+    }
+  },
+  "Firstlight Noya": {
+    "name": "Firstlight Noya",
+    "profile": "\"Swinging a greatsword that buried her past, Noya relies on years of brutal arena combat to carve out a path to the future.\"",
+    "birthday": "June 21st",
+    "address": "Filanis",
+    "weapon": "Original: ██ Updated: Daybreak&amp;Dawn",
+    "experience": "Original: ██ Updated: Cannot be verified",
+    "style": "Inquisitive",
+    "faction": "The Night Watch",
+    "skillsText": "Swordsmanship",
+    "voiceActor": {
+      "jp": "今泉りおな (Riona Imaizumi)",
+      "cn": "今泉りおな (Riona Imaizumi)"
+    }
+  }
+}

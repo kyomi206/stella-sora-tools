@@ -1,0 +1,5291 @@
+{
+  "103": {
+    "id": 103,
+    "name": "Amber",
+    "element": "Ignis",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wrath Beauty": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wrath Beauty": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wrath Beauty": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wrath Beauty": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Duet",
+      "desc": "Fires both pistols. Each shot deals <color=#fb8037>&Param1&</color> of ATK as Ignis Auto Attack DMG. Magazine holds 12 ammo.",
+      "icon": "10301_Normal"
+    },
+    "skill": {
+      "name": "Fireworks Jam",
+      "desc": "Fires both pistols in a sweeping motion, dealing <color=#fb8037>&Param1& x2</color> and <color=#fb8037>&Param2& x4</color> of ATK as AoE Ignis Skill DMG, and increasing Auto Attack DMG by &Param4& for &Param5&s.\u000bFireworks Jam (Main Skill) can trigger ##Ignis Mark: Sacred Flame#2013# and inflict Incineration, dealing &Param3& of ATK as AoE Ignis Mark DMG.",
+      "icon": "10301_Skill_Main_1"
+    },
+    "supportSkill": {
+      "name": "Bullet Waltz",
+      "desc": "Charges forward swiftly, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Ignis Skill DMG.\u000bBullet Waltz (Support Skill) can trigger ##Ignis Mark: Sacred Flame#2013# and inflict Incineration, dealing &Param2& of ATK as AoE Ignis Mark DMG.",
+      "icon": "10301_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Spark of Finality",
+      "desc": "Shoots a beam at the target, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Ignis Ultimate DMG.\u000bSpark of Finality (Ultimate) can trigger ##Ignis Mark: Sacred Flame#2013# and inflict Incineration, dealing &Param2& of ATK as AoE Ignis Mark DMG.",
+      "icon": "10301_Ultra"
+    }
+  },
+  "107": {
+    "id": 107,
+    "name": "Tilia",
+    "element": "Lux",
+    "class": "Support",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Radiant Crown Essence": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Radiant Crown Essence": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Radiant Crown Essence": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Radiant Crown Essence": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Guard Style: Melee",
+      "desc": "Wields the shield and lance to launch consecutive attacks.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4&</color> of ATK as Lux Auto Attack DMG.",
+      "icon": "10701_Normal"
+    },
+    "skill": {
+      "name": "Aegis Protection",
+      "desc": "Hold the button to enter Fortify Stance for up to 8s, during which DEF is increased by &Param1&.\u000bImmune to all DMG the instant Fortify Stance is entered.\u000bWhen Fortify Stance ends, casts a counterattack that deals <color=#fb8037>&Param2&</color> of ATK as AoE Lux Skill DMG and inflicts a ##Lux Mark: Radiance#2016#, while boosting the squad's &Param3& by <color=#ec6d21>&Param4&</color> for &Param5&s.",
+      "icon": "10701_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Aegis Intervention",
+      "desc": "Tilia throws the Aegis of Light that bounces up to 6 times, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Skill DMG and stunning the target for &Param2&s, while inflicting ##Lux Mark: Radiance#2016#.\u000bWhen this skill deals DMG, increases the squad's &Param3& by <color=#ec6d21>&Param4&</color> for &Param5&s.\u000bParam8: &Param8& (Effect,EffectTypeFirstSubtype)",
+      "icon": "10701_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Glorious Smite",
+      "desc": "Leaps and slams down onto the ground, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Ultimate DMG in a large area. Meanwhile, creates a sphere that deals <color=#fb8037>&Param2&</color> of ATK as AoE Lux Skill DMG and inflicts ##Lux Mark: Radiance#2016# for 8s.",
+      "icon": "10701_Ultra"
+    }
+  },
+  "108": {
+    "id": 108,
+    "name": "Kasimira",
+    "element": "Ignis",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Colossus Essence": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Colossus Essence": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Colossus Essence": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Colossus Essence": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Purging Flames",
+      "desc": "Fires a volley of pellets, each dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Auto Attack DMG. Magazine capacity: 1.",
+      "icon": "10801_Normal"
+    },
+    "skill": {
+      "name": "Banishing Barrage",
+      "desc": "Each use of this skill loads 1 Incendiary Shell. Each shell deals <color=#fb8037>&Param2&</color> of ATK as Ignis Skill DMG.\u000bWhen Incendiary Shells (Main Skill) triggers ##Ignis Mark: Sacred Flame#2013#, inflicts Incineration and deals &Param3& of ATK as AoE Ignis Mark DMG.\u000bUp to 10 shells can be loaded.",
+      "icon": "10801_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Precision Strike",
+      "desc": "Drops 3 bombs, each dealing <color=#fb8037>&Param1&</color> of ATK as AoE Ignis Skill DMG and inflicting ##Ignis Mark: Sacred Flame#2013#.",
+      "icon": "10801_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Sweeping Blast",
+      "desc": "Continuously fires 6 rounds of pellets, each dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Ultimate DMG. Concludes with a final full-blast salvo, with each pellet dealing <color=#fb8037>&Param2&</color> of ATK as Ignis Ultimate DMG.",
+      "icon": "10801_Ultra"
+    }
+  },
+  "110": {
+    "id": 110,
+    "name": "Firenze",
+    "element": "Umbra",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Crimson Tempter": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Crimson Tempter": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Crimson Tempter": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Crimson Tempter": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Blooming Shadows",
+      "desc": "Swings the cane to strike multiple times.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x5</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4&</color> and <color=#ec6d21>&Param5&</color> of ATK as Umbra Auto Attack DMG.\u000bWhen there is no ##Shadow Clone#4002# present, the 2nd hit of the Auto Attack summons 1 ##Shadow Clone#4002#.\u000bThe 4th hit of the Auto Attack commands all ##Shadow Clones#4002# to sprint strike, dealing <color=#ec6d21>&Param6&</color> of ATK as Umbra Minion DMG.",
+      "icon": "11001_Normal"
+    },
+    "skill": {
+      "name": "Elegant Parade",
+      "desc": "Unleashes combo slashes with the cane sword, dealing <color=#ec6d21>&Param1& x3</color> of ATK as Umbra Skill DMG. When casting the Main Skill, summons 1 ##Shadow Clone#4002# and orders all ##Shadow Clones#4002# to unleash combo slashes, dealing <color=#ec6d21>&Param2& x3</color> of ATK as Umbra Minion DMG. It can be cast 2 times initially.\u000bElegant Parade (Main Skill) and ##Shadow Clones#4002# can trigger ##Umbra Mark#1019#, dealing &Param3& of ATK as Umbra Mark DMG and inflicting ##Dark Burn#4005#.\u000bParam4: &Param4& (HitDamage,Mark) \u000bParam5: &Param5& (Buff,Time)",
+      "icon": "11001_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Reign of Night",
+      "desc": "Strikes the ground with the cane, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Umbra Skill DMG, and summons 2 ##Shadow Clones#4002#.\u000bWhen the main Trekker deals DMG, ##Shadow Clones#4002# also strike at the target, dealing <color=#ec6d21>&Param2&</color> of ATK as Umbra Minion DMG. This effect can only be triggered once every 1.5s.\u000bReign of Night (Support Skill) and ##Shadow Clones#4002# can trigger ##Umbra Mark#1019#, dealing &Param3& of ATK as Umbra Mark DMG and inflicting ##Dark Burn#4005#.\u000bParam4: &Param4& (HitDamage,Mark) \u000bParam5: &Param5& (Buff,Time)",
+      "icon": "11001_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Personal Tuition",
+      "desc": "Spreads a dark magic circle, dealing <color=#ec6d21>&Param1& x5</color> and <color=#ec6d21>&Param2&</color> of ATK as Umbra Ultimate DMG.\u000bDarkness Descends (Ultimate) can trigger ##Umbra Mark#1019#, dealing &Param3& of ATK as Umbra Mark DMG and inflicting ##Dark Burn#4005#.\u000bParam4: &Param4& (HitDamage,Mark) \u000bParam5: &Param5& (Buff,Time)",
+      "icon": "11001_Ultra"
+    }
+  },
+  "111": {
+    "id": 111,
+    "name": "Iris",
+    "element": "Aqua",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Nightlit Haven": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Nightlit Haven": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Nightlit Haven": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Nightlit Haven": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Method of Fluxions",
+      "desc": "Shoots 3 Frost Arrows at the target.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3& x3</color> of ATK as Aqua Auto Attack DMG.\u000bWhen close, swings her school bag to attack, dealing <color=#fb8037>&Param4&</color> of ATK as Aqua Auto Attack DMG.",
+      "icon": "11101_Normal"
+    },
+    "skill": {
+      "name": "Frozen Path",
+      "desc": "Fires a Glacier Greatarrow at the target, dealing <color=#fb8037>&Param1& of ATK</color> as Aqua Skill DMG.\u000bFrozen Path (Main Skill) can trigger ##Aqua Mark: Torrent#2008#, dealing &Param2& of ATK as AoE Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "11101_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Iceberg Surge",
+      "desc": "Generates a Glacier Array, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Aqua Skill DMG every 0.5s for a total of 4s. Also inflicts ##Aqua Mark: Torrent#2008#.",
+      "icon": "11101_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Arctic Vortex",
+      "desc": "Creates a Snowbound Domain that deals <color=#fb8037>&Param1&</color> of ATK as Aqua Ultimate DMG in a large area every 0.3s for a total of 5s.",
+      "icon": "11101_Ultra"
+    }
+  },
+  "112": {
+    "id": 112,
+    "name": "Noya",
+    "element": "Ventus",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wind Essence": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wind Essence": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wind Essence": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wind Essence": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Nameless Style",
+      "desc": "Swings the sword to attack.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2& x2</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x8</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4& x3</color> of ATK as Ventus Auto Attack DMG.",
+      "icon": "11201_Normal"
+    },
+    "skill": {
+      "name": "Sonic Slash",
+      "desc": "Unleashes a flurry of sword strikes, dealing <color=#ec6d21>&Param1& of ATK x6</color> as Ventus Skill DMG.\u000bSonic Slash (Main Skill) can trigger ##Ventus Mark: Breeze#2017#, generating a Cyclone that deals &Param2& of ATK x3 as AoE Ventus Mark DMG.",
+      "icon": "11201_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Gale Storm",
+      "desc": "Unleashes 4 minor sword auras and 1 major sword aura.\u000bMinor sword auras deal <color=#ec6d21>&Param1&</color> of ATK as Ventus Skill DMG.\u000bMajor sword auras deal <color=#ec6d21>&Param2&</color> of ATK as Ventus Skill DMG.\u000bMajor sword auras of the Support Skill Gale Storm can pierce through targets and trigger ##Ventus Mark: Breeze#2017#, generating a Cyclone that deals &Param3& x3 of ATK as AoE Ventus Mark DMG.",
+      "icon": "11201_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Skyshatter Rend",
+      "desc": "Performs a sweeping slash, dealing <color=#ec6d21>&Param1& x2</color> of ATK as Ventus Ultimate DMG.\u000bSkyshatter Rend (Ultimate) can trigger ##Ventus Mark: Breeze#2017# and generate a Cyclone that deals &Param2& x3 of ATK as AoE Ventus Mark DMG.",
+      "icon": "11201_Ultra"
+    }
+  },
+  "113": {
+    "id": 113,
+    "name": "Shimiao",
+    "element": "Aqua",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Tidal Essence": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Tidal Essence": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Tidal Essence": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Tidal Essence": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Chilling Drizzle",
+      "desc": "Use surging waves to attack 6 times, dealing DMG multiple times.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param1&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param2&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param3&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param3&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 6: <color=#fb8037>&Param4&</color> of ATK as Aqua Auto Attack DMG.",
+      "icon": "11301_Normal"
+    },
+    "skill": {
+      "name": "Rising Tides",
+      "desc": "Rising Tides is cast in two phases.\u000bPhase 1: Creates water waves, dealing <color=#fb8037>&Param1& x6</color> of ATK as Aqua Skill DMG.\u000bPhase 2: Spins swiftly, dealing <color=#fb8037>&Param2& x6</color> of ATK as Aqua Skill DMG.\u000bRising Tides (Main Skill) can trigger ##Aqua Mark: Torrent#2008#, dealing &Param3& of ATK as Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "11301_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Aqua Aide",
+      "desc": "Splashes water to deal <color=#fb8037>&Param1&</color> of ATK as Aqua Skill DMG. Then, launches 7 rounds of water blades at enemies, each round dealing <color=#fb8037>&Param2& x5</color> of ATK as Aqua Skill DMG.\u000bAqua Aide (Support Skill) can trigger ##Aqua Mark: Torrent#2008#, dealing &Param3& of ATK as Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "11301_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Flood Mantra",
+      "desc": "Roars and unleashes horizontal sweeps, dealing <color=#fb8037>&Param3&</color> and <color=#fb8037>&Param1& x4</color> as Aqua Ultimate DMG in a large area.\u000bFlood Mantra (Ultimate) can trigger ##Aqua Mark: Torrent#2008#, dealing &Param2& of ATK as Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "11301_Ultra"
+    }
+  },
+  "114": {
+    "id": 114,
+    "name": "Chaton",
+    "element": "Ignis",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Colossus Core": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Colossus Core": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Colossus Core": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Colossus Core": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Full-Auto Trigger",
+      "desc": "Fires rapidly at the target. Each shot deals <color=#fb8037>&Param1&</color> of ATK as Ignis Auto Attack DMG.\u000bMagazine contains 30 ammo.\u000bWhen Chaton is in the ##Evil Eye Unleashed#4035# state, upgrades &Param3& (Auto Attack) to Dark Burst, each shot dealing <color=#fb8037>&Param2&</color> of ATK as Ignis Ultimate DMG and consuming no ammo.",
+      "icon": "11401_Normal"
+    },
+    "skill": {
+      "name": "Sniper Operation",
+      "desc": "Chaton uses different attack methods depending on whether the skill button is tapped or held.\u000b<color=#0abec5>Tap:</color> activates ##Dark Ray#4036#.\u000bChaton fires a laser at the target, dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Skill DMG and inflicting Dark Mark for &Param6&s. Chaton deals <color=#fb8037>&Param2&</color> of ATK as Ignis Skill DMG to targets inflicted with Dark Mark every 2s.\u000b<color=#0abec5>Hold:</color> activates ##Bouncing Kitty Bomb#4037#.\u000bChaton throws 2 Bouncing Bombs at the target, each dealing <color=#fb8037>&Param3&</color> of ATK as AoE Ignis Skill DMG. Bouncing Bombs then bounce to nearby targets, up to 5 times.\u000b&Param4& (Main Skill) can trigger ##Ignis Mark#1016# and generate Conflagration: deals &Param5& of ATK as Ignis Mark DMG.",
+      "icon": "11401_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Blitz Assault",
+      "desc": "Rolls toward the target and fires Penetrating Bullets, penetrating the target and dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Skill DMG. This action is performed 3 times in succession.\u000b&Param2& (Support Skill) can trigger ##Ignis Mark#1016# and generate Conflagration: deals &Param3& of ATK as Ignis Mark DMG.",
+      "icon": "11401_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Dark Evil Eye",
+      "desc": "Unseals Evil Eye to inflict Cat Eye Mark on all nearby targets for &Param3&s, then sweep fires, dealing <color=#fb8037>&Param1& x8</color> of ATK as AoE Ignis Ultimate DMG and detonating Cat Eye Marks to deal <color=#fb8037>&Param2&</color> of ATK as Ignis Ultimate DMG.\u000b&Param4& (Ultimate) can trigger ##Ignis Mark#1016#, generating Conflagration: deals &Param5& of ATK as Ignis Mark DMG.\u000bAfter casting the Ultimate, Chaton enters the ##Evil Eye Unleashed#4035# state for &Param6&s while gaining Super Armor, enhancing her Auto Attacks to Dark Burst, increasing her &Param7& by &Param8& and her &Param9& by &Param10&.",
+      "icon": "11401_Ultra"
+    }
+  },
+  "115": {
+    "id": 115,
+    "name": "Firefly",
+    "element": "Lux",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Radiant Crown Essence": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Radiant Crown Essence": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Radiant Crown Essence": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Radiant Crown Essence": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Meteor Arrow",
+      "desc": "Throws electromagnetic darts to attack the target.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Lux Auto ATK DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Lux Auto ATK DMG.\u000bStrike 3: <color=#fb8037>&Param3& x4</color> of ATK as Lux Auto ATK DMG.",
+      "icon": "11501_Normal"
+    },
+    "skill": {
+      "name": "Star Barrage",
+      "desc": "Firefly enters ##Artillery Form#4030# for 14s,\u000bduring which, transforms all 4 ##Avalanches#4032# into Avalanche: Floating Cannons, which take turns firing at the target, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Skill DMG.\u000bAvalanche: Floating Cannons can trigger ##Lux Mark#1015# and generate ##Lucent#4028#: deals &Param2& of ATK as AoE Lux Mark DMG and inflicts 1 stack of ##Glimmer#4029#.",
+      "icon": "11501_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Starflare Pursuit",
+      "desc": "Firefly enters ##Sword Form#4031# for 16s\u000b, during which, transforms 2 ##Avalanches#4032# into Avalanche: Giant Sword and 2 ##Avalanches#4032# into Avalanche: Flying Blades.\u000bFirefly wields Avalanche: Giant Sword to attack the target.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Lux Auto ATK DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Lux Auto ATK DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> of ATK as Lux Auto ATK DMG.\u000bStrike 4: <color=#fb8037>&Param4& x5</color> of ATK as Lux Auto ATK DMG.\u000bWhile ##Sword Form#4031# is active, automatically fires all Avalanche: Flying Blades every 3s to attack the target, dealing <color=#fb8037>&Param5&</color> of ATK as Lux Skill DMG to targets along their path.\u000bAvalanche: Giant Sword and Avalanche: Flying Blades inflict ##Lux Mark: Radiance#2016# when dealing DMG.",
+      "icon": "11501_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Stellar Torrent",
+      "desc": "Combines ##Avalanches#4032# into 2 gigantic cannons and fires forward 2 times. Each shot deals <color=#fb8037>&Param1& x2</color> of ATK as Lux Ultimate DMG and then transforms into a giant sword to perform a forward slash, dealing <color=#fb8037>&Param2&</color> and <color=#fb8037>&Param3&</color> of ATK as Lux Ultimate DMG.\u000bAll of Firefly's skill Cooldowns are reset when Stellar Torrent ends.",
+      "icon": "11501_Ultra"
+    }
+  },
+  "116": {
+    "id": 116,
+    "name": "Ridge",
+    "element": "Terra",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Forest Elf Fang": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Forest Elf Fang": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Forest Elf Fang": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Forest Elf Fang": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Sprout Bomb",
+      "desc": "Fires energy rounds, each dealing <color=#fb8037>&Param1&</color> of ATK as Terra Auto Attack DMG. Magazine capacity: 24.\u000bWhen close to the target, swings the shovel cannon to attack, dealing <color=#fb8037>&Param3&</color> of ATK as AoE Terra Auto Attack DMG.",
+      "icon": "11601_Normal"
+    },
+    "skill": {
+      "name": "Bean Cyclone",
+      "desc": "Swings the shovel cannon, dealing <color=#fb8037>&Param1&</color> of ATK as Terra Skill DMG. Fires seeds, dealing <color=#fb8037>&Param2&</color> of ATK as AoE Terra Skill DMG and reducing the target's Movement SPD by &Param3& for &Param4&s.\u000bAfter casting a skill, reloads the magazine and enhances Auto Attacks: Increases Fire Rate without consuming ammo for &Param5&s.\u000bBean Cyclone (Main Skill) can trigger ##Terra Mark: Earth Vein#2029#, dealing &Param6& of ATK as AoE Terra Mark DMG.",
+      "icon": "11601_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Floral Storm",
+      "desc": "Showers seeds over time, dealing <color=#fb8037>&Param1& x6</color> of ATK as AoE Terra Skill DMG and inflicting ##Terra Mark: Earth Vein#2029# and Seed Orb.\u000bSeed Orb: lasts &Param2&s; when friendly units trigger ##Terra Mark#1020# on targets with Seed Orbs, deals <color=#fb8037>&Param3&</color> of Ridge's ATK as AoE Terra Skill DMG.",
+      "icon": "11601_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Harvest Rhapsody",
+      "desc": "Attacks Shrubshrews Warriors consecutively, dealing <color=#fb8037>&Param1& x5</color> and <color=#fb8037>&Param2&</color> of ATK as AoE Terra Ultimate DMG.",
+      "icon": "11601_Ultra"
+    }
+  },
+  "117": {
+    "id": 117,
+    "name": "Jinglin",
+    "element": "Lux",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Radiant Crown Essence": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Radiant Crown Essence": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Radiant Crown Essence": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Radiant Crown Essence": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Thunder Palm",
+      "desc": "Unleashes lightning from the palm to strike the target.\u000bStrike 1: <color=#fb8037>&Param1& of ATK</color> as Lux Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2& of ATK</color> as Lux Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3& of ATK</color> as Lux Auto Attack DMG.",
+      "icon": "11701_Normal"
+    },
+    "skill": {
+      "name": "Thunder Strike",
+      "desc": "Summons a thunderbolt, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Skill DMG. Stores up to 4 thunderbolts.\u000bThunder Strike (Main Skill) can trigger ##Lux Mark: Radiance#2016# and summon a Thunderbolt, dealing &Param2& of ATK as Lux Mark DMG.",
+      "icon": "11701_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Static Discharge",
+      "desc": "Creates a Lightning Domain that deals <color=#fb8037>&Param1& of ATK</color> as Lux Skill DMG and inflicts ##Lux Mark: Radiance#2016# every 0.5s for a total of 8s.",
+      "icon": "11701_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Roar of the Qilin",
+      "desc": "Summons a massive Lightning Qilin that lasts for 10s and attacks 4 random enemies every 0.5s. Each hit deals <color=#fb8037>&Param1&</color> of ATK as Lux Ultimate DMG.",
+      "icon": "11701_Ultra"
+    }
+  },
+  "118": {
+    "id": 118,
+    "name": "Coronis",
+    "element": "Umbra",
+    "class": "Versatile",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Evil Bloom Essence": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Evil Bloom Essence": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Evil Bloom Essence": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Evil Bloom Essence": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Midnight Cleave",
+      "desc": "Wields the scythe to attack targets.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4&</color> of ATK as Umbra Auto Attack DMG.",
+      "icon": "11801_Normal"
+    },
+    "skill": {
+      "name": "Sleight of Scythe",
+      "desc": "After multiple slices, delivers a powerful smash to the target, dealing <color=#ec6d21>&Param1& of ATK x5</color>/<color=#ec6d21>&Param2& of ATK</color> as AoE Umbra DMG.\u000bSleight of Scythe (Main Skill) can trigger ##Umbra Mark: Gloom#2018#, dealing &Param3& of ATK as Umbra Mark DMG and inflicting ##Dark Shackles#2020#.\u000bParam4: &Param4& (Buff,Time)",
+      "icon": "11801_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Bone Chain",
+      "desc": "Delivers a horizontal slash, dealing <color=#ec6d21>&Param1& of ATK</color> as AoE Umbra Skill DMG. Then breaks the chains to pull all connected targets, dealing <color=#ec6d21>&Param2& of ATK</color> as Umbra Skill DMG.\u000bBone Chain (Support Skill) can inflict ##Umbra Mark: Gloom#2018#.",
+      "icon": "11801_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Void Reaper",
+      "desc": "Creates a dark storm of despair that constantly pulls enemies in, dealing <color=#ec6d21>&Param1& of ATK x8</color> as Umbra Ultimate DMG in a large area. Ends with a powerful horizontal slash, dealing <color=#ec6d21>&Param2& of ATK</color> as Umbra Ultimate DMG in a large area.",
+      "icon": "11801_Ultra"
+    }
+  },
+  "119": {
+    "id": 119,
+    "name": "Nanoha",
+    "element": "Ventus",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wind Essence": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wind Essence": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wind Essence": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wind Essence": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Flowers Scatter",
+      "desc": "Throws multiple darts.\u000bStrike 1: <color=#ec6d21>&Param1& x2</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2& x2</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x3</color> of ATK as Ventus Auto Attack DMG.",
+      "icon": "11901_Normal"
+    },
+    "skill": {
+      "name": "Flowers Dance",
+      "desc": "Throws two sunflower shurikens, each flying back and forth 8 times and dealing <color=#ec6d21>&Param1&</color> of ATK as Ventus Skill DMG.\u000bFlowers Dance (Main Skill) can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param2& of ATK as AoE Ventus Mark DMG.",
+      "icon": "11901_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Flowers Bloom",
+      "desc": "Conjures an exploding sunflower that fires 12 shurikens, each dealing <color=#ec6d21>&Param1&</color> of ATK as Ventus Skill DMG.\u000bFlowers Bloom (Support Skill) can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param2& of ATK as AoE Ventus Mark DMG.",
+      "icon": "11901_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Flowers Thrice",
+      "desc": "Generates 2 stationary clones that attack enemies with shurikens, dealing of ATK<color=#ec6d21>&Param1& x2, <color=#ec6d21>&Param2& x2</color>, and <color=#ec6d21></color>&Param3& x3</color> as Ventus Ultimate DMG.\u000bEach clone lasts for 25s. Up to 2 clones can be present simultaneously.\u000bWhen a clone deals DMG, it can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param4& of ATK as AoE Ventus Mark DMG.",
+      "icon": "11901_Ultra"
+    }
+  },
+  "120": {
+    "id": 120,
+    "name": "Canace",
+    "element": "Ventus",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wrath Beauty": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wrath Beauty": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wrath Beauty": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wrath Beauty": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Gush Shots",
+      "desc": "Fires consecutive Ventus-imbued bullets to deal DMG.\u000bStrike 1-4: <color=#ec6d21>&Param1&</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 5: <color=#ec6d21>&Param2& x2</color> of ATK as Ventus Auto Attack DMG.",
+      "icon": "12001_Normal"
+    },
+    "skill": {
+      "name": "Verdant Shroud",
+      "desc": "Deals <color=#ec6d21>&Param1&</color> of ATK as Ventus Skill DMG to nearby targets, and then summons 2 Flying Leaves.\u000bA Flying Leaf can pierce through the target and deal <color=#ec6d21>&Param2&</color> of ATK as Ventus Skill DMG for 7.2s.\u000bVerdant Shroud (Main Skill) can trigger ##Ventus Mark: Breeze#2017# and create a Blossom, dealing &Param3& of ATK as AoE Ventus Mark DMG.",
+      "icon": "12001_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Laurel Halo",
+      "desc": "Tosses a Laurel Wreath at the Main Trekker.\u000bThe Laurel Wreath deals <color=#ec6d21>&Param1&</color> of ATK as Ventus Skill DMG every 0.4s for a total of 6s, and inflicts ##Ventus Mark: Breeze#2017#.",
+      "icon": "12001_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Double Tempest",
+      "desc": "Creates 2 cyclones, each dealing <color=#ec6d21>&Param1& x9</color> of ATK as AoE Ventus Ultimate DMG, lasting for 4s.",
+      "icon": "12001_Ultra"
+    }
+  },
+  "123": {
+    "id": 123,
+    "name": "Ann",
+    "element": "Ventus",
+    "class": "Support",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wrath Beauty": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wrath Beauty": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wrath Beauty": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wrath Beauty": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Fierce Bite",
+      "desc": "Coco the Firefang pounces and bites multiple times.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2&</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x2</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4&</color> of ATK as Ventus Auto Attack DMG.",
+      "icon": "12301_Normal"
+    },
+    "skill": {
+      "name": "Puffloon Spits",
+      "desc": "Summons ##Bubble#4013# the Puffloon who spits wind bullets, dealing <color=#ec6d21>&Param1&</color> of ATK as Ventus Minion DMG.\u000bWhen ##Bubble#4013# deals DMG, there is a 25% chance to create a Wind Burst, dealing <color=#ec6d21>&Param2&</color> of ATK as Ventus Minion DMG, and inflicting ##Ventus Mark: Breeze#2017#. This effect can only be triggered once per second.\u000bWhen ##Bubble#4013# is on the field, increases the squad's &Param3& by <color=#fb8037>&Param4&</color>.\u000bParam5: &Param5& (BuffValue,Time)",
+      "icon": "12301_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Wind Barrier",
+      "desc": "Raises a wall of wind, dealing <color=#ec6d21>&Param1& of ATK</color> as Ventus Skill DMG.\u000bThe wind wall lasts for 8s, constantly inflicts ##Ventus Mark: Breeze#2017# to nearby targets, and can block hostile projectiles 8 times.\u000bWhen casting the Support Skill Wind Barrier, increases the squad's &Param2& by <color=#fb8037>&Param3&</color> for &Param4&s.",
+      "icon": "12301_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Call of the Wild",
+      "desc": "Coco the Firefang lets forth a wild howl, repels hostile projectiles, and then fires wind bullets, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Ventus Ultimate DMG and inflicting ##Ventus Mark: Breeze#2017#.",
+      "icon": "12301_Ultra"
+    }
+  },
+  "125": {
+    "id": 125,
+    "name": "Freesia",
+    "element": "Aqua",
+    "class": "Versatile",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Nightlit Haven": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Nightlit Haven": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Nightlit Haven": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Nightlit Haven": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Power of Reason",
+      "desc": "Swings the great axe to attack the target.\u000bStrike 1: <color=#fb8037>&Param1& of ATK</color> as Aqua Auto ATK DMG.\u000bStrike 2: <color=#fb8037>&Param2& of ATK</color> as Aqua Auto ATK DMG.\u000bStrike 3: <color=#fb8037>&Param3&x2 of ATK</color> as Aqua Auto ATK DMG.\u000bStrike 4: <color=#fb8037>&Param4&x3 of ATK</color> as Aqua Auto ATK DMG.\u000bStrike 5: <color=#fb8037>&Param5& of ATK</color> as Aqua Auto ATK DMG.\u000bIn ##Berserk#2014# state, rapidly hacks at enemies instead.\u000bStrike 1: <color=#fb8037>&Param6& of ATK x2</color> as Aqua Auto ATK DMG.\u000bStrike 2: <color=#fb8037>&Param7& of ATK x2</color> as Aqua Auto ATK DMG.\u000bStrike 3: <color=#fb8037>&Param8& of ATK</color>, <color=#fb8037>&Param9& of ATK x4</color>, and <color=#fb8037>&Param10& of ATK</color> as Aqua Auto ATK DMG.",
+      "icon": "12501_Normal"
+    },
+    "skill": {
+      "name": "Freezing Swirl",
+      "desc": "Charges up to unleash a Whirlwind Slash, dealing <color=#fb8037>&Param1& of ATK</color> as Aqua Skill DMG to nearby targets every 0.3s. Charging increases the skill's duration and keeps striking the target for up to 3.6s.\u000bFreezing Swirl (Main Skill) can trigger ##Aqua Mark#1018#, dealing &Param2& of ATK as AoE Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "12501_Skill_Support"
+    },
+    "supportSkill": {
+      "name": "Frost Bloom",
+      "desc": "Creates a field of Ice Flowers ahead, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Aqua Skill DMG.\u000bAfter 1s, the Ice Flowers burst, dealing <color=#fb8037>&Param2&</color> of ATK as AoE Aqua Skill DMG.\u000bFrost Bloom (Support Skill) can inflict ##Aqua Mark: Torrent#2008#.",
+      "icon": "12501_Skill_Main"
+    },
+    "ultimate": {
+      "name": "Elegy of Frost",
+      "desc": "Freesia growls furiously, dealing <color=#fb8037>&Param1&</color> and <color=#fb8037>&Param2&</color> of ATK as Aqua Ultimate DMG in a large area. She then deals <color=#fb8037>&Param3&</color> of ATK as AoE Aqua Ultimate DMG and enters the ##Berserk#2014# status for 20s.\u000bWhen Freesia is in ##Berserk#2014# status as a support Trekker, she will automatically attack nearby enemies.",
+      "icon": "12501_Ultra"
+    }
+  },
+  "126": {
+    "id": 126,
+    "name": "Flora",
+    "element": "Ignis",
+    "class": "Support",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Colossus Core": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Colossus Core": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Colossus Core": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Colossus Core": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Three-Act Show",
+      "desc": "Consecutively spawns fiery birds to deal DMG.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> of ATK as Ignis Auto Attack DMG.",
+      "icon": "12601_Normal"
+    },
+    "skill": {
+      "name": "Hat Toss",
+      "desc": "Throws the Top Hat, dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Skill DMG every 0.5s for a total of 5s, and inflicting ##Ignis Mark: Sacred Flame#2013#.\u000bWhen casting this skill, increases the squad's &Param9& by <color=#fb8037>&Param7&</color> for &Param4&s.",
+      "icon": "12601_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Flutter Flare",
+      "desc": "Spawns 3 Mindflare Butterflies and 3 Soulflare Butterflies with different effects.\u000bMindflare Butterfly: Increases the Main Trekker's &Param9& by <color=#fb8037>&Param7&</color>. Each Mindflare Butterfly also boosts the Main Trekker's &Param4& by &Param1& for &Param5&s.\u000bSoulflare Butterfly: Deals <color=#fb8037>&Param2&</color> of ATK as Ignis Skill DMG and inflicts 1 stack of ##Butterfly Mark#2021# and ##Ignis Mark: Sacred Flame#2013#.\u000bParam3: &Param3& (EffectValue,EffectTypeParam1)",
+      "icon": "12601_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Undying Phoenix",
+      "desc": "Spawns a Celestial Phoenix, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Ignis Ultimate DMG before turning into a Phoenix Egg, lasting for 8s.\u000bThe Phoenix Egg draws in nearby targets, dealing <color=#fb8037>&Param2&</color> of ATK as Ignis Ultimate DMG per second and inflicting ##Ignis Mark: Sacred Flame#2013#.",
+      "icon": "12601_Ultra"
+    }
+  },
+  "127": {
+    "id": 127,
+    "name": "Teresa",
+    "element": "Aqua",
+    "class": "Support",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Nightlit Haven": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Nightlit Haven": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Nightlit Haven": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Nightlit Haven": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Sweep Slash",
+      "desc": "Swings the magic sword, dealing DMG multiple times.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4&</color> of ATK as Aqua Auto Attack DMG.",
+      "icon": "12701_Normal"
+    },
+    "skill": {
+      "name": "Limpid Stream",
+      "desc": "Launches an assault with the magic sword, dealing <color=#fb8037>&Param1&</color> and <color=#fb8037>&Param2&</color> of ATK as Aqua Skill DMG and inflicting ##Aqua Mark: Torrent#2008#. Teresa also gains a Surging Shield.\u000bSurging Shield can absorb DMG equal to <color=#fb8037>&Param3&</color> of Teresa's Base ATK for &Param4&s.",
+      "icon": "12701_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Billowing Tide",
+      "desc": "Plants the magic sword in the ground, dealing <color=#fb8037>&Param1&</color> of ATK as Aqua Skill DMG. Also creates a Tidal Domain and applies a Surging Shield to the Main Trekker.\u000bTidal Domain deals <color=#fb8037>&Param2&</color> of ATK as Aqua Skill DMG once per second for 6s, and inflicts ##Aqua Mark: Torrent#2008#.\u000bSurging Shield can absorb damage equal to <color=#fb8037>&Param3&</color> of Teresa's Base ATK for &Param4&s.",
+      "icon": "12701_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Slicing Riptide",
+      "desc": "Unleashes a dissecting slash which splits into two waves, dealing <color=#fb8037>&Param1&</color> and <color=#fb8037>&Param2&</color> of ATK as AoE Aqua Ultimate DMG and inflicting ##Aqua Mark: Torrent#2008#.",
+      "icon": "12701_Ultra"
+    }
+  },
+  "130": {
+    "id": 130,
+    "name": "Donna",
+    "element": "Aqua",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Tidal Essence": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Tidal Essence": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Tidal Essence": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Tidal Essence": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Piercing Shot",
+      "desc": "Fires an ice arrow in a stationary stance, piercing through the target, dealing <color=#fb8037>&Param1&</color> of ATK as Aqua Auto Attack DMG. Moving will immediately interrupt shooting.\u000bWhen Donna is in ##Agile#2015# State, her Auto Attack deals <color=#fb8037>&Param2&</color> of ATK as Aqua Auto Attack DMG.",
+      "icon": "13001_Normal"
+    },
+    "skill": {
+      "name": "Rain Call: Volley Chase",
+      "desc": "Summons a ##Advertising Doll#4017# near the target. When the Doll is on the battlefield, Donna enters ##Agile#2015# state.\u000bThe doll deals <color=#fb8037>&Param1&</color> of ATK as AoE Aqua Minion DMG every 4s and taunts the target.\u000bThe ##Advertising Doll#4017# and Donna's Auto Attack in ##Agile#2015# state can trigger ##Aqua Mark#1018#, dealing &Param4& of ATK as AoE Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "13001_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Tide Threader",
+      "desc": "Fires 9 Snow-Piercing Arrows, dealing <color=#fb8037>&Param1&</color> of ATK, <color=#fb8037>&Param2& x2</color> of ATK, <color=#fb8037>&Param3& x3</color> of ATK, <color=#fb8037>&Param4& x2</color> of ATK, and <color=#fb8037>&Param5&</color> of ATK as Aqua Skill DMG respectively.\u000bThe path of the final arrow generates Frost Wave, dealing <color=#fb8037>&Param6&</color> of ATK as Aqua Skill DMG.\u000bWhen Tide Threader deals DMG, inflicts ##Aqua Mark: Torrent#2008#.",
+      "icon": "13001_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Argent Cascade",
+      "desc": "Fires a cluster of arrows that rains down at the target's location, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Aqua Ultimate DMG every 0.5s for 6s.",
+      "icon": "13001_Ultra"
+    }
+  },
+  "132": {
+    "id": 132,
+    "name": "Minova",
+    "element": "Lux",
+    "class": "Versatile",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Radiant Crown Essence": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Radiant Crown Essence": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Radiant Crown Essence": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Radiant Crown Essence": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Bat and Skate",
+      "desc": "Swings the baseball bat and kickflips the skateboard to attack the target.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4&</color> and <color=#fb8037>&Param6& x6</color> of ATK as Lux Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param5&</color> of ATK as Lux Auto Attack DMG.",
+      "icon": "13201_Normal"
+    },
+    "skill": {
+      "name": "Syou: Pulsar Streak",
+      "desc": "Swings the baseball bat, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Skill DMG. Then, activates the second phase, Two Base Hit: Charges at the target, delivering rapid strikes. Hold to deal <color=#fb8037>&Param2&</color> of ATK as Lux Skill DMG every 0.3s for a total of 3s. Finishes with a powerful smash, dealing <color=#fb8037>&Param3&</color> of ATK as Lux Skill DMG.\u000bBoth Syou: Pulsar Streak (Main Skill) and Two Base Hit can trigger ##Lux Mark#1015# and summon a Thunderbolt, dealing &Param4& of ATK as Lux Mark DMG.",
+      "icon": "13201_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Gi: Supernova Burst",
+      "desc": "Radiates starlight, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Skill DMG and inflicting 2 stacks of Astral Hex.\u000bEvery 3s, Astral Hex deals <color=#fb8037>&Param2&</color> of ATK as AoE Lux Skill DMG and inflicts ##Lux Mark: Radiance#2016#.",
+      "icon": "13201_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Ketsu: Entropic Convergence",
+      "desc": "Commands the Ashwind Clan members to attack the target, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Lux Ultimate DMG every 0.3s for a total of 5s.",
+      "icon": "13201_Ultra"
+    }
+  },
+  "133": {
+    "id": 133,
+    "name": "Nazuka",
+    "element": "Ventus",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wind Essence": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wind Essence": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wind Essence": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wind Essence": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Wind Pellets",
+      "desc": "Fires consecutive wind bullets.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2&</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x3</color> of ATK as Ventus Auto Attack DMG.",
+      "icon": "13301_Normal"
+    },
+    "skill": {
+      "name": "Blooming Draught",
+      "desc": "The windmill blows ahead, dealing <color=#ec6d21>&Param1& x7</color> of ATK as Ventus Skill DMG.\u000bBlooming Draught (Main Skill) can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param2& of ATK as AoE Ventus Mark DMG.",
+      "icon": "13301_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Bouquet Blast",
+      "desc": "Fires a flower bouquet, dealing <color=#ec6d21>&Param1& of ATK</color> as AoE Ventus Skill DMG. The flower bouquet then blasts, generating a Flower Formation and shoots 6 Flower Petals.\u000bFlower Formation: Reduces the Movement SPD of targets within its range by 25%. Deals <color=#ec6d21>&Param3& of ATK</color> as AoE Ventus Skill DMG per second for 6s.\u000bFlower Petals: Deals <color=#ec6d21>&Param2& of ATK</color> as Ventus Skill DMG.\u000bBouquet Blast (Support Skill) can inflict ##Ventus Mark: Breeze#2017#.",
+      "icon": "13301_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Aromatic Tempest",
+      "desc": "Holds up the staff and chants for a while, creating 3 tornados every 3s, each time dealing <color=#ec6d21>&Param1& of ATK</color> as Ventus Ultimate DMG.",
+      "icon": "13301_Ultra"
+    }
+  },
+  "134": {
+    "id": 134,
+    "name": "Fuyuka",
+    "element": "Ignis",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Colossus Core": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Colossus Core": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Colossus Core": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Colossus Core": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Blitz Combo",
+      "desc": "Punches and kicks the target.\u000bStrike 1: <color=#fb8037>&Param1& x2</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3& x2</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4& x5</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param5& x2</color> of ATK as Ignis Auto Attack DMG.\u000bCasts Fiery Punches when ammo is available.\u000bStrike 1: <color=#fb8037>&Param6&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param7&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param8&</color> of ATK as Ignis Auto Attack DMG.\u000bBlitz Combo and Fiery Punches deal <color=#fb8037>&Param9&</color> of ATK as AoE Ignis Auto Attack DMG to other targets behind the target hit by them.\u000bParam10: &Param10& (HitDamage,Mark)",
+      "icon": "13401_Normal"
+    },
+    "skill": {
+      "name": "Ignis Infusion",
+      "desc": "Strikes a Soaring Dragon Punch, dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Skill DMG, then slams the ground for an additional <color=#fb8037>&Param3&</color> of ATK as Ignis Skill DMG and fully reloads ammo. Magazine capacity: 3 rounds.\u000b&Param2& (Main Skill) can trigger ##Ignis Mark#1016# and inflict Conflagration, dealing &Param4& of ATK as Ignis Mark DMG to nearby targets.",
+      "icon": "13401_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Eruption Punch",
+      "desc": "Charges at the target and strikes a gale-like punch, dealing <color=#fb8037>&Param1& x11</color> of ATK as AoE Ignis Skill DMG.\u000b&Param2& (Support Skill) can trigger ##Ignis Mark#1016# and inflict Conflagration, dealing &Param3& of ATK as Ignis Mark DMG to nearby targets.",
+      "icon": "13401_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Blaze Unsealed",
+      "desc": "Fuyuka lifts the seal and fires her gauntlet, dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Ultimate DMG.\u000bThen, Fuyuka keeps attacking nearby targets, dealing <color=#fb8037>&Param2& x5</color> and <color=#fb8037>&Param3&</color> of ATK as Ignis Ultimate DMG.\u000b&Param4& (Ultimate) can trigger ##Ignis Mark#1016# and inflict Conflagration, dealing &Param5& of ATK as Ignis Mark DMG to nearby targets.",
+      "icon": "13401_Ultra"
+    }
+  },
+  "135": {
+    "id": 135,
+    "name": "Mistique",
+    "element": "Umbra",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Evil Bloom Essence": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Evil Bloom Essence": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Evil Bloom Essence": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Evil Bloom Essence": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Comet Sweep",
+      "desc": "Sweeps her broom to attack repeatedly.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x2</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4&</color> of ATK as Umbra Auto Attack DMG.",
+      "icon": "13501_Normal"
+    },
+    "skill": {
+      "name": "Pumpka Pummel",
+      "desc": "Mistique takes a photo to deal <color=#ec6d21>&Param6&</color> of ATK as AoE Umbra Skill DMG, then enters Exposure status: Summons one ##Pumpka Phantom#4007# every 3s for 15s.\u000b##Pumpka Phantoms#4007# automatically attack the target, dealing <color=#ec6d21>&Param1&</color> and <color=#ec6d21>&Param2&</color> of ATK as Umbra Minion DMG.\u000bPumpka Pummel (Main Skill) and ##Pumpka Phantoms#4007# can trigger ##Umbra Mark#1019#, dealing &Param3& of ATK as Umbra Mark DMG and inflicting ##Dark Burn.#4009#\u000bWhen Pumpka Pummel (Main Skill) is interrupted, its cooldown is partially reduced.\u000bParam4: &Param4& (HitDamage,Mark) \u000bParam5: &Param5& (Buff,Time)",
+      "icon": "13501_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Summoning Circle",
+      "desc": "Draws a magic circle, summoning a ##Lanterna Phantom#4008# every 0.5s for 6s.\u000b##Lanterna Phantom#4008# will explode, dealing <color=#ec6d21>&Param1&</color> of ATK as Umbra Minion DMG. The explosion can inflict ##Umbra Mark: Gloom#2018#.",
+      "icon": "13501_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Midnight ★ Terror",
+      "desc": "Summons a massive phantom, dealing <color=#ec6d21>&Param1& of ATK x8</color>/<color=#ec6d21>&Param2& of ATK</color> as Umbra Ultimate DMG in a large area.",
+      "icon": "13501_Ultra"
+    }
+  },
+  "137": {
+    "id": 137,
+    "name": "Eleanor",
+    "element": "Ventus",
+    "class": "Versatile",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wind Essence": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wind Essence": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wind Essence": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wind Essence": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Tactical Combo",
+      "desc": "Quickly switches among multiple weapons to attack.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2& x5</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x5</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4& x6</color> of ATK as Ventus Auto Attack DMG.\u000bStrike 5: <color=#ec6d21>&Param5& x7</color> of ATK as Ventus Auto Attack DMG.\u000bEleanor has ##Tactical Energy#4048#. She can automatically spend 10 ##Tactical Energy#4048# to activate Cross Slash, dealing <color=#ec6d21>&Param6&</color> of ATK as AoE Ventus Auto Attack DMG. Cross Slash can trigger ##Ventus Mark#1017# and create a Blossom, dealing &Param7& of ATK as AoE Ventus Mark DMG.",
+      "icon": "13701_Normal"
+    },
+    "skill": {
+      "name": "Sentry Deployment",
+      "desc": "Spins rapidly to deal <color=#ec6d21>&Param1&x2</color> of ATK as AoE Ventus Skill DMG and gains the Vigil effect: multiple ##Sentries#4050# move around Eleanor for &Param2&s, dealing <color=#ec6d21>&Param3&</color> of ATK as AoE Ventus Skill DMG at intervals. Sentry Deployment (Main Skill) can trigger ##Ventus Mark#1017# and create Blossom, dealing &Param4& of ATK as AoE Ventus Mark DMG.",
+      "icon": "13701_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Armed Assault",
+      "desc": "Performs multiple jump slams, triggering explosions that deal <color=#ec6d21>&Param1& x9</color> of ATK as AoE Ventus Skill DMG. Every third slam generates 1 ##Sentry#4050# for 3s. Up to 3 Sentries can exist at the same time. ##Sentries#4050# can fire bullets that deal <color=#ec6d21>&Param2&</color> of Eleanor's ATK as Ventus Auto Attack DMG. Armed Assault (Support Skill) can inflict ##Ventus Mark: Breeze#2017#.",
+      "icon": "13701_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Firestorm",
+      "desc": "Eleanor fires a barrage of rockets, dealing AoE Ventus Ultimate DMG equal to <color=#ec6d21>&Param1& x14</color> of ATK.",
+      "icon": "13701_Ultra"
+    }
+  },
+  "139": {
+    "id": 139,
+    "name": "Allie",
+    "element": "Aqua",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Tidal Essence": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Tidal Essence": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Tidal Essence": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Tidal Essence": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Housework Slash",
+      "desc": "Wields the long blade to deal DMG multiple times.\u000bStrike 1: <color=#fb8037>&Param1&</color> and <color=#fb8037>&Param2&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param3&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param4& x2</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param5&</color>, <color=#fb8037>&Param6&</color>, and <color=#fb8037>&Param7&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param8&</color> of ATK as Aqua Auto Attack DMG.",
+      "icon": "13901_Normal"
+    },
+    "skill": {
+      "name": "Sweeping Rush",
+      "desc": "Dashes to the target's location, dealing <color=#fb8037>&Param1& x3</color> and <color=#fb8037>&Param6& x3</color> of ATK as AoE Aqua Skill DMG, which can trigger ##Aqua Mark#1018# and generate ##Tidal Wave#4053#.\u000bWhen Sweeping Rush (Main Skill) deals DMG, obtains 1 Sweep Mark: increases own &Param2& by <color=#fb8037>&Param3&</color> for &Param4&s. Up to 3 Sweep Marks can exist, and this effect grants at most 1 Sweep Mark each time.\u000bParam5: &Param5& (BuffValue,LaminatedNum) \u000bParam9: &Param9& (HitDamage,Mark)",
+      "icon": "13901_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Sweeping Slashes",
+      "desc": "Wields the long blade to perform Cycling Slashes, dealing <color=#fb8037>&Param1& x4</color> of ATK as AoE Aqua Skill DMG. Then unleashes a powerful Finishing Slash and forms ice crystals, dealing <color=#fb8037>&Param2&</color> and <color=#fb8037>&Param3&</color> of ATK as AoE Aqua Skill DMG. When the Support Skill deals DMG, it can trigger ##Aqua Mark#1018# and generate ##Tide#4053#.\u000bParam9: &Param9& (HitDamage,Mark)",
+      "icon": "13901_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Deep Sweep",
+      "desc": "Deep Sweep: Dust Off (Ultimate Phase 1): Deals <color=#fb8037>&Param1&</color> of ATK as AoE Aqua Ultimate DMG, and enters Sweeping Stance, increasing own &Param2& by <color=#fb8037>&Param3&</color> for &Param4&s. After casting Deep Sweep: Dust Off, unlocks Deep Sweep: Restore Order (Ultimate Phase 2) within a short time.\u000bDeep Sweep: Restore Order (Ultimate Phase 2): Pursues the target, dealing <color=#fb8037>&Param5&</color> of ATK as AoE Aqua Ultimate DMG.\u000bWhen the Ultimate deals DMG, it can trigger ##Aqua Mark#1018# and generate ##Tide#4053#.\u000bParam9: &Param9& (HitDamage,Mark)",
+      "icon": "13901_Ultra_A"
+    }
+  },
+  "140": {
+    "id": 140,
+    "name": "Sparkla",
+    "element": "Terra",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Forest Elf Fang": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Forest Elf Fang": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Forest Elf Fang": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Forest Elf Fang": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Neo Bunny Blast",
+      "desc": "Sparkla fires three volleys from her wheelchair-mounted energy guns at the target.\u000bStrike 1: <color=#fb8037>&Param1& of ATK</color> as Terra Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2& of ATK</color> as Terra Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3& of ATK x2</color> as Terra Auto Attack DMG.",
+      "icon": "14001_Normal"
+    },
+    "skill": {
+      "name": "Rabbit Pie Tempo Switch",
+      "desc": "Tap or hold to have Sparkla transform her wheelchair into one of two modes for 10s.\u000b<color=#0abec5>Tap</color>\u000bEnters ###4033#, lobbing bombs at the target and dealing <color=#fb8037>&Param1& of ATK</color> as Terra Skill DMG.\u000b<color=#0abec5>Hold</color>\u000bEnters ##Bunny Rapid Fire Mode#4034#, unleashing a rapid stream of shots at the target and dealing <color=#fb8037>&Param2& of ATK x3</color> as Terra Skill DMG.\u000bBoth ##Bunny Jaws Mode#4033# and ##Bunny Rapid Fire Mode#4034# can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.\u000bEnters cooldown when the transformation ends.",
+      "icon": "14001_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Homing Bunny Volley",
+      "desc": "Sparkla's wheelchair-mounted mechanical arms fire Bunny Fireworks at the target location, with 2 Bunny Fireworks per volley, 13 volleys in total.\u000bThe Bunny Fireworks land near the target in random patterns, each dealing <color=#fb8037>&Param1& of ATK</color> as Terra Skill DMG.\u000bBunny Fireworks can trigger ##Terra Mark#1020#, dealing &Param2& of ATK as AoE Terra Mark DMG.",
+      "icon": "14001_Skill_Support"
+    },
+    "ultimate": {
+      "name": "All-Out Bunny Barrage",
+      "desc": "Sparkla takes a nap in her wheelchair and orders her doll to attack nearby targets, dealing <color=#fb8037>&Param1& of ATK x10</color> as AoE Terra Ultimate DMG.\u000bWhen she wakes up, she fires a Bunny Firework Cannon at the target location, dealing <color=#fb8037>&Param2& of ATK</color> as AoE Terra Ultimate DMG.\u000bThis Ultimate can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.",
+      "icon": "14001_Ultra"
+    }
+  },
+  "141": {
+    "id": 141,
+    "name": "Chixia",
+    "element": "Ignis",
+    "class": "Versatile",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Colossus Essence": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Colossus Essence": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Colossus Essence": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Colossus Essence": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Mystic Brushstrokes",
+      "desc": "Waves the writing brush and inflicts Ink.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3& x4</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4& x3</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param5&</color> of ATK as Ignis Auto Attack DMG.",
+      "icon": "14101_Normal"
+    },
+    "skill": {
+      "name": "Purifying Flames",
+      "desc": "Spreads out a torrent of flames, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Ignis Skill DMG every 0.2s for a total of 3s. When dealing DMG to targets with Ink, inflicts ##Ignite#2027#.\u000bPurifying Flames (Main Skill) can trigger ##Ignis Mark#1016# and inflict Incineration, dealing &Param3& of ATK as AoE Ignis Mark DMG.\u000bParam2: &Param2& (Skill,Title)",
+      "icon": "14101_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Awakening: Crimson Dragon",
+      "desc": "Summons a ##Crimson Dragon#4018# every 2s, up to 3 times.\u000b##Crimson Dragon#4018# spits Ink at the target, dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Minion's DMG. Upon vanishing, it charges toward the target, dealing <color=#fb8037>&Param2&</color> of ATK as Ignis Minion's AoE DMG.\u000bWhen ##Crimson Dragon#4018# deals DMG, inflicts ##Ignis Mark: Sacred Flame#2013#.\u000bMinions summoned by &Param3& will be removed when the Support Skill is cast again.",
+      "icon": "14101_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Dragon's Ascension",
+      "desc": "Conjures a Fire Dragon to circle around the target, dealing <color=#fb8037>&Param1&</color> of ATK as Ignis Ultimate DMG in a large area every 0.3s for a total of 5s.\u000bParam4: &Param4& (Skill,Title) \u000bParam5: &Param5& (HitDamage,Mark)",
+      "icon": "14101_Ultra"
+    }
+  },
+  "142": {
+    "id": 142,
+    "name": "Cosette",
+    "element": "Umbra",
+    "class": "Support",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Crimson Tempter": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Crimson Tempter": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Crimson Tempter": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Crimson Tempter": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Abyssal Swipe",
+      "desc": "Lashes out with both claws.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2&</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x2</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4& x2</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 5: <color=#ec6d21>&Param5&</color> of ATK as Umbra Auto Attack DMG.",
+      "icon": "14201_Normal"
+    },
+    "skill": {
+      "name": "Nocturn Hooks",
+      "desc": "Attacks with double hook punches, each dealing <color=#ec6d21>&Param1& x2</color> and <color=#ec6d21>&Param2& x4</color> of ATK as Umbra Skill DMG. Inflicts ##Umbra Mark: Gloom#2018#.\u000bWhen Nocturn Hooks (Main Skill) deals DMG, increases the target's &Param3& by <color=#ec6d21>&Param4&</color> for &Param5&s.",
+      "icon": "14201_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Abyssal Hunter",
+      "desc": "Strikes quickly with the steel claws, dealing <color=#ec6d21>&Param1& x9</color> of ATK as AoE Umbra Skill DMG, and inflicting ##Umbra Mark: Gloom#2018#.\u000bWhen the Support Skill Abyssal Hunter deals DMG, increases the target's &Param2& by <color=#ec6d21>&Param3&</color> for &Param4&s.",
+      "icon": "14201_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Dark Apocalypse",
+      "desc": "Channels energy and keeps pulling nearby enemies close, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Umbra Ultimate DMG and inflicting ##Umbra Mark: Gloom#2018#.",
+      "icon": "14201_Ultra"
+    }
+  },
+  "143": {
+    "id": 143,
+    "name": "Wraith",
+    "element": "Ventus",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Wrath Beauty": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Wrath Beauty": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Wrath Beauty": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Wrath Beauty": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Swish and Fire",
+      "desc": "Wields the bayonet to attack targets of different distances in different ways.\u000bSlashes nearby targets with combo strikes:\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Ventus Auto ATK DMG.\u000bStrike 2: <color=#ec6d21>&Param2&</color> of ATK as Ventus Auto ATK DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x3</color> of ATK as Ventus Auto ATK DMG.\u000bStrike 4: <color=#ec6d21>&Param4& x4</color> of ATK as Ventus Auto ATK DMG.\u000bStrike 5: <color=#ec6d21>&Param5& x3</color> of ATK as Ventus Auto ATK DMG.\u000bStrike 6: <color=#ec6d21>&Param6&</color> of ATK as Ventus Auto ATK DMG.\u000bShoots distant targets:\u000bStrike 1: <color=#ec6d21>&Param7& x2</color> of ATK as Ventus Auto ATK DMG.\u000bStrike 2: <color=#ec6d21>&Param7& x3</color> of ATK as Ventus Auto ATK DMG.\u000bStrike 3: Fires lasers, dealing <color=#ec6d21>&Param8&</color> of ATK as Ventus Auto ATK DMG.",
+      "icon": "14301_Normal"
+    },
+    "skill": {
+      "name": "Whirling Onslaught",
+      "desc": "Spins rapidly to slash, deal <color=#ec6d21>&Param1& x4</color> of ATK as AoE Ventus Skill DMG. Also fires bullets in all directions, dealing <color=#ec6d21>&Param2& x4</color> of ATK as Ventus Skill DMG.\u000bWhirling Onslaught (Main Skill) can be used 3 times initially. Hold to cast continuously.\u000bWhirling Onslaught (Main Skill) can trigger ##Ventus Mark#1017# and generate a Cyclone, dealing &Param3& x3 of ATK as AoE Ventus Mark DMG.",
+      "icon": "14301_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Rolling Bungee",
+      "desc": "Rolls, slashes, and shoots.\u000bPhase 1: Slashes, deals <color=#ec6d21>&Param1& x3</color> of ATK as Ventus Skill DMG.\u000bPhase 2: Fires laser beams, dealing <color=#ec6d21>&Param2&</color> of ATK as AoE Ventus Skill DMG.\u000bRolling Bungee (Support Skill) can trigger ##Venus Mark#1017# and generate a Cyclone, dealing &Param3& x3 of ATK as AoE Ventus Mark DMG.",
+      "icon": "14301_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Thousand Shade Dance",
+      "desc": "Deploys a field, zips across it 27 times, each time dealing <color=#ec6d21>&Param1&</color> of ATK as Ventus Ultimate DMG in a small area, then detonates the field, dealing <color=#ec6d21>&Param2&</color> of ATK as Ventus Ultimate DMG in a large area.\u000bThousand Shade Dance (Ultimate) can trigger ##Venus Mark#1017# and generate a Cyclone, dealing &Param3& x3 of ATK as AoE Ventus Mark DMG.",
+      "icon": "14301_Ultra"
+    }
+  },
+  "144": {
+    "id": 144,
+    "name": "Chitose",
+    "element": "Aqua",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Tidal Essence": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Tidal Essence": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Tidal Essence": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Tidal Essence": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Aeroflow",
+      "desc": "Wields the odachi to deal DMG multiple times.\u000bStrike 1: <color=#fb8037>&Param1& x2</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> and <color=#fb8037>&Param8&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4& x2</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param5& x2</color> and <color=#fb8037>&Param9&</color> of ATK as Aqua Auto Attack DMG.\u000bStrike 6: <color=#fb8037>&Param6&</color> and <color=#fb8037>&Param7&</color> of ATK as Aqua Auto Attack DMG.",
+      "icon": "14401_Normal"
+    },
+    "skill": {
+      "name": "Torrent Flash",
+      "desc": "Dashes forward, dealing <color=#fb8037>&Param1& x2</color> of ATK as AoE Aqua Skill DMG. It can be cast 2 times initially.\u000bAfter every 2 casts of Torrent Flash, the next Torrent Flash becomes Torrent Flash: Scale: Summons a Coiling Serpent, dealing <color=#fb8037>&Param2& x3</color> of ATK as AoE Aqua Skill DMG.\u000bTorrent Flash (Main Skill) and Torrent Flash: Scale can trigger ##Aqua Mark#1018#, dealing &Param3& of ATK as AoE Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "14401_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Water Surge",
+      "desc": "Deliver 3 rounds of rapid slashes, each round dealing <color=#fb8037>&Param1& x4</color> of ATK as AoE Aqua Skill DMG.\u000bWhen casting the Support Skill, generates multiple Mirror Images nearby, dealing <color=#fb8037>&Param2&</color> of ATK as Aqua Skill DMG. This effect can only be triggered up to 3 times.\u000bWater Surge (Support Skill) can trigger ##Aqua Mark#1018#, dealing &Param3& of ATK as AoE Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "14401_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Waves of Naraka",
+      "desc": "Dual-wields katanas, dealing <color=#fb8037>&Param1& x11</color> of ATK as Aqua Ultimate DMG in a large area. Then pulls in Coiling Serpent, dealing <color=#fb8037>&Param2&</color> of ATK as Aqua Ultimate DMG in a large area.\u000bWaves of Naraka (Ultimate) can trigger ##Aqua Mark#1018#, dealing &Param3& of ATK as AoE Aqua Mark DMG and inflicting ##Chill#1027#.",
+      "icon": "14401_Ultra"
+    }
+  },
+  "145": {
+    "id": 145,
+    "name": "Otoha",
+    "element": "Umbra",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Evil Bloom Essence": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Evil Bloom Essence": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Evil Bloom Essence": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Evil Bloom Essence": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Thorn Path",
+      "desc": "Rapidly fires multiple kunai.\u000bStrike 1: <color=#ec6d21>&Param1& x3</color> of ATK as Umbra Auto ATK DMG.\u000bStrike 2: <color=#ec6d21>&Param2& x3</color> of ATK as Umbra Auto ATK DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x9</color> of ATK as Umbra Auto ATK DMG.",
+      "icon": "14501_Normal"
+    },
+    "skill": {
+      "name": "Nightbloom",
+      "desc": "Moves rapidly and shoots, dealing <color=#ec6d21>&Param1&</color> of ATK as Umbra Skill DMG in a large area.\u000bNightbloom (Main Skill) can trigger ##Umbra Mark#1019#, dealing &Param2& of ATK as Umbra Mark DMG and inflicting ##Dark Shackles#2020#.",
+      "icon": "14501_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Shattered Edge",
+      "desc": "Summons a forward-moving Weeping Sky, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Umbra Skill DMG every 0.5s for 4s.\u000bWeeping Sky inflicts Soul Rend, dealing <color=#ec6d21>&Param2&</color> of ATK as single-target Umbra Skill DMG every 0.5s for &Param3&s (does not stack).\u000bInflicts ##Umbra Mark: Gloom#2018# upon dealing DMG with Weeping Sky or Soul Rend.",
+      "icon": "14501_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Void Blossom",
+      "desc": "Throws a parasol that spins, which deals <color=#ec6d21>&Param1&</color> of ATK as Umbra Ultimate DMG. Then, detonates the parasol, dealing <color=#ec6d21>&Param2&</color> of ATK, <color=#ec6d21>&Param3&</color> of ATK, and <color=#ec6d21>&Param4&</color> of ATK as Umbra Ultimate DMG in a large area.",
+      "icon": "14501_Ultra"
+    }
+  },
+  "147": {
+    "id": 147,
+    "name": "Caramel",
+    "element": "Umbra",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 4,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Crimson Tempter": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Crimson Tempter": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Crimson Tempter": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Crimson Tempter": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Solo Flash",
+      "desc": "Fires consecutive musical notes.\u000bStrike 1: <color=#ec6d21>&Param1& x2</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2& x2</color> of ATK as Umbra Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3& x5</color> of ATK as Umbra Auto Attack DMG.",
+      "icon": "14701_Normal"
+    },
+    "skill": {
+      "name": "Co-Performance",
+      "desc": "Summons ##Demonic Boombox#4016#, dealing <color=#ec6d21>&Param1&</color>/<color=#ec6d21>&Param2& of ATK</color> as Umbra Minion DMG in a large area as it falls and pulsates.\u000bWhen Caramel is near the ##Demonic Boombox#4016#, a connection is established, increasing her &Param3& by <color=#ec6d21>&Param4&</color>.\u000b##Demonic Boombox#4016# can trigger ##Umbra Mark: Gloom#2018#, dealing &Param5& of ATK as Umbra Mark DMG to the target, and inflict ##\"Dark Burn.\"#4010#\u000bParam6: &Param6& (HitDamage,Mark) \u000bParam7: &Param7& (Buff,Time)",
+      "icon": "14701_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Melodic Sweep",
+      "desc": "Sweeps with the bass, dealing <color=#ec6d21>&Param1& x2</color> of ATK as Umbra Skill DMG. Then, unleashes 5 Notes to attack nearby targets, each dealing <color=#ec6d21>&Param2&</color> of ATK as Umbra DMG.\u000bMelodic Sweep (Support Skill) can trigger ##Umbra Mark: Gloom#2018#, dealing &Param3& of ATK as Umbra Mark DMG to the target and inflicting ##Dark Burn#4010#.\u000bParam4: &Param4& (HitDamage,Mark) \u000bParam5: &Param5& (Buff,Time)",
+      "icon": "14701_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Melodic Seraphim",
+      "desc": "Plays the bass with intense passion, dealing <color=#ec6d21>&Param1& x6</color> of ATK as AoE Umbra Ultimate DMG.\u000bMelodic Seraphim (Ultimate) can trigger ##Umbra Mark: Gloom#2018#, dealing &Param2& of ATK as Umbra Mark DMG and inflicting ##Dark Burn#4010#.\u000bParam3: &Param3& (HitDamage,Mark) \u000bParam4: &Param4& (Buff,Time)",
+      "icon": "14701_Ultra"
+    }
+  },
+  "149": {
+    "id": 149,
+    "name": "Gerie",
+    "element": "Terra",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Forest Elf Essence": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Forest Elf Essence": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Forest Elf Essence": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Forest Elf Essence": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Kiss of Death",
+      "desc": "Slings the chain shovel to deal DMG multiple times.\u000bStrike 1: <color=#ec6d21>&Param1&</color> of ATK as Terra Auto Attack DMG.\u000bStrike 2: <color=#ec6d21>&Param2& x2</color> of ATK as Terra Auto Attack DMG.\u000bStrike 3: <color=#ec6d21>&Param3&</color> of ATK as Terra Auto Attack DMG.\u000bStrike 4: <color=#ec6d21>&Param4& x2</color> of ATK as Terra Auto Attack DMG.\u000bStrike 5: <color=#ec6d21>&Param5&</color> and <color=#ec6d21>&Param6&</color> of ATK as Terra Auto Attack DMG.",
+      "icon": "14901_Normal"
+    },
+    "skill": {
+      "name": "Thorned Inferno",
+      "desc": "Leaps at the target, dealing <color=#ec6d21>&Param1&</color> and <color=#ec6d21>&Param2&</color> of ATK as AoE Terra Skill DMG, and creates an Iron Cage.\u000bIron Cage: Links 2 nearby targets, dealing <color=#ec6d21>&Param3&</color> of ATK as Terra Skill DMG every second for 8s. When Gerie is near the Iron Cage, she enters the Lethal status, which increases her &Param4& by <color=#ec6d21>&Param5&</color>.\u000bThorned Inferno (Main Skill) can trigger ##Terra Mark#1020#, dealing &Param6& of ATK as AoE Terra Mark DMG.",
+      "icon": "14901_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Immediate Execution",
+      "desc": "Slings the chain shovel and creates Seismic Waves, dealing <color=#ec6d21>&Param1&</color> and <color=#ec6d21>&Param2&</color> of ATK as Terra Skill DMG respectively.\u000bImmediate Execution (Support Skill) can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.",
+      "icon": "14901_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Divine: Retribution of Evil",
+      "desc": "Generates 3 huge chain shovels, each dealing <color=#ec6d21>&Param1& of ATK x3</color> as Terra Ultimate DMG to targets along its path.\u000bDivine: Retribution of Evil (Ultimate) can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.",
+      "icon": "14901_Ultra"
+    }
+  },
+  "150": {
+    "id": 150,
+    "name": "Laru",
+    "element": "Lux",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 4,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Radiant Feather Crown": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Radiant Feather Crown": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Radiant Feather Crown": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Radiant Feather Crown": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Stormpiercer Dance",
+      "desc": "Wields the lance to launch consecutive attacks.\u000bStrike 1: <color=#fb8037>&Param1& x2</color> of ATK as Lux Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4& x2</color> of ATK as Lux Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param5& x2</color> and <color=#fb8037>&Param6& x6</color> of ATK as Lux Auto Attack DMG.",
+      "icon": "15001_Normal"
+    },
+    "skill": {
+      "name": "Thunderflare Strike",
+      "desc": "Sweeps the target, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Lux Skill DMG, then fires a ray of laser, dealing <color=#fb8037>&Param2&</color> of ATK as AoE Lux Skill DMG.\u000bThunderflare Strike (Main Skill) can trigger ##Lux Mark: Radiance#2016# and summon a Thunderbolt, dealing &Param3& of ATK as Lux Mark DMG.",
+      "icon": "15001_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Divine Thunderquake",
+      "desc": "Infuses light energy into the ground, dealing <color=#fb8037>&Param4&</color> and <color=#fb8037>&Param1& x12</color> of ATK as AoE Lux Skill DMG. Then, generates a Thunder Domain in 4 random locations, each dealing <color=#fb8037>&Param2&</color> of ATK as AoE Lux Skill DMG.\u000bDivine Thunderquake (Support Skill) can trigger ##Lux Mark: Radiance#2016# and summon a Thunderbolt, dealing &Param3& of ATK as Lux Mark DMG.",
+      "icon": "15001_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Thunderfall Thrust",
+      "desc": "Throws the lance, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Lux Ultimate DMG.\u000bThunderfall Thrust (Ultimate) can trigger ##Lux Mark: Radiance#2016# and summon a Thunderbolt, dealing &Param2& of ATK as Lux Mark DMG.",
+      "icon": "15001_Ultra"
+    }
+  },
+  "155": {
+    "id": 155,
+    "name": "Shia",
+    "element": "Lux",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Radiant Feather Crown": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Radiant Feather Crown": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Radiant Feather Crown": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Radiant Feather Crown": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Sail of Twin Moons",
+      "desc": "Commands drones to attack the target in turn.\u000bStrike 1: Snow Rabbit fires bullets in a sweeping motion, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 2: Night Rabbit fires missiles, dealing <color=#fb8037>&Param2&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 3: Snow Rabbit fires bullets in a sweeping motion, dealing <color=#fb8037>&Param3&</color> of ATK as Lux Auto Attack DMG.\u000bStrike 4: Night Rabbit fires missiles, dealing <color=#fb8037>&Param4&</color> of ATK as Lux Auto Attack DMG.",
+      "icon": "15501_Normal"
+    },
+    "skill": {
+      "name": "Whirling Waves",
+      "desc": "Calls for support. Commands 2 Snow Rabbits and 1 Night Rabbit to circle and attack the target for 10s.\u000bSnow Rabbits fire bullets in a sweeping motion, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Skill DMG.\u000bNight Rabbit fires missiles, dealing <color=#fb8037>&Param2&</color> of ATK as Lux Skill DMG, and then explodes, dealing <color=#fb8037>&Param3&</color> of ATK as AoE Lux Skill DMG.\u000bWhirling Waves (Main Skill) can trigger ##Lux Mark#1015# and summon a Thunderbolt, dealing &Param4& of ATK as Lux Mark DMG.",
+      "icon": "15501_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Surfing Rondo",
+      "desc": "Surfs 2 times, each dealing <color=#fb8037>&Param1& x2</color> of ATK as AoE Lux Skill DMG.\u000bRide 1: Snow Rabbit fires bullets in a sweeping motion, dealing <color=#fb8037>&Param2&</color> of ATK as Lux Skill DMG every 0.3s.\u000bRide 2: Night Rabbit fires missiles, each dealing <color=#fb8037>&Param3&</color> of ATK as Lux Skill DMG.\u000bSurfing Rondo (Support Skill) can trigger ##Lux Mark#1015# and summon a Thunderbolt, dealing &Param4& of ATK as Lux Mark DMG.",
+      "icon": "15501_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Divine Deluge",
+      "desc": "Fires the laser cannon at the target, dealing <color=#fb8037>&Param1&</color> of ATK as Lux Ultimate DMG multiple times for 5s.\u000bThe Ultimate Divine Deluge can trigger ##Lux Mark#1015# and summon a Thunderbolt, dealing &Param2& of ATK as Lux Mark DMG.",
+      "icon": "15501_Ultra"
+    }
+  },
+  "156": {
+    "id": 156,
+    "name": "Nazuna",
+    "element": "Terra",
+    "class": "Support",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Forest Elf Fang": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Forest Elf Fang": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Forest Elf Fang": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Forest Elf Fang": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Laid-back Shots",
+      "desc": "Shoots consecutively with the crossbow, each shot dealing <color=#fb8037>&Param1&</color> of ATK as Terra Auto Attack DMG. Stores up to 6 arrows.",
+      "icon": "15601_Normal"
+    },
+    "skill": {
+      "name": "Plushie Dance",
+      "desc": "Generates a penguin plushie that keeps moving toward the target and explodes in 3s, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Terra Skill DMG and inflicting ##Terra Mark: Earth Vein#2029#. When the penguin plushie deals DMG, the target's &Param2& increases by <color=#fb8037>&Param3&</color> for &Param4&s.",
+      "icon": "15601_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Bingo Crush",
+      "desc": "Raffles 5 times and follows the main Trekker.\u000bFull penguins: Throws the plushie and generates a penguin statue, dealing <color=#fb8037>&Param1& x7</color> of ATK as AoE Terra Skill DMG. Full hearts: Shoots a heart arrow that restores the main Trekker's HP by <color=#fb8037>&Param2&</color> and explodes, dealing <color=#fb8037>&Param3&</color> of ATK as AoE Terra Skill DMG. Hearts and penguins: Shoots in a sweeping motion, dealing <color=#fb8037>&Param4& x6</color> of ATK as Terra Skill DMG. All these attacks inflict ##Terra Mark: Earth Vein#2029#.\u000bMore penguins than hearts: The squad receives Kiss of Penguin, which increases &Param5& by <color=#fb8037>&Param6&</color> for &Param7&s. More hearts than penguins: The squad receives Kiss of Love, which increases &Param8& by <color=#fb8037>&Param9&</color> for &Param10&s.",
+      "icon": "15601_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Dream Spiral",
+      "desc": "Rides a shopping cart and spins rapidly. Moves to any direction while the skill is active, dealing <color=#fb8037>&Param1& x11</color> of ATK as AoE Terra Ultimate DMG and inflicting ##Terra Mark: Earth Vein#2029#. When the shopping cart explodes, increases the squad's &Param2& by <color=#fb8037>&Param3&</color> for &Param4&s.",
+      "icon": "15601_Ultra"
+    }
+  },
+  "157": {
+    "id": 157,
+    "name": "Karin",
+    "element": "Umbra",
+    "class": "Vanguard",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Crimson Tempter": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Crimson Tempter": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Crimson Tempter": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Crimson Tempter": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Fisher's Hunt",
+      "desc": "Fires cuttlefish shells, each dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Umbra Auto Attack DMG.\nKarin has ##Hunting Energy#4045# and can automatically consume 100 ##Hunting Energy#4045# to throw a chain, inflicting ##Hunter's Mark#4046# on the target and forming a link. While the chain is active, increases Karin's &Param2& by <color=#ec6d21>&Param3&</color>.",
+      "icon": "15701_Normal"
+    },
+    "skill": {
+      "name": "Bait and Catch",
+      "desc": "Leaps into the air and launches a fishcake, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Umbra Auto ATK DMG, then summons Boss Shark to devour the target, dealing <color=#ec6d21>&Param2&</color> of ATK as Umbra Ultimate DMG in a large area. Bait and Catch (Main Skill) can trigger ##Umbra Mark#1019#, dealing &Param3& of ATK as Umbra Mark DMG and inflicting ##Dark Burn#4051#.",
+      "icon": "15701_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Raging Sea",
+      "desc": "Swings the harpoon chain repeatedly, dealing <color=#ec6d21>&Param1& x4</color> of ATK as AoE Umbra Skill DMG. During the skill, summons Boss Shark multiple times to pursue and devour targets, dealing <color=#ec6d21>&Param2& x4</color> of ATK as AoE Umbra Ultimate DMG. Finally, rides Boss Shark and performs a diving slam, dealing <color=#ec6d21>&Param3&</color> of ATK as Umbra Ultimate DMG in a large area. Raging Sea (Support Skill) can trigger ##Umbra Mark#1019#, dealing &Param4& of ATK as Umbra Mark DMG and inflicting ##Dark Burn#4051#.",
+      "icon": "15701_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Shark Assault",
+      "desc": "Karin and Boss Shark clash in a ferocious fight, dealing <color=#ec6d21>&Param1& x14</color> of ATK as Umbra Ultimate DMG in a large area. Shark Assault (Ultimate) can trigger ##Umbra Mark#1019#, dealing &Param2& of ATK as Umbra Mark DMG and inflicting ##Dark Burn#4051#.",
+      "icon": "15701_Ultra"
+    }
+  },
+  "158": {
+    "id": 158,
+    "name": "Snowish Laru",
+    "element": "Ignis",
+    "class": "Versatile",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Colossus Essence": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Colossus Essence": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Colossus Essence": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Colossus Essence": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Snowish Warrior",
+      "desc": "Wields the whip to perform multiple attacks.\u000bStrike 1: <color=#fb8037>&Param1&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 2: <color=#fb8037>&Param2&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 3: <color=#fb8037>&Param3&</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 4: <color=#fb8037>&Param4& x5</color> of ATK as Ignis Auto Attack DMG.\u000bStrike 5: <color=#fb8037>&Param5& x3</color> of ATK as Ignis Auto Attack DMG.\u000bUses toy ##Colonel Walnut#4020# to attack the target. Its Auto Attack deals <color=#fb8037>&Param6&</color> of ATK as Ignis Minion DMG and grants 1 stack of Morale.\u000bWhen ##Colonel Walnut#4020#'s Morale reaches &Param7& stacks, it evolves into ##General Curly#4021#. Its Auto Attack deals <color=#fb8037>&Param8& x2</color> of ATK as Ignis Minion DMG and consumes 4 stacks of Morale.\u000bWhen ##General Curly#4021#'s Morale reaches zero, it devolves into ##Colonel Walnut#4020#.",
+      "icon": "15801_Normal"
+    },
+    "skill": {
+      "name": "Whip Assault",
+      "desc": "Whips forward to attack the target, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Ignis Skill DMG and granting 1 stack of Morale to the toys. If the toys are within the Main Skill's Attack Range, they gain 1 additional stack of Morale.\u000bWhen casting the Main Skill, toys will cast the Synergy Skill to attack the target.\u000b##Colonel Walnut#4020# smashes the ground, dealing <color=#fb8037>&Param3&</color> of ATK as AoE Ignis Minion DMG, and gains 1 stack of Morale.\u000b##General Curly#4021# swings dual blades, dealing <color=#fb8037>&Param4& x2</color> of ATK as AoE Ignis Minion DMG.\u000b&Param2& (Main Skill) can trigger ##Ignis Mark#1016# and inflict Conflagration, dealing &Param5& of ATK as Ignis Mark DMG.",
+      "icon": "15801_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Courtesy Before Aggression",
+      "desc": "Snowish Laru commands the turret to fire 4 Gift Box Shells at the target. Upon hitting the target, each shell deals <color=#fb8037>&Param1&</color> of ATK as Ignis Skill DMG and then explodes to deal <color=#fb8037>&Param2&</color> of ATK as AoE Ignis Skill DMG.\u000bThe Gift Box Shell summons ##Colonel Walnut#4023# near the target.\u000b##Colonel Walnut#4023# attacks the target, dealing <color=#fb8037>&Param3&</color> of ATK as Ignis Minion DMG.\u000bGift Box Shells inflict ##Ignis Mark: Sacred Flame#2013# upon dealing DMG.",
+      "icon": "15801_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Sweet Dream Waltz",
+      "desc": "Transforms into toy: Dame Laru, gaining a shield equal to &Param7& of Base Max HP for &Param6&s.\u000bDame Laru cannot dodge or dash. Her Auto Attacks become shots that pierce targets, dealing <color=#fb8037>&Param2&</color> of ATK as Ignis Ultimate DMG. The Main and Support skills are replaced by Candy Barrage.\u000bCandy Barrage deals <color=#fb8037>&Param3& x5</color> of ATK as AoE Ignis Ultimate DMG to targets in the front with a 4s cooldown.\u000bParam4: &Param4& (Skill,Title) \u000bParam5: &Param5& (HitDamage,Mark)",
+      "icon": "15801_Ultra"
+    }
+  },
+  "159": {
+    "id": 159,
+    "name": "Springseek Coronis",
+    "element": "Terra",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Forest Elf Essence": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Forest Elf Essence": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Forest Elf Essence": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Forest Elf Essence": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Evergreen Needles",
+      "desc": "Fires streams of chemicals, each dealing <color=#fb8037>&Param1&</color> of ATK as Terra Auto Attack DMG. Magazine capacity: 15.",
+      "icon": "15901_Normal"
+    },
+    "skill": {
+      "name": "Jade of Vitality",
+      "desc": "Shoots forward, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Terra Skill DMG. Drops one Auspice, which fires a continuous beam, dealing <color=#fb8037>&Param2&</color> of ATK as Terra Skill DMG every 0.6s for 8s.\u000bWhen casting Jade of Vitality (Main Skill), enters Crystallized State: Movement SPD increases by 15% for 8s.\u000bThe Main Skill and Auspice can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.",
+      "icon": "15901_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Instant Blossom",
+      "desc": "Throws 6 Rose Vials and 1 Wither Vial, dealing DMG over time 1s after landing.\u000bRose Vial: Deals <color=#fb8037>&Param1&</color> of ATK as AoE Terra Skill DMG every 0.8s.\u000bWither Vial: Deals <color=#fb8037>&Param2&</color> of ATK as AoE Terra Skill DMG every 0.8s and also inflicts Wither. Wither: Lasts 5s; stacks up to 5 times; at max stacks, deals <color=#fb8037>&Param3&</color> of ATK as Terra Skill DMG and removes all stacks.\u000bEach potion lasts 6s and inflicts ##Terra Mark: Earth Vein#2029# when dealing DMG.",
+      "icon": "15901_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Springseek: Burst of Blaze",
+      "desc": "Shoots and shatters a vial in the air, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Terra Ultimate DMG. The flying crystal shards then deal <color=#ec6d21>&Param2& x8</color> of ATK as AoE Terra Ultimate DMG.",
+      "icon": "15901_Ultra"
+    }
+  },
+  "160": {
+    "id": 160,
+    "name": "Suntide Willow",
+    "element": "Aqua",
+    "class": "Support",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Backstage Ragged Hat": 5,
+        "Dorra": 7900
+      },
+      {
+        "Backstage Ragged Hat": 5,
+        "Spotlight Bowler": 10,
+        "Dorra": 19800
+      },
+      {
+        "Backstage Ragged Hat": 10,
+        "Spotlight Bowler": 15,
+        "Dorra": 44400
+      },
+      {
+        "Backstage Ragged Hat": 15,
+        "Spotlight Bowler": 25,
+        "Dorra": 66600
+      },
+      {
+        "Backstage Ragged Hat": 20,
+        "Spotlight Bowler": 40,
+        "Dorra": 146100
+      },
+      {
+        "Backstage Ragged Hat": 30,
+        "Spotlight Bowler": 55,
+        "Exeunt Bowler": 20,
+        "Dorra": 291600
+      },
+      {
+        "Spotlight Bowler": 75,
+        "Exeunt Bowler": 30,
+        "Dorra": 560200
+      },
+      {
+        "Spotlight Bowler": 95,
+        "Exeunt Bowler": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Tapping Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Tapping Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Tapping Game Cartridge": 24,
+        "Rhythm Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Tapping Game Cartridge": 38,
+        "Rhythm Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Tapping Game Cartridge": 70,
+        "Rhythm Game Cartridge": 14,
+        "Magic Sound Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Nightlit Haven": 1,
+        "Rhythm Game Cartridge": 50,
+        "Magic Sound Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Nightlit Haven": 2,
+        "Rhythm Game Cartridge": 90,
+        "Magic Sound Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Nightlit Haven": 3,
+        "Rhythm Game Cartridge": 140,
+        "Magic Sound Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Nightlit Haven": 6,
+        "Rhythm Game Cartridge": 200,
+        "Magic Sound Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Sonic Bubble",
+      "desc": "Tap the Main Skill button to switch between weapon modes.\u000b<color=#0abec5>Bubble Machine mode</color>\u000bStrike 1 to 3: Deals <color=#fb8037>&Param1&</color> of ATK as Aqua Auto Attack DMG multiple times.\u000bStrike 4: Deals <color=#fb8037>&Param2&</color> of ATK as Aqua Auto Attack DMG\u000bIn this mode, Auto Attacks inflict ##Bubble Mark#4041# when dealing DMG.\u000b<color=#0abec5>Megaphone mode</color>\u000bStrike 1 to 3: Deals <color=#fb8037>&Param6&</color> of ATK as Aqua Auto Attack DMG multiple times.\u000bStrike 4: Deals <color=#fb8037>&Param7&</color> of ATK as Aqua Auto Attack DMG.\u000bParam3: &Param3& (OnceAdditionalAttributeValue,AttributeType1) \u000bParam4: &Param4& (OnceAdditionalAttributeValue,Value1) \u000bParam5: &Param5& (BuffValue,Time)",
+      "icon": "16001_Normal"
+    },
+    "skill": {
+      "name": "Luminous Leaper",
+      "desc": "When tapping the Main Skill button, different effects occur based on the current ##Decibels#4038#.\u000b<color=#0abec5>Current Decibels below 100:</color>\u000bSwitches back and forth between Bubble Machine and Megaphone modes.\u000b<color=#0abec5>Current Decibels at 100:</color>\u000bConsumes all Decibels at once and launches a Bubble Frog: every bounce creates an impact dealing <color=#fb8037>&Param1&</color> of ATK as AoE Aqua Skill DMG and inflicting ##Aqua Mark: Torrent#2008#, bouncing once every 3s. When Bubble Frog deals DMG, increases the squad's &Param2& by <color=#fb8037>&Param3&</color> for &Param4&s, stacking up to &Param5& times.",
+      "icon": "16001_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Frolic in the Sea",
+      "desc": "Willow dives into the water, dealing <color=#fb8037>&Param1&</color> of ATK as Aqua Skill DMG in a large area and generating a 7m-radius Bubble Bath that deals <color=#fb8037>&Param2&</color> of ATK as AoE Aqua Skill DMG every 3s.\u000bWillow then follows the Main Trekker, slowly firing bubbles, continuously dealing <color=#fb8037>&Param3& of ATK</color> as Aqua Skill DMG for 17s. All of the above DMG can inflict ##Aqua Mark: Torrent#2008#.\u000bWhile Willow is on the field, she provides different statuses to the squad based on the current ##Decibels#4039#:\u000bGentle Warning: Decibels ≤40, increases &Param4& by <color=#fb8037>&Param5&</color>\u000bSafety Alert: 40< Decibels ≤100, additionally increases &Param6& by <color=#fb8037>&Param7&</color>.",
+      "icon": "16001_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Beach Warning",
+      "desc": "Blows multiple bubbles and fiercely hits them consecutively, dealing <color=#fb8037>&Param1&x7</color> and <color=#fb8037>&Param2&</color> of ATK as AoE Aqua Ultimate DMG, inflicting ##Aqua Mark: Torrent#2008#, while increasing the squad's &Param3& by <color=#fb8037>&Param4&</color> for &Param5&s, stacking up to &Param6& times.",
+      "icon": "16001_Ultra"
+    }
+  },
+  "162": {
+    "id": 162,
+    "name": "Firstlight Noya",
+    "element": "Lux",
+    "class": "Vanguard",
+    "attackType": "Melee",
+    "star": 5,
+    "upgrade": [
+      {
+        "Faint Wick": 5,
+        "Dorra": 7900
+      },
+      {
+        "Faint Wick": 5,
+        "Lumen Essence": 10,
+        "Dorra": 19800
+      },
+      {
+        "Faint Wick": 10,
+        "Lumen Essence": 15,
+        "Dorra": 44400
+      },
+      {
+        "Faint Wick": 15,
+        "Lumen Essence": 25,
+        "Dorra": 66600
+      },
+      {
+        "Faint Wick": 20,
+        "Lumen Essence": 40,
+        "Dorra": 146100
+      },
+      {
+        "Faint Wick": 30,
+        "Lumen Essence": 55,
+        "Eternal Gloom Core": 20,
+        "Dorra": 291600
+      },
+      {
+        "Lumen Essence": 75,
+        "Eternal Gloom Core": 30,
+        "Dorra": 560200
+      },
+      {
+        "Lumen Essence": 95,
+        "Eternal Gloom Core": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Kung Fu Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Kung Fu Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Kung Fu Game Cartridge": 24,
+        "Fighting Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Kung Fu Game Cartridge": 38,
+        "Fighting Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Kung Fu Game Cartridge": 70,
+        "Fighting Game Cartridge": 14,
+        "Phantom Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Radiant Feather Crown": 1,
+        "Fighting Game Cartridge": 50,
+        "Phantom Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Radiant Feather Crown": 2,
+        "Fighting Game Cartridge": 90,
+        "Phantom Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Radiant Feather Crown": 3,
+        "Fighting Game Cartridge": 140,
+        "Phantom Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Radiant Feather Crown": 6,
+        "Fighting Game Cartridge": 200,
+        "Phantom Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "name": "Honed Sword Art",
+      "desc": "Wields the greatsword [Daybreak] and the longsword [Dawn] to deal continuous attacks.\u000bStrike 1: Swings the greatsword, dealing <color=#fb8037>&Param1& x2</color> of Max HP as Lux Auto Attack DMG.\u000bStrike 2: Swings the greatsword, dealing <color=#fb8037>&Param2& x3</color> of Max HP as Lux Auto Attack DMG.\u000bStrike 3: Swings the greatsword, dealing <color=#fb8037>&Param3& x2</color> of Max HP as Lux Auto Attack DMG.\u000bStrike 4: Swings the longsword and fires 2 Glows, each dealing <color=#fb8037>&Param4&</color> of Max HP as Lux Skill DMG.\u000bWhen Firstlight Noya is farther away from the target, her Auto Attacks become a sprint attack with the longsword, dealing <color=#fb8037>&Param5& x3</color> of Max HP as Lux Skill DMG. This effect can be triggered once every 1.5s.\u000bWhen Firstlight Noya's Auto Attacks deal DMG to a target with ##Glimmer#4029#, each stack of ##Glimmer#4029# on the target increases the &Param6& of this attack by <color=#fb8037>&Param7&</color>.",
+      "icon": "16201_Normal"
+    },
+    "skill": {
+      "name": "Storm Flash: Radiance",
+      "desc": "Rapidly swings the longsword [Dawn], dealing <color=#fb8037>&Param1& x5</color> of Max HP as AoE Lux Skill DMG. Then slams down with the greatsword [Daybreak], dealing <color=#fb8037>&Param2&</color> of Max HP as AoE Lux Auto Attack DMG, and generates 1 Starfall that deals <color=#fb8037>&Param3&</color> of Max HP as AoE Lux Auto Attack DMG.\u000bStorm Flash: Radiance (Main Skill) can trigger ##Lux Mark#1015# to generate ##Lucent#4028#: deals &Param4& of Max HP as AoE Lux Mark DMG and inflicts 1 stack of ##Glimmer#4029#.",
+      "icon": "16201_Skill_Main"
+    },
+    "supportSkill": {
+      "name": "Thunderstrike: Break",
+      "desc": "Spins rapidly with the longsword [Dawn], dealing <color=#fb8037>&Param1& x8</color> of Max HP as AoE Lux Skill DMG. Then thrusts the greatsword [Daybreak] into the ground to create continuous shockwaves, dealing <color=#fb8037>&Param2& x6</color> and <color=#fb8037>&Param3&</color> of Max HP as AoE Lux Auto Attack DMG.\u000bThunderstrike: Break (Support Skill) can trigger ##Lux Mark#1015# to generate ##Lucent#4028#: deals &Param4& of Max HP as AoE Lux Mark DMG and inflicts 1 stack of ##Glimmer#4029#.",
+      "icon": "16201_Skill_Support"
+    },
+    "ultimate": {
+      "name": "Empyrean Starender",
+      "desc": "Firstlight Noya's Ultimate has two forms, attacking with the greatsword [Daybreak] and the longsword [Dawn] respectively. She enters battle with the greatsword-form Ultimate by default.\u000bGreatsword Form: Leaps into the air and swings the greatsword, dealing <color=#fb8037>&Param1& x5</color> and <color=#fb8037>&Param2&</color> of Max HP as AoE Lux Auto Attack DMG in a large area.\u000bLongsword Form: Dashes quickly and attacks at high speed, dealing <color=#fb8037>&Param3& x7</color> of Max HP as AoE Lux Skill DMG in a large area, then generates a field that deals <color=#fb8037>&Param4& x7</color> of Max HP as AoE Lux Skill DMG in a large area.\u000bWhen casting Empyrean Starender (Ultimate), Firstlight Noya gains Starender: increases &Param5& by <color=#fb8037>&Param6&</color> for &Param7&s.\u000bEmpyrean Starender (Ultimate) can trigger ##Lux Mark#1015# to generate ##Lucent#4028#: deals &Param8& of Max HP as AoE Lux Mark DMG and inflicts 1 stack of ##Glimmer#4029#.",
+      "icon": "16201_Ultra_1"
+    }
+  }
+}
