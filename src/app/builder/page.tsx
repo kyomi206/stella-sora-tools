@@ -9,8 +9,10 @@ import { TrekkerCard } from '@/components/builder/trekker-card';
 import { TrekkerPickerModal } from '@/components/builder/trekker-picker-modal';
 import { PotentialsPickerModal } from '@/components/builder/potentials-picker-modal';
 import { BuildCardExport } from '@/components/builder/build-card-export';
+import { PresetCodeBar } from '@/components/builder/preset-code-bar';
 import { compressBuild } from '@/lib/utils';
 import { decompressBuild } from '@/lib/share-link';
+import { unpackPresetCode } from '@/lib/preset-code';
 import { RotateCcw, Edit3, ArrowRight } from 'lucide-react';
 
 const INITIAL_BUILD: TeamBuild = {
@@ -35,13 +37,29 @@ function BuilderContent() {
   const [draggedSlot, setDraggedSlot] = useState<SlotType | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<SlotType | null>(null);
 
-  // Check URL query for compressed build
+  // Check URL query for compressed build or in-game preset code
   useEffect(() => {
     const encoded = searchParams.get('b');
+    const codeParam = searchParams.get('code') || searchParams.get('preset');
+
+    if (codeParam) {
+      const slots = unpackPresetCode(codeParam, characters);
+      if (slots) {
+        setBuild((prev) => ({ ...prev, slots }));
+        return;
+      }
+    }
+
     if (encoded) {
       const decoded = decompressBuild(encoded, characters);
       if (decoded) {
         setBuild(decoded);
+        return;
+      }
+      const fallbackSlots = unpackPresetCode(encoded, characters);
+      if (fallbackSlots) {
+        setBuild((prev) => ({ ...prev, slots: fallbackSlots }));
+        return;
       }
     } else {
       const vanguardParam = searchParams.get('vanguard') || searchParams.get('char');
@@ -132,6 +150,14 @@ function BuilderContent() {
             type="text"
             value={build.name}
             onChange={(e) => setBuild((prev) => ({ ...prev, name: e.target.value }))}
+            onPaste={(e) => {
+              const pasted = e.clipboardData.getData('text');
+              const parsed = unpackPresetCode(pasted, characters);
+              if (parsed) {
+                e.preventDefault();
+                setBuild((prev) => ({ ...prev, slots: parsed }));
+              }
+            }}
             placeholder="Squad Build Name…"
             aria-label="Squad build name"
             suppressHydrationWarning
@@ -178,6 +204,12 @@ function BuilderContent() {
           )}
         </div>
       </div>
+
+      {/* In-Game Preset Code Import / Export */}
+      <PresetCodeBar
+        slots={build.slots}
+        onLoadSlots={(slots) => setBuild((prev) => ({ ...prev, slots }))}
+      />
 
       {/* 3 Trekker Selection Area */}
       <div className="flex flex-col items-center gap-4 w-full">

@@ -26,12 +26,14 @@ import { PotentialsPickerModal } from '@/components/builder/potentials-picker-mo
 import { DiscPickerModal, DiscSlotRef } from '@/components/builder/disc-picker-modal';
 import { DiscsAndNotesSection } from '@/components/builder/discs-and-notes-section';
 import { AdvancedBuildCardExport } from '@/components/builder/advanced-build-card-export';
+import { PresetCodeBar } from '@/components/builder/preset-code-bar';
 import {
   compressBuild,
   compressAdvancedBuild,
   createEmptyAdvancedBuild,
 } from '@/lib/utils';
 import { decompressAdvancedBuild } from '@/lib/share-link';
+import { unpackAdvancedPresetCode, unpackPresetCode } from '@/lib/preset-code';
 import { RotateCcw, ArrowLeft } from 'lucide-react';
 
 function AdvancedBuilderContent() {
@@ -49,10 +51,44 @@ function AdvancedBuilderContent() {
 
   useEffect(() => {
     const encoded = searchParams.get('b');
+    const advParam = searchParams.get('adv');
+    const codeParam = searchParams.get('code') || searchParams.get('preset');
+
+    if (advParam) {
+      const advParsed = unpackAdvancedPresetCode(advParam, characters, discs);
+      if (advParsed) {
+        setBuild((prev) => ({ ...prev, ...advParsed }));
+        return;
+      }
+    }
+
+    if (codeParam) {
+      const advParsed = unpackAdvancedPresetCode(codeParam, characters, discs);
+      if (advParsed) {
+        setBuild((prev) => ({ ...prev, ...advParsed }));
+        return;
+      }
+      const slots = unpackPresetCode(codeParam, characters);
+      if (slots) {
+        setBuild((prev) => ({ ...prev, slots }));
+        return;
+      }
+    }
+
     if (encoded) {
       const decoded = decompressAdvancedBuild(encoded, characters, discs);
       if (decoded) {
         setBuild(decoded);
+        return;
+      }
+      const fallbackAdv = unpackAdvancedPresetCode(encoded, characters, discs);
+      if (fallbackAdv) {
+        setBuild((prev) => ({ ...prev, ...fallbackAdv }));
+        return;
+      }
+      const fallbackSlots = unpackPresetCode(encoded, characters);
+      if (fallbackSlots) {
+        setBuild((prev) => ({ ...prev, slots: fallbackSlots }));
       }
     }
   }, [searchParams]);
@@ -236,6 +272,20 @@ function AdvancedBuilderContent() {
             type="text"
             value={build.name}
             onChange={(e) => setBuild((prev) => ({ ...prev, name: e.target.value }))}
+            onPaste={(e) => {
+              const pasted = e.clipboardData.getData('text');
+              const advParsed = unpackAdvancedPresetCode(pasted, characters, discs);
+              if (advParsed) {
+                e.preventDefault();
+                setBuild((prev) => ({ ...prev, ...advParsed }));
+                return;
+              }
+              const parsed = unpackPresetCode(pasted, characters);
+              if (parsed) {
+                e.preventDefault();
+                setBuild((prev) => ({ ...prev, slots: parsed }));
+              }
+            }}
             placeholder="Advanced Preset Name…"
             aria-label="Advanced preset name"
             suppressHydrationWarning
@@ -271,6 +321,14 @@ function AdvancedBuilderContent() {
           </button>
         )}
       </div>
+
+      {/* In-Game & Advanced Preset Code Import / Export */}
+      <PresetCodeBar
+        slots={build.slots}
+        onLoadSlots={(slots) => setBuild((prev) => ({ ...prev, slots }))}
+        advancedBuild={build}
+        onLoadAdvancedBuild={(adv) => setBuild((prev) => ({ ...prev, ...adv }))}
+      />
 
       {/* 1. 3 Trekker Selection Area */}
       <div className="flex flex-col items-center gap-3 w-full">
