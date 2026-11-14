@@ -394,73 +394,43 @@ export function AdvancedBuildCardExport({
         {/* 2. Runic Discs Summary Row (3 Main + 3 Support) */}
         <div className="pt-4 border-t border-border grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Main Discs */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-              <Disc className="size-3.5" />
+          <div className="space-y-2.5">
+            <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
+              <Disc className="size-4" />
               <span>Main Discs (Melody & Harmony)</span>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2.5">
               {build.mainDiscs.map((slot, idx) => {
                 const disc = slot.discId ? discs[String(slot.discId)] : null;
                 if (!disc) {
                   return (
                     <div
                       key={`exp-main-${idx}`}
-                      className="rounded-lg border border-dashed border-border p-2.5 flex items-center justify-center text-[11px] text-slate-500 min-h-[72px]"
+                      className="rounded-lg border border-dashed border-border p-3 flex items-center justify-center text-xs text-slate-500 min-h-[76px]"
                     >
                       Empty Main #{idx + 1}
                     </div>
                   );
                 }
-                const h1 = getHarmonyActivationLevel(disc.secondarySkill1, effectiveNotes);
-                const h2 = getHarmonyActivationLevel(disc.secondarySkill2, effectiveNotes);
 
                 return (
                   <div
                     key={`exp-main-${idx}`}
-                    className="rounded-lg border border-border bg-surface-subtle p-2 flex flex-col gap-1.5"
+                    className="rounded-lg border border-border bg-surface-subtle p-2.5 flex items-center gap-2.5 min-h-[76px]"
                   >
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={getDiscOutfitIconUrl(disc.id, 'full')}
-                        alt={disc.name}
-                        crossOrigin="anonymous"
-                        className="size-10 rounded-md object-cover border border-border shrink-0"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <div className="text-[11px] font-bold text-slate-900 truncate">
-                          {disc.name}
-                        </div>
-                        <div className="text-[11px] font-mono text-slate-600 font-semibold">
-                          C{slot.crescendo} • Lv.{slot.level}
-                        </div>
+                    <img
+                      src={getDiscOutfitIconUrl(disc.id, 'full')}
+                      alt={disc.name}
+                      crossOrigin="anonymous"
+                      className="size-12 sm:size-14 rounded-lg object-cover border border-border shrink-0"
+                    />
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <div className="text-xs sm:text-[13px] font-bold text-slate-900 leading-snug line-clamp-2">
+                        {disc.name}
                       </div>
-                    </div>
-                    <div className="flex items-center gap-1 flex-wrap text-[11px] font-mono">
-                      {disc.secondarySkill1 && (
-                        <span
-                          className={cn(
-                            'px-1 py-0.5 rounded',
-                            h1 > 0
-                              ? 'bg-emerald-500/20 text-emerald-700 font-bold'
-                              : 'bg-surface-subtle text-slate-500'
-                          )}
-                        >
-                          H1: Lv.{h1}
-                        </span>
-                      )}
-                      {disc.secondarySkill2 && (
-                        <span
-                          className={cn(
-                            'px-1 py-0.5 rounded',
-                            h2 > 0
-                              ? 'bg-emerald-500/20 text-emerald-700 font-bold'
-                              : 'bg-surface-subtle text-slate-500'
-                          )}
-                        >
-                          H2: Lv.{h2}
-                        </span>
-                      )}
+                      <div className="text-xs font-mono text-slate-700 font-semibold">
+                        C{slot.crescendo} • Lv.{slot.level}
+                      </div>
                     </div>
                   </div>
                 );
@@ -469,57 +439,43 @@ export function AdvancedBuildCardExport({
           </div>
 
           {/* Support Discs */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-              <Disc className="size-3.5" />
+          <div className="space-y-2.5">
+            <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
+              <Disc className="size-4" />
               <span>Support Discs (Starting Notes)</span>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2.5">
               {build.supportDiscs.map((slot, idx) => {
                 const disc = slot.discId ? discs[String(slot.discId)] : null;
                 if (!disc) {
                   return (
                     <div
                       key={`exp-sup-${idx}`}
-                      className="rounded-lg border border-dashed border-border p-2.5 flex items-center justify-center text-[11px] text-slate-500 min-h-[72px]"
+                      className="rounded-lg border border-dashed border-border p-3 flex items-center justify-center text-xs text-slate-500 min-h-[76px]"
                     >
                       Empty Sup #{idx + 1}
                     </div>
                   );
                 }
-                const phaseIdx = Math.max(
-                  0,
-                  Math.min((disc.supportNote?.length || 1) - 1, slot.phase)
-                );
-                const startNotes = disc.supportNote?.[phaseIdx] || {};
 
                 return (
                   <div
                     key={`exp-sup-${idx}`}
-                    className="rounded-lg border border-border bg-surface-subtle p-2 flex flex-col gap-1.5"
+                    className="rounded-lg border border-border bg-surface-subtle p-2.5 flex items-center gap-2.5 min-h-[76px]"
                   >
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={getDiscOutfitIconUrl(disc.id, 'full')}
-                        alt={disc.name}
-                        crossOrigin="anonymous"
-                        className="size-10 rounded-md object-cover border border-border shrink-0"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <div className="text-[11px] font-bold text-slate-900 truncate">
-                          {disc.name}
-                        </div>
-                        <div className="text-[11px] font-mono text-slate-600 font-semibold">
-                          C{slot.crescendo ?? 1} • Phase {slot.phase} • Lv.{slot.level}
-                        </div>
+                    <img
+                      src={getDiscOutfitIconUrl(disc.id, 'full')}
+                      alt={disc.name}
+                      crossOrigin="anonymous"
+                      className="size-12 sm:size-14 rounded-lg object-cover border border-border shrink-0"
+                    />
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <div className="text-xs sm:text-[13px] font-bold text-slate-900 leading-snug line-clamp-2">
+                        {disc.name}
                       </div>
-                    </div>
-                    <div className="flex items-center gap-1 flex-wrap text-[11px] font-mono text-slate-700 font-semibold">
-                      {Object.entries(startNotes).map(([k, v]) => (
-                        <span key={k} className="px-1 py-0.5 rounded bg-surface-elevated border border-border">
-                          {k.replace('Melody of ', '')} +{v}
-                        </span>
-                      ))}
+                      <div className="text-xs font-mono text-slate-700 font-semibold">
+                        C{slot.crescendo ?? 1} • Lv.{slot.level}
+                      </div>
                     </div>
                   </div>
                 );
