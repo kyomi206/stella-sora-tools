@@ -593,14 +593,6 @@ input[type="range"]:focus {
     transform: none;
   }
 
-  .game-card {
-    transition-property: background-color, border-color, color, box-shadow;
-  }
-
-  .game-card:hover {
-    transform: none;
-  }
-
   .rail-collapse,
   .rail-label {
     transition: none;
@@ -613,23 +605,12 @@ input[type="range"]:focus {
   border-radius: 16px;
   border: 2px solid rgba(212, 231, 240, 0.6);
   box-shadow: 0 4px 12px rgba(30, 58, 95, 0.08), 0 2px 6px rgba(30, 58, 95, 0.04);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateZ(0);
 }
 
 .dark .game-card {
   background: rgba(19, 40, 68, 0.95);
   border: 2px solid rgba(30, 64, 97, 0.6);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.game-card:hover {
-  transform: translateY(-2px) translateZ(0);
-  box-shadow: 0 8px 20px rgba(30, 58, 95, 0.12), 0 4px 10px rgba(30, 58, 95, 0.06);
-}
-
-.dark .game-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .frosted-panel {

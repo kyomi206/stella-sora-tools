@@ -5159,6 +5159,335 @@
       "icon": "16001_Ultra"
     }
   },
+  "161": {
+    "id": 161,
+    "name": "Leafia",
+    "element": "Terra",
+    "class": "Versatile",
+    "attackType": "Ranged",
+    "star": 5,
+    "upgrade": [
+      {
+        "Count's Rewards": 5,
+        "Dorra": 7900
+      },
+      {
+        "Count's Rewards": 5,
+        "Count's Cellaring": 10,
+        "Dorra": 19800
+      },
+      {
+        "Count's Rewards": 10,
+        "Count's Cellaring": 15,
+        "Dorra": 44400
+      },
+      {
+        "Count's Rewards": 15,
+        "Count's Cellaring": 25,
+        "Dorra": 66600
+      },
+      {
+        "Count's Rewards": 20,
+        "Count's Cellaring": 40,
+        "Dorra": 146100
+      },
+      {
+        "Count's Rewards": 30,
+        "Count's Cellaring": 55,
+        "Count's Gift": 20,
+        "Dorra": 291600
+      },
+      {
+        "Count's Cellaring": 75,
+        "Count's Gift": 30,
+        "Dorra": 560200
+      },
+      {
+        "Count's Cellaring": 95,
+        "Count's Gift": 50,
+        "Dorra": 1121300
+      }
+    ],
+    "skillUpgrade": [
+      {
+        "Shooter Game Cartridge": 6,
+        "Chess Piece of Skill": 2,
+        "Dorra": 13300
+      },
+      {
+        "Shooter Game Cartridge": 12,
+        "Chess Piece of Skill": 6,
+        "Dorra": 17600
+      },
+      {
+        "Shooter Game Cartridge": 24,
+        "Barrage Game Cartridge": 3,
+        "Chess Piece of Skill": 10,
+        "Dorra": 49800
+      },
+      {
+        "Shooter Game Cartridge": 38,
+        "Barrage Game Cartridge": 8,
+        "Chess Piece of Skill": 24,
+        "Dorra": 100000
+      },
+      {
+        "Shooter Game Cartridge": 70,
+        "Barrage Game Cartridge": 14,
+        "Demon Bee Game Cartridge": 6,
+        "Chess Piece of Skill": 55,
+        "Dorra": 400000
+      },
+      {
+        "Forest Elf Essence": 1,
+        "Barrage Game Cartridge": 50,
+        "Demon Bee Game Cartridge": 18,
+        "Chess Piece of Skill": 232,
+        "Dorra": 900000
+      },
+      {
+        "Forest Elf Essence": 2,
+        "Barrage Game Cartridge": 90,
+        "Demon Bee Game Cartridge": 34,
+        "Chess Piece of Skill": 323,
+        "Dorra": 1600000
+      },
+      {
+        "Forest Elf Essence": 3,
+        "Barrage Game Cartridge": 140,
+        "Demon Bee Game Cartridge": 50,
+        "Chess Piece of Skill": 478,
+        "Dorra": 2300000
+      },
+      {
+        "Forest Elf Essence": 6,
+        "Barrage Game Cartridge": 200,
+        "Demon Bee Game Cartridge": 70,
+        "Chess Piece of Skill": 927,
+        "Dorra": 3400000
+      }
+    ],
+    "normalAtk": {
+      "id": 16110000,
+      "name": "Crystal Generation",
+      "nameCN": "晶簇生成",
+      "nameJP": "ファセットグロース",
+      "nameKR": "결정 생성",
+      "energyLimit": 15.24,
+      "desc": "Continuously generates Plotting Crystals.\nStrike 1: <color=#fb8037>&Param1&</color> of ATK as Terra Auto Attack DMG.\nStrike 2: <color=#fb8037>&Param2&</color> of ATK as Terra Auto Attack DMG.\nStrike 3: <color=#fb8037>&Param3&</color> of ATK as Terra Auto Attack DMG.\nWhen an Auto Attack deals DMG, there is a 10% chance to generate 1 Resource Marker, up to 1 per second.",
+      "descCN": "连续生成「标绘结晶」。\n一段：攻击力<color=#fb8037>&Param1&</color>地系普攻伤害\n二段：攻击力<color=#fb8037>&Param2&</color>地系普攻伤害\n三段：攻击力<color=#fb8037>&Param3&</color>地系普攻伤害\n普通攻击造成伤害时，有10%概率产生1个##「资源标点」#4056#，每1秒最多产生1个。",
+      "descJP": "アジマスマーカーを連続で生成する。\n1段目：攻撃力の<color=#fb8037>&Param1&</color>の地属性の通常攻撃ダメージを与える。\n2段目：攻撃力の<color=#fb8037>&Param2&</color>の地属性の通常攻撃ダメージを与える。\n3段目：攻撃力の<color=#fb8037>&Param3&</color>の地属性の通常攻撃ダメージを与える。\n通常攻撃がダメージを与えた時、10%の確率で##セオドライト#4056#を1個生成する。この効果で1秒に1個まで生成できる。",
+      "descKR": "「제도 결정」을 연속으로 생성한다. \n1단계: 공격력 <color=#fb8037>&Param1&</color>의 땅 속성 일반 공격 피해 \n2단계: 공격력 <color=#fb8037>&Param2&</color>의 땅 속성 일반 공격 피해 \n3단계: 공격력 <color=#fb8037>&Param3&</color>의 땅 속성 일반 공격 피해 \n일반 공격이 피해를 입히면 10% 확률로 ##「자원 마커」#4056#를 1개 생성한다. 1초마다 최대 1개 생성한다.",
+      "damageType": [
+        "Auto Attack (3.8e, from Normal attack, scale with Normal attack)"
+      ],
+      "effectType": [],
+      "addAttrType": [],
+      "buffIcon": [],
+      "params": [
+        "66%/76%/86%/116%/125%/134%/153%/161%/169%/185%/198%/211%/224%",
+        "66%/76%/86%/116%/125%/134%/153%/161%/169%/185%/198%/211%/224%",
+        "66%/76%/86%/116%/125%/134%/153%/161%/169%/185%/198%/211%/224%"
+      ],
+      "paramsTooltips": [
+        {
+          "damageType": "Auto Attack (3.8e, from Normal attack, scale with Normal attack)",
+          "hitDamageId": "161100001",
+          "hitSources": [
+            "AdventureBullet(Snapshot): 20 speed, 1s lifetime, pierce, Rectangle (2.8 × 1.7)"
+          ],
+          "damageTag": [
+            "16101_NormalAtk",
+            "16101_NormalAtk_Res"
+          ]
+        },
+        {
+          "damageType": "Auto Attack (3.8e, from Normal attack, scale with Normal attack)",
+          "hitDamageId": "161100002",
+          "hitSources": [
+            "AdventureBullet(Snapshot): 20 speed, 1s lifetime, pierce, Rectangle (2.8 × 1.7)"
+          ],
+          "damageTag": [
+            "16101_NormalAtk",
+            "16101_NormalAtk_Res"
+          ]
+        },
+        {
+          "damageType": "Auto Attack (3.8e, from Normal attack, scale with Normal attack)",
+          "hitDamageId": "161100003",
+          "hitSources": [
+            "AdventureBullet(Snapshot): 20 speed, 1s lifetime, pierce, Rectangle (2.8 × 1.7)"
+          ],
+          "damageTag": [
+            "16101_NormalAtk",
+            "16101_NormalAtk_Res"
+          ]
+        }
+      ],
+      "icon": "16101_Normal"
+    },
+    "skill": {
+      "id": 16131000,
+      "name": "Crystal Vein Survey",
+      "nameCN": "晶脉勘定",
+      "nameJP": "アーススキャニング",
+      "nameKR": "결정 광맥 탐지",
+      "cooldown": "18s",
+      "energyLimit": 12.5,
+      "desc": "Unleashes Stratum Echo, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Terra Skill DMG and generating 5 ##Resource Markers#4056#. When there are more than 10 ##Resource Markers#4056#, consumes 10 to generate 1 Observation Point for 10s (max 1 active). The Observation Point fires bullets at the Main Trekker's target every 3s, dealing <color=#fb8037>&Param2&</color> of ATK as Terra Auto Attack DMG. All these attacks can trigger ##Terra Mark#1020#, dealing &Param3& of ATK as AoE Terra Mark DMG.",
+      "descCN": "展开「地层回响」，造成攻击力<color=#fb8037>&Param1&</color>的范围地系技能伤害，产生5个##「资源标点」#4056#。##「资源标点」#4056#数量大于10个时，消耗10个##「资源标点」#4056#，生成1个「观测点」，持续10秒，最多存在1个。「观测点」每3秒对主控目标发射子弹，造成攻击力<color=#fb8037>&Param2&</color>的地系普攻伤害。以上攻击都可触发##地系印记#1020#，造成攻击力&Param3&的范围地系印记伤害。",
+      "descJP": "アースウェーブを展開し、範囲内に攻撃力の<color=#fb8037>&Param1&</color>の地属性のスキルダメージを与え、##セオドライト#4056#を5個生成する。##セオドライト#4056#が10個を超えると、そのうち10個を消費して観測点を1つ生成する。\n観測点は10秒間持続し、同時に1つまで存在できる。観測点は3秒ごとに主力巡遊者のターゲットへ弾丸を発射し、攻撃力の<color=#fb8037>&Param2&</color>の地属性の通常攻撃ダメージを与える。\n上記の攻撃はいずれも##地属性の印#1020#を発動でき、範囲内に攻撃力の&Param3&の地属性の印ダメージを与える。",
+      "descKR": "「지층 울림」을 전개해 공격력 <color=#fb8037>&Param1&</color>의 땅 속성 범위 스킬 피해를 입히고, ##「자원 마커」#4056# 5개를 생성한다. ##「자원 마커」#4056#가 10개를 초과하면 ##「자원 마커」#4056# 10개를 소모해 「관측 지점」 1개를 생성한다. 10초간 지속되며, 최대 1개 존재한다. 「관측 지점」은 3초마다 메인 목표에게 총알을 발사해, 공격력 <color=#fb8037>&Param2&</color>의 땅 속성 일반 공격 피해를 입힌다. 위 공격은 모두 ##땅 속성 표식#1020#을 발동하고, 공격력 &Param3&의 땅 속성 범위 표식 피해를 입힌다.",
+      "damageType": [
+        "Skill (10e, from Skill, scale with Skill)",
+        "Auto Attack (from Normal attack, scale with Skill)",
+        "Mark (scale with Upgrade)"
+      ],
+      "effectType": [],
+      "addAttrType": [],
+      "buffIcon": [],
+      "params": [
+        "65%/74%/84%/113%/122%/131%/149%/157%/165%/180%/193%/206%/219%",
+        "19.4%/22.3%/25.2%/33.9%/36.6%/39.3%/44.7%/47%/49.4%/54%/57.9%/61.7%/65.6%",
+        "18%/23.4%/28.8%/34.1%/39.5%/44.9%/50.3%/55.7%/61%"
+      ],
+      "paramsTooltips": [
+        {
+          "damageType": "Skill (10e, from Skill, scale with Skill)",
+          "hitDamageId": "161310001",
+          "hitSources": [
+            "AdventureBullet(Snapshot): 30 speed, 0.35s lifetime, pierce, Rectangle (5 × 1.5)"
+          ],
+          "damageTag": [
+            "16101_LandTag_Trigger"
+          ]
+        },
+        {
+          "damageType": "Auto Attack (from Normal attack, scale with Skill)",
+          "hitDamageId": "161310002",
+          "damageTag": [
+            "16101_LandTag_Trigger",
+            "16101_Camp_Main"
+          ]
+        },
+        {
+          "damageType": "Mark (scale with Upgrade)",
+          "hitDamageId": "161000001",
+          "hitSources": [
+            "AreaEffectEntity(Snapshot): duration 1.8s, hit delay 0.1s, hit interval 3s, 1 hits, Circle (radius 2)"
+          ]
+        }
+      ],
+      "icon": "16101_Skill_Main"
+    },
+    "supportSkill": {
+      "id": 16132000,
+      "name": "Area Plotting",
+      "nameCN": "区域标绘",
+      "nameJP": "ゼロポイントピラー",
+      "nameKR": "구역 표식 매핑",
+      "cooldown": "14s",
+      "desc": "Generates 1 Observation Point for 10s (max 1 active). Upon generation, the Observation Point performs a Vanguard Strike, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Terra Auto Attack DMG and generating Tactical Mapping. Tactical Mapping deals <color=#fb8037>&Param2&</color> of ATK as AoE Terra Auto Attack DMG every 2s, lasting until the Observation Point expires. All these attacks inflict ##Terra Mark: Earth Vein#2029#.",
+      "descCN": "生成1个「观测点」，持续10秒，最多存在1个。「观测点」生成时进行「先导攻击」，造成攻击力<color=#fb8037>&Param1&</color>的范围地系普攻伤害，生成「战术制图」。「战术制图」每2秒造成攻击力<color=#fb8037>&Param2&</color>的范围地系普攻伤害，持续至「观测点」消失。以上攻击都会附加##地系印记：地脉#2029#。",
+      "descJP": "観測点を1つ生成する。観測点は10秒間持続し、同時に1つまで存在できる。観測点は生成時にスキャニングを行い、範囲内に攻撃力の<color=#fb8037>&Param1&</color>の地属性の通常攻撃ダメージを与える。その後、観測点を中心にレーダーマップを生成する。\nレーダーマップは2秒ごとに範囲内に攻撃力の<color=#fb8037>&Param2&</color>の地属性の通常攻撃ダメージを与える。この効果は観測点が消えるまで持続する。\n上記の攻撃はいずれも##地属性の印：地脈#2029#を付与できる。",
+      "descKR": "「관측 지점」 1개를 생성한다. 10초간 지속되며, 최대 1개 존재한다. 「관측 지점」 생성 시 「선제 공격」을 진행해 공격력 <color=#fb8037>&Param1&</color>의 땅 속성 범위 일반 공격 피해를 입히고 「전술 매핑」을 생성한다. 「전술 매핑」은 2초마다 공격력 <color=#fb8037>&Param2&</color>의 땅 속성 범위 일반 공격 피해를 입힌다. 「관측 지점」이 사라질 때까지 지속된다. 위 공격은 모두 ##땅 속성 표식: 지맥#2029#을 부여한다.",
+      "damageType": [
+        "Auto Attack (from Normal attack, scale with Skill)"
+      ],
+      "effectType": [],
+      "addAttrType": [],
+      "buffIcon": [],
+      "params": [
+        "117%/135%/152%/205%/222%/238%/271%/285%/299%/327%/351%/374%/397%",
+        "142%/164%/185%/249%/269%/289%/329%/346%/363%/397%/425%/454%/482%"
+      ],
+      "paramsTooltips": [
+        {
+          "damageType": "Auto Attack (from Normal attack, scale with Skill)",
+          "hitDamageId": "161320001",
+          "hitSources": [
+            "AreaEffectEntity(Snapshot): duration 2s, hit delay 0.35s, hit interval 3s, 1 hits, Circle (radius 6)"
+          ],
+          "damageTag": [
+            "16101_FWB_Mark",
+            "16101_Camp_Sup_TanCha",
+            "16101_Camp_Sup_TanChaTag_Damage"
+          ]
+        },
+        {
+          "damageType": "Auto Attack (from Normal attack, scale with Skill)",
+          "hitDamageId": "161320002",
+          "hitSources": [
+            "AreaEffectEntity: duration 30s, hit delay 0s, hit interval 2s, 15 hits, Circle (radius 6)"
+          ],
+          "areaEffectVariants": [
+            {
+              "class": "AreaEffectEntity",
+              "snapshot": false,
+              "duration": 30,
+              "hitDelay": 0,
+              "hitInterval": 1,
+              "hits": 30,
+              "shape": "circle",
+              "radius": 6
+            }
+          ],
+          "damageTag": [
+            "16101_FWB_Mark",
+            "16101_Camp_Sup_CeHui"
+          ]
+        }
+      ],
+      "icon": "16101_Skill_Support"
+    },
+    "ultimate": {
+      "id": 16140000,
+      "name": "Terrain Mapping",
+      "nameCN": "地形映射",
+      "nameJP": "ジオ・マテリアライズ",
+      "nameKR": "지형 매핑",
+      "cooldown": "30s",
+      "energy": 264,
+      "desc": "Unleashes Terrain Mapping for 20s, dealing <color=#fb8037>&Param1&</color> of ATK as AoE Terra Ultimate DMG every 3s.",
+      "descCN": "展开「地形映射」，持续20秒，每3秒造成攻击力<color=#fb8037>&Param1&</color>的范围地系绝招伤害。",
+      "descJP": "ジオ・マテリアライズを展開する。20秒間持続し、3秒ごとに範囲内に攻撃力の<color=#fb8037>&Param1&</color>の地属性の必殺技ダメージを与える。",
+      "descKR": "「지형 매핑」을 전개해 20초간 지속된다. 3초마다 공격력 <color=#fb8037>&Param1&</color>의 땅 속성 범위 필살기 피해를 입힌다.",
+      "damageType": [
+        "Ultimate (from Ultimate, scale with Ultimate)"
+      ],
+      "effectType": [],
+      "addAttrType": [],
+      "buffIcon": [],
+      "params": [
+        "97%/111%/126%/169%/183%/196%/224%/235%/247%/270%/289%/309%/328%"
+      ],
+      "paramsTooltips": [
+        {
+          "damageType": "Ultimate (from Ultimate, scale with Ultimate)",
+          "hitDamageId": "161400001",
+          "hitSources": [
+            "AreaEffectEntity: duration 20s, hit delay 0s, hit interval 3s, 7 hits, Circle (radius 9)"
+          ],
+          "areaEffectVariants": [
+            {
+              "class": "AreaEffectEntity",
+              "snapshot": false,
+              "duration": 20,
+              "hitDelay": 0,
+              "hitInterval": 2,
+              "hits": 10,
+              "shape": "circle",
+              "radius": 9
+            }
+          ],
+          "damageTag": [
+            "16101_Ultra"
+          ]
+        }
+      ],
+      "icon": "16101_Ultra"
+    }
+  },
   "162": {
     "id": 162,
     "name": "Firstlight Noya",

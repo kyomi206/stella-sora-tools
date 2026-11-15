@@ -11,6 +11,7 @@ interface PotentialDescProps {
   className?: string;
   defaultElement?: ElementType;
   characterId?: number | null;
+  forceLight?: boolean;
 }
 
 export function PotentialDesc({
@@ -20,6 +21,7 @@ export function PotentialDesc({
   className,
   defaultElement,
   characterId,
+  forceLight = false,
 }: PotentialDescProps) {
   const segments = useMemo(
     () => formatPotentialSegments(descTemplate, params, level, defaultElement, characterId),
@@ -31,7 +33,14 @@ export function PotentialDesc({
       {segments.map((segment, index) => {
         if (segment.kind === 'percent') {
           return (
-            <span key={index} className="font-semibold text-amber-500 dark:text-amber-400">
+            <span
+              key={index}
+              className={
+                forceLight
+                  ? 'font-semibold text-amber-600'
+                  : 'font-semibold text-amber-500 dark:text-amber-400'
+              }
+            >
               {segment.text}
             </span>
           );
@@ -39,7 +48,13 @@ export function PotentialDesc({
         if (segment.kind === 'mark') {
           return (
             <span key={index}>
-              <span className="underline underline-offset-2 font-medium text-sky-600 dark:text-sky-400">
+              <span
+                className={
+                  forceLight
+                    ? 'underline underline-offset-2 font-medium text-sky-700'
+                    : 'underline underline-offset-2 font-medium text-sky-600 dark:text-sky-400'
+                }
+              >
                 {segment.text}
               </span>
               {segment.element && (
@@ -49,6 +64,18 @@ export function PotentialDesc({
                   className="inline-block size-[1.15em] object-contain align-[-0.15em] ml-1 select-none pointer-events-none"
                 />
               )}
+            </span>
+          );
+        }
+        if (segment.kind === 'effect') {
+          return (
+            <span
+              key={index}
+              className={
+                forceLight ? 'font-medium text-sky-700' : 'font-medium text-sky-600 dark:text-sky-400'
+              }
+            >
+              {segment.text}
             </span>
           );
         }

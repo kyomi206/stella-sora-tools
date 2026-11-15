@@ -1172,7 +1172,7 @@
       "rarity": "core",
       "rarityNum": 0,
       "icon": "10701_Potential_24",
-      "descTemplate": "When casting &Param1& (Support Skill), Tilia throws Aegis of Light at up to <color=#0abec5>5</color> targets simultaneously.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,107322401)",
+      "descTemplate": "When casting &Param1& (Support Skill), Tilia throws Aegis of Light at up to <color=#0abec5>5</color> targets simultaneously.",
       "params": [
         "Aegis Intervention"
       ],
@@ -5502,7 +5502,7 @@
       "rarity": "rare",
       "rarityNum": 1,
       "icon": "11401_Potential_06",
-      "descTemplate": "When a Bouncing Bomb runs out of bounces, it returns to Chaton and grants her Spark.\u000bWhen holding &Param1& (Main Skill), Chaton consumes Spark to increase her &Param2& by <color=#ec6d21>&Param3&</color> for &Param4&s and throws an Explosive Bomb at the target, dealing <color=#ec6d21>&Param5&</color> of ATK as AoE Ignis Skill DMG.\u000bThe Explosive Bomb cannot bounce.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,114506002)",
+      "descTemplate": "When a Bouncing Bomb runs out of bounces, it returns to Chaton and grants her Spark.\u000bWhen holding &Param1& (Main Skill), Chaton consumes Spark to increase her &Param2& by <color=#ec6d21>&Param3&</color> for &Param4&s and throws an Explosive Bomb at the target, dealing <color=#ec6d21>&Param5&</color> of ATK as AoE Ignis Skill DMG.\u000bThe Explosive Bomb cannot bounce.",
       "params": [
         "Sniper Operation",
         "Skill Crit DMG",
@@ -5900,7 +5900,7 @@
       "rarity": "rare",
       "rarityNum": 1,
       "icon": "11401_Potential_28",
-      "descTemplate": "Increases Chaton's &Param2& by <color=#ec6d21>&Param3&</color>.\u000bEach time &Param1& (Support Skill) fires, shoots 2 additional Meow Bombs.\u000bThe bombs shoot forward in a straight line 3 times, dealing <color=#ec6d21>&Param4&</color> of ATK as AoE Ignis Skill DMG each time.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,114506002)",
+      "descTemplate": "Increases Chaton's &Param2& by <color=#ec6d21>&Param3&</color>.\u000bEach time &Param1& (Support Skill) fires, shoots 2 additional Meow Bombs.\u000bThe bombs shoot forward in a straight line 3 times, dealing <color=#ec6d21>&Param4&</color> of ATK as AoE Ignis Skill DMG each time.",
       "params": [
         "Blitz Assault",
         "Skill DMG",
@@ -6501,7 +6501,7 @@
       "rarity": "core",
       "rarityNum": 0,
       "icon": "11501_Potential_22",
-      "descTemplate": "Increases the &Param1& of Avalanche: Flying Blade by <color=#0abec5>&Param2&</color> when it deals DMG.\u000bWhenever Avalanche: Flying Blade deals DMG, it deals an additional <color=#0abec5>&Param3&</color> of ATK as AoE Lux Skill DMG and inflicts Lux Mark: Radiance.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,115322602)",
+      "descTemplate": "Increases the &Param1& of Avalanche: Flying Blade by <color=#0abec5>&Param2&</color> when it deals DMG.\u000bWhenever Avalanche: Flying Blade deals DMG, it deals an additional <color=#0abec5>&Param3&</color> of ATK as AoE Lux Skill DMG and inflicts Lux Mark: Radiance.",
       "params": [
         "Skill Crit Rate",
         "15%",
@@ -9831,7 +9831,7 @@
       "rarity": "core",
       "rarityNum": 0,
       "icon": "12001_Potential_01",
-      "descTemplate": "Summons <color=#0abec5>3</color> additional Flying Leaves.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,120501001)",
+      "descTemplate": "Summons <color=#0abec5>3</color> additional Flying Leaves.",
       "params": [],
       "maxLevel": 1,
       "effectType": [],
@@ -15125,7 +15125,7 @@
       "rarity": "rare",
       "rarityNum": 1,
       "icon": "13201_Potential_22",
-      "descTemplate": "When the main Trekker deals damage to a target inflicted with Astral Hex, deals an additional <color=#ec6d21>&Param1& of Minova's ATK</color> as Lux Skill DMG. This effect can only be triggered once per second.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,132526001)",
+      "descTemplate": "When the main Trekker deals damage to a target inflicted with Astral Hex, deals an additional <color=#ec6d21>&Param1& of Minova's ATK</color> as Lux Skill DMG. This effect can only be triggered once per second.",
       "params": [
         "55%/74%/92%/111%/129%/148%/166%/184%/203%"
       ],
@@ -16956,7 +16956,7 @@
       "rarity": "core",
       "rarityNum": 0,
       "icon": "13501_Potential_03",
-      "descTemplate": "While in Exposure status, if the maximum number of Pumpka Phantom are on the battlefield, increases their duration. Also increases Pumpka Phantom' &Param1& by <color=#0abec5>&Param2&</color> every 3s, up to &Param3& stacks.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Auto Attack,80135023)",
+      "descTemplate": "While in Exposure status, if the maximum number of Pumpka Phantom are on the battlefield, increases their duration. Also increases Pumpka Phantom' &Param1& by <color=#0abec5>&Param2&</color> every 3s, up to &Param3& stacks.",
       "params": [
         "Minion DMG",
         "13%",
@@ -18495,7 +18495,7 @@
       "rarity": "common",
       "rarityNum": 2,
       "icon": "13901_Potential_01",
-      "descTemplate": "All Ultimate DMG dealt by Deep Sweep: Restore Order (Ultimate Phase 2) becomes Skill DMG. When casting Deep Sweep: Restore Order (Ultimate Phase 2) or Sweeping Rush (Main Skill), increases own &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, up to &Param4& stacks.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,139400302) \u000bHiddenParam2: &HiddenParam2& (HitDamage,Skill,139543302)",
+      "descTemplate": "All Ultimate DMG dealt by Deep Sweep: Restore Order (Ultimate Phase 2) becomes Skill DMG. When casting Deep Sweep: Restore Order (Ultimate Phase 2) or Sweeping Rush (Main Skill), increases own &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, up to &Param4& stacks.",
       "params": [
         "Skill DMG",
         "2%/3.2%/4.4%/5.6%/6.8%/8%/8.4%/8.8%/9.2%",
@@ -18582,7 +18582,7 @@
       "rarity": "common",
       "rarityNum": 2,
       "icon": "13901_Potential_04",
-      "descTemplate": "In an all-Aqua squad, all DMG dealt by Deep Sweep: Dust Off (Ultimate Phase 1) and Housework Slash (Auto Attack) becomes Mark DMG. Meanwhile, every &Param1& increase in Auto Attack DMG additionally increases Allie's Mark DMG by &Param2&, up to <color=#ec6d21>&Param3&</color>. Reduces Allie's &Param4& by &Param5&.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Mark,139100201) \u000bHiddenParam2: &HiddenParam2& (HitDamage,Mark,139100202) \u000bHiddenParam3: &HiddenParam3& (HitDamage,Mark,139100203) \u000bHiddenParam4: &HiddenParam4& (HitDamage,Mark,139100204) \u000bHiddenParam5: &HiddenParam5& (HitDamage,Mark,139100205) \u000bHiddenParam6: &HiddenParam6& (HitDamage,Mark,139100206) \u000bHiddenParam7: &HiddenParam7& (HitDamage,Mark,139100207) \u000bHiddenParam8: &HiddenParam8& (HitDamage,Mark,139100208) \u000bHiddenParam9: &HiddenParam9& (HitDamage,Mark,139100209) \u000bHiddenParam10: &HiddenParam10& (HitDamage,Mark,139400201)",
+      "descTemplate": "In an all-Aqua squad, all DMG dealt by Deep Sweep: Dust Off (Ultimate Phase 1) and Housework Slash (Auto Attack) becomes Mark DMG. Meanwhile, every &Param1& increase in Auto Attack DMG additionally increases Allie's Mark DMG by &Param2&, up to <color=#ec6d21>&Param3&</color>. Reduces Allie's &Param4& by &Param5&.",
       "params": [
         "1.3%",
         "1%",
@@ -18776,7 +18776,7 @@
       "rarity": "core",
       "rarityNum": 0,
       "icon": "13901_Potential_22",
-      "descTemplate": "Cycling Slashes can deal <color=#0abec5>8</color> more hits, and its &Param1& dealt is increased by <color=#0abec5>&Param2&</color>.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,139522001)",
+      "descTemplate": "Cycling Slashes can deal <color=#0abec5>8</color> more hits, and its &Param1& dealt is increased by <color=#0abec5>&Param2&</color>.",
       "params": [
         "Aqua DMG",
         "20%"
@@ -20293,7 +20293,7 @@
       "rarity": "core",
       "rarityNum": 0,
       "icon": "14101_Potential_23",
-      "descTemplate": "Crimson Dragon enhances into Tiger of the East. Increases Tiger of the East's Minion DMG by <color=#0abec5>&Param1&</color> every 2s.\u000bTiger of the East deals <color=#0abec5>&Param2&</color>, <color=#0abec5>&Param3&</color>, and <color=#0abec5>&Param4& x2</color> of ATK as AoE Ignis Minion DMG and inflicts Ignis Mark: Sacred Flame.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Minion,141523001)",
+      "descTemplate": "Crimson Dragon enhances into Tiger of the East. Increases Tiger of the East's Minion DMG by <color=#0abec5>&Param1&</color> every 2s.\u000bTiger of the East deals <color=#0abec5>&Param2&</color>, <color=#0abec5>&Param3&</color>, and <color=#0abec5>&Param4& x2</color> of ATK as AoE Ignis Minion DMG and inflicts Ignis Mark: Sacred Flame.",
       "params": [
         "50%",
         "114%/132%/149%/200%/216%/232%/264%/278%/292%/319%/342%/365%/388%",
@@ -20323,7 +20323,7 @@
       "rarity": "core",
       "rarityNum": 0,
       "icon": "14101_Potential_24",
-      "descTemplate": "The first minion summoned by &Param2& (Support Skill) is inflicted with Blazing Barrier, dealing <color=#0abec5>&Param1& of ATK</color> as AoE Ignis Minion DMG to nearby targets every <color=#0abec5>0.5</color>s.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Minion,141524002)",
+      "descTemplate": "The first minion summoned by &Param2& (Support Skill) is inflicted with Blazing Barrier, dealing <color=#0abec5>&Param1& of ATK</color> as AoE Ignis Minion DMG to nearby targets every <color=#0abec5>0.5</color>s.",
       "params": [
         "37.7%/43.3%/49%/65.9%/71.2%/76.5%/87%/91.5%/96.1%/105.1%/112.6%/120.2%/127.7%",
         "Awakening: Crimson Dragon"
@@ -30349,7 +30349,7 @@
       "rarity": "rare",
       "rarityNum": 1,
       "icon": "16001_Potential_23",
-      "descTemplate": "For every 8 shots fired by Willow, a blue bubble is generated near targets inside Bubble Bath, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Aqua Skill DMG, while increasing the squad's &Param2& by <color=#ec6d21>&Param4&</color> for &Param8&s. When a blue bubble is generated, there is a 50% chance it turns into a red bubble, additionally increasing Main Trekker's &Param6& by <color=#ec6d21>&Param7&</color> for &Param8&s.\u000bHiddenParam1: &HiddenParam1& (HitDamage,Skill,160530002)",
+      "descTemplate": "For every 8 shots fired by Willow, a blue bubble is generated near targets inside Bubble Bath, dealing <color=#ec6d21>&Param1&</color> of ATK as AoE Aqua Skill DMG, while increasing the squad's &Param2& by <color=#ec6d21>&Param4&</color> for &Param8&s. When a blue bubble is generated, there is a 50% chance it turns into a red bubble, additionally increasing Main Trekker's &Param6& by <color=#ec6d21>&Param7&</color> for &Param8&s.",
       "params": [
         "41%/65%/89%/114%/138%/163%/187%/211%/236%",
         "Crit Rate",
@@ -30548,6 +30548,758 @@
       ],
       "damageType": [],
       "briefDesc": "When the Ultimate deals DMG, increases the target's Aqua DMG Taken."
+    }
+  ],
+  "161": [
+    {
+      "id": 516101,
+      "characterId": 161,
+      "name": "Crystal Overclock",
+      "nameCN": "结晶超频",
+      "nameJP": "トータルステーション",
+      "nameKR": "결정 오버클럭",
+      "group": "mainCore",
+      "slot": "vanguard",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_01",
+      "descTemplate": "After casting Crystal Vein Survey (Main Skill), Observation Points are no longer generated. When Leafia's Auto Attack deals DMG, it always generates 1 Resource Marker. Leafia's Auto Attack can also consume 3 Resource Markers to fire an Amplification Crystal, dealing <color=#0abec5>&Param3&</color> of ATK as Terra Auto Attack DMG, increasing that Auto Attack's &Param2& by <color=#0abec5>&Param1&</color>, and triggering Terra Mark.",
+      "params": [
+        "50%",
+        "DMG multiplier",
+        "119%/137%/155%/208%/225%/242%/275%/289%/304%/332%/356%/380%/404%"
+      ],
+      "maxLevel": 1,
+      "effectType": [],
+      "damageType": [
+        "Auto Attack (3.9e, from Normal attack, scale with Normal attack)"
+      ],
+      "briefDesc": "No longer generates Observation Points. Auto Attacks can consume Resource Markers to increase that attack's DMG multiplier."
+    },
+    {
+      "id": 516102,
+      "characterId": 161,
+      "name": "Focused Penetration",
+      "nameCN": "集束贯通",
+      "nameJP": "貫通測量",
+      "nameKR": "집속 관통",
+      "group": "mainCore",
+      "slot": "vanguard",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_02",
+      "descTemplate": "Leafia's Auto Attacks generate 1 extra Resource Marker when dealing DMG. Auto Attack's &Param2& is increased by <color=#0abec5>&Param1&</color> and pierces targets. Any new Resource Markers are absorbed automatically.",
+      "params": [
+        "70%",
+        "DMG multiplier"
+      ],
+      "maxLevel": 1,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Auto Attacks generate extra Resource Markers when dealing DMG. Auto Attack's DMG multiplier is increased and pierces targets. Any new Resource Markers are absorbed automatically."
+    },
+    {
+      "id": 516103,
+      "characterId": 161,
+      "name": "Field Echo",
+      "nameCN": "阵地回响",
+      "nameJP": "エコー測深",
+      "nameKR": "진지의 메아리",
+      "group": "mainCore",
+      "slot": "vanguard",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_03",
+      "descTemplate": "Auto Attacks no longer generate Resource Markers when dealing DMG. Reduces Main Skill Cooldown by <color=#0abec5>10s</color> and extends Observation Point duration by <color=#0abec5>20s</color>. Casting a skill directly generates 1 Observation Point without consuming Resource Markers (triggers once every 20s). Every <color=#0abec5>3</color> attacks, each Observation Point releases a wave that deals <color=#0abec5>&Param1&</color> of ATK as AoE Terra Auto Attack DMG.",
+      "params": [
+        "103%/118%/134%/180%/195%/209%/238%/250%/263%/287%/308%/328%/349%"
+      ],
+      "maxLevel": 1,
+      "effectType": [],
+      "damageType": [
+        "Auto Attack (from Normal attack, scale with Skill)"
+      ],
+      "briefDesc": "Auto Attacks no longer generate Resource Markers when dealing DMG. Reduces Main Skill Cooldown and extends Observation Point duration. Each Observation Point deals additional DMG every 3 attacks."
+    },
+    {
+      "id": 516104,
+      "characterId": 161,
+      "name": "Field Assault",
+      "nameCN": "阵地强袭",
+      "nameJP": "メテオアンカー",
+      "nameKR": "진지 습격",
+      "group": "mainCore",
+      "slot": "vanguard",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_04",
+      "descTemplate": "Observation Points fire bullets at targets every second, dealing <color=#0abec5>&Param1&</color> of ATK as Terra Auto Attack DMG and generating 1 Resource Marker every 3s. Each Resource Marker Leafia picks up increases Observation Point's &Param5& by <color=#0abec5>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "32%/37%/42%/57%/61%/66%/75%/79%/83%/91%/97%/104%/110%",
+        "5%",
+        5,
+        10,
+        "DMG multiplier"
+      ],
+      "maxLevel": 1,
+      "effectType": [],
+      "damageType": [
+        "Auto Attack (from Normal attack, scale with Skill)"
+      ],
+      "briefDesc": "Observation Points fire bullets at targets every second, generating 1 Resource Marker every 3s. Every Resource Marker Leafia picks up increases Observation Point's DMG multiplier."
+    },
+    {
+      "id": 516105,
+      "characterId": 161,
+      "name": "Terra DMG Amp",
+      "nameCN": "地伤增幅",
+      "nameJP": "アースロケーション",
+      "nameKR": "땅 피해 증폭",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_01",
+      "descTemplate": "When Amplification Crystals deal DMG, increases the targets' &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "Terra DMG Taken",
+        "0.8%/1.3%/1.8%/2.2%/2.7%/3.2%/3.7%/4.2%/4.6%",
+        5,
+        10
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "Terra DMG Taken (base)"
+      ],
+      "damageType": [],
+      "briefDesc": "When Amplification Crystals deal DMG, increases the targets' Terra DMG Taken."
+    },
+    {
+      "id": 516106,
+      "characterId": 161,
+      "name": "Terra Mark Resonance",
+      "nameCN": "地印共振",
+      "nameJP": "大地共鳴",
+      "nameKR": "땅 표식의 공명",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_01",
+      "descTemplate": "When Amplification Crystals trigger a Terra Mark, increases Leafia's &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "ATK",
+        "1.5%/2.4%/3.3%/4.2%/5.1%/6%/6.9%/7.8%/8.7%",
+        10,
+        10
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ATK (%)"
+      ],
+      "damageType": [],
+      "briefDesc": "When Amplification Crystals trigger a Terra Mark, increases Leafia's ATK."
+    },
+    {
+      "id": 516107,
+      "characterId": 161,
+      "name": "Marker Overload",
+      "nameCN": "标点过载",
+      "nameJP": "測量士の勘",
+      "nameKR": "마커 과부하",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "rare",
+      "rarityNum": 1,
+      "icon": "16101_Potential_07",
+      "descTemplate": "Increases Leafia's &Param3& by <color=#ec6d21>&Param4&</color>. Firing Amplification Crystals has an 80% chance to launch an extra Vector Crystal without using Resource Markers, dealing <color=#ec6d21>&Param2&</color> of ATK as Terra Auto Attack DMG. Firing Amplification Crystals costs 1 less Resource Marker.",
+      "params": [
+        80,
+        "10.9%/17.4%/23.9%/30.4%/36.9%/43.4%/49.9%/56.4%/62.9%",
+        "Auto Attack DMG",
+        "20%/32%/44%/56%/68%/80%/92%/104%/116%"
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [
+        "Auto Attack (from Normal attack)"
+      ],
+      "briefDesc": "Increases Leafia's Auto Attack DMG. Firing Amplification Crystals has a chance to launch an extra Vector Crystal without using Resource Markers. Firing Amplification Crystals costs less Resource Marker."
+    },
+    {
+      "id": 516108,
+      "characterId": 161,
+      "name": "Obsidian Field",
+      "nameCN": "观测蚀域",
+      "nameJP": "地形更新",
+      "nameKR": "침식 영역 관측",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_04",
+      "descTemplate": "Increases the &Param1& of targets within the Observation Point range by <color=#ec6d21>&Param2&</color>, stacking up to &Param3& times.",
+      "params": [
+        "Terra DMG Taken",
+        "2.7%/4.3%/5.9%/7.6%/9.2%/10.8%/12.4%/14%/15.7%",
+        3
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "Terra DMG Taken (base)"
+      ],
+      "damageType": [],
+      "briefDesc": "Increases the Terra DMG Taken of targets within the Observation Point range."
+    },
+    {
+      "id": 516109,
+      "characterId": 161,
+      "name": "Survey Field Amp",
+      "nameCN": "测域增幅",
+      "nameJP": "観測強化",
+      "nameKR": "관측 범위 증폭",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_04",
+      "descTemplate": "When Observation Points deal DMG, increases their &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "ATK",
+        "5%/8%/11%/14%/17%/20%/23%/26%/29%",
+        10,
+        3
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "When Observation Points deal DMG, increases their ATK."
+    },
+    {
+      "id": 516111,
+      "characterId": 161,
+      "name": "Mobility Amp",
+      "nameCN": "机动增幅",
+      "nameJP": "トラバースステップ",
+      "nameKR": "기동 증폭",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "Common_Potential_21",
+      "descTemplate": "Leafia can dodge one more time.\u000bWhen dodging, increases her &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s.",
+      "params": [
+        "ATK",
+        "9%/12%/16%/19%/22%/25%/28%/31%/34%",
+        8
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ATK (%)"
+      ],
+      "damageType": [],
+      "briefDesc": "Leafia can dodge one more time. Increases her ATK when dodging."
+    },
+    {
+      "id": 516113,
+      "characterId": 161,
+      "name": "Earth Vein Synergy",
+      "nameCN": "地脉协同",
+      "nameJP": "調査隊の連携",
+      "nameKR": "지맥 시너지",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "rare",
+      "rarityNum": 1,
+      "icon": "Common_Potential_11",
+      "descTemplate": "For each Terra Trekker on the squad, increases Leafia's &Param1& by <color=#ec6d21>&Param2&</color>.",
+      "params": [
+        "Auto Attack DMG",
+        "5%/8%/11%/14%/17%/20%/23%/26%/29%"
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "For each Terra Trekker on the squad, increases Leafia's Auto Attack DMG."
+    },
+    {
+      "id": 516110,
+      "characterId": 161,
+      "name": "Observer Array",
+      "nameCN": "观测联阵",
+      "nameJP": "多角測量",
+      "nameKR": "관측 연계",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "rare",
+      "rarityNum": 1,
+      "icon": "16101_Potential_10",
+      "descTemplate": "Can generate up to <color=#ec6d21>&Param1& Observation Points. Each active Observation Point on the field increases its &Param2& dealt by <color=#ec6d21>&Param3&</color>.",
+      "params": [
+        "1/1/1/2/2/3/3/3/3",
+        "Auto Attack DMG",
+        "7%/11%/15%/19%/23%/27%/31%/35%/39%"
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Increases max Observation Points. Each active Observation Point on the field increases its Auto Attack DMG dealt."
+    },
+    {
+      "id": 516112,
+      "characterId": 161,
+      "name": "Terra Mark Awakening",
+      "nameCN": "地印觉醒",
+      "nameJP": "アトラスの恩寵",
+      "nameKR": "땅 표식의 각성",
+      "group": "mainNormal",
+      "slot": "vanguard",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "Common_Potential_Earth_1",
+      "descTemplate": "Terrain Mapping (Ultimate) can trigger Terra Marks. After casting the Ultimate, increases Leafia's &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s.",
+      "params": [
+        "ATK",
+        "12%/19.2%/26.4%/33.6%/40.8%/48%/55.2%/62.4%/69.6%",
+        25
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ATK (%)"
+      ],
+      "damageType": [],
+      "briefDesc": "Terrain Mapping (Ultimate) can trigger Terra Marks. After casting the Ultimate, increases Leafia's ATK."
+    },
+    {
+      "id": 516141,
+      "characterId": 161,
+      "name": "Draw Zone Ascension",
+      "nameCN": "绘域升势",
+      "nameJP": "フィードバック",
+      "nameKR": "매핑 영역 강화",
+      "group": "common",
+      "slot": "both",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_41",
+      "descTemplate": "When Terrain Mapping (Ultimate) deals DMG, increases Leafia's &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "ATK",
+        "4%/6.4%/8.8%/11.2%/13.6%/16%/18.4%/20.8%/23.2%",
+        20,
+        3
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ATK (%)"
+      ],
+      "damageType": [],
+      "briefDesc": "When Terrain Mapping (Ultimate) deals DMG, increases Leafia's ATK."
+    },
+    {
+      "id": 516142,
+      "characterId": 161,
+      "name": "Draw Zone Bombardment",
+      "nameCN": "绘域轰击",
+      "nameJP": "地形掌握",
+      "nameKR": "매핑 영역 폭격",
+      "group": "common",
+      "slot": "both",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_41",
+      "descTemplate": "Increases the &Param1& of Terrain Mapping (Ultimate) by <color=#ec6d21>&Param2&</color> and reduces its attack interval.",
+      "params": [
+        "Ultimate DMG",
+        "10%/16%/22%/28%/34%/40%/46%/52%/58%"
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Increases the Ultimate DMG of Terrain Mapping (Ultimate) and reduces its attack interval."
+    },
+    {
+      "id": 516143,
+      "characterId": 161,
+      "name": "Draw Zone Support",
+      "nameCN": "绘域协战",
+      "nameJP": "仲間の道しるべ",
+      "nameKR": "매핑 영역 협공",
+      "group": "common",
+      "slot": "both",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_41",
+      "descTemplate": "When the Terrain Mapping (Ultimate) is on cooldown or its energy is not full, all Terra Vanguard and Versatile Trekkers in the team gain <color=#ec6d21>&Param5&</color> increased &Param4&. When the Main Trekker is within the impact range of Terrain Mapping (Ultimate), increases all Terra Vanguard and Versatile Trekkers on the squad's &Param2& by <color=#ec6d21>&Param3&</color>.",
+      "params": [
+        20,
+        "Auto Attack DMG",
+        "2.5%/4%/5.5%/7%/8.5%/10%/11.5%/13%/14.5%",
+        "Auto Attack DMG",
+        "13%/20%/28%/35%/43%/50%/58%/65%/73%"
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ELEMENTTYPE_:(Terra) Auto Attack DMG"
+      ],
+      "damageType": [],
+      "briefDesc": "When the Ultimate is on cooldown or its energy is not full, all Terra Vanguard and Versatile Trekkers in the team gain increased Auto Attack DMG. When the Main Trekker is within the impact range of Terrain Mapping (Ultimate), increases all Terra Vanguard and Versatile Trekkers on the squad's Auto Attack DMG."
+    },
+    {
+      "id": 516121,
+      "characterId": 161,
+      "name": "Tactical Co-Draw",
+      "nameCN": "战术联绘",
+      "nameJP": "アリダードサイト",
+      "nameKR": "전술 연계 매핑",
+      "group": "supportCore",
+      "slot": "assist",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_21",
+      "descTemplate": "Extends Observation Point duration by 10s. Up to 2 Observation Points can be present at the same time. Reduces Tactical Mapping's DMG dealing Interval and it can deal damage to the same target at most once per second. In an all-Terra squad, when Tactical Mapping deals DMG, increases the target's &Param1& by <color=#0abec5>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "Terra DMG Taken",
+        "6.7%",
+        3,
+        3
+      ],
+      "maxLevel": 1,
+      "effectType": [
+        "Terra DMG Taken (base)"
+      ],
+      "damageType": [],
+      "briefDesc": "Extends Observation Point duration. Up to 2 Observation Points can be present at the same time. Reduces Tactical Mapping's attack interval. When Tactical Mapping deals DMG, increases the target's Terra DMG Taken."
+    },
+    {
+      "id": 516122,
+      "characterId": 161,
+      "name": "Observer Iteration",
+      "nameCN": "观测迭代",
+      "nameJP": "カリブレーション",
+      "nameKR": "관측 갱신",
+      "group": "supportCore",
+      "slot": "assist",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_22",
+      "descTemplate": "Each time Leafia casts Area Plotting (Support Skill), Observation Points tier up once, increasing Tactical Mapping's &Param1& by <color=#0abec5>&Param2&</color>. This effect is permanent and stacks up to 4 times.",
+      "params": [
+        "DMG multiplier",
+        "14%"
+      ],
+      "maxLevel": 1,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Each time Leafia casts Area Plotting (Support Skill), Observation Points tier up once, increasing Tactical Mapping's DMG multiplier."
+    },
+    {
+      "id": 516123,
+      "characterId": 161,
+      "name": "Vanguard Calibration",
+      "nameCN": "先导标定",
+      "nameJP": "ブーストスキャン",
+      "nameKR": "선제 조준",
+      "group": "supportCore",
+      "slot": "assist",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_23",
+      "descTemplate": "Observation Points launch 1 Vanguard Strike outward every second. When Vanguard Strike deals DMG, increases the &Param1& of both itself and Calibration Mark by <color=#0abec5>&Param2&</color> for &Param3&s, stacking up to &Param4& times. Observation Points expire after 10s and inflict 1 stack of Calibration Mark on targets within range.",
+      "params": [
+        "DMG multiplier",
+        "13.9%",
+        4,
+        3
+      ],
+      "maxLevel": 1,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Increases the frequency of Vanguard Strike. When Vanguard Strike deals DMG, increases the DMG multiplier of both itself and Calibration Mark. When an Observation Point expires, inflicts 1 stack of Calibration Mark on targets within range."
+    },
+    {
+      "id": 516124,
+      "characterId": 161,
+      "name": "Calibration Detonation",
+      "nameCN": "标定引爆",
+      "nameJP": "発破調査",
+      "nameKR": "표식 기폭",
+      "group": "supportCore",
+      "slot": "assist",
+      "isCore": true,
+      "rarity": "core",
+      "rarityNum": 0,
+      "icon": "16101_Potential_24",
+      "descTemplate": "No longer generates Tactical Mapping. Increases the &Param2& of Vanguard Strike and Calibration Mark by <color=#0abec5>&Param3&</color>. Vanguard Strike is enhanced to deal <color=#0abec5>&Param1&</color> of ATK as Terra Auto Attack DMG. When Vanguard Strike deals DMG, inflicts 1 stack of Calibration Mark on the target.  At 3 stacks, Calibration Mark, detonates immediately.",
+      "params": [
+        "282%/324%/366%/493%/532%/572%/651%/685%/718%/786%/842%/899%/955%",
+        "Crit Rate",
+        "20%"
+      ],
+      "maxLevel": 1,
+      "effectType": [],
+      "damageType": [
+        "Auto Attack (from Normal attack, scale with Skill)"
+      ],
+      "briefDesc": "No longer generates Tactical Mapping. Increases the Crit Rate of Vanguard Strike and Calibration Mark. When Vanguard Strike deals DMG, inflicts 1 stack of Calibration Mark on the target. At 3 stacks, Calibration Mark, detonates immediately."
+    },
+    {
+      "id": 516125,
+      "characterId": 161,
+      "name": "Terra DMG Etching",
+      "nameCN": "地伤增绘",
+      "nameJP": "地形分析",
+      "nameKR": "땅 피해 증폭 매핑",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_21",
+      "descTemplate": "In an all-Terra squad, generating Observation Points increases the &Param1& of targets within Tactical Mapping by <color=#ec6d21>&Param2&</color> for &Param3&s.",
+      "params": [
+        "Mark DMG Taken",
+        "66%/106%/146%/185%/225%/265%/305%/344%/384%",
+        15
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ELEMENTTYPE_:(Terra) Mark DMG Taken"
+      ],
+      "damageType": [],
+      "briefDesc": "In an all-Terra squad, generating Observation Points increases the Mark DMG Taken of targets within Tactical Mapping."
+    },
+    {
+      "id": 516126,
+      "characterId": 161,
+      "name": "Tier 2 Etching",
+      "nameCN": "二阶增绘",
+      "nameJP": "段階マッピング",
+      "nameKR": "2단계 증폭 매핑",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_22",
+      "descTemplate": "Once Observation Points tier up 2 times, increases Tactical Mapping's &Param1& by <color=#ec6d21>&Param2&</color>.",
+      "params": [
+        "Auto Attack DMG",
+        "15%/24%/33%/42%/51%/60%/69%/78%/87%"
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Once Observation Points tier up 2 times, increases Tactical Mapping's Auto Attack DMG."
+    },
+    {
+      "id": 516127,
+      "characterId": 161,
+      "name": "Ascending Draw Zone",
+      "nameCN": "跃阶绘域",
+      "nameJP": "俯瞰考察",
+      "nameKR": "도약 매핑 영역",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "rare",
+      "rarityNum": 1,
+      "icon": "16101_Potential_27",
+      "descTemplate": "Each time Leafia casts Area Plotting (Support Skill), Observation Points tier up 2 times. When Tactical Mapping deals DMG, increases its &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "Terra DMG",
+        "3%/4.8%/6.6%/8.4%/10.2%/12%/13.8%/15.6%/17.4%",
+        3,
+        5
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Each time Leafia casts her Support skill, Observation Points tier up 2 times. Increases Tactical Mapping's Terra DMG."
+    },
+    {
+      "id": 516128,
+      "characterId": 161,
+      "name": "Calibration Expansion",
+      "nameCN": "标定扩蚀",
+      "nameJP": "新たな道筋",
+      "nameKR": "표식 침식 확산",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_23",
+      "descTemplate": "Increases the &Param3& of Vanguard Strike and Calibration Mark by <color=#ec6d21>&Param4&</color>, and their &Param1& by <color=#ec6d21>&Param2&</color>. When a target with Calibration Mark takes DMG from the Main Vanguard Trekker, inflicts 1 additional stack of Calibration Mark. This effect can trigger once per second per target.",
+      "params": [
+        "Auto Attack DMG",
+        "13%/21%/29%/36%/44%/52%/60%/68%/75%",
+        "Crit Rate",
+        "6%/10%/14%/18%/21%/25%/26%/27%/28%"
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Increases the Crit Rate and Auto Attack DMG of Vanguard Strike and Calibration Mark. DMG dealt by the Main Vanguard Trekker inflicts 1 additional stack of Calibration Mark on the target."
+    },
+    {
+      "id": 516130,
+      "characterId": 161,
+      "name": "Mark Suppression",
+      "nameCN": "重标压制",
+      "nameJP": "マーカー追加",
+      "nameKR": "중첩 표식 제압",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "rare",
+      "rarityNum": 1,
+      "icon": "16101_Potential_30",
+      "descTemplate": "Increases the &Param1& of Vanguard Strike and Calibration Mark by <color=#ec6d21>&Param2&</color>, and their &Param3& by <color=#ec6d21>&Param4&</color>. When enhanced Vanguard Strike deals DMD, inflicts 2 stacks of Calibration Mark on the target.",
+      "params": [
+        "Terra DMG",
+        "15%/24%/33%/42%/51%/60%/69%/78%/87%",
+        "Normal Attack Crit DMG",
+        "7.5%/12%/16.5%/21%/25.5%/30%/31.5%/33%/34.5%"
+      ],
+      "maxLevel": 6,
+      "effectType": [],
+      "damageType": [],
+      "briefDesc": "Increases the Terra DMG and Normal Attack Crit DMG of Vanguard Strike and Calibration Mark. When Vanguard Strike deals DMG, inflicts 2 stacks of Calibration Mark."
+    },
+    {
+      "id": 516131,
+      "characterId": 161,
+      "name": "Earth Vein Activation",
+      "nameCN": "地脉激活",
+      "nameJP": "地脈活用",
+      "nameKR": "지맥 활성화",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "Common_Potential_14",
+      "descTemplate": "When Leafia inflicts Terra Mark: Earth Vein, increases &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.",
+      "params": [
+        "ATK",
+        "4%/6%/9%/11%/14%/16%/18%/21%/23%",
+        3,
+        3
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ATK (%)"
+      ],
+      "damageType": [],
+      "briefDesc": "When Leafia inflicts Terra Mark: Earth Vein, increases ATK."
+    },
+    {
+      "id": 516132,
+      "characterId": 161,
+      "name": "Earthen Deposition",
+      "nameCN": "厚土沉积",
+      "nameJP": "測量の申し子",
+      "nameKR": "대지 퇴적",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "Common_Potential_Earth_1",
+      "descTemplate": "Terrain Mapping (Ultimate) can inflict Terra Mark: Earth Vein. When Terrain Mapping deals DMG, increases Leafia's &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s.",
+      "params": [
+        "Terra DMG",
+        "12%/19%/26%/34%/41%/48%/55%/62%/70%",
+        25
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "Terra DMG (base)"
+      ],
+      "damageType": [],
+      "briefDesc": "Terrain Mapping (Ultimate) can inflict Terra Mark: Earth Vein. When Terrain Mapping deals DMG, increases Leafia's Terra DMG."
+    },
+    {
+      "id": 516129,
+      "characterId": 161,
+      "name": "Mark Etching",
+      "nameCN": "印记蚀刻",
+      "nameJP": "侵食観察",
+      "nameKR": "표식 에칭",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "common",
+      "rarityNum": 2,
+      "icon": "16101_Potential_24",
+      "descTemplate": "In an all-Terra squad, Calibration Mark DMG increases the target's &Param1& by <color=#ec6d21>&Param2&</color> for &Param3&s, stacking up to &Param4& times.\u000bIf there is only 1 Terra Trekker on the squad, Calibration Mark DMG increases the squad's &Param5& by <color=#ec6d21>&Param6&</color> and the target's &Param7& by <color=#ec6d21>&Param8&</color> for 3s, stacking up to 6 times.",
+      "params": [
+        "Terra DMG Taken",
+        "4.3%/6.9%/9.5%/12%/14.6%/17.2%/19.8%/22.4%/24.9%",
+        3,
+        3,
+        "Auto Attack DMG",
+        "2.2%/3.5%/4.8%/6.2%/7.5%/8.8%/10.1%/11.4%/12.8%",
+        "Terra DMG Taken",
+        "4.3%/6.9%/9.5%/12%/14.6%/17.2%/19.8%/22.4%/24.9%"
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "Terra DMG Taken (base)",
+        "Auto Attack DMG (base)"
+      ],
+      "damageType": [],
+      "briefDesc": "In an all-Terra squad, Calibration Mark DMG increases the target's Terra DMG Taken. If there is only 1 Terra Trekker on the squad, Calibration Mark DMG increases the squad's Auto Attack DMG and the target's Terra DMG Taken."
+    },
+    {
+      "id": 516133,
+      "characterId": 161,
+      "name": "Leyline Amp",
+      "nameCN": "地源增幅",
+      "nameJP": "冒険のロマン",
+      "nameKR": "대지의 근원 증폭",
+      "group": "supportNormal",
+      "slot": "assist",
+      "isCore": false,
+      "rarity": "rare",
+      "rarityNum": 1,
+      "icon": "Common_Potential_15",
+      "descTemplate": "In an all-Terra squad, increases the squad's &Param1& by <color=#ec6d21>&Param2&</color>.\u000bIf there is only 1 Terra Trekker on the squad, increases the squad's &Param3& by <color=#ec6d21>&Param4&</color> and increases Leafia's &Param5& by an additional <color=#ec6d21>&Param6&</color>.",
+      "params": [
+        "ATK",
+        "15%/24%/33%/42%/51%/60%/69%/78%/87%",
+        "ATK",
+        "10%/16%/22%/28%/34%/40%/46%/52%/58%",
+        "Auto Attack DMG",
+        "14%/22%/30%/39%/47%/55%/58%/60%/63%"
+      ],
+      "maxLevel": 6,
+      "effectType": [
+        "ATK (%)",
+        "ELEMENTTYPE_:(Terra) Auto Attack DMG"
+      ],
+      "damageType": [],
+      "briefDesc": "In an all-Terra squad, increases the squad's ATK. If there is only 1 Terra Trekker on the squad, increases the squad's ATK and gives Leafia an extra Auto Attack DMG boost."
     }
   ],
   "162": [
@@ -31048,7 +31800,7 @@
       "rarity": "common",
       "rarityNum": 2,
       "icon": "16201_Potential_22",
-      "descTemplate": "Increases the &Param1& dealt by Firstlight Noya's greatsword attacks and Starfalls by <color=#fb8037>&Param2&</color>.\u000bHiddenParam1: &HiddenParam1& (OnceAdditionalAttribute,Lux Auto Attack Crit Rate,16227011)",
+      "descTemplate": "Increases the &Param1& dealt by Firstlight Noya's greatsword attacks and Starfalls by <color=#fb8037>&Param2&</color>.",
       "params": [
         "DMG multiplier",
         "5%/8%/11%/14%/17%/20%/23%/26%/29%"
@@ -31122,7 +31874,7 @@
       "rarity": "common",
       "rarityNum": 2,
       "icon": "16201_Potential_23",
-      "descTemplate": "Increases the &Param1& dealt by Firstlight Noya's longsword attacks and Glows by <color=#fb8037>&Param2&</color>.\u000bHiddenParam1: &HiddenParam1& (OnceAdditionalAttribute,Lux Skill Crit Rate,16230011)",
+      "descTemplate": "Increases the &Param1& dealt by Firstlight Noya's longsword attacks and Glows by <color=#fb8037>&Param2&</color>.",
       "params": [
         "DMG multiplier",
         "5%/8%/11%/14%/17%/20%/23%/26%/29%"

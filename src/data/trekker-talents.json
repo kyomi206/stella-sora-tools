@@ -1,0 +1,5748 @@
+{
+  "103": [
+    {
+      "tier": 1,
+      "name": "A Dance with Bullets",
+      "desc": "When Amber deals DMG to a target, her Skill DMG is increased by <color=#0abec5>1.6%</color> for 10s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Barrel is Still Hot",
+      "desc": "When Amber triggers Ignis Mark: Sacred Flame, her Crit Rate is increased by <color=#0abec5>10%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Ethereal Memory",
+      "desc": "After Amber casts a skill, her Ultimate DMG is increased by <color=#0abec5>60%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "A Silent Long Road",
+      "desc": "After Amber deals DMG to a target with her Ultimate, her Skill DMG is increased by <color=#0abec5>30%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Farsight Vision",
+      "desc": "Increases Amber's Ultimate DMG dealt to elite or higher-tier targets by <color=#0abec5>60%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    }
+  ],
+  "107": [
+    {
+      "tier": 1,
+      "name": "Divine Punishment",
+      "desc": "When any Trekker in the squad deals DMG to a target with Lux Mark, increases ATK by <color=#0abec5>8.4%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Ward of Honor",
+      "desc": "After a main Trekker casts an Ultimate, her ATK is increased by <color=#0abec5>24%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Knight's Yearning",
+      "desc": "When Tilia inflicts Lux Mark: Radiance on a target, increases the squad's Ultimate DMG by <color=#0abec5>28%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Legend Silhouette",
+      "desc": "When Lux Mark is triggered, increases the main Trekker's Ultimate DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Justice in You",
+      "desc": "When there are 3 Lux Trekkers in the squad, increases the squad's Skill DMG by <color=#0abec5>13%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "108": [
+    {
+      "tier": 1,
+      "name": "Joint Attack Command",
+      "desc": "When Kasimira deals Ultimate DMG, there is a 10% chance to increase the squad's ATK by <color=#0abec5>3.2%</color> for 15s, stacking up to 15 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Scarlet Gunfire",
+      "desc": "Increases Kasimira' s Skill DMG against targets inflicted with Ignis Mark: Sacred Flame by <color=#0abec5>17.5%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Blazing Ambition",
+      "desc": "After Kasimira deals DMG, there is a 20% chance to increase the squad's ATK by <color=#0abec5>1.7%</color> for 5s, stacking up to 5 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Charred Lethality",
+      "desc": "When Kasimira deals Skill DMG to a target, increases Skill DMG by <color=#0abec5>23%</color> for 3s. This effect can be triggered once every 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Rising Aspiration",
+      "desc": "When a squadmate casts an Ultimate, Kasimira's Ultimate DMG is increased by <color=#0abec5>20%</color>. The effects is removed after Kasimira casts the Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "110": [
+    {
+      "tier": 1,
+      "name": "Bleak Ruination",
+      "desc": "When Firenze triggers an Umbra Mark, increases the Umbra DMG of Firenze and Shadow Clones on the field by <color=#0abec5>7%</color> for 5s, up to 3 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Sorrowful Strength",
+      "desc": "When Firenze summons a Shadow Clone, increases Firenze's ATK by <color=#0abec5>20%</color> and the Minion DMG of Shadow Clones on the field by <color=#0abec5>20%</color> for 5s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Tender Adamantine Heart",
+      "desc": "When Firenze casts a skill, increases Firenze's ATK by <color=#0abec5>20%</color> and the Minion DMG of Shadow Clones on the field by <color=#0abec5>20%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Tough Rose",
+      "desc": "When any Trekker applies an Umbra Mark to a target, increases Firenze's Ultimate DMG by <color=#0abec5>4%</color> for 10s, up to 20 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Unique Individuals",
+      "desc": "An all-Umbra squad increases Firenze's Umbra DMG by <color=#0abec5>20%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "111": [
+    {
+      "tier": 1,
+      "name": "Ultimate Optimization Plan",
+      "desc": "While Iris is casting her Ultimate, increases the squad's ATK by <color=#0abec5>35%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Premium Service",
+      "desc": "Increases Iris' Skill DMG to targets inflicted with Aqua Mark: Torrent by <color=#0abec5>12%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Power of Knowledge",
+      "desc": "When Iris deals Skill DMG, there is a 20% chance to increase the squad's ATK by <color=#0abec5>8.4%</color> for 12s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Veteran's Tips",
+      "desc": "When Aqua Mark is triggered, increases Iris' Aqua DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Enlightened Advice",
+      "desc": "Increases Iris' Skill DMG dealt to normal and elite targets by <color=#0abec5>14.4%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "112": [
+    {
+      "tier": 1,
+      "name": "Wind Rider",
+      "desc": "After Noya deals Ultimate DMG to a target, her ATK is increased by <color=#0abec5>18%</color> for 20s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Air Vibration",
+      "desc": "When Noya triggers a Ventus Mark: Breeze, her Skill DMG is increased by <color=#0abec5>14%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Shadows from the Past",
+      "desc": "When Noya deals DMG to a target, her ATK is increased by <color=#0abec5>1.2%</color> for 5s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Today's Bond",
+      "desc": "When Noya kills a target, her Skill DMG is increased by <color=#0abec5>14%</color> for 12s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Unsolved Chapter",
+      "desc": "When Noya deals Auto Attack DMG, her Ultimate DMG is increased by <color=#0abec5>40%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    }
+  ],
+  "113": [
+    {
+      "tier": 1,
+      "name": "Ceaseless Drizzle",
+      "desc": "After Shimiao casts the Ultimate, her Aqua DMG is increased by an additional <color=#0abec5>24%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Splashing Raindrops",
+      "desc": "When Shimiao triggers Aqua Mark: Torrent, her ATK is increased by <color=#0abec5>12%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Clear Water: Traceless",
+      "desc": "When Shimiao deals Skill DMG to a target, her next Ultimate DMG is increased by <color=#0abec5>33%</color>, stacking up to 10 times. This effect is removed after Shimiao casts her Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Clear Water: Melody",
+      "desc": "When Shimiao deals Auto Attack DMG, her ATK is increased by <color=#0abec5>1%</color> for 6s, stacking up to 12 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Clear Water: Meditation",
+      "desc": "When Shimiao kills a target, her Aqua DMG is increased by <color=#0abec5>12%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "15%"
+        }
+      ]
+    }
+  ],
+  "114": [
+    {
+      "tier": 1,
+      "name": "Dark Power Slayer",
+      "desc": "When any Trekker applies an Ignis Mark to a target, increases Chaton's Crit DMG by <color=#0abec5>8%</color> for 5s, up to 4 stacks",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Meowth's Emissary",
+      "desc": "After Chaton deals Crit DMG to a target, her Skill DMG is increased by <color=#0abec5>28%</color> for 10s",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Enhanced  Barrel",
+      "desc": "When Chaton casts a skill, the skill's ATK is increased by <color=#0abec5>20%</color> for 8s",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Target Indicator",
+      "desc": "While Evil Eye Unleashed is active, increases Chaton's Ultimate DMG by <color=#0abec5>30%</color>",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Shooting Metronome",
+      "desc": "Increases Chaton's Ignis DMG dealt to elite or higher-tier targets by <color=#0abec5>24%</color>",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    }
+  ],
+  "115": [
+    {
+      "tier": 1,
+      "name": "Photon Diffusion",
+      "desc": "When the squad triggers a Lux Mark on a target, increases the Lux DMG Taken by this target by <color=#0abec5>14%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Shining Blades",
+      "desc": "After Firefly casts a skill, her ATK is increased by <color=#0abec5>20%</color> for 30s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Plushie and Safehouse",
+      "desc": "After Firefly deals DMG to a target, increases the Lux DMG Taken by the target by <color=#0abec5>2%</color> for 8s, stacking up to 7 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Wings and Secret Friends",
+      "desc": "When any Trekker inflicts Lux Mark on a target, increases Firefly's ATK by <color=#0abec5>20%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Armaments and Angel Heart",
+      "desc": "Increases Firefly's Lux DMG to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "116": [
+    {
+      "tier": 1,
+      "name": "Pastoral Ode",
+      "desc": "Whenever Ridge deals Ultimate DMG to a target, increases the squad's ATK by <color=#0abec5>2.8%</color> for 15s, stacking up to 6 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Cycle of Growth",
+      "desc": "When Terra Mark is triggered, increases Ridge's Skill DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Bountiful Harvest",
+      "desc": "After squadmates deal Ultimate DMG 20 times in total, increases the squad's ATK by <color=#0abec5>11%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Labor Under the Sun",
+      "desc": "Increases Ridge's Terra DMG dealt to targets inflicted with Terra Mark: Earth Vein by <color=#0abec5>12%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Soil and Toil",
+      "desc": "When Ridge deals Ultimate DMG to a target, increases her Terra DMG by <color=#0abec5>1.2%</color> for 15s, stacking up to 20 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "117": [
+    {
+      "tier": 1,
+      "name": "Thunder Wrath",
+      "desc": "When the Lightning Qilin summoned by Jinglin's Ultimate is on the battlefield, the squad's ATK is increased by <color=#0abec5>26%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Qilin Roar",
+      "desc": "Increases Jinglin's Ultimate DMG dealt to targets with Lux Mark: Radiance by <color=#0abec5>20%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Good Business",
+      "desc": "When Jinglin's Ultimate hits a target, the Lux DMG it takes is increased by <color=#0abec5>9%</color> for 5s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Meeting Ends",
+      "desc": "When Lux Mark is triggered, increases Jinglin's ATK by <color=#0abec5>8.4%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Triple Revenue",
+      "desc": "When Jinglin kills a target, her Ultimate DMG is increased by <color=#0abec5>5%</color>, stacking up to 4 times. This effect is removed after Jinglin casts her Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "118": [
+    {
+      "tier": 1,
+      "name": "Severing Edge",
+      "desc": "When Umbra Mark is triggered, increases the squad's ATK by <color=#0abec5>8.4%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Hostile Amplification",
+      "desc": "Increases Coronis's Skill DMG by <color=#0abec5>12%</color>. If only 1 target is hit, increases the DMG bonus by <color=#0abec5>30%</color> instead.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Stitch and Fix",
+      "desc": "When Coronis casts an Ultimate, the squad's ATK is increased by <color=#0abec5>10%</color> for 25s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Beautification and Fix",
+      "desc": "When Umbra Mark is triggered, increases Coronis's Skill DMG by <color=#0abec5>16.8%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Specimen Exhibition",
+      "desc": "Increases Coronis's Ultimate DMG dealt to elite or higher-tier targets by <color=#0abec5>34%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "119": [
+    {
+      "tier": 1,
+      "name": "Like a Dream",
+      "desc": "When Nanoha's clone is on the battlefield, her ATK is increased by <color=#0abec5>47%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Rejuvenating Spring",
+      "desc": "When Nanoha triggers Ventus Mark, her ATK is increased by <color=#0abec5>20%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Esoteric Arts",
+      "desc": "When Nanoha casts a skill, her Ventus DMG is increased by <color=#0abec5>40%</color> for 5s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Circulation of Wind",
+      "desc": "When Nanoha deals Auto Attack DMG to a target, increases her Auto Attack DMG by <color=#0abec5>22%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Ninja Creed",
+      "desc": "Increases Nanoha's Ventus DMG dealt to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "120": [
+    {
+      "tier": 1,
+      "name": "Lost Youth",
+      "desc": "When Canace's Flying Leave or Laurel Wreath is on the battlefield, the squad's ATK is increased by <color=#0abec5>16.8%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Imminent Dawn",
+      "desc": "When Canace kills a target, her Skill DMG is increased by <color=#0abec5>12%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Hidden Past",
+      "desc": "For each target hit by Canace's Ultimate, increases the squad's ATK by <color=#0abec5>3.4%</color> for 15s, stacking up to 5 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Mentor's Duty",
+      "desc": "When Ventus Mark is triggered, increases Canace's Skill DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Yearning for Truth",
+      "desc": "Increases Canace's Ventus DMG dealt to normal and elite targets by <color=#0abec5>14.4%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "123": [
+    {
+      "tier": 1,
+      "name": "Sigh of Storm",
+      "desc": "After Ann deals Ultimate DMG to a target, increases the squad's ATK by <color=#0abec5>14%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Rumbling Wind",
+      "desc": "When Ann inflicts Ventus Mark: Breeze, increases the squad's ATK by <color=#0abec5>10.3%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "The Watcher in the Rye",
+      "desc": "If Ann's Ultimate destroys a hostile projectile, increases main Trekker's Skill DMG by <color=#0abec5>32%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Rippling Crops",
+      "desc": "When Ventus Mark is triggered, increases the main Trekker's Ventus DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Ode to Earth",
+      "desc": "When there are 3 Ventus Trekkers in the squad, the squad's Skill DMG is increased by <color=#0abec5>13%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "125": [
+    {
+      "tier": 1,
+      "name": "The Runaway: Rebirth",
+      "desc": "When Freesia casts her Ultimate, targets who take DMG from her roar take <color=#0abec5>21%</color> more Aqua DMG for 20s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "The Fugitive: Judgment",
+      "desc": "When Freesia deals DMG to targets inflicted with Chill and Freeze, her Crit DMG is increased by <color=#0abec5>40%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Correction of Opinions",
+      "desc": "Each time Freesia deals Skill DMG to a target, increases the Aqua DMG taken by the target by <color=#0abec5>1.4%</color> for 14s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Debate of Truth",
+      "desc": "When Freesia is on the Berserk state, her Crit Rate is increased by <color=#0abec5>10%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Justice, Reason and Kindness",
+      "desc": "Increases Freesia's Crit DMG dealt to elite or higher-tier targets by <color=#0abec5>48%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "126": [
+    {
+      "tier": 1,
+      "name": "Withered Flower Show",
+      "desc": "When any Trekker in the squad deals DMG to a target with Ignis Mark, increases ATK by <color=#0abec5>8.4%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Fate of Nirvana",
+      "desc": "When the HP of the main Trekker is above 50%, increases Skill Crit Rate by <color=#0abec5>10%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "A Lonely Stage",
+      "desc": "When Flora inflicts Ignis Mark: Sacred Flame on a target, increases the squad's ATK by <color=#0abec5>8.4%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Flickering Candle",
+      "desc": "When Ignis Mark is triggered, increases the main Trekker's Ignis DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Lived as Play",
+      "desc": "When there are 3 Ignis Trekkers in the squad, the squad's Crit DMG is increased by <color=#0abec5>12%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "127": [
+    {
+      "tier": 1,
+      "name": "Sturdy Edge",
+      "desc": "Increases the squad's Aqua DMG dealt to targets inflicted with Aqua Mark: Torrent/Chill/Frozen by <color=#0abec5>8.4%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Midsummer Rain",
+      "desc": "When the main Trekker is inflicted with Surging Shield, her Skill DMG is increased by <color=#0abec5>13%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Battle-proven Ranger",
+      "desc": "When Teresa inflicts Aqua Mark: Torrent on a target, increases the squad's ATK by <color=#0abec5>11%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Dispersing Cloud",
+      "desc": "When Aqua Mark is triggered, increases the main Trekker's Aqua DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Legendary Adventurer",
+      "desc": "When there are 3 Aqua Trekkers in the squad, the squad's Skill DMG is increased by <color=#0abec5>13%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "130": [
+    {
+      "tier": 1,
+      "name": "Courier's Aspiration",
+      "desc": "When the squad triggers an Aqua Mark on a target, increases the Aqua DMG Taken by this target by <color=#0abec5>4.7%</color> for 6s, stacking up to 3 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Memories of the Journey",
+      "desc": "When Donna casts a skill, increases Skill DMG by <color=#0abec5>28.5%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Dreams We Share",
+      "desc": "When Donna deals Skill DMG, increases the Aqua DMG Taken by the target by <color=#0abec5>1.4%</color> for 10s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Drifter's Destination",
+      "desc": "When the squad triggers an Aqua Mark, increases Donna's Aqua DMG by <color=#0abec5>20%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Our Post Haste",
+      "desc": "Increases Donna's Skill DMG dealt to elite or higher-tier targets by <color=#0abec5>34%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "132": [
+    {
+      "tier": 1,
+      "name": "Starry Night",
+      "desc": "Whenever a target's Lux Mark is triggered, the target takes <color=#0abec5>14%</color> more Lux DMG for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Where Wind Starts",
+      "desc": "When Minova casts her Ultimate, her ATK is increased by <color=#0abec5>25%</color> for 20s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Forsaken Memories",
+      "desc": "Each time Minova deals Ultimate DMG to a target, increases the Lux DMG taken by the target by <color=#0abec5>1.75%</color> for 20s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Imperishable Belief",
+      "desc": "After any Trekker in the squad casts a skill, Minova's ATK is increased by <color=#0abec5>20%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Books, Skateboard and the Clan",
+      "desc": "Increases Minova's SKill DMG dealt to elite or higher-tier targets by <color=#0abec5>30%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "133": [
+    {
+      "tier": 1,
+      "name": "In the Name of Trekkers",
+      "desc": "When tornadoes generated by Nazuka's Ultimate are on the field, all squadmates' Skill DMG is increased by <color=#0abec5>45%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "In the Name of Wisdom",
+      "desc": "Nazuka gains Wind Chant every time she deals Skill DMG. Upon meeting certain conditions, Wind Chant turns into Wind Roar: Increases her Ventus DMG by <color=#0abec5>20%</color> for 12s. This effect can only be triggered once every 12s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "In the Name of Responsibility",
+      "desc": "Every time Nazuka deals Skill DMG to a target, the Ventus DMG dealt to that target is increased by <color=#0abec5>1.4%</color> for 6s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "The Burden of a Role Model",
+      "desc": "When any Trekker in the squad triggers a Ventus Mark, increases Nazuka's Skill DMG by <color=#0abec5>28%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "The Resolve of Companions",
+      "desc": "Increases Nazuka's Ventus DMG dealt to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "134": [
+    {
+      "tier": 1,
+      "name": "Natural Strength",
+      "desc": "When Fuyuka triggers an Ignis Mark, increases Crit DMG by <color=#0abec5>40%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Fist of Awakening",
+      "desc": "When Fuyuka casts a skill, her Ultimate DMG is increased by <color=#0abec5>33%</color>, stacking up to 2 times. This effect is removed after Fuyuka casts her Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Peerless Might",
+      "desc": "When Fuyuka casts the Ultimate, her Ignis DMG is increased by <color=#0abec5>25%</color> for 20s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Two Punch Hero",
+      "desc": "When any Trekker applies an Ignis Mark to a target, Fuyuka's Ultimate DMG is increased by <color=#0abec5>66%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Learned from the Best",
+      "desc": "Increases Fuyuka's Ignis DMG dealt to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    }
+  ],
+  "135": [
+    {
+      "tier": 1,
+      "name": "Harmful Rumors",
+      "desc": "When Mistique summons a phantom, increases all friendly units' Umbra DMG by <color=#0abec5>14%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Secondary Slander",
+      "desc": "Increases the Minion DMG of phantoms summoned by Mistique by <color=#0abec5>26%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Communication Psychology",
+      "desc": "When a phantom summoned by Mistique disappears, all friendly units's ATK is increased by <color=#0abec5>3.5%</color> for 15s, stacking up to 4 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Social Engineering",
+      "desc": "When a phantom summoned by Mistique's skill hits a target, increases the ATK of Mistique and summoned phantoms by <color=#0abec5>20%</color> for 5s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Truth As You Wish",
+      "desc": "After Mistique summons 5 phantoms, increases the Minion DMG of subsequent phantoms summoned by Mistique by <color=#0abec5>26%</color> for 12s. This effect can only be triggered once per 12s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "137": [
+    {
+      "tier": 1,
+      "name": "Small Treat",
+      "desc": "When Eleanor deals Auto Attack DMG to a target, the target takes <color=#0abec5>3.5%</color> more Ventus DMG for 8s, stacking up to 6 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Spree Mode",
+      "desc": "Increases Eleanors's ATK by <color=#0abec5>33%</color>. When any Trekker in the squad triggers Ventus Mark, increases Eleanor's ATK by <color=#0abec5>5.5%</color> for 10s, stacking up to 6 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "On the House",
+      "desc": "When any Trekker inflicts Ventus Mark on a target, increases the Auto Attack DMG dealt by Ventus Trekkers in the squad by <color=#0abec5>25%</color> and Skill DMG by <color=#0abec5>25%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "My Treat Today",
+      "desc": "After Eleanor casts a skill, increases her Auto Attack DMG by <color=#0abec5>32%</color> and her Skill DMG by <color=#0abec5>32%</color> for 12s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Party Time",
+      "desc": "Increases Eleanor's Ventus DMG dealt to elite or higher-tier targets by <color=#0abec5>30%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "139": [
+    {
+      "tier": 1,
+      "name": "Special Cleaning Tools",
+      "desc": "Increases Allie's Skill Crit Rate by <color=#0abec5>15%</color>. While Sweeping Stance of Deep Sweep: Dust Off (Ultimate Phase 1) is active, increases Aqua DMG dealt by Allie by <color=#0abec5>40%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Sewing Kit",
+      "desc": "When Allie casts Deep Sweep: Restore Order (Ultimate Phase 2), increases Skill DMG by <color=#0abec5>36%</color> for 15s. When she casts Deep Sweep: Dust Off (Ultimate Phase 1), increases Mark DMG by <color=#0abec5>66%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Morning Kiss",
+      "desc": "When any Trekker applies Aqua Mark on a target, increases Allie's ATK by <color=#0abec5>6%</color> for 6s, up to 4 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Afternoon Sweep",
+      "desc": "When Allie triggers Aqua Mark or casts Deep Sweep (Ultimate), increases her Skill DMG by <color=#0abec5>3%</color> and Mark DMG by <color=#0abec5>6%</color> for 8s, up to 5 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "All-Night Watch",
+      "desc": "Increases Allie's Aqua DMG dealt to elite or higher-tier targets by <color=#0abec5>30%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "140": [
+    {
+      "tier": 1,
+      "name": "Genius Artisan",
+      "desc": "When Sparkla triggers a Terra Mark, increases her ATK by <color=#0abec5>5%</color> for 8s, up to 4 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Blacklist",
+      "desc": "When Sparkla deals DMG, increases her Skill DMG by <color=#0abec5>3.8%</color> for 4s, up to 10 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Invention Blueprint",
+      "desc": "When Sparkla casts a skill, increases her ATK by <color=#0abec5>20%</color> for 18s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Fairy Tale Friends",
+      "desc": "When any Trekker applies a Terra Mark to a target, increases Sparkla's Terra DMG by <color=#0abec5>4%</color> for 5s, up to 5 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Rhymes of the Wonderbox",
+      "desc": "Increases the Terra DMG dealt by Sparkla to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "141": [
+    {
+      "tier": 1,
+      "name": "Blaze Tome",
+      "desc": "Increases all friendly units' Ignis DMG dealt to targets inflicted with Ignis Mark by <color=#0abec5>14%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Blaze Unbound",
+      "desc": "Increases Crit Rate by <color=#0abec5>10%</color> and Crit DMG by <color=#0abec5>31%</color> for Chixia's Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Prime Advantage",
+      "desc": "When Chixia casts her Ultimate, increases all friendly units' ATK by <color=#0abec5>28%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Trial of Growth",
+      "desc": "When Ignis Mark is triggered, increases the ATK of Chixia and her minions by <color=#0abec5>20%</color> for 12s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Qualified Xuan Shi",
+      "desc": "Increases the Ignis DMG dealt by Chixia and her minions to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "142": [
+    {
+      "tier": 1,
+      "name": "Blasphemous Moon",
+      "desc": "When Cosette casts a skill, the squad's ATK is increased by <color=#0abec5>8.4%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Extinctive Downpour",
+      "desc": "When Cosette casts an Ultimate, the main Trekker's Umbra DMG is increased by <color=#0abec5>13.8%</color> for 40s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Cloud of Embers",
+      "desc": "When any squadmate inflicts Umbra Mark on a target, increases the squad's Skill DMG by <color=#0abec5>13%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Determined to Leave",
+      "desc": "When Cosette deals DMG to a target, there is a 25% chance to increase the main Trekker's ATK by <color=#0abec5>14%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "The New Me",
+      "desc": "When there are 3 Umbra Trekkers in the squad, the squad's Skill DMG is increased by <color=#0abec5>13%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "143": [
+    {
+      "tier": 1,
+      "name": "Daybreak Trigger",
+      "desc": "When Wraith triggers a Ventus Mark, increases her Skill DMG by <color=#0abec5>18%</color> and Auto Attack DMG by <color=#0abec5>18%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Righteous Judgment",
+      "desc": "When Wraith deals Skill DMG to a target, her ATK is increased by <color=#0abec5>2%</color> for 5s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Silver Phantom",
+      "desc": "When any Trekker inflicts Ventus Mark on a target, increases Wraith's Skill DMG by <color=#0abec5>18%</color> and Auto Attack DMG by <color=#0abec5>18%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Curtain Call",
+      "desc": "When Wraith deals Auto ATK DMG to a target, her ATK is increased by <color=#0abec5>2%</color> for 5s, stacking up to 10 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Glorious Return to Norstheim",
+      "desc": "Increases Wraith's Ventus DMG dealt to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Ventus DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "144": [
+    {
+      "tier": 1,
+      "name": "Tideweaver",
+      "desc": "When Chitose casts her Ultimate, increases her ATK by <color=#0abec5>30%</color> for 20s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Blade in Sleeves",
+      "desc": "Aqua DMG +<color=#0abec5>20%</color> for 8s when Chitose triggers Aqua Mark.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "0"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Tideborn Shadow",
+      "desc": "When Chitose deals DMG to a target with Mirror Images, increases her ATK by <color=#0abec5>1%</color> for 8s, stacking up to 20 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "0"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Afterrain Clarity",
+      "desc": "When Chitose triggers Aqua Mark, increases her Ultimate DMG by <color=#0abec5>2.2%</color>, stacking up to 10 times. This effect is removed after she casts her Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "0"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Cloudstrider's Melody",
+      "desc": "Increases Chitose's Aqua DMG dealt to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Aqua DMG",
+          "value": "0"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "145": [
+    {
+      "tier": 1,
+      "name": "Lightless Night",
+      "desc": "When Otoha deals Skill DMG, increases the Umbra DMG Taken by the target by <color=#0abec5>4.7%</color> for 6s, stacking up to 3 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Gloomy Reality",
+      "desc": "When Otoha casts Ultimate, her Crit DMG is increased by <color=#0abec5>20%</color> for 25s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Exotic Flora",
+      "desc": "When Otoha's Ultimate deals DMG, increases the Crit DMG of all Umbra friendly units in the squad by <color=#0abec5>15%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Eye for an Eye",
+      "desc": "When the squad triggers an Umbra Mark, increases Otoha's Umbra DMG by <color=#0abec5>20%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Heart to Heart",
+      "desc": "Increases Otoha's Umbra DMG to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "147": [
+    {
+      "tier": 1,
+      "name": "Fundamental Theory",
+      "desc": "When Caramel triggers Umbra Mark: Gloom, her ATK is increased by <color=#0abec5>12%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Chord Crescendo",
+      "desc": "When Caramel casts an Ultimate, her Umbra DMG is increased by <color=#0abec5>14.4%</color> for 25s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Silken Performance",
+      "desc": "After Caramel kills a target, her Ultimate DMG is increased by <color=#0abec5>10%</color>, stacking up to 4 times. This effect is removed after Caramel casts her Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Cadenza Pluck",
+      "desc": "After Caramel deals Auto Attack DMG to a target, her ATK is increased by <color=#0abec5>2%</color> for 10s, stacking up to 6 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Superb Debut",
+      "desc": "After Caramel casts a skill, her Ultimate DMG is increased by <color=#0abec5>40%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    }
+  ],
+  "149": [
+    {
+      "tier": 1,
+      "name": "Original Sin",
+      "desc": "After Gerie deals Skill DMG, her ATK is increased by <color=#0abec5>2.5%</color> for 5s, stacking up to 8 times. This effect can only be triggered once per sec.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "White Throne",
+      "desc": "When Gerie triggers Terra Mark, her Terra DMG is increased by <color=#0abec5>2.5%</color> for 4s, stacking up to 8 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Lazarus' Resurrection",
+      "desc": "After Gerie deals Ultimate DMG to a target, her Skill DMG is increased by <color=#0abec5>8.3%</color> for 20s, stacking up to 7 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Shackled at Dusk",
+      "desc": "When any Trekker inflicts Terra Mark, increases Gerie's ATK by <color=#0abec5>20%</color> for 5s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Messiah' Promise",
+      "desc": "Increases Gerie's Terra DMG to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "150": [
+    {
+      "tier": 1,
+      "name": "Lancefall: Benediction",
+      "desc": "After Laru deals DMG to a target, her ATK is increased by <color=#0abec5>1.5%</color> for 10s, stacking up to 8 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Lancefall: Retribution",
+      "desc": "When Laru triggers Lux Mark: Radiance, increases her ATK by <color=#0abec5>12%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Seagull's Fries",
+      "desc": "After Laru casts her Ultimate, her Skill DMG is increased by <color=#0abec5>24%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Secret of Survival",
+      "desc": "When any Trekker inflicts Lux Mark, increases Laru's Lux DMG by <color=#0abec5>12%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Special Conviction",
+      "desc": "Increases Laru's SKill DMG dealt to elite or higher-tier targets by <color=#0abec5>15%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    }
+  ],
+  "155": [
+    {
+      "tier": 1,
+      "name": "Sparkling Dawn",
+      "desc": "Whenever Shia deals Ultimate DMG to a target, increases her ATK by <color=#0abec5>1.4%</color> for 25s, stacking up to 30 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Tidecaller's Resonance",
+      "desc": "Increases Shia's Ultimate DMG dealt to elite or higher-tier targets by <color=#0abec5>60%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Meteor's Guidance",
+      "desc": "When Shia triggers Lux Mark, increases her Lux DMG by <color=#0abec5>4%</color> for 6s, stacking up to 5 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Beyond the Horizon",
+      "desc": "After Shia deals Skill DMG to a target, her Ultimate DMG is increased by <color=#0abec5>1%</color>, stacking up to 50 times. This effect is removed after Shia casts her Ultimate.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Last Tear",
+      "desc": "When any Trekker inflicts Lux Mark, increases Shia's Lux DMG by <color=#0abec5>20%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "156": [
+    {
+      "tier": 1,
+      "name": "Blanket Home",
+      "desc": "When Terra Mark is triggered, increases the squad's Terra DMG by <color=#0abec5>14%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Snack Summoning Circle",
+      "desc": "After Nazuna deals Ultimate DMG to a target, increases the main Trekker's Terra DMG to the same target by <color=#0abec5>40%</color> for 20s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Fluffy Guardian",
+      "desc": "After Nazuna inflicts Terra Mark to a target, increases the Terra DMG taken by the target by <color=#0abec5>14%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Expert Homebody",
+      "desc": "When Nazuna deals Skill DMG to a target, increases the main Trekker's ATK by <color=#0abec5>20%</color> for 5s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Lullaby of Sweet Dreams",
+      "desc": "When there are 3 Terra Trekkers in the squad, increases the squad's Terra DMG by <color=#0abec5>14%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "157": [
+    {
+      "tier": 1,
+      "name": "Ripples of Grace",
+      "desc": "When any Trekker applies an Umbra Mark on a target, increases Karin's Ultimate DMG by <color=#0abec5>5%</color> for 5s, up to 10 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Ocean's Echo",
+      "desc": "When Karin deals Auto Attack DMG or Ultimate DMG, increases her Crit DMG by <color=#0abec5>40%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Twilight's End",
+      "desc": "When Karin triggers an Umbra Mark, increases her Auto Attack DMG by <color=#0abec5>40%</color> and Ultimate DMG by <color=#0abec5>20%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Calm Summer Night",
+      "desc": "When Karin casts her Ultimate, increases her ATK by <color=#0abec5>27%</color> for 25s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Heart as Waves",
+      "desc": "Increases Karin's Umbra DMG dealt to elite or higher-tier targets by <color=#0abec5>30%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "120"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Umbra DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "158": [
+    {
+      "tier": 1,
+      "name": "Nutcracker",
+      "desc": "When Snowish Laru's summoned toys are present on the battlefield, increases the Crit Rate of all Ignis Trekkers' Skills by <color=#0abec5>10%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Holy Night Gift",
+      "desc": "When any Trekker in the squad triggers Ignis Mark, increases Snowish Laru's Skill DMG by <color=#0abec5>30%</color> and her summoned toys' Minion DMG on the battlefield by <color=#0abec5>30%</color>, lasting 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Block Paradise",
+      "desc": "Increases Snowish Laru and her minions' Ignis DMG dealt to an elite or higher-tier target by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Queen's Party",
+      "desc": "When Snowish Laru has a shield, increases her Ultimate DMG by <color=#0abec5>80%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Dreams Replayed",
+      "desc": "When Snowish Laru casts the Ultimate, increases the Crit Rate of all Ignis Trekkers in the squad by <color=#0abec5>10%</color> for 12s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        },
+        {
+          "stat": "Ignis DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "159": [
+    {
+      "tier": 1,
+      "name": "Guiding Lanterns",
+      "desc": "When Springseek Coronis deals Skill DMG, increases the target's Terra DMG Taken by <color=#0abec5>4.7%</color> for 12s, stacking up to 3 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Terra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Eternal Flame",
+      "desc": "When any Trekker inflicts Terra Mark on a target, increases Springseek Coronis's Skill DMG by <color=#0abec5>28.5%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Terra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Magical Touch",
+      "desc": "When Springseek Coronis deals Ultimate DMG, increases the target's Terra DMG Taken by <color=#0abec5>3.5%</color> for 20s, stacking up to 6 times.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Terra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Healing Auspice",
+      "desc": "When Springseek Coronis casts a skill, increases Skill DMG by <color=#0abec5>34%</color> for 10s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Terra DMG",
+          "value": "3%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Fresh Start",
+      "desc": "Increases Springseek Coronis's Terra DMG to elite or higher-tier targets by <color=#0abec5>24%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Terra DMG",
+          "value": "3%"
+        }
+      ]
+    }
+  ],
+  "160": [
+    {
+      "tier": 1,
+      "name": "Holiday Time",
+      "desc": "When Willow inflicts Aqua Mark on a target, increases the squad's Aqua DMG by <color=#0abec5>30%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Heart Unsettled",
+      "desc": "Reduces Bubble Bath's DMG dealing Interval by 50%. When the squad triggers an Aqua Mark on a target, increases the Aqua DMG Taken by this target by <color=#0abec5>27%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Wisdom in Restraint",
+      "desc": "When the squad deals DMG to a target afflicted with Aqua Mark, Crit DMG dealt by the squad is increased by <color=#0abec5>32%</color> for 6s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Going with the Flow",
+      "desc": "For every 4s when Willow is on the field, increases the Main Trekker's Skill DMG by <color=#0abec5>6%</color> and Auto Attack DMG by <color=#0abec5>6%</color>, up to a maximum of <color=#0abec5>18%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Reset and Restart",
+      "desc": "When Willow deals Skill DMG to a target, increases the Aqua DMG Taken by this target by <color=#0abec5>24%</color> for 5s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "80"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "920"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Ultimate DMG",
+          "value": "8.6%"
+        }
+      ]
+    }
+  ],
+  "161": [
+    {
+      "tier": 1,
+      "name": "Genius Surveyor",
+      "desc": "When any Trekker inflicts a Terra Mark on a target, the target takes <color=#0abec5>5.2%</color> more Terra DMG for 8s, up to 5 stacks.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG Boost",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Starsea Voyage",
+      "desc": "When Leafia deals Auto Attack DMG, increases her ATK by <color=#0abec5>45%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG Boost",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Leader's Duty",
+      "desc": "When Leafia casts a skill, increases Terra Trekkers' Auto Attack DMG by <color=#0abec5>30%</color> for 15s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG Boost",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Relentless Mapping",
+      "desc": "When Terra Mark is triggered, increases Leafia's Terra DMG by <color=#0abec5>30%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG Boost",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Wildland Sigil",
+      "desc": "Increases Leafia's Auto Attack DMG to elite or higher-tier targets by <color=#0abec5>40%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base ATK",
+          "value": "100"
+        },
+        {
+          "stat": "Base DEF",
+          "value": "20"
+        },
+        {
+          "stat": "Base HP",
+          "value": "1150"
+        },
+        {
+          "stat": "ATK",
+          "value": "3%"
+        },
+        {
+          "stat": "Auto Attack DMG Boost",
+          "value": "4.2%"
+        }
+      ]
+    }
+  ],
+  "162": [
+    {
+      "tier": 1,
+      "name": "Buried Past",
+      "desc": "While in the Starender state, increases Firstlight Noya's Crit DMG by <color=#0abec5>12%</color>. Dealing any DMG grants her Starender. Triggers once every 5 minutes.",
+      "statBonuses": [
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG Boost",
+          "value": "4.2%"
+        }
+      ]
+    },
+    {
+      "tier": 2,
+      "name": "Night Watcher's Duty",
+      "desc": "Increases Firstlight Noya's Max HP by <color=#0abec5>10%</color>. Increases the DMG Multiplier of Radiance Flurry and Judgment Starfall against targets with Glimmer by <color=#0abec5>36%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 3,
+      "name": "Resolve Beyond Fate",
+      "desc": "Increases Lux DMG dealt by Firstlight Noya against elite or higher-tier enemies by <color=#0abec5>18%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 4,
+      "name": "Shining in the Night",
+      "desc": "After triggering Lux Mark, Firstlight Noya's Auto Attack DMG increases by <color=#0abec5>24%</color> for 8s.",
+      "statBonuses": [
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "name": "Meeting You at Dawn",
+      "desc": "When Firstlight Noya's HP is above 20%, the DMG Multiplier of the longsword [Dawn] increases by <color=#0abec5>21%</color>, and the greatsword [Daybreak] increases by <color=#0abec5>18%</color>.",
+      "statBonuses": [
+        {
+          "stat": "Base HP",
+          "value": "1380"
+        },
+        {
+          "stat": "Lux DMG",
+          "value": "3%"
+        },
+        {
+          "stat": "Skill DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Auto Attack DMG",
+          "value": "4.2%"
+        },
+        {
+          "stat": "Crit DMG",
+          "value": "6%"
+        }
+      ]
+    }
+  ]
+}

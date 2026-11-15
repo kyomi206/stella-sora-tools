@@ -1,24 +1,232 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import charactersData from '@/data/characters.json';
-import { SSCharacter, ElementType, ClassType } from '@/types';
-import { Search } from 'lucide-react';
+import trekkerLoreData from '@/data/trekker-lore.json';
+import { SSCharacter } from '@/types';
+import { Search, ChevronDown, Check, X } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
 
+interface FilterOption {
+  value: string;
+  label: string;
+  icon?: string;
+  darkIconInLightMode?: boolean;
+}
+
+interface FilterDropdownProps {
+  label: string;
+  options: FilterOption[];
+  selected: string[];
+  isOpen: boolean;
+  onOpenToggle: () => void;
+  onToggle: (value: string) => void;
+  onClear: () => void;
+  activeClass: string;
+  inactiveClass: string;
+}
+
+function FilterDropdown({
+  label,
+  options,
+  selected,
+  isOpen,
+  onOpenToggle,
+  onToggle,
+  onClear,
+  activeClass,
+  inactiveClass,
+}: FilterDropdownProps) {
+  const hasSelection = selected.length > 0;
+  const selectedText =
+    selected.length === 1
+      ? options.find((o) => o.value === selected[0])?.label ?? selected[0]
+      : `${selected.length}`;
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={onOpenToggle}
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        className={cn(
+          'px-2.5 py-1.5 rounded-md border flex items-center gap-1.5 transition-colors cursor-pointer text-xs font-medium press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
+          hasSelection ? activeClass : inactiveClass
+        )}
+      >
+        <span>
+          {hasSelection
+            ? selected.length === 1
+              ? `${label}: ${selectedText}`
+              : `${label} (${selectedText})`
+            : label}
+        </span>
+        <ChevronDown
+          className={cn('size-3.5 transition-transform duration-150', isOpen && 'rotate-180')}
+          aria-hidden="true"
+        />
+      </button>
+
+      {isOpen && (
+        <div
+          role="listbox"
+          aria-multiselectable="true"
+          aria-label={label}
+          className="absolute left-0 top-full mt-1.5 z-40 min-w-[190px] max-h-64 overflow-y-auto rounded-lg border border-border-subtle bg-white dark:bg-[#0f172a] shadow-lg p-1.5 space-y-0.5"
+        >
+          {options.map((opt) => {
+            const checked = selected.includes(opt.value);
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                role="option"
+                aria-selected={checked}
+                onClick={() => onToggle(opt.value)}
+                className={cn(
+                  'w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-left transition-colors cursor-pointer',
+                  checked
+                    ? 'bg-amber-500/15 text-slate-900 dark:text-white font-semibold'
+                    : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#1e293b]'
+                )}
+              >
+                <span
+                  className={cn(
+                    'size-3.5 rounded border flex items-center justify-center shrink-0 transition-colors',
+                    checked
+                      ? 'bg-amber-500 border-amber-600 text-slate-950'
+                      : 'border-slate-300 dark:border-slate-600 bg-transparent'
+                  )}
+                >
+                  {checked && <Check className="size-2.5 stroke-[3]" />}
+                </span>
+                {opt.icon && (
+                  <img
+                    src={opt.icon}
+                    alt=""
+                    aria-hidden="true"
+                    className={cn(
+                      'size-3.5 object-contain shrink-0',
+                      opt.darkIconInLightMode && 'brightness-0 dark:brightness-100'
+                    )}
+                  />
+                )}
+                <span className="truncate">{opt.label}</span>
+              </button>
+            );
+          })}
+          <div className="border-t border-border-subtle pt-1 mt-1">
+            <button
+              type="button"
+              onClick={onClear}
+              disabled={!hasSelection}
+              className={cn(
+                'w-full flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs font-medium transition-colors',
+                hasSelection
+                  ? 'text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 cursor-pointer'
+                  : 'text-slate-400 dark:text-slate-600 cursor-not-allowed'
+              )}
+            >
+              <X className="size-3.5 shrink-0" aria-hidden="true" />
+              <span>Clear Filters</span>
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function TrekkersPage() {
   const [search, setSearch] = useState('');
-  const [selectedElement, setSelectedElement] = useState<ElementType | 'All'>('All');
-  const [selectedClass, setSelectedClass] = useState<ClassType | 'All'>('All');
-  const [selectedStar, setSelectedStar] = useState<number | 'All'>('All');
+  const [selectedElements, setSelectedElements] = useState<string[]>([]);
+  const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
+  const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
+  const [selectedRarities, setSelectedRarities] = useState<string[]>([]);
+  const [selectedCombatTypes, setSelectedCombatTypes] = useState<string[]>([]);
+  const [selectedFactions, setSelectedFactions] = useState<string[]>([]);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownContainerRef = useRef<HTMLDivElement>(null);
+
   const characters = charactersData as Record<string, SSCharacter>;
+  const loreMap = trekkerLoreData as Record<string, { style?: string; faction?: string }>;
 
   const charList = useMemo(() => Object.values(characters), [characters]);
 
-  const elements: ElementType[] = ['Ignis', 'Aqua', 'Terra', 'Ventus', 'Umbra', 'Lux'];
-  const classes: ClassType[] = ['Vanguard', 'Versatile', 'Support'];
+  useEffect(() => {
+    const handlePointerDown = (e: MouseEvent) => {
+      if (
+        dropdownContainerRef.current &&
+        !dropdownContainerRef.current.contains(e.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenDropdown(null);
+    };
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const elementOptions: FilterOption[] = useMemo(
+    () =>
+      ['Ignis', 'Aqua', 'Terra', 'Ventus', 'Umbra', 'Lux'].map((el) => ({
+        value: el,
+        label: el,
+        icon: `/ss-element/${el}.webp`,
+      })),
+    []
+  );
+
+  const styleOptions: FilterOption[] = useMemo(() => {
+    const vals = new Set<string>();
+    for (const c of charList) {
+      const style = loreMap[String(c.id)]?.style;
+      if (style) vals.add(style);
+    }
+    return [...vals].sort().map((s) => ({ value: s, label: s }));
+  }, [charList, loreMap]);
+
+  const classOptions: FilterOption[] = useMemo(
+    () => ['Vanguard', 'Versatile', 'Support'].map((c) => ({ value: c, label: c })),
+    []
+  );
+
+  const rarityOptions: FilterOption[] = useMemo(
+    () => [
+      { value: '5', label: '5★' },
+      { value: '4', label: '4★' },
+    ],
+    []
+  );
+
+  const combatTypeOptions: FilterOption[] = useMemo(
+    () =>
+      ['Melee', 'Ranged'].map((t) => ({
+        value: t,
+        label: t,
+        icon: `/ss-class/${t}.png`,
+        darkIconInLightMode: true,
+      })),
+    []
+  );
+
+  const factionOptions: FilterOption[] = useMemo(() => {
+    const vals = new Set<string>();
+    for (const c of charList) {
+      const faction = loreMap[String(c.id)]?.faction;
+      if (faction) vals.add(faction);
+    }
+    return [...vals].sort().map((f) => ({ value: f, label: f }));
+  }, [charList, loreMap]);
 
   const roleConfig: Record<string, { badgeBg: string }> = {
     Vanguard: { badgeBg: 'bg-[#f43f5e]' },
@@ -26,29 +234,74 @@ export default function TrekkersPage() {
     Support: { badgeBg: 'bg-[#10b981]' },
   };
 
+  const toggleItem = (setter: React.Dispatch<React.SetStateAction<string[]>>, value: string) => {
+    setter((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]));
+  };
+
   const filteredCharacters = useMemo(() => {
-    const q = search.trim();
+    const q = search.trim().toLowerCase();
     return charList.filter((char) => {
+      const lore = loreMap[String(char.id)];
       const matchSearch =
         !q ||
-        char.name.EN.toLowerCase().includes(q.toLowerCase()) ||
-        (char.name.JP && char.name.JP.includes(q)) ||
-        (char.name.CN && char.name.CN.includes(q));
-      const matchElement = selectedElement === 'All' || char.element === selectedElement;
-      const matchClass = selectedClass === 'All' || char.class === selectedClass;
-      const matchStar = selectedStar === 'All' || char.star === selectedStar;
-      return matchSearch && matchElement && matchClass && matchStar;
+        char.name.EN.toLowerCase().includes(q) ||
+        (char.name.JP && char.name.JP.includes(search.trim())) ||
+        (char.name.CN && char.name.CN.includes(search.trim()));
+      const matchElement =
+        selectedElements.length === 0 || selectedElements.includes(char.element);
+      const matchStyle =
+        selectedStyles.length === 0 || (lore?.style ? selectedStyles.includes(lore.style) : false);
+      const matchClass = selectedClasses.length === 0 || selectedClasses.includes(char.class);
+      const matchRarity =
+        selectedRarities.length === 0 || selectedRarities.includes(String(char.star));
+      const matchCombatType =
+        selectedCombatTypes.length === 0 || selectedCombatTypes.includes(char.attackType);
+      const matchFaction =
+        selectedFactions.length === 0 ||
+        (lore?.faction ? selectedFactions.includes(lore.faction) : false);
+      return (
+        matchSearch &&
+        matchElement &&
+        matchStyle &&
+        matchClass &&
+        matchRarity &&
+        matchCombatType &&
+        matchFaction
+      );
     });
-  }, [charList, search, selectedElement, selectedClass, selectedStar]);
+  }, [
+    charList,
+    loreMap,
+    search,
+    selectedElements,
+    selectedStyles,
+    selectedClasses,
+    selectedRarities,
+    selectedCombatTypes,
+    selectedFactions,
+  ]);
 
   const ACTIVE_CHIP_STYLE = 'bg-amber-500 text-slate-950 border-amber-600 font-semibold shadow-xs';
   const INACTIVE_CHIP_STYLE = 'bg-base text-slate-600 border-border-subtle hover:text-slate-900 hover:border-border-hover';
 
+  const hasActiveFilters =
+    Boolean(search) ||
+    selectedElements.length > 0 ||
+    selectedStyles.length > 0 ||
+    selectedClasses.length > 0 ||
+    selectedRarities.length > 0 ||
+    selectedCombatTypes.length > 0 ||
+    selectedFactions.length > 0;
+
   const handleClearFilters = () => {
     setSearch('');
-    setSelectedElement('All');
-    setSelectedClass('All');
-    setSelectedStar('All');
+    setSelectedElements([]);
+    setSelectedStyles([]);
+    setSelectedClasses([]);
+    setSelectedRarities([]);
+    setSelectedCombatTypes([]);
+    setSelectedFactions([]);
+    setOpenDropdown(null);
   };
 
   return (
@@ -64,7 +317,7 @@ export default function TrekkersPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="p-4 game-card celestial-card flex flex-col gap-3">
+      <div className="relative z-30 p-4 game-card celestial-card overflow-visible flex flex-col gap-3">
         <div className="relative">
           <Search className="size-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" aria-hidden="true" />
           <input
@@ -78,77 +331,90 @@ export default function TrekkersPage() {
           />
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-          {/* Elements */}
-          <div className="flex flex-wrap items-center gap-1.5">
-            <button
-              type="button"
-              onClick={() => setSelectedElement('All')}
-              className={cn(
-                'px-2.5 py-1 rounded-md border transition-colors cursor-pointer text-xs font-medium press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
-                selectedElement === 'All'
-                  ? ACTIVE_CHIP_STYLE
-                  : INACTIVE_CHIP_STYLE
-              )}
-            >
-              All Elements
-            </button>
-            {elements.map((el) => (
-              <button
-                key={el}
-                type="button"
-                onClick={() => setSelectedElement(selectedElement === el ? 'All' : el)}
-                className={cn(
-                  'px-2 py-1 rounded-md border flex items-center gap-1.5 transition-colors cursor-pointer text-xs press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
-                  selectedElement === el
-                    ? ACTIVE_CHIP_STYLE
-                    : INACTIVE_CHIP_STYLE
-                )}
-              >
-                <img src={`/ss-element/${el}.webp`} alt={el} width={14} height={14} className="size-3.5 object-contain" />
-                <span>{el}</span>
-              </button>
-            ))}
-          </div>
+        <div ref={dropdownContainerRef} className="flex flex-wrap items-center gap-2 text-xs">
+          <FilterDropdown
+            label="Elements"
+            options={elementOptions}
+            selected={selectedElements}
+            isOpen={openDropdown === 'elements'}
+            onOpenToggle={() => setOpenDropdown((prev) => (prev === 'elements' ? null : 'elements'))}
+            onToggle={(v) => toggleItem(setSelectedElements, v)}
+            onClear={() => setSelectedElements([])}
+            activeClass={ACTIVE_CHIP_STYLE}
+            inactiveClass={INACTIVE_CHIP_STYLE}
+          />
+          <FilterDropdown
+            label="Style"
+            options={styleOptions}
+            selected={selectedStyles}
+            isOpen={openDropdown === 'style'}
+            onOpenToggle={() => setOpenDropdown((prev) => (prev === 'style' ? null : 'style'))}
+            onToggle={(v) => toggleItem(setSelectedStyles, v)}
+            onClear={() => setSelectedStyles([])}
+            activeClass={ACTIVE_CHIP_STYLE}
+            inactiveClass={INACTIVE_CHIP_STYLE}
+          />
+          <FilterDropdown
+            label="Class"
+            options={classOptions}
+            selected={selectedClasses}
+            isOpen={openDropdown === 'class'}
+            onOpenToggle={() => setOpenDropdown((prev) => (prev === 'class' ? null : 'class'))}
+            onToggle={(v) => toggleItem(setSelectedClasses, v)}
+            onClear={() => setSelectedClasses([])}
+            activeClass={ACTIVE_CHIP_STYLE}
+            inactiveClass={INACTIVE_CHIP_STYLE}
+          />
+          <FilterDropdown
+            label="Rarity"
+            options={rarityOptions}
+            selected={selectedRarities}
+            isOpen={openDropdown === 'rarity'}
+            onOpenToggle={() => setOpenDropdown((prev) => (prev === 'rarity' ? null : 'rarity'))}
+            onToggle={(v) => toggleItem(setSelectedRarities, v)}
+            onClear={() => setSelectedRarities([])}
+            activeClass={ACTIVE_CHIP_STYLE}
+            inactiveClass={INACTIVE_CHIP_STYLE}
+          />
+          <FilterDropdown
+            label="Combat Type"
+            options={combatTypeOptions}
+            selected={selectedCombatTypes}
+            isOpen={openDropdown === 'combatType'}
+            onOpenToggle={() => setOpenDropdown((prev) => (prev === 'combatType' ? null : 'combatType'))}
+            onToggle={(v) => toggleItem(setSelectedCombatTypes, v)}
+            onClear={() => setSelectedCombatTypes([])}
+            activeClass={ACTIVE_CHIP_STYLE}
+            inactiveClass={INACTIVE_CHIP_STYLE}
+          />
+          <FilterDropdown
+            label="Faction"
+            options={factionOptions}
+            selected={selectedFactions}
+            isOpen={openDropdown === 'faction'}
+            onOpenToggle={() => setOpenDropdown((prev) => (prev === 'faction' ? null : 'faction'))}
+            onToggle={(v) => toggleItem(setSelectedFactions, v)}
+            onClear={() => setSelectedFactions([])}
+            activeClass={ACTIVE_CHIP_STYLE}
+            inactiveClass={INACTIVE_CHIP_STYLE}
+          />
+        </div>
 
-          {/* Classes & Stars */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              {classes.map((cls) => (
-                <button
-                  key={cls}
-                  type="button"
-                  onClick={() => setSelectedClass(selectedClass === cls ? 'All' : cls)}
-                  className={cn(
-                    'px-2.5 py-1 rounded-md border transition-colors cursor-pointer text-xs press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
-                    selectedClass === cls
-                      ? ACTIVE_CHIP_STYLE
-                      : INACTIVE_CHIP_STYLE
-                  )}
-                >
-                  {cls}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-1">
-              {[5, 4].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setSelectedStar(selectedStar === star ? 'All' : star)}
-                  className={cn(
-                    'px-2 py-1 rounded-md border font-sans transition-colors cursor-pointer text-xs press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
-                    selectedStar === star
-                      ? ACTIVE_CHIP_STYLE
-                      : INACTIVE_CHIP_STYLE
-                  )}
-                >
-                  {star}★
-                </button>
-              ))}
-            </div>
-          </div>
+        <div>
+          <button
+            type="button"
+            onClick={handleClearFilters}
+            disabled={!hasActiveFilters}
+            className={cn(
+              'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-amber-400',
+              hasActiveFilters
+                ? 'bg-base border-border-subtle text-slate-700 hover:text-slate-900 hover:border-border-hover cursor-pointer press-feedback'
+                : 'bg-base/50 border-border-subtle/60 text-slate-400 cursor-not-allowed'
+            )}
+          >
+            <X className="size-3.5" aria-hidden="true" />
+            <span>Clear Filters</span>
+          </button>
         </div>
       </div>
 
@@ -157,7 +423,7 @@ export default function TrekkersPage() {
         <span>
           Showing <strong className="text-slate-900">{filteredCharacters.length}</strong> Trekkers
         </span>
-        {(search || selectedElement !== 'All' || selectedClass !== 'All' || selectedStar !== 'All') && (
+        {hasActiveFilters && (
           <button
             type="button"
             onClick={handleClearFilters}

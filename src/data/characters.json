@@ -559,6 +559,20 @@
     "class": "Support",
     "attackType": "Ranged"
   },
+  "161": {
+    "id": 161,
+    "name": {
+      "EN": "Leafia",
+      "KR": "스구하",
+      "JP": "スグハ",
+      "CN": "优叶",
+      "TW": "優葉"
+    },
+    "star": 5,
+    "element": "Terra",
+    "class": "Versatile",
+    "attackType": "Ranged"
+  },
   "162": {
     "id": 162,
     "name": {
