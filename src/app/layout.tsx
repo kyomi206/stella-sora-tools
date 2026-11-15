@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/layout/theme-context';
 import { SideTab } from '@/components/layout/side-tab';
 import { TopBar } from '@/components/layout/top-bar';
 import { Footer } from '@/components/layout/footer';
+import { getSiteUrl } from '@/lib/site-url';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -16,6 +17,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: 'Stella Sora Tools',
   description:
     'A minimal fan companion for Stella Sora with Team Building, Heartlink/Bond Calculator, Events Roadmap, and Trekker Encyclopedia.',

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import charactersData from '@/data/characters.json';
 import TrekkerDetailClient from './trekker-detail-client';
@@ -21,6 +22,23 @@ export function generateStaticParams() {
 
 interface TrekkerPageProps {
   params: Promise<{ name: string }>;
+}
+
+export async function generateMetadata({ params }: TrekkerPageProps): Promise<Metadata> {
+  const { name } = await params;
+  const decoded = decodeURIComponent(name).toLowerCase();
+  const char = Object.values(charactersData).find(
+    (c) => c.name.EN.toLowerCase() === decoded || String(c.id) === decoded,
+  );
+
+  if (!char) {
+    return { title: 'Trekker Not Found | Stella Sora Tools' };
+  }
+
+  return {
+    title: `${char.name.EN} — Stella Sora Tools`,
+    description: `${char.star}-star ${char.element} ${char.class} (${char.attackType}) — skills, potentials, builds, and lore for ${char.name.EN} in Stella Sora.`,
+  };
 }
 
 async function TrekkerPageContent({
