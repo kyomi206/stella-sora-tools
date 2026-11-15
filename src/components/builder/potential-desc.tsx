@@ -37,8 +37,8 @@ export function PotentialDesc({
               key={index}
               className={
                 forceLight
-                  ? 'font-semibold text-amber-600'
-                  : 'font-semibold text-amber-500 dark:text-amber-400'
+                  ? 'font-semibold text-[#e04f0f]'
+                  : 'font-semibold text-[#e04f0f] dark:text-[#ff7433]'
               }
             >
               {segment.text}
@@ -51,7 +51,7 @@ export function PotentialDesc({
               <span
                 className={
                   forceLight
-                    ? 'underline underline-offset-2 font-medium text-sky-700'
+                    ? 'underline underline-offset-2 font-medium text-[#0369a1]'
                     : 'underline underline-offset-2 font-medium text-sky-600 dark:text-sky-400'
                 }
               >
@@ -59,9 +59,9 @@ export function PotentialDesc({
               </span>
               {segment.element && (
                 <img
-                  src={`/ss-element/${segment.element}.webp`}
-                  alt={segment.element}
-                  className="inline-block size-[1.15em] object-contain align-[-0.15em] ml-1 select-none pointer-events-none"
+                  src={`/ss-mark/${segment.element}.png`}
+                  alt={`${segment.element} Mark`}
+                  className="inline-block size-[1.35em] object-contain align-[-0.25em] ml-1 select-none pointer-events-none"
                 />
               )}
             </span>
@@ -72,7 +72,7 @@ export function PotentialDesc({
             <span
               key={index}
               className={
-                forceLight ? 'font-medium text-sky-700' : 'font-medium text-sky-600 dark:text-sky-400'
+                forceLight ? 'font-medium text-[#0369a1]' : 'font-medium text-sky-600 dark:text-sky-400'
               }
             >
               {segment.text}

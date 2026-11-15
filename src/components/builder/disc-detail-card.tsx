@@ -86,9 +86,9 @@ export function DiscSkillText({
             </span>
             {segment.element && (
               <img
-                src={`/ss-element/${segment.element}.webp`}
-                alt={segment.element}
-                className="inline-block size-[1.15em] object-contain align-[-0.15em] ml-1 select-none pointer-events-none"
+                src={`/ss-mark/${segment.element}.png`}
+                alt={`${segment.element} Mark`}
+                className="inline-block size-[1.35em] object-contain align-[-0.25em] ml-1 select-none pointer-events-none"
               />
             )}
           </span>
