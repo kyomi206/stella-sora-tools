@@ -100,13 +100,11 @@ export function AdvancedBuildCardExport({
     if (!cardRef.current) return;
     setIsExporting(true);
     try {
+      const isDark = document.documentElement.classList.contains('dark');
       const canvas = await html2canvas(cardRef.current, {
         scale: 2,
         useCORS: true,
-        backgroundColor: '#ffffff',
-        onclone: (clonedDoc) => {
-          clonedDoc.documentElement.classList.remove('dark');
-        },
+        backgroundColor: isDark ? '#0b182b' : '#ffffff',
       });
       const dataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
@@ -193,7 +191,7 @@ export function AdvancedBuildCardExport({
       <div
         ref={cardRef}
         id="advanced-team-card-export"
-        className="w-full bg-surface-card text-slate-900 p-4 sm:p-6 rounded-xl flex flex-col gap-5 relative overflow-x-auto select-none border border-border"
+        className="w-full bg-surface-card text-slate-900 dark:text-white p-4 sm:p-6 rounded-xl flex flex-col gap-5 relative select-none border border-border"
       >
         {/* 1. Trekkers & Potentials Rows */}
         <div className="flex flex-col gap-4">
@@ -258,7 +256,7 @@ export function AdvancedBuildCardExport({
 
                       {/* Character Name in Bold Royal Blue Font at Bottom */}
                       <div className="absolute bottom-1 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
-                        <span className="font-extrabold text-xs sm:text-sm text-[#1a56db] tracking-tight drop-shadow truncate">
+                        <span className="font-extrabold text-[11px] sm:text-xs text-[#1a56db] tracking-tight drop-shadow leading-tight break-words">
                           {char.name.EN}
                         </span>
                       </div>
@@ -274,15 +272,15 @@ export function AdvancedBuildCardExport({
                       />
                     </div>
                   ) : (
-                    <div className="w-24 sm:w-28 aspect-[3.4/4.4] rounded-lg border border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center p-2 text-center text-slate-600">
-                      <span className="text-xs font-semibold capitalize text-slate-700">Empty</span>
-                      <span className="text-[11px] capitalize text-slate-500">{slotKey}</span>
+                    <div className="w-24 sm:w-28 aspect-[3.4/4.4] rounded-lg border border-dashed border-slate-300 dark:border-border bg-slate-50 dark:bg-surface-elevated flex flex-col items-center justify-center p-2 text-center text-slate-600 dark:text-white/75">
+                      <span className="text-xs font-semibold capitalize text-slate-700 dark:text-white/90">Empty</span>
+                      <span className="text-[11px] capitalize text-slate-500 dark:text-white/60">{slotKey}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Right: Potentials grouped by Priority matching new-squad-build-stella-sora-build (1).png */}
-                <div className="flex-1 flex items-center gap-3 overflow-x-auto py-2">
+                <div className="flex-1 min-w-0 flex flex-wrap items-end gap-y-2 py-2">
                   {char && potentials.length > 0 ? (
                     priorityDefinitions
                       .filter((prio) => {
@@ -292,59 +290,63 @@ export function AdvancedBuildCardExport({
                           return assignedPriority === prio.key;
                         });
                       })
-                      .map((prio) => {
+                      .flatMap((prio) => {
                         const groupPotentials = potentials.filter((sel) => {
                           const pot = getPotentialById(char.id, sel.id);
                           const assignedPriority = sel.priority || (pot?.isCore ? 'Core' : 'Medium');
                           return assignedPriority === prio.key;
                         });
 
-                        return (
-                          <div key={prio.key} className="flex flex-col shrink-0">
-                            {/* Priority Tab Header */}
-                            <div className="self-start relative z-10 -mb-[2.5px]">
-                              <span
+                        return groupPotentials.map((sel, idx) => {
+                          const pot = getPotentialById(char.id, sel.id);
+                          if (!pot) return null;
+                          const levelVal = Number(sel.level) || (pot.isCore ? 1 : 6);
+                          const isFirst = idx === 0;
+                          const isLast = idx === groupPotentials.length - 1;
+
+                          return (
+                            <div
+                              key={`${prio.key}-${sel.id}`}
+                              className={cn('flex flex-col shrink-0', isLast && 'mr-3')}
+                            >
+                              {isFirst && (
+                                <div className="self-start relative z-10 -mb-[2.5px]">
+                                  <span
+                                    className={cn(
+                                      'px-3.5 py-0.5 text-xs font-bold text-white rounded-t-md shadow-xs inline-block tracking-wide',
+                                      prio.headerBg
+                                    )}
+                                  >
+                                    {prio.label}
+                                  </span>
+                                </div>
+                              )}
+
+                              <div
                                 className={cn(
-                                  'px-3.5 py-0.5 text-xs font-bold text-white rounded-t-md shadow-xs inline-block tracking-wide',
-                                  prio.headerBg
+                                  'relative z-0 overflow-hidden shadow-sm',
+                                  prio.boxBorder,
+                                  isFirst ? 'rounded-bl-md' : 'border-l-0',
+                                  isLast ? 'rounded-r-md' : 'border-r-[2px]'
                                 )}
                               >
-                                {prio.label}
-                              </span>
-                            </div>
-
-                            {/* Priority Box Container */}
-                            <div
-                              className={cn(
-                                'relative z-0 rounded-b-md rounded-tr-md overflow-hidden flex items-stretch shadow-sm',
-                                prio.boxBorder,
-                                prio.divideBorder
-                              )}
-                            >
-                              {groupPotentials.map((sel) => {
-                                const pot = getPotentialById(char.id, sel.id);
-                                if (!pot) return null;
-                                const levelVal = Number(sel.level) || (pot.isCore ? 1 : 6);
-
-                                return (
-                                  <div
-                                    key={sel.id}
-                                    onMouseEnter={(e) => {
-                                      const rect = e.currentTarget.getBoundingClientRect();
-                                      setHoveredPot({
-                                        pot,
-                                        level: levelVal,
-                                        priority: prio.label,
-                                        targetRect: rect,
-                                      });
-                                    }}
-                                    onMouseMove={(e) => {
-                                      const rect = e.currentTarget.getBoundingClientRect();
-                                      setHoveredPot((prev) => (prev ? { ...prev, targetRect: rect } : null));
-                                    }}
-                                    onMouseLeave={() => setHoveredPot(null)}
-                                    className="relative w-[88px] sm:w-[98px] aspect-[87/107] shrink-0 cursor-pointer select-none bg-white"
-                                  >
+                                <div
+                                  onMouseEnter={(e) => {
+                                    const rect = e.currentTarget.getBoundingClientRect();
+                                    setHoveredPot({
+                                      pot,
+                                      level: levelVal,
+                                      priority: prio.label,
+                                      targetRect: rect,
+                                    });
+                                  }}
+                                  onMouseMove={(e) => {
+                                    const rect = e.currentTarget.getBoundingClientRect();
+                                    setHoveredPot((prev) => (prev ? { ...prev, targetRect: rect } : null));
+                                  }}
+                                  onMouseLeave={() => setHoveredPot(null)}
+                                  className="relative w-[88px] sm:w-[98px] aspect-[87/107] shrink-0 cursor-pointer select-none bg-white"
+                                >
                                     {/* Official Potential Graphic */}
                                     <img
                                       src={getPotentialImageUrl(pot.id)}
@@ -373,12 +375,11 @@ export function AdvancedBuildCardExport({
                                         </span>
                                       </div>
                                     )}
-                                  </div>
-                                );
-                              })}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        );
+                          );
+                        });
                       })
                   ) : (
                     <div className="flex items-center text-xs text-slate-600 italic py-4">
@@ -394,12 +395,12 @@ export function AdvancedBuildCardExport({
         {/* 2. Runic Discs Summary Row (3 Main + 3 Support) */}
         <div className="pt-4 border-t border-border grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Main Discs */}
-          <div className="space-y-2.5">
-            <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-white">
               <Disc className="size-4" />
               <span>Main Discs (Melody & Harmony)</span>
             </div>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-3 gap-2.5 flex-1">
               {build.mainDiscs.map((slot, idx) => {
                 const disc = slot.discId ? discs[String(slot.discId)] : null;
                 if (!disc) {
@@ -425,7 +426,7 @@ export function AdvancedBuildCardExport({
                       className="size-12 sm:size-14 rounded-lg object-cover border border-border shrink-0"
                     />
                     <div className="min-w-0 flex-1 space-y-0.5">
-                      <div className="text-xs sm:text-[13px] font-bold text-slate-900 leading-snug line-clamp-2">
+                      <div className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-white leading-snug break-words">
                         {disc.name}
                       </div>
                       <div className="text-xs font-mono text-slate-700 font-semibold">
@@ -439,12 +440,12 @@ export function AdvancedBuildCardExport({
           </div>
 
           {/* Support Discs */}
-          <div className="space-y-2.5">
-            <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-white">
               <Disc className="size-4" />
               <span>Support Discs (Starting Notes)</span>
             </div>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-3 gap-2.5 flex-1">
               {build.supportDiscs.map((slot, idx) => {
                 const disc = slot.discId ? discs[String(slot.discId)] : null;
                 if (!disc) {
@@ -470,7 +471,7 @@ export function AdvancedBuildCardExport({
                       className="size-12 sm:size-14 rounded-lg object-cover border border-border shrink-0"
                     />
                     <div className="min-w-0 flex-1 space-y-0.5">
-                      <div className="text-xs sm:text-[13px] font-bold text-slate-900 leading-snug line-clamp-2">
+                      <div className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-white leading-snug break-words">
                         {disc.name}
                       </div>
                       <div className="text-xs font-mono text-slate-700 font-semibold">

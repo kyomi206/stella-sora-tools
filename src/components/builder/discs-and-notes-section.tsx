@@ -566,14 +566,14 @@ function SupportDiscTile({
       }
     >
       <div className="flex items-center gap-1">
-        {/* Starting notes, inline as tiny chips */}
-        <div className="flex items-center gap-1">
-          {Object.entries(startingNotes).slice(0, 1).map(([noteName, count]) => {
+        {/* Starting notes, stacked vertically */}
+        <div className="flex flex-col gap-0.5">
+          {Object.entries(startingNotes).map(([noteName, count]) => {
             const meta = NOTE_BY_NAME[noteName as NoteName];
             return (
               <span
                 key={noteName}
-                className="inline-flex items-center gap-0.5 rounded border border-border bg-surface-elevated px-1 py-0.5 text-[11px] font-mono font-semibold text-slate-800 dark:text-white"
+                className="inline-flex items-center gap-0.5 rounded border border-border bg-surface-elevated px-1 py-0.5 text-[11px] font-mono font-semibold text-slate-800 dark:text-white leading-none"
                 title={`${meta?.name || noteName} +${count}`}
               >
                 {meta && (
@@ -587,11 +587,6 @@ function SupportDiscTile({
               </span>
             );
           })}
-          {Object.keys(startingNotes).length > 1 && (
-            <span className="text-[11px] font-mono text-slate-500 dark:text-white/70">
-              +{Object.keys(startingNotes).length - 1}
-            </span>
-          )}
         </div>
       </div>
     </DiscTileFrame>

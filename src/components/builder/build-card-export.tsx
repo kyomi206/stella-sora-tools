@@ -42,14 +42,11 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
     if (!cardRef.current) return;
     setIsExporting(true);
     try {
+      const isDark = document.documentElement.classList.contains('dark');
       const canvas = await html2canvas(cardRef.current, {
         scale: 2,
         useCORS: true,
-        backgroundColor: '#ffffff',
-        onclone: (clonedDoc) => {
-          // Export the card in the light palette even when the app is in dark mode.
-          clonedDoc.documentElement.classList.remove('dark');
-        },
+        backgroundColor: isDark ? '#0b182b' : '#ffffff',
       });
       const dataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
@@ -141,7 +138,7 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
       <div
         ref={cardRef}
         id="team-card-export"
-        className="w-full bg-surface-card text-slate-900 p-4 sm:p-6 rounded-xl flex flex-col gap-4 relative overflow-x-auto select-none shadow-xl border border-border"
+        className="w-full bg-surface-card text-slate-900 dark:text-white p-4 sm:p-6 rounded-xl flex flex-col gap-4 relative select-none shadow-xl border border-border"
       >
         {squadRows.map(({ slotKey, roleBadge, roleBadgeBg, char, potentials }) => {
           const isFiveStar = (char?.star || 4) >= 5;
@@ -205,7 +202,7 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
 
                     {/* Character Name in Bold Royal Blue Font at Bottom matching previewold.png */}
                     <div className="absolute bottom-1 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
-                      <span className="font-extrabold text-xs sm:text-sm text-[#1a56db] tracking-tight drop-shadow truncate">
+                      <span className="font-extrabold text-[11px] sm:text-xs text-[#1a56db] tracking-tight drop-shadow leading-tight break-words">
                         {char.name.EN}
                       </span>
                     </div>
@@ -221,15 +218,15 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
                     />
                   </div>
                 ) : (
-                  <div className="w-24 sm:w-28 aspect-[3.4/4.4] rounded-lg border border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center p-2 text-center text-slate-600">
-                    <span className="text-xs font-semibold capitalize text-slate-700">Empty</span>
-                    <span className="text-[10px] capitalize text-slate-500">{slotKey}</span>
+                  <div className="w-24 sm:w-28 aspect-[3.4/4.4] rounded-lg border border-dashed border-slate-300 dark:border-border bg-slate-50 dark:bg-surface-elevated flex flex-col items-center justify-center p-2 text-center text-slate-600 dark:text-white/75">
+                    <span className="text-xs font-semibold capitalize text-slate-700 dark:text-white/90">Empty</span>
+                    <span className="text-[10px] capitalize text-slate-500 dark:text-white/60">{slotKey}</span>
                   </div>
                 )}
               </div>
 
               {/* Right: Potentials grouped by Priority */}
-              <div className="flex-1 flex items-center gap-3 overflow-x-auto py-2">
+              <div className="flex-1 min-w-0 flex flex-wrap items-end gap-y-2 py-2">
                 {char && potentials.length > 0 ? (
                   priorityDefinitions
                     .filter((prio) => {
@@ -239,59 +236,63 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
                         return assignedPriority === prio.key;
                       });
                     })
-                    .map((prio) => {
+                    .flatMap((prio) => {
                       const groupPotentials = potentials.filter((sel) => {
                         const pot = getPotentialById(char.id, sel.id);
                         const assignedPriority = sel.priority || (pot?.isCore ? 'Core' : 'Medium');
                         return assignedPriority === prio.key;
                       });
 
-                      return (
-                        <div key={prio.key} className="flex flex-col shrink-0">
-                          {/* Priority Tab Header */}
-                          <div className="self-start relative z-10 -mb-[2.5px]">
-                            <span
+                      return groupPotentials.map((sel, idx) => {
+                        const pot = getPotentialById(char.id, sel.id);
+                        if (!pot) return null;
+                        const levelVal = Number(sel.level) || (pot.isCore ? 1 : 6);
+                        const isFirst = idx === 0;
+                        const isLast = idx === groupPotentials.length - 1;
+
+                        return (
+                          <div
+                            key={`${prio.key}-${sel.id}`}
+                            className={cn('flex flex-col shrink-0', isLast && 'mr-3')}
+                          >
+                            {isFirst && (
+                              <div className="self-start relative z-10 -mb-[2.5px]">
+                                <span
+                                  className={cn(
+                                    'px-3.5 py-0.5 text-xs font-bold text-white rounded-t-md shadow-xs inline-block tracking-wide',
+                                    prio.headerBg
+                                  )}
+                                >
+                                  {prio.label}
+                                </span>
+                              </div>
+                            )}
+
+                            <div
                               className={cn(
-                                'px-3.5 py-0.5 text-xs font-bold text-white rounded-t-md shadow-xs inline-block tracking-wide',
-                                prio.headerBg
+                                'relative z-0 overflow-hidden shadow-sm',
+                                prio.boxBorder,
+                                isFirst ? 'rounded-bl-md' : 'border-l-0',
+                                isLast ? 'rounded-r-md' : 'border-r-[2px]'
                               )}
                             >
-                              {prio.label}
-                            </span>
-                          </div>
-
-                          {/* Priority Box Container */}
-                          <div
-                            className={cn(
-                              'relative z-0 rounded-b-md rounded-tr-md overflow-hidden flex items-stretch shadow-sm',
-                              prio.boxBorder,
-                              prio.divideBorder
-                            )}
-                          >
-                            {groupPotentials.map((sel) => {
-                              const pot = getPotentialById(char.id, sel.id);
-                              if (!pot) return null;
-                              const levelVal = Number(sel.level) || (pot.isCore ? 1 : 6);
-
-                              return (
-                                <div
-                                  key={sel.id}
-                                  onMouseEnter={(e) => {
-                                    const rect = e.currentTarget.getBoundingClientRect();
-                                    setHoveredPot({
-                                      pot,
-                                      level: levelVal,
-                                      priority: prio.label,
-                                      targetRect: rect,
-                                    });
-                                  }}
-                                  onMouseMove={(e) => {
-                                    const rect = e.currentTarget.getBoundingClientRect();
-                                    setHoveredPot((prev) => (prev ? { ...prev, targetRect: rect } : null));
-                                  }}
-                                  onMouseLeave={() => setHoveredPot(null)}
-                                  className="relative w-[88px] sm:w-[98px] aspect-[87/107] shrink-0 cursor-pointer select-none bg-white"
-                                >
+                              <div
+                                onMouseEnter={(e) => {
+                                  const rect = e.currentTarget.getBoundingClientRect();
+                                  setHoveredPot({
+                                    pot,
+                                    level: levelVal,
+                                    priority: prio.label,
+                                    targetRect: rect,
+                                  });
+                                }}
+                                onMouseMove={(e) => {
+                                  const rect = e.currentTarget.getBoundingClientRect();
+                                  setHoveredPot((prev) => (prev ? { ...prev, targetRect: rect } : null));
+                                }}
+                                onMouseLeave={() => setHoveredPot(null)}
+                                className="relative w-[88px] sm:w-[98px] aspect-[87/107] shrink-0 cursor-pointer select-none bg-white"
+                              >
                                   {/* Official Potential Graphic */}
                                   <img
                                     src={getPotentialImageUrl(pot.id)}
@@ -321,11 +322,10 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
                                     </div>
                                   )}
                                 </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      );
+                              </div>
+                            </div>
+                          );
+                      });
                     })
                 ) : (
                   <div className="flex items-center text-xs text-slate-600 italic py-4">

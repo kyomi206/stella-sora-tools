@@ -749,19 +749,8 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                   </div>
                 )}
 
-                {/* 4-Column Metadata Grid (Full Name, Experience, Birthday, Faction in a straight horizontal row) */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <ProfileBox label="Full Name">
-                    <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug block break-words">
-                      {character.name.EN}
-                    </span>
-                    {(character.name.JP || character.name.CN) && (
-                      <span className="text-[11px] text-slate-600 dark:text-white/75 font-normal block break-words mt-0.5">
-                        {[character.name.JP, character.name.CN].filter(Boolean).join(' • ')}
-                      </span>
-                    )}
-                  </ProfileBox>
-
+                {/* 3-Column Metadata Grid (Experience, Birthday, Faction) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <ProfileBox label="Experience">
                     <span className="text-sm sm:text-base font-bold text-[#0e7490] dark:text-[#22d3ee] leading-snug block break-words">
                       {lore?.experience || '—'}
