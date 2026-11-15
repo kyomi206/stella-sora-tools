@@ -8,12 +8,14 @@ import { Search, ChevronDown, Check, X } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
+import { RarityStars } from '@/components/ui/rarity-stars';
 
 interface FilterOption {
   value: string;
   label: string;
   icon?: string;
   darkIconInLightMode?: boolean;
+  customContent?: React.ReactNode;
 }
 
 interface FilterDropdownProps {
@@ -90,7 +92,7 @@ function FilterDropdown({
                   'w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-left transition-colors cursor-pointer',
                   checked
                     ? 'bg-amber-500/15 text-slate-900 dark:text-white font-semibold'
-                    : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#1e293b]'
+                    : 'text-slate-700 dark:text-white/90 hover:bg-slate-100 dark:hover:bg-[#1e293b]'
                 )}
               >
                 <span
@@ -114,7 +116,7 @@ function FilterDropdown({
                     )}
                   />
                 )}
-                <span className="truncate">{opt.label}</span>
+                {opt.customContent ?? <span className="truncate">{opt.label}</span>}
               </button>
             );
           })}
@@ -127,7 +129,7 @@ function FilterDropdown({
                 'w-full flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs font-medium transition-colors',
                 hasSelection
                   ? 'text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 cursor-pointer'
-                  : 'text-slate-400 dark:text-slate-600 cursor-not-allowed'
+                  : 'text-slate-400 dark:text-white/35 cursor-not-allowed'
               )}
             >
               <X className="size-3.5 shrink-0" aria-hidden="true" />
@@ -202,8 +204,8 @@ export default function TrekkersPage() {
 
   const rarityOptions: FilterOption[] = useMemo(
     () => [
-      { value: '5', label: '5★' },
-      { value: '4', label: '4★' },
+      { value: '5', label: '5★', customContent: <RarityStars count={5} /> },
+      { value: '4', label: '4★', customContent: <RarityStars count={4} /> },
     ],
     []
   );
@@ -533,19 +535,11 @@ export default function TrekkersPage() {
                 <div className="absolute inset-x-0 bottom-1.5 h-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-10" />
 
                 {/* Character Name & Stars at Bottom */}
-                <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
+                <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between gap-1 pointer-events-none">
                   <span className="font-bold text-xs sm:text-sm text-white tracking-tight drop-shadow truncate">
                     {char.name.EN}
                   </span>
-                  {isFiveStar ? (
-                    <span className="text-[10px] text-amber-400 font-mono font-bold shrink-0 drop-shadow">
-                      5★
-                    </span>
-                  ) : (
-                    <span className="text-[10px] text-amber-300 font-mono font-bold shrink-0 drop-shadow">
-                      4★
-                    </span>
-                  )}
+                  <RarityStars count={char.star || 4} size="sm" />
                 </div>
 
                 {/* Bottom Horizontal Bar: 5-Star Rainbow/Purple vs 4-Star Yellow/Gold */}

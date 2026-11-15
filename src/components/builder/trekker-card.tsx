@@ -4,6 +4,7 @@ import { SSCharacter, SlotType } from '@/types';
 import { UserPlus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
+import { RarityStars } from '@/components/ui/rarity-stars';
 
 interface TrekkerCardProps {
   slot: SlotType;
@@ -223,19 +224,11 @@ export function TrekkerCard({
         <div className="absolute inset-x-0 bottom-1.5 h-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-10" />
 
         {/* Character Name in Crisp White Font & Stars at Bottom */}
-        <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
+        <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between gap-1 pointer-events-none">
           <span className="font-bold text-xs sm:text-sm text-white tracking-tight drop-shadow truncate">
             {character.name.EN}
           </span>
-          {isFiveStar ? (
-            <span className="text-[11px] text-amber-400 font-mono font-bold shrink-0 drop-shadow">
-              5★
-            </span>
-          ) : (
-            <span className="text-[11px] text-amber-300 font-mono font-bold shrink-0 drop-shadow">
-              4★
-            </span>
-          )}
+          <RarityStars count={character.star || 4} size="sm" />
         </div>
 
         {/* Bottom Horizontal Bar: 5-Star Rainbow/Purple vs 4-Star Yellow/Gold like ex.png */}

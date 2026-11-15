@@ -127,8 +127,8 @@ const DiscGridCard = memo(function DiscGridCard({
             )}
           </div>
 
-          {/* Tags / Trekkers */}
-          {(disc.tag?.length || disc.char?.length) && (
+          {/* Tags */}
+          {Boolean(disc.tag?.length) && (
             <div className="flex items-center gap-1 flex-wrap mt-0.5 text-[11px] text-slate-500 dark:text-white/70">
               {disc.tag?.map((t) => (
                 <span
@@ -136,14 +136,6 @@ const DiscGridCard = memo(function DiscGridCard({
                   className="px-1.5 py-0.2 rounded bg-surface-subtle border border-border-subtle dark:text-white/80"
                 >
                   {t}
-                </span>
-              ))}
-              {disc.char?.map((c) => (
-                <span
-                  key={c}
-                  className="px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20"
-                >
-                  {c}
                 </span>
               ))}
             </div>

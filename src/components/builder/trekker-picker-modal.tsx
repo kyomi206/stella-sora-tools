@@ -7,6 +7,7 @@ import { X, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useOverlayExit } from '@/lib/use-overlay-exit';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
+import { RarityStars } from '@/components/ui/rarity-stars';
 
 interface TrekkerPickerModalProps {
   isOpen: boolean;
@@ -136,19 +137,11 @@ const TrekkerTile = memo(function TrekkerTile({
       <div className="absolute inset-x-0 bottom-1.5 h-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-10" />
 
       {/* Character Name & Stars at Bottom */}
-      <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
+      <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between gap-1 pointer-events-none">
         <span className="font-bold text-xs sm:text-sm text-white tracking-tight drop-shadow truncate">
           {char.name.EN}
         </span>
-        {isFiveStar ? (
-          <span className="text-[10px] text-amber-400 font-mono font-bold shrink-0 drop-shadow">
-            5★
-          </span>
-        ) : (
-          <span className="text-[10px] text-amber-300 font-mono font-bold shrink-0 drop-shadow">
-            4★
-          </span>
-        )}
+        <RarityStars count={char.star || 4} size="sm" />
       </div>
 
       {/* Bottom Horizontal Bar: 5-Star Rainbow/Purple vs 4-Star Yellow/Gold */}

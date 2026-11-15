@@ -54,6 +54,7 @@ import { PotentialDesc } from '@/components/builder/potential-desc';
 import { useOverlayExit } from '@/lib/use-overlay-exit';
 import { SSCharacter, SSPotentialFull } from '@/types';
 import { cn } from '@/lib/utils';
+import { RarityStars } from '@/components/ui/rarity-stars';
 
 // ------------------------------------------------------------------------------
 // Mathematical Models & Parameter Parsing
@@ -608,14 +609,7 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                 {/* Left: Stars + Name + Faction + Badges + Actions */}
                 <div className="min-w-0 flex-1 space-y-1.5">
                       {/* Star Rating */}
-                      <div className="flex items-center gap-1">
-                        {Array.from({ length: character.star }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className="size-3.5 fill-amber-400 text-amber-400 drop-shadow-xs"
-                          />
-                        ))}
-                      </div>
+                      <RarityStars count={character.star} size="md" />
 
                       {/* Name & Sub-names */}
                       <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
@@ -678,14 +672,6 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                         >
                           <Layers className="size-3.5" />
                           <span>Load in Preset Visualizer</span>
-                        </Link>
-
-                        <Link
-                          href={`/damage?char=${character.id}`}
-                          className="inline-flex items-center justify-center gap-1.5 h-8 px-2.5 rounded-lg border border-border-subtle bg-surface-elevated hover:bg-surface-hover text-slate-700 dark:text-white text-xs font-medium transition-colors"
-                        >
-                          <Swords className="size-3.5 text-amber-600 dark:text-amber-400" />
-                          <span>Calculate Damage</span>
                         </Link>
 
                         <Link

@@ -6,6 +6,7 @@ import { TrekkerPickerModal } from '@/components/builder/trekker-picker-modal';
 import { UserPlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
+import { RarityStars } from '@/components/ui/rarity-stars';
 
 // TrekkerPickerModal handles search query and element filters: Ignis, Aqua, Terra, Ventus, Umbra, Lux
 
@@ -134,13 +135,11 @@ export function TrekkerSelector({ selectedId, onSelect, title, subtitle }: Trekk
           <div className="absolute inset-x-0 bottom-1.5 h-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-10" />
 
           {/* Character Name & Stars at Bottom */}
-          <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between pointer-events-none">
+          <div className="absolute bottom-2 inset-x-1.5 z-20 flex items-center justify-between gap-1 pointer-events-none">
             <span className="font-bold text-xs sm:text-sm text-white tracking-tight drop-shadow truncate">
               {activeChar?.name || 'Trekker'}
             </span>
-            <span className="text-xs text-amber-400 font-mono font-bold shrink-0 drop-shadow">
-              {isFiveStar ? '5★' : '4★'}
-            </span>
+            <RarityStars count={activeChar?.star || 4} size="sm" />
           </div>
 
           {/* Bottom Accent Bar */}
@@ -158,8 +157,8 @@ export function TrekkerSelector({ selectedId, onSelect, title, subtitle }: Trekk
         <div className="flex-1 min-w-0 flex flex-col justify-between py-1 gap-3">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs px-2 py-0.5 rounded font-mono font-bold bg-amber-500/15 text-amber-700 border border-amber-500/30">
-                {activeChar?.star || 4}★
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-elevated border border-border-subtle">
+                <RarityStars count={activeChar?.star || 4} size="sm" />
               </span>
               <span className="text-xs px-2 py-0.5 rounded font-medium bg-surface-elevated text-slate-700 border border-border-subtle">
                 {activeChar?.element || 'Ignis'}
