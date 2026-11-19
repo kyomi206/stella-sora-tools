@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Swords, Heart, Users, Calendar, Calculator } from 'lucide-react';
+import { Swords, Heart, Users, Disc, Calendar, Calculator } from 'lucide-react';
 
 export function ToolsGrid() {
   const tools = [
@@ -42,6 +42,14 @@ export function ToolsGrid() {
       iconStyle: 'text-emerald-700',
       description:
         "Explore trekkers' profiles. Search for a specific trekker and view their combat roles, potentials lists, elements…",
+    },
+    {
+      title: 'Runic Disc Encyclopedia',
+      href: '/discs',
+      icon: Disc,
+      iconStyle: 'text-cyan-700',
+      description:
+        'Browse all Runic Discs. Filter by element, tags, or Musical Notes and inspect Melody, Harmony, and Support skills.',
     },
   ];
 

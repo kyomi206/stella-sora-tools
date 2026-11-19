@@ -1,10 +1,12 @@
 import type { MetadataRoute } from 'next';
 import charactersData from '@/data/characters.json';
+import { getAllDiscs, getDiscSlug } from '@/lib/discs';
 import { getSiteUrl } from '@/lib/site-url';
 
 const STATIC_ROUTES = [
   '/',
   '/trekkers',
+  '/discs',
   '/builder',
   '/builder/advanced',
   '/damage',
@@ -29,5 +31,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...trekkerEntries];
+  const discEntries: MetadataRoute.Sitemap = getAllDiscs().map((disc) => ({
+    url: `${siteUrl}/discs/${getDiscSlug(disc.name)}`,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...trekkerEntries, ...discEntries];
 }

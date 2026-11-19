@@ -75,6 +75,12 @@ const ROUTE_BREADCRUMBS: Record<string, BreadcrumbConfig> = {
     name: 'Trekker Encyclopedia',
     href: '/trekkers',
   },
+  '/discs': {
+    category: 'Gameplay Tools',
+    categoryHref: '/',
+    name: 'Runic Disc Encyclopedia',
+    href: '/discs',
+  },
   '/credits': {
     name: 'Credits & Attributions',
     href: '/credits',
@@ -117,6 +123,24 @@ function TopBarContent() {
           { name: 'Trekker Encyclopedia', href: '/trekkers' },
         ],
         name: decodeURIComponent(rawName),
+        href: pathname,
+      };
+    }
+  }
+
+  if (!currentBreadcrumb && pathname.startsWith('/discs/')) {
+    const rawSlug = pathname.replace('/discs/', '').replace(/\/+$/, '');
+    if (rawSlug) {
+      const formattedSlug = decodeURIComponent(rawSlug)
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (ch) => ch.toUpperCase());
+      currentBreadcrumb = {
+        category: 'Gameplay Tools',
+        categoryHref: '/',
+        items: [
+          { name: 'Runic Disc Encyclopedia', href: '/discs' },
+        ],
+        name: formattedSlug,
         href: pathname,
       };
     }

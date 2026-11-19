@@ -4,31 +4,33 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import {
-  Layers,
-  Swords,
-  Gift,
-  ExternalLink,
+  Activity,
+  ArrowUpRight,
+  Award,
+  BookOpen,
+  Camera,
+  ChevronLeft,
+  ChevronRight,
+  Compass,
   Contact,
   Crosshair,
-  Shield,
-  Star,
-  Sparkles,
-  Info,
-  X,
-  ChevronRight,
-  ChevronLeft,
-  Flame,
-  Coffee,
-  Moon,
-  IceCream,
-  Camera,
-  Wind,
+  Disc,
+  ExternalLink,
   Fan,
-  Compass,
+  Flame,
+  Gift,
   Heart,
-  Award,
-  Activity,
-  BookOpen,
+  IceCream,
+  Info,
+  Layers,
+  Moon,
+  Shield,
+  Sparkles,
+  Star,
+  Swords,
+  Wind,
+  X,
+  Coffee,
 } from 'lucide-react';
 
 import charactersData from '@/data/characters.json';
@@ -50,6 +52,8 @@ import {
   formatIllustrationVariantLabel,
 } from '@/lib/wikitide';
 import { getPotentialImageUrl } from '@/lib/potentials';
+import { getDiscOutfitIconUrl } from '@/data/notes';
+import { getDiscSlug, getExclusiveDiscForTrekker } from '@/lib/discs';
 import { PotentialDesc } from '@/components/builder/potential-desc';
 import { useOverlayExit } from '@/lib/use-overlay-exit';
 import { SSCharacter, SSPotentialFull } from '@/types';
@@ -246,6 +250,11 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
       ) || null
     );
   }, [decodedQuery, characters]);
+
+  const signatureDiscInfo = useMemo(
+    () => (character ? getExclusiveDiscForTrekker(character.id) : undefined),
+    [character]
+  );
 
   // Interactive slider states
   const [statLevel, setStatLevel] = useState<number>(90);
@@ -814,21 +823,14 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                 )}
               </div>
 
-              {/* Combat Telemetry Instrument */}
-              <div className="game-card celestial-card p-5 space-y-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border-subtle pb-3">
-                  <div>
-                    <h2 className="text-sm font-semibold tracking-wide uppercase text-slate-600 dark:text-white/90">
-                      Combat Telemetry Instrument
+              {/* Base Attributes */}
+              <div className="game-card celestial-card p-5 sm:p-6 space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <Activity className="size-5 text-[#0e7490] dark:text-[#22d3ee]" aria-hidden="true" />
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                      Base Attributes
                     </h2>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-lg font-bold text-slate-900 dark:text-white">
-                        Base Attributes
-                      </span>
-                      <span className="text-xs text-slate-600 dark:text-white/80">
-                        (Piecewise Linear Interpolation)
-                      </span>
-                    </div>
                   </div>
 
                   {/* Level Stepper / Milestone Pills */}
@@ -972,6 +974,68 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                   </div>
                 </div>
               </div>
+
+              {signatureDiscInfo && (() => {
+                const { disc, bannerKind, bannerName } = signatureDiscInfo;
+                const maxAtk = Number(disc.stats?.lv90?.ATK ?? disc.stats?.lv80?.ATK ?? 0);
+                const discElementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
+
+                return (
+                  <div className="game-card celestial-card p-5 sm:p-6 space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <Disc className="size-5 text-[#0e7490] dark:text-[#22d3ee]" aria-hidden="true" />
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                          Featured Runic Disc
+                        </h2>
+                      </div>
+                      <span className="inline-flex items-center self-start sm:self-center px-2.5 py-1 rounded-md bg-surface-elevated border border-border-subtle text-xs font-medium text-slate-700 dark:text-white/80">
+                        {bannerKind} Banner · {bannerName}
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/discs/${getDiscSlug(disc.name)}`}
+                      className="group w-full rounded-xl bg-surface-elevated/70 border border-border-subtle hover:border-border-hover hover:bg-surface-hover p-3.5 flex items-center gap-4 transition-colors press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
+                    >
+                      <div className="relative size-16 rounded-lg overflow-hidden shrink-0 border border-border-subtle bg-base">
+                        <img
+                          src={getDiscOutfitIconUrl(disc.id, 'full')}
+                          alt={disc.name}
+                          className="size-full object-cover"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <RarityStars count={disc.star} size="sm" />
+                          <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-white/75">
+                            {disc.element !== 'None' && (
+                              <img
+                                src={`/ss-element/${disc.element}.webp`}
+                                alt=""
+                                className="size-3.5 object-contain"
+                              />
+                            )}
+                            <span>{discElementLabel}</span>
+                          </span>
+                        </div>
+                        <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:underline truncate">
+                          {disc.name}
+                        </div>
+                        <div className="flex items-center justify-between text-xs text-slate-600 dark:text-white/75">
+                          <span className="font-mono tabular-nums font-semibold">
+                            Lv.90 ATK {maxAtk.toLocaleString('en-US')}
+                          </span>
+                          <span className="inline-flex items-center gap-1 font-bold text-sky-600 dark:text-sky-400">
+                            <span>Inspect</span>
+                            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })()}
             </div>
           </section>
         )}

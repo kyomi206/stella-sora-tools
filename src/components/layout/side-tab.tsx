@@ -8,6 +8,7 @@ import {
   Swords,
   Heart,
   Users,
+  Disc,
   Calendar,
   Calculator,
 } from 'lucide-react';
@@ -72,6 +73,12 @@ export function SideTab() {
       href: '/trekkers',
       icon: Users,
       iconColor: 'text-emerald-600',
+    },
+    {
+      name: 'Runic Discs',
+      href: '/discs',
+      icon: Disc,
+      iconColor: 'text-cyan-600',
     },
   ];
 
