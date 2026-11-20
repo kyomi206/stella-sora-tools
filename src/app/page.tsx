@@ -16,8 +16,7 @@ const HOME_DESCRIPTION =
   'KiyoStella is a Stella Sora web companion with a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'KiyoStella — Stella Sora Tools, Squad Builder & Encyclopedia',
-  absoluteTitle: true,
+  title: 'Stella Sora Tools',
   description: HOME_DESCRIPTION,
   path: '/',
   keywords: [

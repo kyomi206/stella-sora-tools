@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   applicationName: SITE_NAME,
   title: {
-    default: 'KiyoStella — Stella Sora Tools, Squad Builder & Encyclopedia',
+    default: 'Stella Sora Tools | kiyostella',
     template: '%s | kiyostella',
   },
   description:
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     siteName: SITE_NAME,
     url: '/',
-    title: 'KiyoStella — Stella Sora Tools, Squad Builder & Encyclopedia',
+    title: 'Stella Sora Tools | kiyostella',
     description:
       'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
     images: [
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'KiyoStella — Stella Sora Tools, Squad Builder & Encyclopedia',
+    title: 'Stella Sora Tools | kiyostella',
     description:
       'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
     images: [DEFAULT_OG_IMAGE],
