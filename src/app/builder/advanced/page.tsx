@@ -11,7 +11,7 @@ const DESCRIPTION =
   'Configure complete Stella Sora squad presets with 3 Trekkers, Potentials, 3 Main and 3 Support Runic Discs, Musical Notes harmony matching, SST1 advanced preset codes, and high-resolution build cards.';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Advanced Preset Visualizer',
+  title: 'Advanced Visualizer',
   description: DESCRIPTION,
   path: '/builder/advanced',
   keywords: [

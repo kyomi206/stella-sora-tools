@@ -3,7 +3,7 @@ import { DamageClient } from './damage-client';
 import { buildPageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Theoretical Damage Calculator',
+  title: 'Damage Calculator',
   description:
     'In-development theoretical damage calculator for Stella Sora team compositions on KiyoStella.',
   path: '/damage',

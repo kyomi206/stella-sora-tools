@@ -105,7 +105,7 @@ export async function generateMetadata({
   const canonicalPath = `/trekkers/${encodeURIComponent(char.name.EN)}`;
 
   return buildPageMetadata({
-    title: `${char.name.EN} — ${char.star}★ ${char.element} ${char.class}`,
+    title: char.name.EN,
     description: buildTrekkerDescription(char, lore, combat),
     path: canonicalPath,
     type: 'article',

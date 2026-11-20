@@ -11,7 +11,7 @@ const DESCRIPTION =
   'Track ongoing and upcoming Stella Sora recruitment banners, Runic Disc banners, Boss Blitz raids, main story events, and Cataclysm Survivor seasons on an interactive timeline.';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Events Roadmap & Banner Schedule',
+  title: 'Events Roadmap',
   description: DESCRIPTION,
   path: '/roadmap',
   keywords: [

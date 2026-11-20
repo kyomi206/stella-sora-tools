@@ -11,7 +11,7 @@ const DESCRIPTION =
   'Build 3-Trekker Stella Sora squads across Vanguard, Versatile, and Support slots, pick Core and Normal Potentials, import/export in-game preset codes, save local bookmarks, and export shareable build cards.';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Preset Visualizer & Squad Builder',
+  title: 'Preset Visualizer',
   description: DESCRIPTION,
   path: '/builder',
   keywords: [
@@ -45,7 +45,7 @@ export default function BuilderPage() {
       buildBreadcrumbJsonLd(
         [
           { name: 'Home', path: '/' },
-          { name: 'Preset Visualizer & Squad Builder', path: '/builder' },
+          { name: 'Preset Visualizer', path: '/builder' },
         ],
         { includeContext: false }
       ),

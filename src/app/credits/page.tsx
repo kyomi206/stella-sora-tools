@@ -4,7 +4,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Credits & Attributions',
+  title: 'Credits',
   description:
     'Attributions, community data sources, game asset disclaimers, and technology stack powering KiyoStella.',
   path: '/credits',

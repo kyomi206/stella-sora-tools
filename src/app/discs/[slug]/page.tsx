@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: DiscPageProps): Promise<Metad
   const canonicalPath = `/discs/${getDiscSlug(disc.name)}`;
 
   return buildPageMetadata({
-    title: `${disc.name} — ${disc.star}★ ${elementLabel} Runic Disc`,
+    title: disc.name,
     description: buildDiscDescription(disc),
     path: canonicalPath,
     type: 'article',

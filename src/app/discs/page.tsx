@@ -13,7 +13,7 @@ const allDiscs = getAllDiscs();
 const DESCRIPTION = `Browse all ${allDiscs.length} Stella Sora Runic Discs, filterable by Element, Rarity, Tags, Support Notes, and Harmony Notes, with Melody Skills and Crescendo scaling.`;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Runic Disc Encyclopedia',
+  title: 'Runic Discs',
   description: DESCRIPTION,
   path: '/discs',
   keywords: [
