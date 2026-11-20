@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { formatPotentialSegments } from '@/lib/potentials';
+import { formatPotentialSegments } from '@/lib/potential-utils';
 import type { ElementType } from '@/types';
 
 interface PotentialDescProps {

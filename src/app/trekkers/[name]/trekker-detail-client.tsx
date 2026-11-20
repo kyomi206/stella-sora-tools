@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
 import {
   Activity,
   ArrowUpRight,
@@ -21,7 +20,6 @@ import {
   Gift,
   Heart,
   IceCream,
-  Info,
   Layers,
   Moon,
   Shield,
@@ -33,12 +31,6 @@ import {
   Coffee,
 } from 'lucide-react';
 
-import charactersData from '@/data/characters.json';
-import trekkerLoreData from '@/data/trekker-lore.json';
-import characterCombatData from '@/data/character-combat.json';
-import potentialsDbData from '@/data/potentials-db.json';
-import trekkerTalentsData from '@/data/trekker-talents.json';
-import trekkerIllustrationsData from '@/data/trekker-illustrations.json';
 import {
   STELLA_SORA_GIFTS,
   GIFT_FAMILIES,
@@ -51,12 +43,11 @@ import {
   getWikiTideFileUrl,
   formatIllustrationVariantLabel,
 } from '@/lib/wikitide';
-import { getPotentialImageUrl } from '@/lib/potentials';
+import { getPotentialImageUrl } from '@/lib/potential-utils';
 import { getDiscOutfitIconUrl } from '@/data/notes';
-import { getDiscSlug, getExclusiveDiscForTrekker } from '@/lib/discs';
 import { PotentialDesc } from '@/components/builder/potential-desc';
 import { useOverlayExit } from '@/lib/use-overlay-exit';
-import { SSCharacter, SSPotentialFull } from '@/types';
+import { ElementType, SSCharacter, SSPotentialFull } from '@/types';
 import { cn } from '@/lib/utils';
 import { RarityStars } from '@/components/ui/rarity-stars';
 
@@ -225,37 +216,43 @@ function ProfileBox({
 // Trekker Detail Client Component
 // ------------------------------------------------------------------------------
 
-interface TrekkerDetailClientProps {
-  name?: string;
+export interface ExactTalentTier {
+  tier: number;
+  name: string;
+  desc: string;
+  statBonuses: { stat: string; value: string }[];
 }
 
-export default function TrekkerDetailClient({ name: propName }: TrekkerDetailClientProps) {
-  const params = useParams();
-  const router = useRouter();
+export interface SignatureDiscSummary {
+  discId: number;
+  discName: string;
+  discSlug: string;
+  discStar: number;
+  discElement: ElementType | 'None';
+  maxAtk: number;
+  bannerName: string;
+  bannerKind: 'Limited' | 'Rate-Up';
+}
 
-  // Resolve character identifier
-  const resolvedParam = propName || (params?.name as string) || '';
-  const decodedQuery = decodeURIComponent(resolvedParam).trim();
+interface TrekkerDetailClientProps {
+  character: SSCharacter;
+  lore: Record<string, any> | null;
+  combat: Record<string, any> | null;
+  rawPotentials: SSPotentialFull[];
+  exactTalents: ExactTalentTier[];
+  illustrations: string[];
+  signatureDiscInfo: SignatureDiscSummary | null;
+}
 
-  const characters = charactersData as Record<string, SSCharacter>;
-  const character = useMemo(() => {
-    if (!decodedQuery) return null;
-    // 1. Direct ID match
-    if (characters[decodedQuery]) return characters[decodedQuery];
-    // 2. Name match (case-insensitive & space/underscore insensitive)
-    const normalized = decodedQuery.replace(/_/g, ' ').toLowerCase();
-    return (
-      Object.values(characters).find(
-        (c) => c.name.EN.toLowerCase() === normalized
-      ) || null
-    );
-  }, [decodedQuery, characters]);
-
-  const signatureDiscInfo = useMemo(
-    () => (character ? getExclusiveDiscForTrekker(character.id) : undefined),
-    [character]
-  );
-
+export default function TrekkerDetailClient({
+  character,
+  lore,
+  combat,
+  rawPotentials,
+  exactTalents,
+  illustrations,
+  signatureDiscInfo,
+}: TrekkerDetailClientProps) {
   // Interactive slider states
   const [statLevel, setStatLevel] = useState<number>(90);
   const [skillLevel, setSkillLevel] = useState<number>(1);
@@ -331,39 +328,7 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
     };
   }, [inspectedPotential]);
 
-  if (!character) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <div className="game-card celestial-card p-8 inline-block max-w-md w-full">
-          <Info className="size-10 text-amber-500 mx-auto mb-3" />
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-            Trekker Not Found
-          </h1>
-          <p className="text-sm text-slate-600 dark:text-white/80 mb-6">
-            Could not locate Trekker matching &ldquo;{decodedQuery}&rdquo; in offline database.
-          </p>
-          <button
-            type="button"
-            onClick={() => router.push('/trekkers')}
-            className="w-full h-9 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs transition-colors shadow-xs cursor-pointer"
-          >
-            Return to Trekker Encyclopedia
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const charIdStr = String(character.id);
   const isFiveStar = character.star >= 5;
-
-  // Offline datasets lookup
-  const lore = (trekkerLoreData as Record<string, any>)[charIdStr] ||
-    (trekkerLoreData as Record<string, any>)[character.name.EN] ||
-    null;
-
-  const combat = (characterCombatData as Record<string, any>)[charIdStr] || null;
-  const rawPotentials: SSPotentialFull[] = (potentialsDbData as Record<string, any>)[charIdStr] || [];
 
   // Group potentials into canonical builds
   const potentialGroups = useMemo(() => {
@@ -480,12 +445,6 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
   // Head portrait URL (local self-hosted asset)
   const headUrl = getTrekkerImageUrl(character.id);
 
-  // Full illustration variants for the Details tab carousel
-  const illustrations = useMemo(() => {
-    const map = trekkerIllustrationsData as Record<string, string[]>;
-    return map[String(character.id)] ?? [];
-  }, [character.id]);
-
   const safeIllustrationIndex =
     illustrations.length > 0 ? illustrationIndex % illustrations.length : 0;
   const activeIllustrationFilename = illustrations[safeIllustrationIndex] ?? null;
@@ -495,9 +454,6 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
   const activeIllustrationLabel = activeIllustrationFilename
     ? formatIllustrationVariantLabel(activeIllustrationFilename, character.name.EN)
     : 'Portrait';
-
-  // Selected skill
-  const currentSkill = combat ? combat[activeSkillKey] : null;
 
   // Dock navigation cycle helper
   const cycleTab = (direction: 'prev' | 'next') => {
@@ -607,9 +563,16 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
         {/* ==================================================================== */}
         {/* TAB 1: DETAILS (FULL ILLUSTRATION ON LEFT + HEADER & TELEMETRY RIGHT) */}
         {/* ==================================================================== */}
-        {activeTab === 'details' && (
-          <section className="grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start">
-            {fullIllustrationAside}
+        <section
+          role="tabpanel"
+          hidden={activeTab !== 'details'}
+          className={cn(
+            activeTab === 'details'
+              ? 'grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start'
+              : 'hidden'
+          )}
+        >
+          {activeTab === 'details' && fullIllustrationAside}
 
             {/* Right Column: SchaleDB-Style Identity Header + Profile + Combat Telemetry */}
             <div className="space-y-5">
@@ -976,9 +939,17 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
               </div>
 
               {signatureDiscInfo && (() => {
-                const { disc, bannerKind, bannerName } = signatureDiscInfo;
-                const maxAtk = Number(disc.stats?.lv90?.ATK ?? disc.stats?.lv80?.ATK ?? 0);
-                const discElementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
+                const {
+                  discId,
+                  discName,
+                  discSlug,
+                  discStar,
+                  discElement,
+                  maxAtk,
+                  bannerKind,
+                  bannerName,
+                } = signatureDiscInfo;
+                const discElementLabel = discElement === 'None' ? 'Neutral' : discElement;
 
                 return (
                   <div className="game-card celestial-card p-5 sm:p-6 space-y-4">
@@ -995,23 +966,25 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                     </div>
 
                     <Link
-                      href={`/discs/${getDiscSlug(disc.name)}`}
+                      href={`/discs/${discSlug}`}
                       className="group w-full rounded-xl bg-surface-elevated/70 border border-border-subtle hover:border-border-hover hover:bg-surface-hover p-3.5 flex items-center gap-4 transition-colors press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
                     >
                       <div className="relative size-16 rounded-lg overflow-hidden shrink-0 border border-border-subtle bg-base">
                         <img
-                          src={getDiscOutfitIconUrl(disc.id, 'full')}
-                          alt={disc.name}
+                          src={getDiscOutfitIconUrl(discId, 'full')}
+                          alt={discName}
+                          loading="lazy"
+                          decoding="async"
                           className="size-full object-cover"
                         />
                       </div>
                       <div className="min-w-0 flex-1 space-y-1">
                         <div className="flex items-center justify-between gap-2">
-                          <RarityStars count={disc.star} size="sm" />
+                          <RarityStars count={discStar} size="sm" />
                           <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-white/75">
-                            {disc.element !== 'None' && (
+                            {discElement !== 'None' && (
                               <img
-                                src={`/ss-element/${disc.element}.webp`}
+                                src={`/ss-element/${discElement}.webp`}
                                 alt=""
                                 className="size-3.5 object-contain"
                               />
@@ -1020,7 +993,7 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                           </span>
                         </div>
                         <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:underline truncate">
-                          {disc.name}
+                          {discName}
                         </div>
                         <div className="flex items-center justify-between text-xs text-slate-600 dark:text-white/75">
                           <span className="font-mono tabular-nums font-semibold">
@@ -1038,15 +1011,21 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
               })()}
             </div>
           </section>
-        )}
 
           {/* ==================================================================== */}
           {/* TAB 2: COMBAT SKILLS (VERTICAL SELECTOR RAIL & CORNER BRACKETS)     */}
           {/* ==================================================================== */}
-          {activeTab === 'skills' && (
-            <section className="grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start">
-              {fullIllustrationAside}
-              <div className="min-w-0 space-y-4">
+          <section
+            role="tabpanel"
+            hidden={activeTab !== 'skills'}
+            className={cn(
+              activeTab === 'skills'
+                ? 'grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start'
+                : 'hidden'
+            )}
+          >
+            {activeTab === 'skills' && fullIllustrationAside}
+            <div className="min-w-0 space-y-4">
               <div className="game-card celestial-card p-5 space-y-4">
                 {/* Level Controls Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border-subtle pb-3">
@@ -1150,6 +1129,8 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                               <img
                                 src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${abilityData.icon}.webp`}
                                 alt={tab.label}
+                                loading="lazy"
+                                decoding="async"
                                 className="size-full object-contain filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
                                 onError={(e) => {
                                   const img = e.target as HTMLImageElement;
@@ -1177,88 +1158,104 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                     })}
                   </div>
 
-                  {/* Right Detail Pane */}
+                  {/* Right Detail Pane (all 4 skills rendered in DOM for crawlability; inactive hidden) */}
                   <div className="flex-1 min-w-0 space-y-4">
-                    {currentSkill ? (
-                      <div className="p-4 rounded-xl bg-surface-elevated/60 border border-border-subtle space-y-3.5">
-                        <div className="flex items-start justify-between gap-3 flex-wrap">
-                          <div className="flex items-center gap-3">
-                            <div className="size-14 rounded-xl bg-gradient-to-b from-[#1b5b9c] to-[#0f345c] border-2 border-cyan-600 dark:border-cyan-400 overflow-hidden shrink-0 flex items-center justify-center p-1.5">
-                              <img
-                                src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${currentSkill.icon}.webp`}
-                                alt={currentSkill.name}
-                                className="size-full object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
-                                onError={(e) => {
-                                  const img = e.target as HTMLImageElement;
-                                  if (!img.dataset.fallbackApplied) {
-                                    img.dataset.fallbackApplied = '1';
-                                    img.src = headUrl;
-                                  }
-                                }}
-                              />
-                            </div>
+                    {(['normalAtk', 'skill', 'supportSkill', 'ultimate'] as const).map((skillKey) => {
+                      const skillItem = combat ? combat[skillKey] : null;
+                      const isActiveSkill = activeSkillKey === skillKey;
+                      return (
+                        <div
+                          key={skillKey}
+                          hidden={!isActiveSkill}
+                          className={cn(!isActiveSkill && 'hidden')}
+                        >
+                          {skillItem ? (
+                            <div className="p-4 rounded-xl bg-surface-elevated/60 border border-border-subtle space-y-3.5">
+                              <div className="flex items-start justify-between gap-3 flex-wrap">
+                                <div className="flex items-center gap-3">
+                                  <div className="size-14 rounded-xl bg-gradient-to-b from-[#1b5b9c] to-[#0f345c] border-2 border-cyan-600 dark:border-cyan-400 overflow-hidden shrink-0 flex items-center justify-center p-1.5">
+                                    <img
+                                      src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${skillItem.icon}.webp`}
+                                      alt={skillItem.name}
+                                      loading="lazy"
+                                      decoding="async"
+                                      className="size-full object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
+                                      onError={(e) => {
+                                        const img = e.target as HTMLImageElement;
+                                        if (!img.dataset.fallbackApplied) {
+                                          img.dataset.fallbackApplied = '1';
+                                          img.src = headUrl;
+                                        }
+                                      }}
+                                    />
+                                  </div>
 
-                            <div>
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                                  {currentSkill.name}
-                                </h3>
-                                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/15 text-amber-800 dark:text-amber-400 border border-amber-600/30 dark:border-amber-500/30">
-                                  {character.element} DMG
+                                  <div>
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                                        {skillItem.name}
+                                      </h3>
+                                      <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/15 text-amber-800 dark:text-amber-400 border border-amber-600/30 dark:border-amber-500/30">
+                                        {character.element} DMG
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-white/80 mt-0.5">
+                                      <span>
+                                        Cooldown:{' '}
+                                        <strong className={skillItem.cooldown ? 'text-teal-700 dark:text-teal-400 font-bold' : 'text-slate-700 dark:text-white'}>
+                                          {skillItem.cooldown || '—'}
+                                        </strong>
+                                      </span>
+                                      <span>•</span>
+                                      <span>
+                                        Energy:{' '}
+                                        <strong className={skillItem.energy ? 'text-amber-700 dark:text-amber-400 font-bold' : 'text-slate-700 dark:text-white'}>
+                                          {skillItem.energy ? `${skillItem.energy}` : '—'}
+                                        </strong>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <span className="px-2.5 py-1 rounded-md bg-teal-500/10 text-teal-700 dark:text-teal-400 border border-teal-600/30 dark:border-teal-500/30 font-mono tabular-nums text-xs font-bold">
+                                  Lv.{skillLevel} Scaling
                                 </span>
                               </div>
-                              <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-white/80 mt-0.5">
-                                <span>
-                                  Cooldown:{' '}
-                                  <strong className={currentSkill.cooldown ? 'text-teal-700 dark:text-teal-400 font-bold' : 'text-slate-700 dark:text-white'}>
-                                    {currentSkill.cooldown || '—'}
-                                  </strong>
-                                </span>
-                                <span>•</span>
-                                <span>
-                                  Energy:{' '}
-                                  <strong className={currentSkill.energy ? 'text-amber-700 dark:text-amber-400 font-bold' : 'text-slate-700 dark:text-white'}>
-                                    {currentSkill.energy ? `${currentSkill.energy}` : '—'}
-                                  </strong>
-                                </span>
+
+                              {/* Skill Description */}
+                              <div className="p-4 rounded-xl bg-surface-elevated border border-border-subtle text-xs sm:text-sm text-slate-700 dark:text-white leading-relaxed whitespace-pre-line font-normal">
+                                <div className="max-w-[70ch]">
+                                  <PotentialDesc
+                                    descTemplate={formatSkillDesc(skillItem.desc, skillItem.params, skillLevel)}
+                                    params={[]}
+                                    defaultElement={character.element}
+                                    characterId={character.id}
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
-
-                          <span className="px-2.5 py-1 rounded-md bg-teal-500/10 text-teal-700 dark:text-teal-400 border border-teal-600/30 dark:border-teal-500/30 font-mono tabular-nums text-xs font-bold">
-                            Lv.{skillLevel} Scaling
-                          </span>
+                          ) : (
+                            <div className="p-8 text-center text-xs text-slate-600 dark:text-white/80">
+                              Combat skill data not available.
+                            </div>
+                          )}
                         </div>
-
-                        {/* Skill Description */}
-                        <div className="p-4 rounded-xl bg-surface-elevated border border-border-subtle text-xs sm:text-sm text-slate-700 dark:text-white leading-relaxed whitespace-pre-line font-normal">
-                          <div className="max-w-[70ch]">
-                            <PotentialDesc
-                              descTemplate={formatSkillDesc(currentSkill.desc, currentSkill.params, skillLevel)}
-                              params={[]}
-                              defaultElement={character.element}
-                              characterId={character.id}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="p-8 text-center text-xs text-slate-600 dark:text-white/80">
-                        Combat skill data not available.
-                      </div>
-                    )}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
-              </div>
-            </section>
-          )}
+            </div>
+          </section>
 
           {/* ==================================================================== */}
           {/* TAB 3: POTENTIALS (AUTHENTIC WHOLE-IMAGE CARDS & SPEECH BUBBLE)     */}
           {/* ==================================================================== */}
-          {activeTab === 'potentials' && (
-            <section className="space-y-4">
+          <section
+            role="tabpanel"
+            hidden={activeTab !== 'potentials'}
+            className={cn(activeTab === 'potentials' ? 'space-y-4' : 'hidden')}
+          >
               {/* Top Navigation Bar: Segmented [ Main ] / [ Support ] + Level Slider + Preset Link */}
               <div className="game-card celestial-card p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-wrap">
@@ -1522,6 +1519,8 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                               <img
                                 src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/potential/${activePotential.icon}_A.webp`}
                                 alt={activePotential.name}
+                                loading="lazy"
+                                decoding="async"
                                 className="size-full object-contain"
                                 style={{ filter: palette.iconShadow }}
                                 onError={(e) => {
@@ -1680,54 +1679,55 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                 </div>
               </div>
             </section>
-          )}
 
           {/* ==================================================================== */}
           {/* TAB 4: TALENTS (T1–T5)                                               */}
           {/* ==================================================================== */}
-          {activeTab === 'talents' && (
-            <section className="grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start">
-              {fullIllustrationAside}
-              <div className="min-w-0 space-y-5">
+          <section
+            role="tabpanel"
+            hidden={activeTab !== 'talents'}
+            className={cn(
+              activeTab === 'talents'
+                ? 'grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start'
+                : 'hidden'
+            )}
+          >
+            {activeTab === 'talents' && fullIllustrationAside}
+            <div className="min-w-0 space-y-5">
               <div className="game-card celestial-card p-5 sm:p-6 space-y-6">
-                {(() => {
-                  type ExactTalentTier = {
-                    tier: number;
-                    name: string;
-                    desc: string;
-                    statBonuses: { stat: string; value: string }[];
-                  };
-                  const exactTiers =
-                    (trekkerTalentsData as Record<string, ExactTalentTier[]>)[String(character.id)] || [];
-
-                  return exactTiers.map((tierData) => (
-                    <div key={tierData.tier} className="space-y-1.5">
-                      <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
-                        {tierData.tier}. {tierData.name}
-                      </h2>
-                      <p className="pl-3 sm:pl-4 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-white/95">
-                        <PotentialDesc
-                          descTemplate={tierData.desc}
-                          params={[]}
-                          defaultElement={character.element}
-                          characterId={character.id}
-                        />
-                      </p>
-                    </div>
-                  ));
-                })()}
+                {exactTalents.map((tierData) => (
+                  <div key={tierData.tier} className="space-y-1.5">
+                    <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                      {tierData.tier}. {tierData.name}
+                    </h2>
+                    <p className="pl-3 sm:pl-4 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-white/95">
+                      <PotentialDesc
+                        descTemplate={tierData.desc}
+                        params={[]}
+                        defaultElement={character.element}
+                        characterId={character.id}
+                      />
+                    </p>
+                  </div>
+                ))}
               </div>
-              </div>
-            </section>
-          )}
+            </div>
+          </section>
 
           {/* ==================================================================== */}
           {/* TAB 5: AFFINITY & LOVED GIFTS MATRIX                                 */}
           {/* ==================================================================== */}
-          {activeTab === 'affinity' && (
-            <section className="grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start">
-              {fullIllustrationAside}
-              <div className="min-w-0 space-y-6">
+          <section
+            role="tabpanel"
+            hidden={activeTab !== 'affinity'}
+            className={cn(
+              activeTab === 'affinity'
+                ? 'grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[410px_1fr] gap-6 items-start'
+                : 'hidden'
+            )}
+          >
+            {activeTab === 'affinity' && fullIllustrationAside}
+            <div className="min-w-0 space-y-6">
               {/* Loved Gifts Showcase Card */}
               <div className="game-card celestial-card p-5 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border-subtle pb-3">
@@ -1772,6 +1772,8 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
                                 <img
                                   src={gift.imageUrl}
                                   alt={gift.name}
+                                  loading="lazy"
+                                  decoding="async"
                                   className="size-full object-contain"
                                   onError={(e) => {
                                     const img = e.target as HTMLImageElement;
@@ -1837,7 +1839,6 @@ export default function TrekkerDetailClient({ name: propName }: TrekkerDetailCli
               </div>
               </div>
             </section>
-          )}
         </div>
 
         {/* ==================================================================== */}

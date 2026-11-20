@@ -1,7 +1,16 @@
 import discsJson from '../data/discs.json' with { type: 'json' };
 import bannersJson from '../data/datamined-banners.json' with { type: 'json' };
 import charactersJson from '../data/characters.json' with { type: 'json' };
+import {
+  getDiscSlug,
+  getDiscStatSummary,
+  getDiscSupportNotesAtPhase,
+} from './disc-utils.ts';
+import type { DiscStatSummary } from './disc-utils.ts';
 import type { NoteName, SSCharacter, SSDisc } from '../types/index.ts';
+
+export { getDiscSlug, getDiscStatSummary, getDiscSupportNotesAtPhase };
+export type { DiscStatSummary };
 
 interface RawBannerEntry {
   id: number;
@@ -20,14 +29,6 @@ export interface ExclusiveDiscBannerInfo {
   bannerKind: 'Limited' | 'Rate-Up';
 }
 
-export interface DiscStatSummary {
-  baseAtk: number;
-  bonusAtk: number;
-  totalAtk: number;
-  secondaryLabel: string;
-  secondaryValue: string;
-}
-
 const discsMap = discsJson as Record<string, SSDisc>;
 const bannersMap = bannersJson as Record<string, RawBannerEntry>;
 const charactersMap = charactersJson as Record<string, SSCharacter>;
@@ -43,14 +44,6 @@ const ALL_DISCS_SORTED: SSDisc[] = Object.values(discsMap).sort((a, b) => {
 const CHAR_BY_NAME_LOWER = new Map<string, SSCharacter>(
   Object.values(charactersMap).map((c) => [c.name.EN.trim().toLowerCase(), c])
 );
-
-/** Converts a Runic Disc name into a stable lowercase URL slug. */
-export function getDiscSlug(name: string): string {
-  return String(name || '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
 
 const DISC_BY_SLUG = new Map<string, SSDisc>(
   ALL_DISCS_SORTED.map((d) => [getDiscSlug(d.name), d])
@@ -135,48 +128,6 @@ export function getDiscRequiredHarmonyNotes(disc: SSDisc): NoteName[] {
     }
   }
   return Array.from(notes);
-}
-
-export function getDiscSupportNotesAtPhase(
-  disc: SSDisc,
-  phase: number
-): Record<string, number> {
-  if (!disc.supportNote || disc.supportNote.length === 0) return {};
-  const clamped = Math.max(1, Math.min(disc.supportNote.length, Math.trunc(phase || 1)));
-  return disc.supportNote[clamped - 1] || {};
-}
-
-export function getDiscStatSummary(
-  disc: SSDisc,
-  level: 'lv1' | 'lv80' | 'lv90',
-  crescendo: number
-): DiscStatSummary {
-  const levelStats = disc.stats?.[level] || disc.stats?.lv90 || disc.stats?.lv80 || {};
-  const clampedCrescendo = Math.max(1, Math.min(6, Math.trunc(crescendo || 1)));
-  const baseAtk = Number(levelStats.ATK ?? 0);
-  const bonusAtk =
-    clampedCrescendo > 1 ? Number(disc.dupeAtk?.[clampedCrescendo - 2] ?? 0) : 0;
-
-  const entries = Object.entries(levelStats);
-  const secondaryEntry =
-    entries.find(([key]) => key !== 'ATK' && key !== 'HP') ??
-    entries.find(([key]) => key === 'HP');
-
-  const rawSecVal = secondaryEntry?.[1];
-  const secondaryValue =
-    rawSecVal === undefined || rawSecVal === null
-      ? '—'
-      : typeof rawSecVal === 'number'
-      ? rawSecVal.toLocaleString('en-US')
-      : String(rawSecVal);
-
-  return {
-    baseAtk,
-    bonusAtk,
-    totalAtk: baseAtk + bonusAtk,
-    secondaryLabel: secondaryEntry?.[0] || 'Bonus',
-    secondaryValue,
-  };
 }
 
 export function getExclusiveDiscForTrekker(

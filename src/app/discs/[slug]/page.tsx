@@ -1,7 +1,23 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import { getAllDiscs, getDiscBySlugOrId, getDiscSlug } from '@/lib/discs';
-import DiscDetailClient from './disc-detail-client';
+import { notFound } from 'next/navigation';
+import {
+  getAllDiscs,
+  getDiscBySlugOrId,
+  getDiscSlug,
+  getExclusiveBannerByDiscId,
+} from '@/lib/discs';
+import { JsonLd } from '@/components/seo/json-ld';
+import {
+  buildBreadcrumbJsonLd,
+  buildPageMetadata,
+  toAbsoluteUrl,
+} from '@/lib/seo';
+import DiscDetailClient, {
+  type DiscNavItem,
+  type ExclusiveBannerSummary,
+} from './disc-detail-client';
+
+export const ensureStatic = 'navigation';
 
 /**
  * Generate static paths for all 106 Runic Discs in the local dataset.
@@ -20,40 +36,124 @@ interface DiscPageProps {
   params: Promise<{ slug: string }>;
 }
 
+function buildDiscDescription(disc: NonNullable<ReturnType<typeof getDiscBySlugOrId>>) {
+  const elementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
+  const lv90Atk = disc.stats?.lv90?.ATK ?? disc.stats?.lv80?.ATK;
+  const atkNote = lv90Atk ? ` Lv.90 Base ATK ${lv90Atk}.` : '';
+  const melodyNote = disc.mainSkill?.name ? ` Melody Skill: ${disc.mainSkill.name}.` : '';
+  const harmonyNames = [disc.secondarySkill1?.name, disc.secondarySkill2?.name].filter(
+    Boolean
+  );
+  const harmonyNote =
+    harmonyNames.length > 0 ? ` Harmony Skills: ${harmonyNames.join(', ')}.` : '';
+  const exclusive = getExclusiveBannerByDiscId(disc.id);
+  const trekkerNote = exclusive ? ` Featured Trekker: ${exclusive.trekkerName}.` : '';
+
+  return `${disc.star}★ ${elementLabel} Runic Disc in Stella Sora.${atkNote}${melodyNote}${harmonyNote}${trekkerNote}`;
+}
+
 export async function generateMetadata({ params }: DiscPageProps): Promise<Metadata> {
   const { slug } = await params;
   const disc = getDiscBySlugOrId(slug);
 
   if (!disc) {
-    return { title: 'Runic Disc Not Found | Stella Sora Tools' };
+    return buildPageMetadata({
+      title: 'Runic Disc Not Found',
+      description: 'The requested Stella Sora Runic Disc could not be found.',
+      path: '/discs',
+      noIndex: true,
+    });
   }
 
   const elementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
-  return {
-    title: `${disc.name} — Stella Sora Tools`,
-    description: `${disc.star}-star ${elementLabel} Runic Disc — Melody Skill, Harmony Skills, stats, and Starting Support Notes for ${disc.name} in Stella Sora.`,
-  };
+  const canonicalPath = `/discs/${getDiscSlug(disc.name)}`;
+
+  return buildPageMetadata({
+    title: `${disc.name} — ${disc.star}★ ${elementLabel} Runic Disc`,
+    description: buildDiscDescription(disc),
+    path: canonicalPath,
+    type: 'article',
+    keywords: [
+      disc.name,
+      `Stella Sora ${disc.name}`,
+      `${disc.name} Runic Disc`,
+      `${elementLabel} Runic Disc`,
+    ],
+  });
 }
 
-async function DiscPageContent({ params }: { params: Promise<{ slug: string }> }) {
+export default async function DiscPage({ params }: DiscPageProps) {
   const { slug } = await params;
-  return <DiscDetailClient slug={slug} />;
-}
+  const disc = getDiscBySlugOrId(slug);
 
-export default function DiscPage(props: DiscPageProps) {
-  return (
-    <Suspense
-      fallback={
-        <div className="max-w-6xl mx-auto px-4 py-8 text-center">
-          <div className="game-card celestial-card p-8 inline-block max-w-sm w-full animate-pulse">
-            <div className="size-12 rounded-full bg-surface-elevated border border-border-subtle mx-auto mb-3" />
-            <div className="h-5 bg-surface-elevated border border-border-subtle rounded w-36 mx-auto mb-2" />
-            <div className="h-3 bg-surface-elevated border border-border-subtle rounded w-48 mx-auto" />
-          </div>
-        </div>
+  if (!disc) {
+    notFound();
+  }
+
+  const allDiscs = getAllDiscs();
+  const currentIdx = allDiscs.findIndex((d) => d.id === disc.id);
+  const rawPrev =
+    currentIdx >= 0
+      ? allDiscs[(currentIdx - 1 + allDiscs.length) % allDiscs.length]
+      : allDiscs[0];
+  const rawNext =
+    currentIdx >= 0 ? allDiscs[(currentIdx + 1) % allDiscs.length] : allDiscs[0];
+
+  const prevDisc: DiscNavItem = {
+    name: rawPrev.name,
+    slug: getDiscSlug(rawPrev.name),
+  };
+  const nextDisc: DiscNavItem = {
+    name: rawNext.name,
+    slug: getDiscSlug(rawNext.name),
+  };
+
+  const exclusive = getExclusiveBannerByDiscId(disc.id);
+  const exclusiveBanner: ExclusiveBannerSummary | null = exclusive
+    ? {
+        trekkerId: exclusive.trekkerId,
+        trekkerName: exclusive.trekkerName,
+        bannerName: exclusive.bannerName,
+        bannerKind: exclusive.bannerKind,
       }
-    >
-      <DiscPageContent params={props.params} />
-    </Suspense>
+    : null;
+
+  const canonicalPath = `/discs/${getDiscSlug(disc.name)}`;
+  const description = buildDiscDescription(disc);
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: disc.name,
+        url: toAbsoluteUrl(canonicalPath),
+        description,
+        about: {
+          '@type': 'Thing',
+          name: disc.name,
+          description,
+        },
+      },
+      buildBreadcrumbJsonLd(
+        [
+          { name: 'Home', path: '/' },
+          { name: 'Runic Disc Encyclopedia', path: '/discs' },
+          { name: disc.name, path: canonicalPath },
+        ],
+        { includeContext: false }
+      ),
+    ],
+  };
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <DiscDetailClient
+        disc={disc}
+        prevDisc={prevDisc}
+        nextDisc={nextDisc}
+        exclusiveBanner={exclusiveBanner}
+      />
+    </>
   );
 }

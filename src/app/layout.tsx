@@ -7,6 +7,13 @@ import { SideTab } from '@/components/layout/side-tab';
 import { TopBar } from '@/components/layout/top-bar';
 import { Footer } from '@/components/layout/footer';
 import { getSiteUrl } from '@/lib/site-url';
+import {
+  DEFAULT_OG_ALT,
+  DEFAULT_OG_HEIGHT,
+  DEFAULT_OG_IMAGE,
+  DEFAULT_OG_WIDTH,
+  SITE_NAME,
+} from '@/lib/seo';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -18,11 +25,50 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title: 'Stella Sora Tools',
+  applicationName: SITE_NAME,
+  title: {
+    default: 'KiyoStella — Stella Sora Tools, Squad Builder & Encyclopedia',
+    template: '%s | kiyostella',
+  },
   description:
-    'A minimal fan companion for Stella Sora with Team Building, Heartlink/Bond Calculator, Events Roadmap, and Trekker Encyclopedia.',
+    'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
   icons: {
     icon: '/bastelina.png',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: SITE_NAME,
+    url: '/',
+    title: 'KiyoStella — Stella Sora Tools, Squad Builder & Encyclopedia',
+    description:
+      'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: DEFAULT_OG_WIDTH,
+        height: DEFAULT_OG_HEIGHT,
+        alt: DEFAULT_OG_ALT,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'KiyoStella — Stella Sora Tools, Squad Builder & Encyclopedia',
+    description:
+      'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

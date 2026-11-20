@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import { ShieldCheck, HeartHandshake, Layers } from 'lucide-react';
+import { JsonLd } from '@/components/seo/json-ld';
+import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Credits — Stella Sora Tools',
+export const metadata: Metadata = buildPageMetadata({
+  title: 'Credits & Attributions',
   description:
-    'Attributions, data sources, assets, and technology stack powering Stella Sora Tools.',
-};
+    'Attributions, community data sources, game asset disclaimers, and technology stack powering KiyoStella.',
+  path: '/credits',
+});
 
 export default function CreditsPage() {
   const assetCredits = [
@@ -169,6 +172,12 @@ export default function CreditsPage() {
 
   return (
     <div className="flex flex-col gap-8 max-w-5xl mx-auto px-4 py-8">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'Credits & Attributions', path: '/credits' },
+        ])}
+      />
       {/* Header */}
       <div className="flex flex-col gap-2 border-b border-border-subtle pb-6">
         <div className="flex items-center gap-2 text-sm font-semibold text-amber-600">

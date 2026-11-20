@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -19,13 +19,9 @@ import {
   getNoteIconUrl,
 } from '@/data/notes';
 import {
-  getAllDiscs,
-  getDiscBySlugOrId,
-  getDiscSlug,
   getDiscStatSummary,
   getDiscSupportNotesAtPhase,
-  getExclusiveBannerByDiscId,
-} from '@/lib/discs';
+} from '@/lib/disc-utils';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
 import { DiscSkillText } from '@/components/builder/disc-detail-card';
 import { RarityStars } from '@/components/ui/rarity-stars';
@@ -99,7 +95,13 @@ function DiscSkillPlateHeader({
   return (
     <div className="flex items-center gap-2.5">
       <span className="disc-icon-tile flex size-9 shrink-0 items-center justify-center rounded-md">
-        <img src={icon} alt="" className="size-7 object-contain" />
+        <img
+          src={icon}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="size-7 object-contain"
+        />
       </span>
       <span className={cn('min-w-0 flex-1 text-base font-bold leading-tight', INK)}>
         {name}
@@ -205,10 +207,31 @@ function DiscStatPill({
   );
 }
 
-export default function DiscDetailClient({ slug }: { slug: string }) {
-  const disc: SSDisc | undefined = useMemo(() => getDiscBySlugOrId(slug), [slug]);
-  const allDiscs = useMemo(() => getAllDiscs(), []);
+export interface DiscNavItem {
+  name: string;
+  slug: string;
+}
 
+export interface ExclusiveBannerSummary {
+  trekkerId: number;
+  trekkerName: string;
+  bannerName: string;
+  bannerKind: 'Limited' | 'Rate-Up';
+}
+
+interface DiscDetailClientProps {
+  disc: SSDisc;
+  prevDisc: DiscNavItem;
+  nextDisc: DiscNavItem;
+  exclusiveBanner: ExclusiveBannerSummary | null;
+}
+
+export default function DiscDetailClient({
+  disc,
+  prevDisc,
+  nextDisc,
+  exclusiveBanner,
+}: DiscDetailClientProps) {
   const [levelKey, setLevelKey] = useState<'lv1' | 'lv80' | 'lv90'>('lv90');
   const [crescendo, setCrescendo] = useState(1);
   const [supportPhase, setSupportPhase] = useState(9);
@@ -217,44 +240,13 @@ export default function DiscDetailClient({ slug }: { slug: string }) {
     setLevelKey('lv90');
     setCrescendo(1);
     setSupportPhase(9);
-  }, [slug]);
-
-  if (!disc) {
-    return (
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <div className="game-card celestial-card p-8 text-center space-y-4">
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white">
-            Runic Disc Not Found
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-white/75">
-            Could not locate a Runic Disc matching &ldquo;{slug}&rdquo;.
-          </p>
-          <Link
-            href="/discs"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold transition-colors press-feedback"
-          >
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            <span>Back to Runic Discs</span>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const currentIdx = allDiscs.findIndex((d) => d.id === disc.id);
-  const prevDisc =
-    currentIdx >= 0
-      ? allDiscs[(currentIdx - 1 + allDiscs.length) % allDiscs.length]
-      : allDiscs[0];
-  const nextDisc =
-    currentIdx >= 0 ? allDiscs[(currentIdx + 1) % allDiscs.length] : allDiscs[0];
+  }, [disc.id]);
 
   const isFiveStar = disc.star >= 5;
   const isFourStar = disc.star === 4;
   const elementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
   const fullArtUrl = getDiscOutfitIconUrl(disc.id, 'full');
   const statSummary = getDiscStatSummary(disc, levelKey, crescendo);
-  const exclusiveBanner = getExclusiveBannerByDiscId(disc.id);
   const supportNotes = getDiscSupportNotesAtPhase(disc, supportPhase);
   const supportNoteEntries = Object.entries(supportNotes);
   const maxPhase = Math.max(1, disc.supportNote?.length || 9);
@@ -274,14 +266,14 @@ export default function DiscDetailClient({ slug }: { slug: string }) {
 
         <div className="flex items-center gap-2">
           <Link
-            href={`/discs/${getDiscSlug(prevDisc.name)}`}
+            href={`/discs/${prevDisc.slug}`}
             className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-border-subtle bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
           >
             <ChevronLeft className="size-3.5" aria-hidden="true" />
             <span className="max-w-[140px] truncate">{prevDisc.name}</span>
           </Link>
           <Link
-            href={`/discs/${getDiscSlug(nextDisc.name)}`}
+            href={`/discs/${nextDisc.slug}`}
             className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-border-subtle bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
           >
             <span className="max-w-[140px] truncate">{nextDisc.name}</span>
@@ -411,6 +403,8 @@ export default function DiscDetailClient({ slug }: { slug: string }) {
                       <img
                         src={getTrekkerImageUrl(exclusiveBanner.trekkerId)}
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         className="size-6 rounded-lg object-cover object-top border border-border-subtle"
                       />
                       <span>{exclusiveBanner.trekkerName}</span>
@@ -627,6 +621,8 @@ export default function DiscDetailClient({ slug }: { slug: string }) {
                               <img
                                 src={getNoteIconUrl(meta.id)}
                                 alt=""
+                                loading="lazy"
+                                decoding="async"
                                 className="size-5 shrink-0 object-contain"
                               />
                             )}
