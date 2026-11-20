@@ -27,6 +27,7 @@ import { DiscPickerModal, DiscSlotRef } from '@/components/builder/disc-picker-m
 import { DiscsAndNotesSection } from '@/components/builder/discs-and-notes-section';
 import { AdvancedBuildCardExport } from '@/components/builder/advanced-build-card-export';
 import { PresetCodeBar } from '@/components/builder/preset-code-bar';
+import { SavedPresetsControl, useDebouncedDraftSave } from '@/components/builder/saved-presets-drawer';
 import {
   compressBuild,
   compressAdvancedBuild,
@@ -34,6 +35,11 @@ import {
 } from '@/lib/utils';
 import { decompressAdvancedBuild } from '@/lib/share-link';
 import { unpackAdvancedPresetCode, unpackPresetCode } from '@/lib/preset-code';
+import {
+  clearDraftBuildFromStorage,
+  loadDraftBuildFromStorage,
+  MAX_PRESET_NAME_LENGTH,
+} from '@/lib/saved-presets';
 import { RotateCcw, ArrowLeft } from 'lucide-react';
 
 function AdvancedBuilderContent() {
@@ -48,6 +54,7 @@ function AdvancedBuilderContent() {
   const [draggedSlot, setDraggedSlot] = useState<SlotType | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<SlotType | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [isDraftReady, setIsDraftReady] = useState(false);
 
   useEffect(() => {
     const encoded = searchParams.get('b');
@@ -58,6 +65,7 @@ function AdvancedBuilderContent() {
       const advParsed = unpackAdvancedPresetCode(advParam, characters, discs);
       if (advParsed) {
         setBuild((prev) => ({ ...prev, ...advParsed }));
+        setIsDraftReady(true);
         return;
       }
     }
@@ -66,11 +74,13 @@ function AdvancedBuilderContent() {
       const advParsed = unpackAdvancedPresetCode(codeParam, characters, discs);
       if (advParsed) {
         setBuild((prev) => ({ ...prev, ...advParsed }));
+        setIsDraftReady(true);
         return;
       }
       const slots = unpackPresetCode(codeParam, characters);
       if (slots) {
         setBuild((prev) => ({ ...prev, slots }));
+        setIsDraftReady(true);
         return;
       }
     }
@@ -79,19 +89,37 @@ function AdvancedBuilderContent() {
       const decoded = decompressAdvancedBuild(encoded, characters, discs);
       if (decoded) {
         setBuild(decoded);
+        setIsDraftReady(true);
         return;
       }
       const fallbackAdv = unpackAdvancedPresetCode(encoded, characters, discs);
       if (fallbackAdv) {
         setBuild((prev) => ({ ...prev, ...fallbackAdv }));
+        setIsDraftReady(true);
         return;
       }
       const fallbackSlots = unpackPresetCode(encoded, characters);
       if (fallbackSlots) {
         setBuild((prev) => ({ ...prev, slots: fallbackSlots }));
+        setIsDraftReady(true);
+        return;
+      }
+    } else {
+      const draft = loadDraftBuildFromStorage('advanced');
+      if (draft) {
+        setBuild({
+          id: draft.id,
+          name: draft.name,
+          createdAt: 0,
+          ...draft.data,
+        });
       }
     }
+
+    setIsDraftReady(true);
   }, [searchParams]);
+
+  useDebouncedDraftSave('advanced', build, isDraftReady);
 
   const handleSelectCharacter = (slot: SlotType, characterId: number) => {
     setBuild((prev) => ({
@@ -221,6 +249,7 @@ function AdvancedBuilderContent() {
   };
 
   const handleReset = () => {
+    clearDraftBuildFromStorage('advanced');
     setBuild(createEmptyAdvancedBuild());
     setShowResetConfirm(false);
   };
@@ -265,8 +294,8 @@ function AdvancedBuilderContent() {
       </div>
 
       {/* Header with Squad Name Input */}
-      <div className="flex items-center justify-between gap-4 border-b border-border pb-4">
-        <h1 className="flex-1 min-w-0 flex items-center max-w-xl text-lg sm:text-[20px] font-semibold text-slate-900 dark:text-white">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
+        <h1 className="flex-1 min-w-0 flex items-center max-w-xl text-base sm:text-lg font-semibold text-slate-900 dark:text-white">
           <span className="text-slate-600 dark:text-white/70 font-normal mr-2 select-none text-base sm:text-lg whitespace-nowrap shrink-0">Preset /</span>
           <input
             type="text"
@@ -288,38 +317,66 @@ function AdvancedBuilderContent() {
             }}
             placeholder="Advanced Preset Name…"
             aria-label="Advanced preset name"
+            maxLength={MAX_PRESET_NAME_LENGTH}
             suppressHydrationWarning
-            className="w-full bg-transparent border-b border-transparent hover:border-border focus-visible:ring-1 focus-visible:ring-slate-400 text-slate-900 dark:text-white transition-colors py-0.5 px-1 rounded truncate font-semibold text-lg sm:text-[20px]"
+            className="w-full bg-transparent border-b border-transparent hover:border-border focus-visible:ring-1 focus-visible:ring-slate-400 text-slate-900 dark:text-white transition-colors py-0.5 px-1 rounded truncate font-semibold text-base sm:text-lg"
           />
         </h1>
 
-        {showResetConfirm ? (
-          <div className="flex items-center gap-2 shrink-0">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <SavedPresetsControl
+            mode="advanced"
+            buildId={build.id}
+            buildName={build.name}
+            slots={build.slots}
+            advancedData={{
+              mainDiscs: build.mainDiscs,
+              supportDiscs: build.supportDiscs,
+              targetNotes: build.targetNotes,
+            }}
+            characters={characters}
+            discs={discs}
+            onPresetSaved={(record) =>
+              setBuild((prev) => ({ ...prev, id: record.id, name: record.name }))
+            }
+            onLoadPreset={({ id, name, data }) =>
+              setBuild((prev) => ({
+                ...prev,
+                id,
+                name,
+                ...data,
+              }))
+            }
+          />
+
+          {showResetConfirm ? (
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handleReset}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-500/50 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors shrink-0 cursor-pointer font-semibold"
+              >
+                <span>Confirm Reset</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowResetConfirm(false)}
+                className="px-2.5 py-1.5 rounded-lg border border-border text-xs text-slate-600 hover:text-slate-900 dark:text-white/80 dark:hover:text-white transition-colors shrink-0 cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
             <button
               type="button"
-              onClick={handleReset}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-500/50 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors shrink-0 cursor-pointer font-semibold"
+              onClick={() => setShowResetConfirm(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border hover:bg-surface-elevated text-xs text-slate-600 dark:text-white/80 hover:text-rose-600 transition-colors shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-slate-400"
             >
-              <span>Confirm Reset</span>
+              <RotateCcw className="size-3.5" aria-hidden="true" />
+              <span>Reset Preset</span>
             </button>
-            <button
-              type="button"
-              onClick={() => setShowResetConfirm(false)}
-              className="px-2.5 py-1.5 rounded-lg border border-border text-xs text-slate-600 hover:text-slate-900 dark:text-white/80 dark:hover:text-white transition-colors shrink-0 cursor-pointer"
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setShowResetConfirm(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border hover:bg-surface-elevated text-xs text-slate-600 dark:text-white/80 hover:text-rose-600 transition-colors shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-slate-400"
-          >
-            <RotateCcw className="size-3.5" aria-hidden="true" />
-            <span>Reset Preset</span>
-          </button>
-        )}
+          )}
+        </div>
       </div>
 
       {/* In-Game & Advanced Preset Code Import / Export */}

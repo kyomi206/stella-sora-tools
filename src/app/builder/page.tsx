@@ -10,9 +10,15 @@ import { TrekkerPickerModal } from '@/components/builder/trekker-picker-modal';
 import { PotentialsPickerModal } from '@/components/builder/potentials-picker-modal';
 import { BuildCardExport } from '@/components/builder/build-card-export';
 import { PresetCodeBar } from '@/components/builder/preset-code-bar';
+import { SavedPresetsControl, useDebouncedDraftSave } from '@/components/builder/saved-presets-drawer';
 import { compressBuild } from '@/lib/utils';
 import { decompressBuild } from '@/lib/share-link';
 import { unpackPresetCode } from '@/lib/preset-code';
+import {
+  clearDraftBuildFromStorage,
+  loadDraftBuildFromStorage,
+  MAX_PRESET_NAME_LENGTH,
+} from '@/lib/saved-presets';
 import { RotateCcw, Edit3, ArrowRight } from 'lucide-react';
 
 const INITIAL_BUILD: TeamBuild = {
@@ -36,16 +42,19 @@ function BuilderContent() {
   const [activePotentialsSlot, setActivePotentialsSlot] = useState<SlotType | null>(null);
   const [draggedSlot, setDraggedSlot] = useState<SlotType | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<SlotType | null>(null);
+  const [isDraftReady, setIsDraftReady] = useState(false);
 
-  // Check URL query for compressed build or in-game preset code
+  // Check URL query for compressed build or in-game preset code, falling back to saved local draft
   useEffect(() => {
     const encoded = searchParams.get('b');
     const codeParam = searchParams.get('code') || searchParams.get('preset');
+    const vanguardParam = searchParams.get('vanguard') || searchParams.get('char');
 
     if (codeParam) {
       const slots = unpackPresetCode(codeParam, characters);
       if (slots) {
         setBuild((prev) => ({ ...prev, slots }));
+        setIsDraftReady(true);
         return;
       }
     }
@@ -54,26 +63,41 @@ function BuilderContent() {
       const decoded = decompressBuild(encoded, characters);
       if (decoded) {
         setBuild(decoded);
+        setIsDraftReady(true);
         return;
       }
       const fallbackSlots = unpackPresetCode(encoded, characters);
       if (fallbackSlots) {
         setBuild((prev) => ({ ...prev, slots: fallbackSlots }));
+        setIsDraftReady(true);
         return;
       }
+    } else if (vanguardParam && characters[vanguardParam]) {
+      setBuild((prev) => ({
+        ...prev,
+        slots: {
+          ...prev.slots,
+          vanguard: { characterId: Number(vanguardParam), potentials: [] },
+        },
+      }));
+      setIsDraftReady(true);
+      return;
     } else {
-      const vanguardParam = searchParams.get('vanguard') || searchParams.get('char');
-      if (vanguardParam && characters[vanguardParam]) {
-        setBuild((prev) => ({
-          ...prev,
-          slots: {
-            ...prev.slots,
-            vanguard: { characterId: Number(vanguardParam), potentials: [] },
-          },
-        }));
+      const draft = loadDraftBuildFromStorage('basic');
+      if (draft) {
+        setBuild({
+          id: draft.id,
+          name: draft.name,
+          createdAt: Date.now(),
+          slots: draft.data.slots,
+        });
       }
     }
+
+    setIsDraftReady(true);
   }, [searchParams]);
+
+  useDebouncedDraftSave('basic', build, isDraftReady);
 
   const handleSelectCharacter = (slot: SlotType, characterId: number) => {
     setBuild((prev) => ({
@@ -127,6 +151,7 @@ function BuilderContent() {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const handleReset = () => {
+    clearDraftBuildFromStorage('basic');
     setBuild(INITIAL_BUILD);
     setShowResetConfirm(false);
   };
@@ -160,13 +185,33 @@ function BuilderContent() {
             }}
             placeholder="Squad Build Name…"
             aria-label="Squad build name"
+            maxLength={MAX_PRESET_NAME_LENGTH}
             suppressHydrationWarning
             className="text-2xl sm:text-3xl font-bold bg-transparent border-b border-transparent hover:border-border focus-visible:ring-2 focus-visible:ring-amber-400 text-slate-900 transition-colors py-0.5 px-1 rounded w-full truncate"
           />
           <Edit3 className="size-4.5 text-slate-600 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <SavedPresetsControl
+            mode="basic"
+            buildId={build.id}
+            buildName={build.name}
+            slots={build.slots}
+            characters={characters}
+            onPresetSaved={(record) =>
+              setBuild((prev) => ({ ...prev, id: record.id, name: record.name }))
+            }
+            onLoadPreset={({ id, name, data }) =>
+              setBuild((prev) => ({
+                ...prev,
+                id,
+                name,
+                slots: data.slots,
+              }))
+            }
+          />
+
           <Link
             href={advancedHref}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors shrink-0 press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
