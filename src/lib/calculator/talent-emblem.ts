@@ -14,11 +14,15 @@ export interface EmblemRowState {
   rarity: EmblemRarity;
 }
 
+export type SkillLevelSource = 'normalAtk' | 'skill' | 'supportSkill' | 'ultimate';
+
 export interface EmblemStatMeta {
   stat: string;
   label: string;
-  key: BuffStatKey;
+  key?: BuffStatKey;
+  skillSource?: SkillLevelSource;
   percent: boolean;
+  levelBonus?: boolean;
 }
 
 /**
@@ -46,6 +50,10 @@ const EMBLEM_STAT_META: Record<string, Omit<EmblemStatMeta, 'stat'>> = {
   'Ult Crit rate%': { label: 'Ult Crit Rate%', key: 'ultCritRate', percent: true },
   'Mark Crit rate%': { label: 'Mark Crit Rate%', key: 'markCritRate', percent: true },
   'Minion Crit rate%': { label: 'Minion Crit Rate%', key: 'minionCritRate', percent: true },
+  'AA Lv+': { label: 'Auto Attack Lv+', skillSource: 'normalAtk', percent: false, levelBonus: true },
+  'Skill Lv+': { label: 'Main Skill Lv+', skillSource: 'skill', percent: false, levelBonus: true },
+  'Support Lv+': { label: 'Support Skill Lv+', skillSource: 'supportSkill', percent: false, levelBonus: true },
+  'Ult Lv+': { label: 'Ultimate Lv+', skillSource: 'ultimate', percent: false, levelBonus: true },
 };
 
 const EMBLEM_TABLES = raw.emblems as Record<
@@ -89,6 +97,26 @@ export function getEmblemStatMeta(stat: string): Omit<EmblemStatMeta, 'stat'> | 
   return EMBLEM_STAT_META[stat];
 }
 
+export function getEmblemSkillLevelBonuses(
+  emblems: Record<EmblemLevel, EmblemRowState[]>
+): Record<SkillLevelSource, number> {
+  const bonuses: Record<SkillLevelSource, number> = {
+    normalAtk: 0,
+    skill: 0,
+    supportSkill: 0,
+    ultimate: 0,
+  };
+  for (const level of EMBLEM_LEVELS) {
+    for (const row of emblems[level] ?? []) {
+      if (!row.stat) continue;
+      const meta = EMBLEM_STAT_META[row.stat];
+      if (!meta?.skillSource) continue;
+      bonuses[meta.skillSource] += getEmblemValue(level, row.stat, row.rarity);
+    }
+  }
+  return bonuses;
+}
+
 /* ------------------------------------------------------------------ */
 /* Talents                                                             */
 /* ------------------------------------------------------------------ */
@@ -102,8 +130,15 @@ export interface TalentRow {
 const TALENT_TABLE = raw.talents as Record<string, TalentRow[][]>;
 const TALENT_KEY_OVERRIDES = raw.talentNames as Record<string, string>;
 
+export const TALENT_NAME_ALIASES: Record<string, string> = {
+  'Snowish Laru': 'S.Laru',
+  'Springseek Coronis': 'S.Coronis',
+  'Suntide Willow': 'S.Willow',
+  'Firstlight Noya': 'F.Noya',
+};
+
 export function getTalentKey(characterId: string, displayName: string): string {
-  return TALENT_KEY_OVERRIDES[characterId] ?? displayName;
+  return TALENT_KEY_OVERRIDES[characterId] ?? TALENT_NAME_ALIASES[displayName] ?? displayName;
 }
 
 export function getTalentTiers(characterId: string, displayName: string): TalentRow[][] {
@@ -178,7 +213,7 @@ export function mapTalentRow(row: TalentRow): TalentBonus | null {
   if (critDmgType) {
     return { key: critDmgType, value: pct, target, element };
   }
-  if (stat === 'DMG Multiplier') return { key: 'customMultiplier', value: pct, target };
+  if (stat === 'DMG Multiplier') return { key: 'skillIntensity', value: pct, target };
   if (stat === 'HP') return { key: 'hpPct', value: pct, target };
   if (stat === 'DEF') return { key: 'defPct', value: pct, target };
 

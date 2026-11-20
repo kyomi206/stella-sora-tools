@@ -102,9 +102,9 @@ export function calculateResAmend(
   vulExploitPct = 0,
   ignoreResPct = 0
 ): { effectiveRes: number; erAmend: number } {
-  const cappedPen = Math.max(0, Math.min(250, resPen));
+  const uncappedPen = Math.max(0, resPen);
   const ignore = Math.max(0, Math.min(100, ignoreResPct)) / 100;
-  const effectiveRes = enemyRes * (1 - ignore) - cappedPen;
+  const effectiveRes = enemyRes * (1 - ignore) - uncappedPen;
 
   if (effectiveRes <= 0) {
     const vul = vulExploitPct / 100;
@@ -135,7 +135,7 @@ export function calculateResAmend(
   }
 
   const clampedRes = Math.min(2000, effectiveRes);
-  const ratio = (clampedRes - valueLower) / (valueUpper - valueLower);
+  const ratio = Math.max(0, (clampedRes - valueLower) / (valueUpper - valueLower));
   const resReduction = amendLower + (amendUpper - amendLower) * (ratio * ratio);
   const erAmend = Math.max(0.01, 1 - resReduction);
 
@@ -209,7 +209,7 @@ export function computePresetContributions(
   let noteHpPct = 0;
 
   for (const noteMeta of MUSICAL_NOTES) {
-    const count = Math.max(0, Number(totalNotes[noteMeta.name]) || 0);
+    const count = Math.min(99, Math.max(0, Number(totalNotes[noteMeta.name]) || 0));
     if (count === 0) continue;
     const totalBonus = +(count * noteMeta.perLevelPct).toFixed(2);
     switch (noteMeta.statKey) {
@@ -279,10 +279,12 @@ export type BuffStatKey =
   | 'baseDef'
   | 'atkPctPerma'
   | 'atkPct'
+  | 'minionAtkPct'
   | 'hpPct'
   | 'defPct'
   | 'elementDmg'
   | 'elementTaken'
+  | 'dmgTaken'
   | 'critRate'
   | 'critDmg'
   | 'aaCritRate'
@@ -329,6 +331,7 @@ export const BUFF_STAT_OPTIONS: BuffStatOption[] = [
   { key: 'baseDef', label: 'Base DEF', group: 'Base stats', percent: false },
   { key: 'atkPctPerma', label: 'ATK% (Permanent)', group: 'Base stats', percent: true },
   { key: 'atkPct', label: 'ATK%', group: 'Base stats', percent: true },
+  { key: 'minionAtkPct', label: 'Minion ATK%', group: 'Base stats', percent: true },
   { key: 'hpPct', label: 'HP%', group: 'Base stats', percent: true },
   { key: 'defPct', label: 'DEF%', group: 'Base stats', percent: true },
   { key: 'critRate', label: 'Crit Rate%', group: 'Base stats', percent: true },
@@ -354,6 +357,7 @@ export const BUFF_STAT_OPTIONS: BuffStatOption[] = [
   { key: 'skillIntensity', label: 'Skill Intensity%', group: 'Damage bonuses', percent: true },
   { key: 'customMultiplier', label: 'Custom Multiplier%', group: 'Damage bonuses', percent: true },
 
+  { key: 'dmgTaken', label: 'Damage Taken% (All)', group: 'Enemy debuffs', percent: true },
   { key: 'elementTaken', label: 'Element DMG Taken%', group: 'Enemy debuffs', percent: true },
   { key: 'aaTaken', label: 'Auto Attack Taken%', group: 'Enemy debuffs', percent: true },
   { key: 'skillTaken', label: 'Skill Taken%', group: 'Enemy debuffs', percent: true },
@@ -409,10 +413,12 @@ export interface StatBlock {
   baseDef: number;
   atkPctPerma: number;
   atkPct: number;
+  minionAtkPct: number;
   hpPct: number;
   defPct: number;
   elementDmgPct: number;
   elementTakenPct: number;
+  dmgTakenPct: number;
   critRatePct: number;
   critDmgPct: number;
   typeCritRatePct: Record<DamageType, number>;
@@ -442,10 +448,12 @@ export function createEmptyStatBlock(): StatBlock {
     baseDef: 0,
     atkPctPerma: 0,
     atkPct: 0,
+    minionAtkPct: 0,
     hpPct: 0,
     defPct: 0,
     elementDmgPct: 0,
     elementTakenPct: 0,
+    dmgTakenPct: 0,
     critRatePct: 0,
     critDmgPct: 0,
     typeCritRatePct: createEmptyTypeRecord(),
@@ -504,6 +512,9 @@ export function applyBuffStat(target: StatBlock, key: BuffStatKey, value: number
     case 'atkPct':
       target.atkPct += amount;
       break;
+    case 'minionAtkPct':
+      target.minionAtkPct += amount;
+      break;
     case 'hpPct':
       target.hpPct += amount;
       break;
@@ -515,6 +526,9 @@ export function applyBuffStat(target: StatBlock, key: BuffStatKey, value: number
       break;
     case 'elementTaken':
       target.elementTakenPct += amount;
+      break;
+    case 'dmgTaken':
+      target.dmgTakenPct += amount;
       break;
     case 'critRate':
       target.critRatePct += amount;
@@ -580,6 +594,7 @@ export interface CharacterStats {
   affinityAtkPct: number;
   atkPctPerma: number;
   atkPct: number;
+  minionAtkPct: number;
   totalAtkPct: number;
   finalAtk: number;
 
@@ -592,6 +607,7 @@ export interface CharacterStats {
 
   elementDmgPct: number;
   elementTakenPct: number;
+  dmgTakenPct: number;
   critRatePct: number;
   critDmgPct: number;
   typeCritRatePct: Record<DamageType, number>;
@@ -649,6 +665,7 @@ export function buildCharacterStats(input: CharacterStatInput): CharacterStats {
     affinityAtkPct: affinity.atkPct,
     atkPctPerma,
     atkPct,
+    minionAtkPct: input.bonuses.minionAtkPct,
     totalAtkPct,
     finalAtk: baseAtk * (1 + totalAtkPct / 100),
 
@@ -661,6 +678,7 @@ export function buildCharacterStats(input: CharacterStatInput): CharacterStats {
 
     elementDmgPct: input.bonuses.elementDmgPct,
     elementTakenPct: input.bonuses.elementTakenPct,
+    dmgTakenPct: input.bonuses.dmgTakenPct,
     critRatePct: 5 + input.bonuses.critRatePct,
     critDmgPct: 150 + input.bonuses.critDmgPct,
 
@@ -708,6 +726,7 @@ export interface AbilityDamageResult {
   motionValueMult: number;
   elementMult: number;
   elementTakenMult: number;
+  dmgTakenMult: number;
   typeMult: number;
   typeTakenMult: number;
   skillIntensityMult: number;
@@ -742,6 +761,7 @@ export function calculateAbilityDamage(
   const motionValueMult = (Math.max(0, ability.motionValuePct) / 100) * totalHits;
   const elementMult = 1 + stats.elementDmgPct / 100;
   const elementTakenMult = 1 + stats.elementTakenPct / 100;
+  const dmgTakenMult = 1 + stats.dmgTakenPct / 100;
   const typeMult = 1 + (stats.typeDmgPct[ability.damageType] || 0) / 100;
   const typeTakenMult = 1 + (stats.typeTakenPct[ability.damageType] || 0) / 100;
   const skillIntensityMult = 1 + stats.skillIntensityPct / 100;
@@ -763,15 +783,15 @@ export function calculateAbilityDamage(
     : 1;
 
   const scalingStat = ability.scalingStat ?? 'ATK';
-  // Minions inherit multiplicative permanent and dynamic ATK; every other
-  // source and every HP/DEF source uses the normal additive total.
+  // Minions use additive permanent/all-friendly ATK% plus minion-scoped ATK%
+  // (excluding Trekker-only dynamic ATK%), matching Maygi and ZiLenTz.
   const effectiveStat =
     scalingStat === 'HP'
       ? stats.finalHp
       : scalingStat === 'DEF'
         ? stats.finalDef
         : ability.damageType === 'Minion'
-          ? stats.baseAtk * (1 + stats.atkPctPerma / 100) * (1 + stats.atkPct / 100)
+          ? stats.baseAtk * (1 + (stats.atkPctPerma + stats.minionAtkPct) / 100)
           : stats.finalAtk;
 
   const { effectiveDef, defAmend } = calculateDefAmend(
@@ -799,7 +819,8 @@ export function calculateAbilityDamage(
     defAmend *
     erAmend *
     typeTakenMult *
-    elementTakenMult;
+    elementTakenMult *
+    dmgTakenMult;
 
   return {
     ability,
@@ -809,6 +830,7 @@ export function calculateAbilityDamage(
     motionValueMult,
     elementMult,
     elementTakenMult,
+    dmgTakenMult,
     typeMult,
     typeTakenMult,
     skillIntensityMult,

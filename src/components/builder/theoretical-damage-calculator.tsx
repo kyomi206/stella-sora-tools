@@ -35,10 +35,16 @@ import {
   EMBLEM_RARITIES,
   EMBLEM_ROW_COUNT,
   getEmblemRarities,
+  getEmblemSkillLevelBonuses,
   getEmblemStatMeta,
   getEmblemStatOptions,
   getEmblemValue,
 } from '@/lib/calculator/talent-emblem';
+import {
+  parsePrimarySkillPart,
+  parseSkillParts,
+  type ParsedAbilityPart,
+} from '@/lib/calculator/motion-value-parser';
 import type { EmblemLevel, EmblemRarity, EmblemRowState } from '@/lib/calculator/talent-emblem';
 import {
   calculateTeam,
@@ -64,6 +70,7 @@ import {
   Disc3,
   Info,
   Plus,
+  RotateCcw,
   Save,
   Trash2,
   TrendingDown,
@@ -71,6 +78,11 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import {
+  extractDiscPresetBuffs,
+  extractPotentialPresetBuffs,
+  type PresetBuffItem,
+} from '@/lib/calculator/preset-buffs';
 import { cn } from '@/lib/utils';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
 
@@ -288,17 +300,59 @@ function formatSignedPct(value: number): string {
   return `${rounded > 0 ? '+' : ''}${rounded.toFixed(1)}%`;
 }
 
-function parseMotionValue(params: string[] | undefined, skillLevel: number): number | null {
-  if (!params?.length) return null;
-  for (const rawLine of params) {
-    const line = String(rawLine);
-    if (!line.includes('%')) continue;
-    const tiers = line.split('/');
-    const index = Math.max(0, Math.min(tiers.length - 1, skillLevel - 1));
-    const value = parseFloat(tiers[index]);
-    if (Number.isFinite(value)) return value;
-  }
-  return null;
+const SKILL_LEVELS = Array.from({ length: 13 }, (_, index) => index + 1);
+
+function getEffectiveSkillLevel(
+  baseSkillLevel: number,
+  emblems: Record<EmblemLevel, EmblemRowState[]>,
+  source: AbilityPresetKey | 'custom'
+): number {
+  if (source === 'custom') return baseSkillLevel;
+  const bonuses = getEmblemSkillLevelBonuses(emblems);
+  return Math.max(1, Math.min(13, baseSkillLevel + (bonuses[source] ?? 0)));
+}
+
+function buildRotationFromPart(
+  id: string,
+  source: AbilityPresetKey,
+  entry: { name: string; icon?: string },
+  part: ParsedAbilityPart | null
+): RotationAbility {
+  return {
+    id,
+    source,
+    partId: part?.id,
+    name: part?.label ?? entry.name,
+    icon: entry.icon,
+    motionValuePct: part?.mvPct ?? 0,
+    hits: part?.hits ?? 1,
+    casts: 1,
+    damageType: part?.damageType ?? ABILITY_PRESET_MAP[source].damageType,
+    scalingStat: part?.scalingStat ?? 'ATK',
+  };
+}
+
+function resyncPresetRotation(
+  rotation: RotationAbility[],
+  combat: CharacterCombatEntry | null,
+  skillLevel: number,
+  emblems: Record<EmblemLevel, EmblemRowState[]>
+): RotationAbility[] {
+  if (!combat) return rotation;
+  return rotation.map((item) => {
+    if (item.source === 'custom') return item;
+    const skillEntry = combat[item.source];
+    if (!skillEntry) return item;
+    const effectiveLevel = getEffectiveSkillLevel(skillLevel, emblems, item.source);
+    const parts = parseSkillParts(skillEntry, item.source, effectiveLevel);
+    const matched =
+      (item.partId ? parts.find((part) => part.id === item.partId) : undefined) ?? parts[0];
+    if (!matched) return item;
+    return {
+      ...item,
+      motionValuePct: matched.mvPct,
+    };
+  });
 }
 
 function getCharacterInitials(name: string): string {
@@ -328,19 +382,8 @@ function createDefaultRotation(
   const entry = combat[presetKey];
   if (!entry) return [];
 
-  return [
-    {
-      id: `${slot}-initial`,
-      source: presetKey,
-      name: entry.name,
-      icon: entry.icon,
-      motionValuePct: parseMotionValue(entry.params, 10) ?? 0,
-      hits: 1,
-      casts: 1,
-      damageType: ABILITY_PRESET_MAP[presetKey].damageType,
-      scalingStat: 'ATK',
-    },
-  ];
+  const part = parsePrimarySkillPart(entry, presetKey, 10);
+  return [buildRotationFromPart(`${slot}-initial`, presetKey, entry, part)];
 }
 
 function createEmptyEmblemRows(): EmblemRowState[] {
@@ -730,7 +773,9 @@ function EmblemLevelBlock({
               </select>
               <span className="truncate text-right font-mono text-[10px] font-bold tabular-nums text-slate-600 dark:text-white/70">
                 {meta && displayValue > 0
-                  ? `${meta.percent ? displayValue.toFixed(1) : displayValue.toFixed(0)}${meta.percent ? '%' : ''}`
+                  ? meta.levelBonus
+                    ? `+${displayValue.toFixed(0)}`
+                    : `${meta.percent ? displayValue.toFixed(1) : displayValue.toFixed(0)}${meta.percent ? '%' : ''}`
                   : '—'}
               </span>
             </div>
@@ -751,6 +796,9 @@ export function TheoreticalDamageCalculator({
 
   const [fighters, setFighters] = useState<FighterStateInput[]>(() => createFighters(build));
   const [buffs, setBuffs] = useState<BuffRowState[]>([]);
+  const [disabledPresetBuffIds, setDisabledPresetBuffIds] = useState<Record<string, boolean>>({});
+  const [potentialBonusLevels, setPotentialBonusLevels] = useState<Record<string, 0 | 1 | 2 | 3>>({});
+  const [potentialLevelOverrides, setPotentialLevelOverrides] = useState<Record<string, number>>({});
   const [recordLevel, setRecordLevel] = useState(31);
   const [enemyDef, setEnemyDef] = useState(500);
   const [enemyRes, setEnemyRes] = useState(250);
@@ -762,6 +810,9 @@ export function TheoreticalDamageCalculator({
   useEffect(() => {
     setFighters(createFighters(build));
     setBuffs([]);
+    setDisabledPresetBuffIds({});
+    setPotentialBonusLevels({});
+    setPotentialLevelOverrides({});
     setBaseline(null);
   }, [build]);
 
@@ -791,6 +842,56 @@ export function TheoreticalDamageCalculator({
     [build.mainDiscs, build.supportDiscs, effectiveNotes, discs]
   );
 
+  const rosterSlots = useMemo(
+    () =>
+      SLOT_KEYS.map((slot) => {
+        const characterId = build.slots[slot].characterId;
+        return {
+          slot,
+          character: characterId ? characters[String(characterId)] ?? null : null,
+        };
+      }),
+    [build.slots, characters]
+  );
+
+  const importedBuffs = useMemo<PresetBuffItem[]>(() => {
+    const discBuffs = extractDiscPresetBuffs(
+      build.mainDiscs,
+      effectiveNotes,
+      discs,
+      rosterSlots,
+      disabledPresetBuffIds
+    );
+    const potBuffs = extractPotentialPresetBuffs(build, rosterSlots, {
+      bonusLevels: potentialBonusLevels,
+      levelOverrides: potentialLevelOverrides,
+      disabledIds: disabledPresetBuffIds,
+    });
+    return [...discBuffs, ...potBuffs];
+  }, [
+    build,
+    effectiveNotes,
+    discs,
+    rosterSlots,
+    disabledPresetBuffIds,
+    potentialBonusLevels,
+    potentialLevelOverrides,
+  ]);
+
+  const combinedBuffs = useMemo(
+    () => [
+      ...importedBuffs
+        .filter((item) => item.enabled)
+        .map((item) => ({
+          target: item.target,
+          stat: item.stat,
+          value: item.value,
+        })),
+      ...buffs,
+    ],
+    [importedBuffs, buffs]
+  );
+
   const teamInput = useMemo<TeamCalcInput>(() => {
     const roster = fighters.map((state) => {
       const characterId = build.slots[state.slot].characterId;
@@ -802,7 +903,7 @@ export function TheoreticalDamageCalculator({
     return {
       fighters: roster,
       contributions,
-      buffs,
+      buffs: combinedBuffs,
       recordLevel,
       enemy: { def: enemyDef, res: enemyRes, resilienceBroken },
     };
@@ -811,7 +912,7 @@ export function TheoreticalDamageCalculator({
     build.slots,
     characters,
     contributions,
-    buffs,
+    combinedBuffs,
     recordLevel,
     enemyDef,
     enemyRes,
@@ -887,7 +988,20 @@ export function TheoreticalDamageCalculator({
     [teamInput, talentSlot]
   );
 
-  const penPoints = useMemo(() => computePenCurve(enemyRes), [enemyRes]);
+  const penReferenceFighter = useMemo(() => {
+    const populated = teamCalc.fighters.filter((fighter) => fighter.character);
+    return populated[0] ?? teamCalc.fighters[0];
+  }, [teamCalc.fighters]);
+
+  const penPoints = useMemo(
+    () =>
+      computePenCurve(
+        enemyRes,
+        penReferenceFighter?.stats.vulPct ?? 0,
+        penReferenceFighter?.stats.resIgnorePct ?? 0
+      ),
+    [enemyRes, penReferenceFighter]
+  );
 
   const fighterCalcs: FighterCalc[] = teamCalc.fighters;
   const totalExpected = teamCalc.totalExpected;
@@ -979,8 +1093,18 @@ export function TheoreticalDamageCalculator({
   const nextRotationId = () => `rotation-${rotationSeq.current++}`;
 
   const updateFighter = (slot: SlotKey, patch: Partial<FighterStateInput>) => {
+    const characterId = build.slots[slot].characterId;
+    const combat = characterId ? COMBAT_DB[String(characterId)] ?? null : null;
     setFighters((previous) =>
-      previous.map((fighter) => (fighter.slot === slot ? { ...fighter, ...patch } : fighter))
+      previous.map((fighter) => {
+        if (fighter.slot !== slot) return fighter;
+        const nextSkillLevel = patch.skillLevel ?? fighter.skillLevel;
+        const nextRotation =
+          patch.skillLevel !== undefined && patch.skillLevel !== fighter.skillLevel
+            ? resyncPresetRotation(fighter.rotation, combat, nextSkillLevel, fighter.emblems)
+            : fighter.rotation;
+        return { ...fighter, ...patch, rotation: nextRotation };
+      })
     );
   };
 
@@ -990,18 +1114,27 @@ export function TheoreticalDamageCalculator({
     index: number,
     patch: Partial<EmblemRowState>
   ) => {
+    const characterId = build.slots[slot].characterId;
+    const combat = characterId ? COMBAT_DB[String(characterId)] ?? null : null;
     setFighters((previous) =>
       previous.map((fighter) => {
         if (fighter.slot !== slot) return fighter;
         const rows = fighter.emblems[level].map((row, rowIndex) =>
           rowIndex === index ? { ...row, ...patch } : row
         );
-        return { ...fighter, emblems: { ...fighter.emblems, [level]: rows } };
+        const nextEmblems = { ...fighter.emblems, [level]: rows };
+        const nextRotation = resyncPresetRotation(
+          fighter.rotation,
+          combat,
+          fighter.skillLevel,
+          nextEmblems
+        );
+        return { ...fighter, emblems: nextEmblems, rotation: nextRotation };
       })
     );
   };
 
-  const addPresetAbility = (slot: SlotKey, presetKey: AbilityPresetKey) => {
+  const addPresetAbility = (slot: SlotKey, presetKey: AbilityPresetKey, part?: ParsedAbilityPart | null) => {
     const characterId = build.slots[slot].characterId;
     const combat = characterId ? COMBAT_DB[String(characterId)] ?? null : null;
     const entry = combat?.[presetKey];
@@ -1011,21 +1144,17 @@ export function TheoreticalDamageCalculator({
     setFighters((previous) =>
       previous.map((fighter) => {
         if (fighter.slot !== slot) return fighter;
+        const effectiveLevel = getEffectiveSkillLevel(
+          fighter.skillLevel,
+          fighter.emblems,
+          presetKey
+        );
+        const resolvedPart = part ?? parsePrimarySkillPart(entry, presetKey, effectiveLevel);
         return {
           ...fighter,
           rotation: [
             ...fighter.rotation,
-            {
-              id,
-              source: presetKey,
-              name: entry.name,
-              icon: entry.icon,
-              motionValuePct: parseMotionValue(entry.params, fighter.skillLevel) ?? 0,
-              hits: 1,
-              casts: 1,
-              damageType: ABILITY_PRESET_MAP[presetKey].damageType,
-              scalingStat: 'ATK',
-            },
+            buildRotationFromPart(id, presetKey, entry, resolvedPart),
           ],
         };
       })
@@ -1060,16 +1189,38 @@ export function TheoreticalDamageCalculator({
 
   const addRotationAbility = (slot: SlotKey) => {
     const fighter = fighterCalcs.find((item) => item.state.slot === slot);
-    const next = ABILITY_PRESETS.find(
+    const nextPreset = ABILITY_PRESETS.find(
       (preset) =>
         fighter?.combat?.[preset.key] &&
         !fighter.state.rotation.some((entry) => entry.source === preset.key)
     );
-    if (next) {
-      addPresetAbility(slot, next.key);
-    } else {
-      addCustomAbility(slot);
+    if (nextPreset) {
+      addPresetAbility(slot, nextPreset.key);
+      return;
     }
+    if (fighter?.combat) {
+      for (const preset of ABILITY_PRESETS) {
+        const skillEntry = fighter.combat[preset.key];
+        if (!skillEntry) continue;
+        const effectiveLevel = getEffectiveSkillLevel(
+          fighter.state.skillLevel,
+          fighter.state.emblems,
+          preset.key
+        );
+        const parts = parseSkillParts(skillEntry, preset.key, effectiveLevel);
+        const unusedPart = parts.find(
+          (part) =>
+            !fighter.state.rotation.some(
+              (entry) => entry.source === preset.key && entry.partId === part.id
+            )
+        );
+        if (unusedPart) {
+          addPresetAbility(slot, preset.key, unusedPart);
+          return;
+        }
+      }
+    }
+    addCustomAbility(slot);
   };
 
   const updateRotation = (slot: SlotKey, entryId: string, patch: Partial<RotationAbility>) => {
@@ -1118,6 +1269,33 @@ export function TheoreticalDamageCalculator({
     setBuffs((previous) => previous.filter((buff) => buff.id !== id));
   };
 
+  const toggleImportedBuff = (id: string) => {
+    setDisabledPresetBuffIds((previous) => ({
+      ...previous,
+      [id]: !previous[id],
+    }));
+  };
+
+  const setPotentialBonus = (potKey: string, bonus: 0 | 1 | 2 | 3) => {
+    setPotentialBonusLevels((previous) => ({
+      ...previous,
+      [potKey]: bonus,
+    }));
+  };
+
+  const setPotentialBaseLevel = (potKey: string, level: number) => {
+    setPotentialLevelOverrides((previous) => ({
+      ...previous,
+      [potKey]: level,
+    }));
+  };
+
+  const resetImportedBuffs = () => {
+    setDisabledPresetBuffIds({});
+    setPotentialBonusLevels({});
+    setPotentialLevelOverrides({});
+  };
+
   const saveBaseline = () => {
     const perSlot = Object.fromEntries(
       fighterCalcs.map((fighter) => [fighter.state.slot, fighter.totals.expected])
@@ -1140,7 +1318,7 @@ export function TheoreticalDamageCalculator({
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <h2 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
-                Team Damage Calculator
+                Team Damage Calculator (Experimental)
               </h2>
               <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55 sm:text-xs">
                 Formula by AutumnVN &amp; Soh
@@ -1558,7 +1736,7 @@ export function TheoreticalDamageCalculator({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-3 gap-1.5">
                   <label className="block min-w-0">
                     <span className="mb-1 block text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
                       Talent tier
@@ -1576,6 +1754,27 @@ export function TheoreticalDamageCalculator({
                       {Array.from({ length: 6 }, (_, index) => index).map((tier) => (
                         <option key={tier} value={tier}>
                           {tier === 0 ? 'T0 (none)' : `T${tier}`}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="block min-w-0">
+                    <span className="mb-1 block text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
+                      Skill Lv
+                    </span>
+                    <select
+                      value={state.skillLevel}
+                      onChange={(event) =>
+                        updateFighter(state.slot, {
+                          skillLevel: Math.max(1, Math.min(13, Number(event.target.value) || 10)),
+                        })
+                      }
+                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[10px] font-bold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:text-white"
+                      aria-label={`${character?.name.EN ?? 'Trekker'} skill level`}
+                    >
+                      {SKILL_LEVELS.map((lv) => (
+                        <option key={lv} value={lv}>
+                          Lv.{lv}
                         </option>
                       ))}
                     </select>
@@ -1764,6 +1963,170 @@ export function TheoreticalDamageCalculator({
       </div>
 
 
+      {/* Auto-imported Disc & Potential buffs */}
+      <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
+        <SectionHeader
+          title="Auto-imported Disc & Potential buffs"
+          subtitle="Active Melody skills, unlocked Harmony skills from Musical Notes, and equipped Potentials. Uncheck conditional effects that are inactive."
+          right={
+            <div className="flex flex-wrap items-center gap-2">
+              {importedBuffs.length > 0 && (
+                <span className="rounded-md border border-border bg-surface-subtle px-2 py-1 font-mono text-[10px] font-bold tabular-nums text-slate-600 dark:text-white/75">
+                  {importedBuffs.filter((item) => item.enabled).length}/{importedBuffs.length} active
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={resetImportedBuffs}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-bold text-slate-600 transition-colors hover:border-amber-500/40 hover:text-amber-600 dark:text-white/65 dark:hover:text-amber-400"
+              >
+                <RotateCcw className="size-3.5" />
+                Reset from preset
+              </button>
+            </div>
+          }
+        />
+
+        {importedBuffs.length === 0 ? (
+          <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-4 text-center">
+            <p className="text-[11px] font-semibold text-slate-600 dark:text-white/70">
+              No active disc skills or stat potentials in this preset.
+            </p>
+            <p className="mt-1 text-[10px] leading-relaxed text-slate-500 dark:text-slate-400">
+              Equip Main Discs, unlock Harmony requirements via Musical Notes, or assign Trekkers with Potentials in the Advanced Visualizer.
+            </p>
+          </div>
+        ) : (
+          <div className="mt-3 space-y-1.5">
+            {importedBuffs.map((item) => {
+              const statMeta = BUFF_STAT_MAP[item.stat];
+              const statLabel = statMeta?.label ?? item.stat;
+              const valueText = statMeta?.percent
+                ? `+${Number(item.value.toFixed(2))}%`
+                : `+${Math.round(item.value)}`;
+              const potKey = item.slot && item.potentialId ? `${item.slot}:${item.potentialId}` : '';
+              const showPotentialLevels =
+                item.origin === 'potential' && !item.isCore && (item.maxLevel ?? 1) > 1 && potKey !== '';
+              const originBadge =
+                item.origin === 'melody'
+                  ? `Melody C${item.crescendo ?? 1}`
+                  : item.origin === 'harmony'
+                    ? `Harmony Lv.${item.harmonyLevel ?? 1}`
+                    : 'Potential';
+              const originClass =
+                item.origin === 'melody'
+                  ? 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300'
+                  : item.origin === 'harmony'
+                    ? 'border-teal-500/30 bg-teal-500/10 text-teal-700 dark:text-teal-300'
+                    : 'border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300';
+              const targetLabel =
+                item.target === 'team' ? 'Team' : SLOT_META[item.target].shortLabel;
+
+              return (
+                <div
+                  key={item.id}
+                  className={cn(
+                    'flex flex-wrap items-center gap-2 rounded-lg border border-border-subtle bg-surface-subtle px-2.5 py-2 transition-opacity',
+                    !item.enabled && 'opacity-50'
+                  )}
+                >
+                  <label className="flex min-w-0 flex-1 cursor-pointer items-start gap-2.5">
+                    <input
+                      type="checkbox"
+                      checked={item.enabled}
+                      onChange={() => toggleImportedBuff(item.id)}
+                      className="mt-0.5 size-4 shrink-0 rounded border-border accent-amber-500"
+                      aria-label={`Toggle ${item.skillName} (${statLabel})`}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span
+                          className={cn(
+                            'inline-flex shrink-0 items-center rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.06em]',
+                            originClass
+                          )}
+                        >
+                          {originBadge}
+                        </span>
+                        <span className="truncate text-[11px] font-bold text-slate-800 dark:text-white">
+                          {item.sourceName}
+                        </span>
+                        <span className="text-[10px] text-slate-400">·</span>
+                        <span className="truncate text-[11px] font-semibold text-slate-600 dark:text-white/80">
+                          {item.skillName}
+                        </span>
+                        <span className="rounded border border-border bg-surface-card px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase text-slate-600 dark:text-white/70">
+                          {targetLabel}
+                        </span>
+                      </div>
+                      <p
+                        className="mt-0.5 line-clamp-1 text-[10px] leading-snug text-slate-500 dark:text-slate-400"
+                        title={item.description}
+                      >
+                        {item.description}
+                      </p>
+                    </div>
+                  </label>
+
+                  <div className="flex shrink-0 items-center gap-2">
+                    {showPotentialLevels && (
+                      <div className="flex items-center gap-1">
+                        <select
+                          value={item.level ?? 6}
+                          onChange={(event) =>
+                            setPotentialBaseLevel(potKey, Number(event.target.value) || 6)
+                          }
+                          className={cn(SMALL_INPUT_CLASS, 'w-14 font-sans')}
+                          aria-label={`Potential level for ${item.skillName}`}
+                        >
+                          {Array.from({ length: item.maxLevel ?? 9 }, (_, i) => i + 1).map((lv) => (
+                            <option key={lv} value={lv}>
+                              Lv.{lv}
+                            </option>
+                          ))}
+                        </select>
+                        <select
+                          value={item.emblemBonusLevel ?? 0}
+                          onChange={(event) =>
+                            setPotentialBonus(
+                              potKey,
+                              Number(event.target.value) as 0 | 1 | 2 | 3
+                            )
+                          }
+                          className={cn(SMALL_INPUT_CLASS, 'w-12 font-mono')}
+                          aria-label={`Lv.90 Emblem potential bonus for ${item.skillName}`}
+                          title="Lv.90 Emblem +Potential offset"
+                        >
+                          <option value={0}>+0</option>
+                          <option value={1}>+1</option>
+                          <option value={2}>+2</option>
+                          <option value={3}>+3</option>
+                        </select>
+                      </div>
+                    )}
+
+                    <div className="min-w-[110px] text-right">
+                      <div className="text-[10px] font-semibold text-slate-600 dark:text-white/75">
+                        {statLabel}
+                      </div>
+                      <div className="font-mono text-[11px] font-bold tabular-nums text-amber-700 dark:text-amber-300">
+                        {valueText}
+                        {item.stacks && item.stacks > 1 && (
+                          <span className="ml-1 text-[9px] font-normal text-slate-500 dark:text-slate-400">
+                            ({item.baseValue}
+                            {statMeta?.percent ? '%' : ''}×{item.stacks})
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
       {/* Buffs and manual stats */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
@@ -1824,14 +2187,17 @@ export function TheoreticalDamageCalculator({
           </div>
         ) : (
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[860px] border-collapse text-left">
+            <table className="w-full min-w-[1040px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-border text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
-                  <th className="w-32 py-2 pr-2">Trekker</th>
-                  <th className="py-2 pr-2">Ability name</th>
+                  <th className="w-28 py-2 pr-2">Trekker</th>
+                  <th className="py-2 pr-2">Ability / part</th>
+                  <th className="w-28 py-2 pr-2">Type</th>
                   <th className="w-24 py-2 pr-2 text-right">Multiplier</th>
-                  <th className="w-20 py-2 pr-2">Scaling</th>
-                  <th className="w-40 py-2 pr-2">Notes</th>
+                  <th className="w-16 py-2 pr-2 text-right">Hits</th>
+                  <th className="w-16 py-2 pr-2 text-right">Casts</th>
+                  <th className="w-18 py-2 pr-2">Scaling</th>
+                  <th className="w-32 py-2 pr-2">Notes</th>
                   <th className="py-2 pr-2 text-right">Crit average</th>
                   <th className="py-2 pr-2 text-right">No crit</th>
                   <th className="py-2 pr-2 text-right">Crit</th>
@@ -1843,7 +2209,7 @@ export function TheoreticalDamageCalculator({
                 .map((fighter) => (
                   <tbody key={fighter.state.slot} className="border-b border-border">
                     <tr className="bg-surface-subtle">
-                      <td colSpan={9} className="px-1 py-1.5">
+                      <td colSpan={12} className="px-1 py-1.5">
                         <div className="flex flex-wrap items-center gap-2">
                           <span
                             className={cn(
@@ -1877,14 +2243,33 @@ export function TheoreticalDamageCalculator({
                     {fighter.state.rotation.length === 0 ? (
                       <tr>
                         <td
-                          colSpan={8}
+                          colSpan={12}
                           className="px-2 py-3 text-center text-[11px] text-slate-500 dark:text-white/55"
                         >
                           No abilities yet. Add one to start this Trekker&apos;s rotation.
                         </td>
                       </tr>
                     ) : (
-                      fighter.abilities.map(({ entry, damage }) => (
+                      fighter.abilities.map(({ entry, damage }) => {
+                        const effectiveSkillLevel = getEffectiveSkillLevel(
+                          fighter.state.skillLevel,
+                          fighter.state.emblems,
+                          entry.source
+                        );
+                        const skillParts =
+                          entry.source !== 'custom' && fighter.combat?.[entry.source]
+                            ? parseSkillParts(
+                                fighter.combat[entry.source],
+                                entry.source,
+                                effectiveSkillLevel
+                              )
+                            : [];
+                        const activePartId =
+                          entry.partId && skillParts.some((part) => part.id === entry.partId)
+                            ? entry.partId
+                            : skillParts[0]?.id ?? '';
+
+                        return (
                         <tr
                           key={entry.id}
                           className="border-t border-border-subtle/60 align-middle hover:bg-surface-subtle/60"
@@ -1912,6 +2297,7 @@ export function TheoreticalDamageCalculator({
                                   if (key === 'custom') {
                                     updateRotation(fighter.state.slot, entry.id, {
                                       source: 'custom',
+                                      partId: undefined,
                                       name: 'Custom ability',
                                       icon: undefined,
                                       damageType: 'Skill',
@@ -1920,16 +2306,21 @@ export function TheoreticalDamageCalculator({
                                   }
                                   const presetEntry = fighter.combat?.[key];
                                   if (!presetEntry) return;
+                                  const nextLevel = getEffectiveSkillLevel(
+                                    fighter.state.skillLevel,
+                                    fighter.state.emblems,
+                                    key
+                                  );
+                                  const part = parsePrimarySkillPart(presetEntry, key, nextLevel);
                                   updateRotation(fighter.state.slot, entry.id, {
                                     source: key,
-                                    name: presetEntry.name,
+                                    partId: part?.id,
+                                    name: part?.label ?? presetEntry.name,
                                     icon: presetEntry.icon,
-                                    motionValuePct:
-                                      parseMotionValue(
-                                        presetEntry.params,
-                                        fighter.state.skillLevel
-                                      ) ?? 0,
-                                    damageType: ABILITY_PRESET_MAP[key].damageType,
+                                    motionValuePct: part?.mvPct ?? 0,
+                                    hits: part?.hits ?? 1,
+                                    damageType: part?.damageType ?? ABILITY_PRESET_MAP[key].damageType,
+                                    scalingStat: part?.scalingStat ?? 'ATK',
                                   });
                                 }}
                                 className="min-w-0 max-w-[190px] flex-1 truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
@@ -1947,6 +2338,31 @@ export function TheoreticalDamageCalculator({
                                 )}
                                 <option value="custom">Custom ability</option>
                               </select>
+                              {skillParts.length > 1 && (
+                                <select
+                                  value={activePartId}
+                                  onChange={(event) => {
+                                    const part = skillParts.find((item) => item.id === event.target.value);
+                                    if (!part) return;
+                                    updateRotation(fighter.state.slot, entry.id, {
+                                      partId: part.id,
+                                      name: part.label,
+                                      motionValuePct: part.mvPct,
+                                      hits: part.hits,
+                                      damageType: part.damageType,
+                                      scalingStat: part.scalingStat,
+                                    });
+                                  }}
+                                  className="min-w-0 max-w-[140px] truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[10px] font-semibold text-slate-600 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white/80"
+                                  aria-label={`Part for ${entry.name}`}
+                                >
+                                  {skillParts.map((part) => (
+                                    <option key={part.id} value={part.id}>
+                                      {part.label} ({part.mvPct}%)
+                                    </option>
+                                  ))}
+                                </select>
+                              )}
                               {entry.source === 'custom' && (
                                 <input
                                   value={entry.name}
@@ -1960,6 +2376,24 @@ export function TheoreticalDamageCalculator({
                                 />
                               )}
                             </div>
+                          </td>
+                          <td className="py-1 pr-2">
+                            <select
+                              value={entry.damageType}
+                              onChange={(event) =>
+                                updateRotation(fighter.state.slot, entry.id, {
+                                  damageType: event.target.value as DamageType,
+                                })
+                              }
+                              className="w-full rounded border border-border bg-surface-card px-1 py-1 text-[10px] font-semibold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                              aria-label={`${entry.name} damage type`}
+                            >
+                              {DAMAGE_TYPES.map((type) => (
+                                <option key={type} value={type}>
+                                  {type}
+                                </option>
+                              ))}
+                            </select>
                           </td>
                           <td className="py-1 pr-2">
                             <div className="flex items-center justify-end gap-1">
@@ -1978,6 +2412,36 @@ export function TheoreticalDamageCalculator({
                               />
                               <span className="text-[9px] text-slate-400">%</span>
                             </div>
+                          </td>
+                          <td className="py-1 pr-2">
+                            <input
+                              type="number"
+                              min={1}
+                              step={1}
+                              value={entry.hits}
+                              onChange={(event) =>
+                                updateRotation(fighter.state.slot, entry.id, {
+                                  hits: Math.max(1, Math.floor(Number(event.target.value) || 1)),
+                                })
+                              }
+                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                              aria-label={`${entry.name} hits`}
+                            />
+                          </td>
+                          <td className="py-1 pr-2">
+                            <input
+                              type="number"
+                              min={0}
+                              step="0.1"
+                              value={entry.casts}
+                              onChange={(event) =>
+                                updateRotation(fighter.state.slot, entry.id, {
+                                  casts: Math.max(0, Number(event.target.value) || 0),
+                                })
+                              }
+                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                              aria-label={`${entry.name} casts`}
+                            />
                           </td>
                           <td className="py-1 pr-2">
                             <select
@@ -2028,7 +2492,8 @@ export function TheoreticalDamageCalculator({
                             </button>
                           </td>
                         </tr>
-                      ))
+                        );
+                      })
                     )}
                   </tbody>
                 ))}
@@ -2316,9 +2781,20 @@ export function TheoreticalDamageCalculator({
 
         {sensitivityTab === 'pen' && (
           <div className="mt-3 space-y-2.5">
-            <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400">
-              Flat RES PEN against the current target ({enemyRes} RES). Gain is relative to 0 PEN.
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400">
+                Flat RES PEN against {enemyRes} RES
+                {penReferenceFighter?.character
+                  ? ` for ${penReferenceFighter.character.name.EN} (${penReferenceFighter.stats.vulPct.toFixed(0)}% VUL, ${penReferenceFighter.stats.resIgnorePct.toFixed(0)}% RES ignore)`
+                  : ''}
+                . Gain is relative to 0 PEN.
+              </p>
+              {penReferenceFighter && (
+                <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] font-bold tabular-nums text-amber-700 dark:text-amber-300">
+                  Current PEN {Math.round(penReferenceFighter.stats.resPen)}
+                </span>
+              )}
+            </div>
             <div className="max-h-80 overflow-auto">
               <table className="w-full min-w-[360px] text-xs">
                 <thead className="sticky top-0 bg-surface-card">
@@ -2330,25 +2806,32 @@ export function TheoreticalDamageCalculator({
                   </tr>
                 </thead>
                 <tbody>
-                  {penPoints.map((point) => (
-                    <tr
-                      key={point.pen}
-                      className="border-b border-border-subtle last:border-0 hover:bg-surface-subtle/60"
-                    >
-                      <td className="px-2 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 dark:text-white">
-                        {point.pen}
-                      </td>
-                      <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-slate-600 dark:text-white/70">
-                        {Math.round(point.effectiveRes)}
-                      </td>
-                      <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-slate-600 dark:text-white/70">
-                        {(point.erAmend * 100).toFixed(1)}%
-                      </td>
-                      <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-emerald-600 dark:text-emerald-400">
-                        {formatSignedPct(point.gainPct)}
-                      </td>
-                    </tr>
-                  ))}
+                  {penPoints.map((point) => {
+                    const currentPen = penReferenceFighter?.stats.resPen ?? 0;
+                    const isCurrentBracket = Math.abs(point.pen - currentPen) < 5;
+                    return (
+                      <tr
+                        key={point.pen}
+                        className={cn(
+                          'border-b border-border-subtle last:border-0 hover:bg-surface-subtle/60',
+                          isCurrentBracket && 'bg-amber-500/10'
+                        )}
+                      >
+                        <td className="px-2 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 dark:text-white">
+                          {point.pen}
+                        </td>
+                        <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-slate-600 dark:text-white/70">
+                          {Math.round(point.effectiveRes)}
+                        </td>
+                        <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-slate-600 dark:text-white/70">
+                          {(point.erAmend * 100).toFixed(1)}%
+                        </td>
+                        <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-emerald-600 dark:text-emerald-400">
+                          {formatSignedPct(point.gainPct)}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

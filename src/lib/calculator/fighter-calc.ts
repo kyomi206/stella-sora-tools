@@ -55,6 +55,7 @@ export interface CharacterCombatEntry {
 export interface RotationAbility extends AbilityInput {
   id: string;
   source: 'normalAtk' | 'skill' | 'supportSkill' | 'ultimate' | 'custom';
+  partId?: string;
   name: string;
   icon?: string;
   note?: string;
@@ -124,7 +125,7 @@ function buildPresetBonusBlock(
   contributions: DiscAndNoteContributions
 ): StatBlock {
   const bonuses = createEmptyStatBlock();
-  bonuses.atkPct = contributions.noteAtkPct;
+  bonuses.atkPctPerma = contributions.noteAtkPct;
   bonuses.hpPct = contributions.noteHpPct;
   bonuses.critRatePct = contributions.noteCritRatePct;
   bonuses.critDmgPct = contributions.noteCritDmgPct;
@@ -204,7 +205,7 @@ export function calculateTeam(input: TeamCalcInput): TeamCalcResult {
       for (const row of state.emblems[level]) {
         if (!row.stat) continue;
         const meta = getEmblemStatMeta(row.stat);
-        if (!meta) continue;
+        if (!meta?.key) continue;
         const value = getEmblemValue(level, row.stat, row.rarity);
         applyBuffStat(bonuses, meta.key, meta.percent ? value * 100 : value);
       }

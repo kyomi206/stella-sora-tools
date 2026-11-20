@@ -99,7 +99,7 @@ export function computePenCurve(
   enemyRes: number,
   vulPct = 0,
   resIgnorePct = 0,
-  maxPen = 250,
+  maxPen = Math.max(400, Math.ceil(Math.max(0, enemyRes) / 50) * 50 + 100),
   step = 10
 ): PenPoint[] {
   const points: Array<Omit<PenPoint, 'gainPct'>> = [];
