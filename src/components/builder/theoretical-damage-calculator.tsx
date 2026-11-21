@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type {
@@ -172,43 +173,43 @@ const ELEMENT_STYLES: Record<
   { text: string; chip: string; dot: string; bar: string; ring: string }
 > = {
   Ignis: {
-    text: 'text-orange-700 dark:text-orange-300',
-    chip: 'border-orange-500/30 bg-orange-500/10 text-orange-700 dark:text-orange-300',
+    text: 'text-orange-700',
+    chip: 'border-orange-500/30 bg-orange-500/10 text-orange-700',
     dot: 'bg-orange-500',
     bar: 'bg-orange-500',
     ring: 'ring-orange-500/25',
   },
   Aqua: {
-    text: 'text-sky-700 dark:text-sky-300',
-    chip: 'border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300',
+    text: 'text-sky-700',
+    chip: 'border-sky-500/30 bg-sky-500/10 text-sky-700',
     dot: 'bg-sky-500',
     bar: 'bg-sky-500',
     ring: 'ring-sky-500/25',
   },
   Terra: {
-    text: 'text-emerald-700 dark:text-emerald-300',
-    chip: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
+    text: 'text-emerald-700',
+    chip: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700',
     dot: 'bg-emerald-500',
     bar: 'bg-emerald-500',
     ring: 'ring-emerald-500/25',
   },
   Ventus: {
-    text: 'text-teal-700 dark:text-teal-300',
-    chip: 'border-teal-500/30 bg-teal-500/10 text-teal-700 dark:text-teal-300',
+    text: 'text-teal-700',
+    chip: 'border-teal-500/30 bg-teal-500/10 text-teal-700',
     dot: 'bg-teal-500',
     bar: 'bg-teal-500',
     ring: 'ring-teal-500/25',
   },
   Lux: {
-    text: 'text-amber-700 dark:text-amber-300',
-    chip: 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300',
+    text: 'text-amber-700',
+    chip: 'border-amber-500/30 bg-amber-500/10 text-amber-700',
     dot: 'bg-amber-400',
     bar: 'bg-amber-400',
     ring: 'ring-amber-500/25',
   },
   Umbra: {
-    text: 'text-purple-700 dark:text-purple-300',
-    chip: 'border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-300',
+    text: 'text-purple-700',
+    chip: 'border-purple-500/30 bg-purple-500/10 text-purple-700',
     dot: 'bg-purple-500',
     bar: 'bg-purple-500',
     ring: 'ring-purple-500/25',
@@ -250,10 +251,10 @@ const SOURCE_PALETTE = [
 ];
 
 const RARITY_STYLES: Record<EmblemRarity, string> = {
-  Green: 'text-emerald-600 dark:text-emerald-400',
-  Blue: 'text-sky-600 dark:text-sky-400',
-  Yellow: 'text-amber-600 dark:text-amber-400',
-  Rainbow: 'text-fuchsia-600 dark:text-fuchsia-400',
+  Green: 'text-emerald-700',
+  Blue: 'text-sky-700',
+  Yellow: 'text-amber-700',
+  Rainbow: 'text-fuchsia-700 dark:text-fuchsia-400',
 };
 
 const BUFF_STAT_GROUPS = Array.from(new Set(BUFF_STAT_OPTIONS.map((option) => option.group))).map(
@@ -275,11 +276,14 @@ const SENSITIVITY_TABS: Array<{ key: SensitivityTab; label: string }> = [
   { key: 'pen', label: 'PEN vs RES' },
 ];
 
+const FOCUS_RING =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70 focus-visible:border-teal-500';
+
 const INPUT_CLASS =
-  'w-full rounded-lg border border-border bg-base px-2.5 py-1.5 font-mono text-xs font-semibold tabular-nums text-slate-900 transition-colors placeholder:font-sans placeholder:font-normal placeholder:text-slate-400 focus:border-amber-500/60 focus:outline-none focus:ring-2 focus:ring-amber-500/15 dark:text-white';
+  'w-full rounded-lg border border-border bg-base px-2.5 py-1.5 font-mono text-xs font-semibold tabular-nums text-slate-900 transition-colors placeholder:font-sans placeholder:font-normal placeholder:text-slate-600 dark:placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white';
 
 const SMALL_INPUT_CLASS =
-  'w-full rounded border border-border bg-surface-card px-1.5 py-1 font-mono text-[10px] font-bold tabular-nums text-slate-900 transition-colors focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white';
+  'w-full rounded border border-border bg-surface-card px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-900 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white';
 
 function formatNumber(value: number): string {
   if (!Number.isFinite(value)) return '0';
@@ -448,11 +452,11 @@ function SectionHeader({
   return (
     <div className="flex flex-wrap items-start justify-between gap-2.5">
       <div className="min-w-0">
-        <h3 className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
+        <h2 className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
           {title}
-        </h3>
+        </h2>
         {subtitle && (
-          <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55">
+          <p className="mt-0.5 text-xs leading-snug text-slate-600 dark:text-slate-400">
             {subtitle}
           </p>
         )}
@@ -475,11 +479,11 @@ function Field({
 }) {
   return (
     <label className={cn('block min-w-0', className)}>
-      <span className="mb-1 block text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+      <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
         {label}
       </span>
       {children}
-      {hint && <span className="mt-1 block text-[10px] text-slate-500 dark:text-slate-400">{hint}</span>}
+      {hint && <span className="mt-1 block text-[11px] text-slate-600 dark:text-slate-400">{hint}</span>}
     </label>
   );
 }
@@ -497,20 +501,20 @@ function HeroMetric({
 }) {
   const toneClass =
     tone === 'amber'
-      ? 'text-amber-600 dark:text-amber-400'
+      ? 'text-amber-700'
       : tone === 'emerald'
-        ? 'text-emerald-600 dark:text-emerald-400'
+        ? 'text-emerald-700'
         : tone === 'sky'
-          ? 'text-sky-600 dark:text-sky-400'
+          ? 'text-sky-700'
           : 'text-slate-900 dark:text-white';
 
   return (
     <div className="rounded-lg border border-border-subtle bg-surface-subtle p-2.5">
-      <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">{label}</div>
+      <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">{label}</div>
       <div className={cn('mt-1 font-mono text-base font-bold tabular-nums', toneClass)}>
         {value}
       </div>
-      <div className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400">{hint}</div>
+      <div className="mt-0.5 text-[11px] text-slate-600 dark:text-slate-400">{hint}</div>
     </div>
   );
 }
@@ -520,10 +524,10 @@ function DeltaChip({ value, label = 'vs baseline' }: { value: number; label?: st
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums',
+        'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold tabular-nums',
         positive
-          ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
-          : 'border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-300'
+          ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700'
+          : 'border-rose-500/30 bg-rose-500/10 text-rose-700'
       )}
     >
       {positive ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
@@ -537,7 +541,7 @@ function AbilityIcon({ icon, className }: { icon?: string; className?: string })
   return (
     <span
       className={cn(
-        'grid shrink-0 place-items-center overflow-hidden rounded border border-border-subtle bg-surface-card',
+        'grid shrink-0 place-items-center overflow-hidden rounded border border-[#1e3a5f]/25 bg-[#2e4b84] p-0.5 text-white dark:border-border-subtle dark:bg-surface-elevated',
         className
       )}
     >
@@ -545,13 +549,15 @@ function AbilityIcon({ icon, className }: { icon?: string; className?: string })
         <img
           src={iconUrl}
           alt=""
-          className="size-full object-cover"
+          loading="lazy"
+          decoding="async"
+          className="size-full object-contain"
           onError={(event) => {
             event.currentTarget.style.display = 'none';
           }}
         />
       ) : (
-        <Zap className="size-3 text-slate-500 dark:text-slate-400" />
+        <Zap className="size-3 text-white/85" aria-hidden="true" />
       )}
     </span>
   );
@@ -568,7 +574,7 @@ function NoteGroup({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="w-16 shrink-0 text-[8px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+      <div className="w-20 shrink-0 text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
         {label}
       </div>
       <div className="flex flex-1 flex-wrap items-end gap-x-1 gap-y-2">
@@ -584,6 +590,8 @@ function NoteGroup({
               <img
                 src={getNoteIconUrl(note.name)}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className={cn(
                   'size-10 object-contain sm:size-12',
                   count > 0 ? 'opacity-100' : 'opacity-40'
@@ -597,7 +605,7 @@ function NoteGroup({
                   'font-mono text-[11px] font-bold leading-none tabular-nums',
                   count > 0
                     ? 'text-slate-800 dark:text-white'
-                    : 'text-slate-400 dark:text-white/40'
+                    : 'text-slate-600 dark:text-slate-400'
                 )}
               >
                 {count}
@@ -681,7 +689,7 @@ function BuffRow({
             aria-label="Buff value"
           />
           {suffix && (
-            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[10px] text-slate-500 dark:text-slate-400">
+            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[11px] text-slate-600 dark:text-slate-400">
               %
             </span>
           )}
@@ -691,10 +699,13 @@ function BuffRow({
       <button
         type="button"
         onClick={onRemove}
-        className="justify-self-end rounded-lg border border-border bg-surface-card p-2 text-slate-500 dark:text-slate-400 transition-colors hover:border-rose-500/40 hover:text-rose-600 dark:hover:text-rose-300"
+        className={cn(
+          'inline-flex min-h-8 min-w-8 items-center justify-center justify-self-end rounded-lg border border-border bg-surface-card p-2 text-slate-600 transition-colors hover:border-rose-500/40 hover:text-rose-700 dark:text-slate-400',
+          FOCUS_RING
+        )}
         aria-label={`Remove stat row${row.label ? `: ${row.label}` : ''}`}
       >
-        <Trash2 className="size-3.5" />
+        <Trash2 className="size-3.5" aria-hidden="true" />
       </button>
     </div>
   );
@@ -720,11 +731,11 @@ function EmblemLevelBlock({
 
   return (
     <div className="rounded-lg border border-border-subtle bg-surface-subtle p-2">
-      <div className="flex items-center justify-between px-0.5 pb-1">
-        <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+      <div className="flex items-center justify-between px-0.5 pb-1.5">
+        <span className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
           Emblem {level}
         </span>
-        <span className="text-[8px] font-semibold uppercase tracking-[0.1em] text-slate-400 dark:text-white/40">
+        <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">
           Stat / Rarity / Value
         </span>
       </div>
@@ -743,7 +754,7 @@ function EmblemLevelBlock({
               <select
                 value={row.stat}
                 onChange={(event) => handleStatChange(index, event.target.value)}
-                className="w-full rounded-md border border-border bg-base px-1.5 py-1 text-[10px] font-medium text-slate-700 focus:border-amber-500/60 focus:outline-none dark:text-white"
+                className="w-full rounded-md border border-border bg-base px-1.5 py-1 text-[11px] font-medium text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                 aria-label={`Emblem ${level} stat ${index + 1}`}
               >
                 <option value="">—</option>
@@ -760,7 +771,7 @@ function EmblemLevelBlock({
                   onChange(index, { rarity: event.target.value as EmblemRarity })
                 }
                 className={cn(
-                  'w-full rounded-md border border-border bg-base px-1.5 py-1 text-[10px] font-semibold focus:border-amber-500/60 focus:outline-none disabled:opacity-40',
+                  'w-full rounded-md border border-border bg-base px-1.5 py-1 text-[11px] font-semibold focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 disabled:opacity-40',
                   RARITY_STYLES[row.rarity]
                 )}
                 aria-label={`Emblem ${level} rarity ${index + 1}`}
@@ -771,7 +782,7 @@ function EmblemLevelBlock({
                   </option>
                 ))}
               </select>
-              <span className="truncate text-right font-mono text-[10px] font-bold tabular-nums text-slate-600 dark:text-white/70">
+              <span className="truncate text-right font-mono text-[11px] font-bold tabular-nums text-slate-700">
                 {meta && displayValue > 0
                   ? meta.levelBonus
                     ? `+${displayValue.toFixed(0)}`
@@ -1317,10 +1328,10 @@ export function TheoreticalDamageCalculator({
         <div className="relative p-4 sm:p-5 lg:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <h2 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
+              <h1 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
                 Team Damage Calculator (Experimental)
-              </h2>
-              <p className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-white/55 sm:text-xs">
+              </h1>
+              <p className="mt-0.5 text-xs leading-snug text-slate-600 dark:text-slate-400">
                 Formula by AutumnVN &amp; Soh
               </p>
             </div>
@@ -1328,7 +1339,7 @@ export function TheoreticalDamageCalculator({
             <div className="flex flex-wrap items-center gap-2">
               {baseline && (
                 <>
-                  <span className="hidden text-[10px] text-slate-500 dark:text-slate-400 sm:inline">
+                  <span className="hidden text-[11px] text-slate-600 dark:text-slate-400 sm:inline">
                     Baseline{' '}
                     {new Date(baseline.savedAt).toLocaleTimeString([], {
                       hour: '2-digit',
@@ -1338,9 +1349,12 @@ export function TheoreticalDamageCalculator({
                   <button
                     type="button"
                     onClick={() => setBaseline(null)}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 transition-colors hover:border-rose-500/40 hover:text-rose-600 dark:text-white/60 dark:hover:text-rose-300"
+                    className={cn(
+                      'inline-flex min-h-8 items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-semibold text-slate-600 transition-colors hover:border-rose-500/40 hover:text-rose-700 dark:text-slate-400',
+                      FOCUS_RING
+                    )}
                   >
-                    <Trash2 className="size-3.5" />
+                    <Trash2 className="size-3.5" aria-hidden="true" />
                     Clear baseline
                   </button>
                 </>
@@ -1348,9 +1362,12 @@ export function TheoreticalDamageCalculator({
               <button
                 type="button"
                 onClick={saveBaseline}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-2.5 py-1.5 text-[11px] font-bold text-amber-700 transition-colors hover:bg-amber-500/15 dark:text-amber-300"
+                className={cn(
+                  'inline-flex min-h-8 items-center gap-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-2.5 py-1.5 text-[11px] font-bold text-amber-700 transition-colors hover:bg-amber-500/15',
+                  FOCUS_RING
+                )}
               >
-                <Save className="size-3.5" />
+                <Save className="size-3.5" aria-hidden="true" />
                 {baseline ? 'Update baseline' : 'Save baseline'}
               </button>
             </div>
@@ -1358,7 +1375,7 @@ export function TheoreticalDamageCalculator({
 
           <div className="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.7fr)_minmax(0,0.9fr)] lg:items-start">
             <div className="min-w-0">
-              <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-slate-600 dark:text-slate-400">
                 Expected team damage
               </div>
               <div className="mt-1 flex flex-wrap items-end gap-2">
@@ -1370,7 +1387,7 @@ export function TheoreticalDamageCalculator({
                 {snapshotDelta !== null && <DeltaChip value={snapshotDelta} />}
               </div>
               {teamSize > 0 && (
-                <p className="mt-1.5 text-[11px] text-slate-500 dark:text-white/55">
+                <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400">
                   {activeAbilities} {activeAbilities === 1 ? 'ability' : 'abilities'} ·{' '}
                   {formatNumber(totalHits)} hits · {teamSize}{' '}
                   {teamSize === 1 ? 'Trekker' : 'Trekkers'}
@@ -1393,8 +1410,14 @@ export function TheoreticalDamageCalculator({
                   })}
                 </div>
                 {teamSize === 0 ? (
-                  <p className="mt-2 text-[11px] text-slate-500 dark:text-white/55">
-                    No team loaded.
+                  <p className="mt-2 text-xs text-slate-600 dark:text-slate-400">
+                    No team loaded.{' '}
+                    <Link
+                      href="/builder/advanced"
+                      className="font-semibold text-teal-700 underline underline-offset-2 hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70"
+                    >
+                      Select Trekkers in Advanced Visualizer
+                    </Link>
                   </p>
                 ) : (
                   <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
@@ -1408,7 +1431,7 @@ export function TheoreticalDamageCalculator({
                         return (
                           <span
                             key={fighter.state.slot}
-                            className="inline-flex items-center gap-1 text-[10px] text-slate-500 dark:text-white/55"
+                            className="inline-flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-400"
                           >
                             <span
                               className={cn(
@@ -1416,10 +1439,10 @@ export function TheoreticalDamageCalculator({
                                 ELEMENT_STYLES[fighter.element].dot
                               )}
                             />
-                            <span className="font-semibold text-slate-700 dark:text-white/75">
+                            <span className="font-semibold text-slate-700">
                               {fighter.character?.name.EN}
                             </span>
-                            <span className="font-mono tabular-nums text-slate-500 dark:text-slate-400">
+                            <span className="font-mono tabular-nums text-slate-600 dark:text-slate-400">
                               {share.toFixed(0)}%
                             </span>
                           </span>
@@ -1431,7 +1454,7 @@ export function TheoreticalDamageCalculator({
             </div>
 
             <div className="rounded-xl border border-border-subtle bg-surface-subtle p-3">
-              <div className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+              <div className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-600 dark:text-slate-400">
                 Team damage
               </div>
               <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row lg:flex-col xl:flex-row">
@@ -1472,7 +1495,7 @@ export function TheoreticalDamageCalculator({
           </div>
 
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border-subtle pt-3">
-            <label className="inline-flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-white/60">
+            <label className="inline-flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400">
               Record Rating
               <input
                 type="number"
@@ -1484,11 +1507,11 @@ export function TheoreticalDamageCalculator({
                     Math.max(0, Math.min(40, Math.floor(Number(event.target.value) || 0)))
                   )
                 }
-                className="w-14 rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-900 focus:border-amber-500/60 focus:outline-none dark:text-white"
+                className="w-16 rounded-md border border-border bg-base px-2 py-1 font-mono text-xs font-bold tabular-nums text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                 aria-label="Record rating"
               />
             </label>
-            <span className="font-mono text-[10px] tabular-nums text-slate-500 dark:text-slate-400">
+            <span className="font-mono text-xs tabular-nums text-slate-600 dark:text-slate-400">
               +{recordAtk} ATK
             </span>
           </div>
@@ -1499,7 +1522,7 @@ export function TheoreticalDamageCalculator({
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <SectionHeader
-            title="Target &amp; mitigation"
+            title="Target & mitigation"
             subtitle="Enemy DEF / RES, resilience break, and the base amendment for the current target."
           />
           <div className="flex flex-wrap gap-1.5">
@@ -1515,14 +1538,15 @@ export function TheoreticalDamageCalculator({
                     setEnemyRes(preset.res);
                   }}
                   className={cn(
-                    'flex flex-col items-start rounded-lg border px-2 py-1 text-left transition-colors',
+                    'flex min-h-9 flex-col items-start rounded-lg border px-2.5 py-1.5 text-left transition-colors',
+                    FOCUS_RING,
                     selected
-                      ? 'border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-300'
-                      : 'border-border bg-surface-subtle text-slate-600 hover:border-amber-500/30 dark:text-white/65'
+                      ? 'border-amber-500/50 bg-amber-500/10 text-amber-700'
+                      : 'border-border bg-surface-subtle text-slate-600 hover:border-amber-500/30 dark:text-slate-400'
                   )}
                 >
-                  <span className="text-[10px] font-bold">{preset.label}</span>
-                  <span className="font-mono text-[8px] tabular-nums opacity-65">
+                  <span className="text-[11px] font-bold">{preset.label}</span>
+                  <span className="font-mono text-[11px] tabular-nums opacity-85">
                     {preset.res} RES · {preset.def} DEF
                   </span>
                 </button>
@@ -1552,13 +1576,13 @@ export function TheoreticalDamageCalculator({
             />
           </Field>
           <div className="rounded-lg border border-border-subtle bg-surface-subtle p-2.5">
-            <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+            <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
               Base mitigation
             </div>
             <div className="mt-1 font-mono text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
               DEF {(baseDefAmend * 100).toFixed(1)}%
             </div>
-            <div className="font-mono text-[10px] tabular-nums text-slate-500 dark:text-slate-400">
+            <div className="font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
               RES {(baseResAmend * 100).toFixed(1)}%
             </div>
           </div>
@@ -1568,19 +1592,20 @@ export function TheoreticalDamageCalculator({
             onClick={() => setResilienceBroken((value) => !value)}
             className={cn(
               'flex flex-col justify-between rounded-lg border p-2.5 text-left transition-colors',
+              FOCUS_RING,
               resilienceBroken
                 ? 'border-amber-500/50 bg-amber-500/10'
                 : 'border-border-subtle bg-surface-subtle hover:border-border-hover'
             )}
           >
-            <span className="flex items-center justify-between gap-2 text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+            <span className="flex items-center justify-between gap-2 text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
               Resilience break
               <span
                 className={cn(
-                  'rounded px-1 py-0.5 font-mono text-[8px]',
+                  'rounded px-1.5 py-0.5 font-mono text-[11px]',
                   resilienceBroken
-                    ? 'bg-amber-500/20 text-amber-700 dark:text-amber-300'
-                    : 'bg-surface-card text-slate-500 dark:text-slate-400'
+                    ? 'bg-amber-500/20 text-amber-700'
+                    : 'bg-surface-card text-slate-600 dark:text-slate-400'
                 )}
               >
                 {resilienceBroken ? 'ON' : 'OFF'}
@@ -1590,7 +1615,7 @@ export function TheoreticalDamageCalculator({
               className={cn(
                 'mt-1 font-mono text-sm font-bold tabular-nums',
                 resilienceBroken
-                  ? 'text-amber-600 dark:text-amber-400'
+                  ? 'text-amber-700'
                   : 'text-slate-900 dark:text-white'
               )}
             >
@@ -1599,12 +1624,12 @@ export function TheoreticalDamageCalculator({
           </button>
         </div>
 
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-500 dark:text-slate-400">
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-600 dark:text-slate-400">
           <span>Effective DEF {Math.round(enemyDef * 10) / 10} → {(baseDefAmend * 100).toFixed(1)}%</span>
-          <span className="text-border">|</span>
+          <span aria-hidden="true" className="text-slate-600/40 dark:text-slate-400/40">|</span>
           <span>Effective RES {enemyRes} → {(baseResAmend * 100).toFixed(1)}%</span>
           <span className="inline-flex items-center gap-1">
-            <Info className="size-3" />
+            <Info className="size-3.5 shrink-0" aria-hidden="true" />
             Buff rows can change DEF / RES mitigation per Trekker.
           </span>
         </div>
@@ -1635,7 +1660,7 @@ export function TheoreticalDamageCalculator({
                         elementStyle.ring
                       )}
                     >
-                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                      <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400">
                         {character ? getCharacterInitials(character.name.EN) : '—'}
                       </span>
                       {character && (
@@ -1650,20 +1675,20 @@ export function TheoreticalDamageCalculator({
                       )}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate text-sm font-bold tracking-tight text-slate-900 dark:text-white">
+                      <h2 className="truncate text-sm font-bold tracking-tight text-slate-900 dark:text-white">
                         {character?.name.EN ?? 'Empty slot'}
-                      </h3>
-                      <div className="mt-1 flex flex-wrap items-center gap-1">
+                      </h2>
+                      <div className="mt-1 flex flex-wrap items-center gap-1.5">
                         <span
                           className={cn(
-                            'inline-flex items-center gap-1 rounded border px-1 py-0.5 text-[9px] font-bold',
+                            'inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-bold leading-none',
                             elementStyle.chip
                           )}
                         >
                           {element}
                         </span>
                         {character && (
-                          <span className="text-[10px] text-slate-500 dark:text-white/55">
+                          <span className="text-[11px] text-slate-600 dark:text-slate-400">
                             {character.class} · {character.star}★
                           </span>
                         )}
@@ -1671,7 +1696,7 @@ export function TheoreticalDamageCalculator({
                     </div>
                   </div>
 
-                  <label className="flex shrink-0 items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400">
+                  <label className="flex shrink-0 items-center gap-1 text-[11px] text-slate-600 dark:text-slate-400">
                     Lv
                     <select
                       value={state.level}
@@ -1680,7 +1705,7 @@ export function TheoreticalDamageCalculator({
                           level: event.target.value as TrekkerLevel,
                         })
                       }
-                      className="rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[10px] font-bold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:text-white"
+                      className="rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} level`}
                     >
                       {TREKKER_LEVELS.map((level) => (
@@ -1697,29 +1722,29 @@ export function TheoreticalDamageCalculator({
                   title={`Base ATK ${formatNumber(stats.baseAtkParts.character)} + affinity ${formatNumber(stats.baseAtkParts.affinity)} + record ${formatNumber(stats.baseAtkParts.record)} + discs ${formatNumber(stats.baseAtkParts.discs)} + manual ${formatNumber(stats.baseAtkParts.bonus)}`}
                 >
                   <div className="min-w-0">
-                    <div className="truncate text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
+                    <div className="truncate text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
                       Final ATK
                     </div>
                     <div className="mt-0.5 truncate font-mono text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
                       {formatNumber(stats.finalAtk)}
                     </div>
-                    <div className="truncate font-mono text-[8px] text-slate-500 dark:text-slate-400">
+                    <div className="truncate font-mono text-[11px] text-slate-600 dark:text-slate-400">
                       +{stats.totalAtkPct.toFixed(1)}%
                     </div>
                   </div>
                   <div className="min-w-0 border-l border-border-subtle pl-1.5">
-                    <div className="truncate text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
+                    <div className="truncate text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
                       Crit rate
                     </div>
                     <div className="mt-0.5 truncate font-mono text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
                       {stats.critRatePct.toFixed(1)}%
                     </div>
-                    <div className="truncate font-mono text-[8px] text-slate-500 dark:text-slate-400">
+                    <div className="truncate font-mono text-[11px] text-slate-600 dark:text-slate-400">
                       {stats.critDmgPct.toFixed(0)}% DMG
                     </div>
                   </div>
                   <div className="min-w-0 border-l border-border-subtle pl-1.5">
-                    <div className="truncate text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
+                    <div className="truncate text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
                       {element} DMG
                     </div>
                     <div
@@ -1730,7 +1755,7 @@ export function TheoreticalDamageCalculator({
                     >
                       +{stats.elementDmgPct.toFixed(1)}%
                     </div>
-                    <div className="truncate font-mono text-[8px] text-slate-500 dark:text-slate-400">
+                    <div className="truncate font-mono text-[11px] text-slate-600 dark:text-slate-400">
                       DEF {fighter.defAmend >= 0 ? (fighter.defAmend * 100).toFixed(0) : '—'}%
                     </div>
                   </div>
@@ -1738,7 +1763,7 @@ export function TheoreticalDamageCalculator({
 
                 <div className="grid grid-cols-3 gap-1.5">
                   <label className="block min-w-0">
-                    <span className="mb-1 block text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
+                    <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
                       Talent tier
                     </span>
                     <select
@@ -1748,7 +1773,7 @@ export function TheoreticalDamageCalculator({
                           talentTier: Math.max(0, Math.min(5, Number(event.target.value) || 0)),
                         })
                       }
-                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[10px] font-bold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:text-white"
+                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} talent tier`}
                     >
                       {Array.from({ length: 6 }, (_, index) => index).map((tier) => (
@@ -1759,7 +1784,7 @@ export function TheoreticalDamageCalculator({
                     </select>
                   </label>
                   <label className="block min-w-0">
-                    <span className="mb-1 block text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
+                    <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
                       Skill Lv
                     </span>
                     <select
@@ -1769,7 +1794,7 @@ export function TheoreticalDamageCalculator({
                           skillLevel: Math.max(1, Math.min(13, Number(event.target.value) || 10)),
                         })
                       }
-                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[10px] font-bold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:text-white"
+                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} skill level`}
                     >
                       {SKILL_LEVELS.map((lv) => (
@@ -1780,7 +1805,7 @@ export function TheoreticalDamageCalculator({
                     </select>
                   </label>
                   <label className="block min-w-0">
-                    <span className="mb-1 block text-[8px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">
+                    <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
                       Affinity Lv
                     </span>
                     <input
@@ -1796,7 +1821,7 @@ export function TheoreticalDamageCalculator({
                           ),
                         })
                       }
-                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[10px] font-bold tabular-nums text-slate-700 focus:border-amber-500/60 focus:outline-none dark:text-white"
+                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} affinity level`}
                     />
                   </label>
@@ -1805,7 +1830,7 @@ export function TheoreticalDamageCalculator({
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-surface-subtle px-4 py-2.5">
-                <span className="font-mono text-[10px] tabular-nums text-slate-500 dark:text-slate-400">
+                <span className="font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                   DEF {(fighter.defAmend * 100).toFixed(1)}% · RES {(fighter.erAmend * 100).toFixed(1)}%
                 </span>
                 <div className="flex items-center gap-1.5">
@@ -1848,24 +1873,26 @@ export function TheoreticalDamageCalculator({
                     <img
                       src={getDiscOutfitIconUrl(disc.id)}
                       alt=""
+                      loading="lazy"
+                      decoding="async"
                       className="size-9 shrink-0 rounded-md border border-border-subtle object-cover"
                       onError={(event) => {
                         event.currentTarget.style.display = 'none';
                       }}
                     />
                   ) : (
-                    <div className="grid size-9 shrink-0 place-items-center rounded-md border border-dashed border-border text-slate-300">
-                      <Disc3 className="size-4" />
+                    <div className="grid size-9 shrink-0 place-items-center rounded-md border border-dashed border-border text-slate-600 dark:text-slate-400">
+                      <Disc3 className="size-4" aria-hidden="true" />
                     </div>
                   )}
                   <div className="min-w-0 flex-1">
-                    <div className="text-[8px] font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                       {slot.kind === 'main' ? 'Main' : 'Support'} #{slot.index + 1}
                     </div>
-                    <div className="truncate text-[11px] font-bold text-slate-700 dark:text-white/80">
+                    <div className="truncate text-xs font-bold text-slate-800 dark:text-white">
                       {disc?.name ?? 'Empty slot'}
                     </div>
-                    <div className="truncate font-mono text-[9px] tabular-nums text-slate-500 dark:text-slate-400">
+                    <div className="truncate font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                       {disc
                         ? `Lv${slot.level} · ${slot.kind === 'main' ? `C${slot.crescendo - 1}` : `Phase ${slot.phase + 1}`} · +${formatNumber(atk)} ATK${supportNotes > 0 ? ` · +${supportNotes} notes` : ''}`
                         : 'Not equipped'}
@@ -1881,7 +1908,7 @@ export function TheoreticalDamageCalculator({
           <SectionHeader
             title="Musical notes"
             right={
-              <span className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 font-mono text-[10px] font-bold tabular-nums text-slate-500 dark:text-white/60">
+              <span className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-600 dark:text-slate-400">
                 {Object.values(effectiveNotes).reduce((sum, count) => sum + count, 0)} notes
               </span>
             }
@@ -1908,16 +1935,16 @@ export function TheoreticalDamageCalculator({
             ].map(([label, value]) => (
               <span
                 key={label}
-                className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 text-[10px] text-slate-500 dark:text-white/60"
+                className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 text-[11px] text-slate-600 dark:text-slate-400"
               >
-                <span className="font-semibold text-slate-700 dark:text-white/80">{label}</span>{' '}
-                <span className="font-mono font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                <span className="font-semibold text-slate-700">{label}</span>{' '}
+                <span className="font-mono font-bold tabular-nums text-amber-700">
                   +{Number(value).toFixed(2)}%
                 </span>
               </span>
             ))}
-            <span className="inline-flex items-center gap-1 px-1 text-[10px] text-slate-500 dark:text-slate-400">
-              <Info className="size-3" />
+            <span className="inline-flex items-center gap-1 px-1 text-[11px] text-slate-600 dark:text-slate-400">
+              <Info className="size-3.5 shrink-0" aria-hidden="true" />
               Applied to every Trekker.
             </span>
           </div>
@@ -1941,7 +1968,7 @@ export function TheoreticalDamageCalculator({
                   <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
                     {fighter.character?.name.EN}
                   </span>
-                  <span className="text-[10px] text-slate-500 dark:text-white/55">
+                  <span className="text-[11px] text-slate-600 dark:text-slate-400">
                     {SLOT_META[fighter.state.slot].label}
                   </span>
                 </div>
@@ -1971,16 +1998,19 @@ export function TheoreticalDamageCalculator({
           right={
             <div className="flex flex-wrap items-center gap-2">
               {importedBuffs.length > 0 && (
-                <span className="rounded-md border border-border bg-surface-subtle px-2 py-1 font-mono text-[10px] font-bold tabular-nums text-slate-600 dark:text-white/75">
+                <span className="rounded-md border border-border bg-surface-subtle px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-700">
                   {importedBuffs.filter((item) => item.enabled).length}/{importedBuffs.length} active
                 </span>
               )}
               <button
                 type="button"
                 onClick={resetImportedBuffs}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-bold text-slate-600 transition-colors hover:border-amber-500/40 hover:text-amber-600 dark:text-white/65 dark:hover:text-amber-400"
+                className={cn(
+                  'inline-flex min-h-8 items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-bold text-slate-700 transition-colors hover:border-amber-500/40 hover:text-amber-700',
+                  FOCUS_RING
+                )}
               >
-                <RotateCcw className="size-3.5" />
+                <RotateCcw className="size-3.5" aria-hidden="true" />
                 Reset from preset
               </button>
             </div>
@@ -1989,10 +2019,10 @@ export function TheoreticalDamageCalculator({
 
         {importedBuffs.length === 0 ? (
           <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-4 text-center">
-            <p className="text-[11px] font-semibold text-slate-600 dark:text-white/70">
+            <p className="text-xs font-semibold text-slate-700">
               No active disc skills or stat potentials in this preset.
             </p>
-            <p className="mt-1 text-[10px] leading-relaxed text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-[11px] leading-relaxed text-slate-600 dark:text-slate-400">
               Equip Main Discs, unlock Harmony requirements via Musical Notes, or assign Trekkers with Potentials in the Advanced Visualizer.
             </p>
           </div>
@@ -2015,10 +2045,10 @@ export function TheoreticalDamageCalculator({
                     : 'Potential';
               const originClass =
                 item.origin === 'melody'
-                  ? 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300'
+                  ? 'border-amber-500/30 bg-amber-500/10 text-amber-700'
                   : item.origin === 'harmony'
-                    ? 'border-teal-500/30 bg-teal-500/10 text-teal-700 dark:text-teal-300'
-                    : 'border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300';
+                    ? 'border-teal-500/30 bg-teal-500/10 text-teal-700'
+                    : 'border-sky-500/30 bg-sky-500/10 text-sky-700';
               const targetLabel =
                 item.target === 'team' ? 'Team' : SLOT_META[item.target].shortLabel;
 
@@ -2026,8 +2056,8 @@ export function TheoreticalDamageCalculator({
                 <div
                   key={item.id}
                   className={cn(
-                    'flex flex-wrap items-center gap-2 rounded-lg border border-border-subtle bg-surface-subtle px-2.5 py-2 transition-opacity',
-                    !item.enabled && 'opacity-50'
+                    'flex flex-col gap-2.5 rounded-lg border border-border-subtle bg-surface-subtle px-3 py-2.5 transition-opacity sm:flex-row sm:items-center sm:justify-between',
+                    !item.enabled && 'opacity-55'
                   )}
                 >
                   <label className="flex min-w-0 flex-1 cursor-pointer items-start gap-2.5">
@@ -2035,32 +2065,32 @@ export function TheoreticalDamageCalculator({
                       type="checkbox"
                       checked={item.enabled}
                       onChange={() => toggleImportedBuff(item.id)}
-                      className="mt-0.5 size-4 shrink-0 rounded border-border accent-amber-500"
+                      className="mt-0.5 size-[18px] shrink-0 rounded border-border accent-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70 focus-visible:ring-offset-1"
                       aria-label={`Toggle ${item.skillName} (${statLabel})`}
                     />
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-1.5">
                         <span
                           className={cn(
-                            'inline-flex shrink-0 items-center rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.06em]',
+                            'inline-flex shrink-0 items-center rounded border px-1.5 py-0.5 text-[11px] font-bold uppercase leading-none tracking-[0.04em]',
                             originClass
                           )}
                         >
                           {originBadge}
                         </span>
-                        <span className="truncate text-[11px] font-bold text-slate-800 dark:text-white">
+                        <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
                           {item.sourceName}
                         </span>
-                        <span className="text-[10px] text-slate-400">·</span>
-                        <span className="truncate text-[11px] font-semibold text-slate-600 dark:text-white/80">
+                        <span aria-hidden="true" className="text-[11px] text-slate-600 dark:text-slate-400">·</span>
+                        <span className="truncate text-xs font-semibold text-slate-700">
                           {item.skillName}
                         </span>
-                        <span className="rounded border border-border bg-surface-card px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase text-slate-600 dark:text-white/70">
+                        <span className="rounded border border-border bg-surface-card px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase leading-none text-slate-700">
                           {targetLabel}
                         </span>
                       </div>
                       <p
-                        className="mt-0.5 line-clamp-1 text-[10px] leading-snug text-slate-500 dark:text-slate-400"
+                        className="mt-1 line-clamp-2 text-[11px] leading-snug text-slate-600 dark:text-slate-400 sm:line-clamp-1"
                         title={item.description}
                       >
                         {item.description}
@@ -2068,7 +2098,7 @@ export function TheoreticalDamageCalculator({
                     </div>
                   </label>
 
-                  <div className="flex shrink-0 items-center gap-2">
+                  <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 sm:justify-end">
                     {showPotentialLevels && (
                       <div className="flex items-center gap-1">
                         <select
@@ -2105,14 +2135,14 @@ export function TheoreticalDamageCalculator({
                       </div>
                     )}
 
-                    <div className="min-w-[110px] text-right">
-                      <div className="text-[10px] font-semibold text-slate-600 dark:text-white/75">
+                    <div className="min-w-[110px] text-left sm:text-right">
+                      <div className="text-[11px] font-semibold text-slate-700">
                         {statLabel}
                       </div>
-                      <div className="font-mono text-[11px] font-bold tabular-nums text-amber-700 dark:text-amber-300">
+                      <div className="font-mono text-xs font-bold tabular-nums text-amber-700">
                         {valueText}
                         {item.stacks && item.stacks > 1 && (
-                          <span className="ml-1 text-[9px] font-normal text-slate-500 dark:text-slate-400">
+                          <span className="ml-1 text-[11px] font-normal text-slate-600 dark:text-slate-400">
                             ({item.baseValue}
                             {statMeta?.percent ? '%' : ''}×{item.stacks})
                           </span>
@@ -2136,9 +2166,12 @@ export function TheoreticalDamageCalculator({
             <button
               type="button"
               onClick={addBuff}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-bold text-slate-600 transition-colors hover:border-amber-500/40 hover:text-amber-600 dark:text-white/65 dark:hover:text-amber-400"
+              className={cn(
+                'inline-flex min-h-8 items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-bold text-slate-700 transition-colors hover:border-amber-500/40 hover:text-amber-700',
+                FOCUS_RING
+              )}
             >
-              <Plus className="size-3.5" />
+              <Plus className="size-3.5" aria-hidden="true" />
               Add stat row
             </button>
           }
@@ -2146,10 +2179,10 @@ export function TheoreticalDamageCalculator({
 
         {buffs.length === 0 ? (
           <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-5 text-center">
-            <p className="text-[11px] font-semibold text-slate-600 dark:text-white/70">
+            <p className="text-xs font-semibold text-slate-700">
               No manual stats yet.
             </p>
-            <p className="mt-1 text-[10px] leading-relaxed text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-[11px] leading-relaxed text-slate-600 dark:text-slate-400">
               Add a row for a talent, emblem, potential, or team buff. Use the target field to
               apply it to the whole squad or one Trekker.
             </p>
@@ -2175,21 +2208,28 @@ export function TheoreticalDamageCalculator({
           title="Rotation"
           subtitle="Ability sequence per Trekker. Pick an ability, tune its multiplier and notes, and the crit values update live."
           right={
-            <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 font-mono text-[10px] font-bold tabular-nums text-amber-700 dark:text-amber-300">
+            <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-amber-700">
               {formatNumber(totalExpected)} total
             </span>
           }
         />
 
         {fighterCalcs.every((fighter) => !fighter.character) ? (
-          <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-5 text-center text-[11px] text-slate-500 dark:text-white/55">
-            No team loaded — open a preset from the Advanced Visualizer to populate the rotation.
+          <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-5 text-center text-xs text-slate-600 dark:text-slate-400">
+            No team loaded —{' '}
+            <Link
+              href="/builder/advanced"
+              className="font-semibold text-teal-700 underline underline-offset-2 hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70"
+            >
+              open a preset from the Advanced Visualizer
+            </Link>{' '}
+            to populate the rotation.
           </div>
         ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-[1040px] border-collapse text-left">
               <thead>
-                <tr className="border-b border-border text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                <tr className="border-b border-border text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                   <th className="w-28 py-2 pr-2">Trekker</th>
                   <th className="py-2 pr-2">Ability / part</th>
                   <th className="w-28 py-2 pr-2">Type</th>
@@ -2217,13 +2257,13 @@ export function TheoreticalDamageCalculator({
                               ELEMENT_STYLES[fighter.element].dot
                             )}
                           />
-                          <span className="truncate text-[11px] font-bold text-slate-800 dark:text-white">
+                          <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
                             {fighter.character?.name.EN}
                           </span>
-                          <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                          <span className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                             {SLOT_META[fighter.state.slot].label}
                           </span>
-                          <span className="font-mono text-[9px] tabular-nums text-slate-500 dark:text-slate-400">
+                          <span className="font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                             {fighter.state.rotation.length}{' '}
                             {fighter.state.rotation.length === 1 ? 'ability' : 'abilities'} ·{' '}
                             {formatCompact(fighter.totals.expected)} expected
@@ -2231,9 +2271,12 @@ export function TheoreticalDamageCalculator({
                           <button
                             type="button"
                             onClick={() => addRotationAbility(fighter.state.slot)}
-                            className="ml-auto inline-flex items-center gap-1 rounded-md border border-border bg-surface-card px-1.5 py-0.5 text-[9px] font-bold text-slate-600 transition-colors hover:border-amber-500/40 hover:text-amber-600 dark:text-white/65 dark:hover:text-amber-400"
+                            className={cn(
+                              'ml-auto inline-flex min-h-7 items-center gap-1 rounded-md border border-border bg-surface-card px-2.5 py-1 text-[11px] font-bold text-slate-700 transition-colors hover:border-amber-500/40 hover:text-amber-700',
+                              FOCUS_RING
+                            )}
                           >
-                            <Plus className="size-3" />
+                            <Plus className="size-3.5" aria-hidden="true" />
                             Ability
                           </button>
                         </div>
@@ -2244,7 +2287,7 @@ export function TheoreticalDamageCalculator({
                       <tr>
                         <td
                           colSpan={12}
-                          className="px-2 py-3 text-center text-[11px] text-slate-500 dark:text-white/55"
+                          className="px-2 py-3 text-center text-xs text-slate-600 dark:text-slate-400"
                         >
                           No abilities yet. Add one to start this Trekker&apos;s rotation.
                         </td>
@@ -2282,14 +2325,14 @@ export function TheoreticalDamageCalculator({
                                   ELEMENT_STYLES[fighter.element].dot
                                 )}
                               />
-                              <span className="truncate text-[10px] font-semibold text-slate-700 dark:text-white/75">
+                              <span className="truncate text-[11px] font-semibold text-slate-700">
                                 {fighter.character?.name.EN}
                               </span>
                             </span>
                           </td>
                           <td className="py-1 pr-2">
                             <div className="flex min-w-0 items-center gap-1.5">
-                              <AbilityIcon icon={entry.icon} className="size-4 shrink-0" />
+                              <AbilityIcon icon={entry.icon} className="size-5 shrink-0" />
                               <select
                                 value={entry.source}
                                 onChange={(event) => {
@@ -2323,7 +2366,7 @@ export function TheoreticalDamageCalculator({
                                     scalingStat: part?.scalingStat ?? 'ATK',
                                   });
                                 }}
-                                className="min-w-0 max-w-[190px] flex-1 truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                                className="min-w-0 max-w-[200px] flex-1 truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                                 aria-label={`Ability for ${fighter.character?.name.EN ?? 'Trekker'}`}
                               >
                                 {ABILITY_PRESETS.filter(
@@ -2353,7 +2396,7 @@ export function TheoreticalDamageCalculator({
                                       scalingStat: part.scalingStat,
                                     });
                                   }}
-                                  className="min-w-0 max-w-[140px] truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[10px] font-semibold text-slate-600 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white/80"
+                                  className="min-w-0 max-w-[155px] truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                                   aria-label={`Part for ${entry.name}`}
                                 >
                                   {skillParts.map((part) => (
@@ -2371,7 +2414,7 @@ export function TheoreticalDamageCalculator({
                                       name: event.target.value,
                                     })
                                   }
-                                  className="w-24 min-w-0 rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                                  className="w-24 min-w-0 rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                                   aria-label="Custom ability name"
                                 />
                               )}
@@ -2385,7 +2428,7 @@ export function TheoreticalDamageCalculator({
                                   damageType: event.target.value as DamageType,
                                 })
                               }
-                              className="w-full rounded border border-border bg-surface-card px-1 py-1 text-[10px] font-semibold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                              className="w-full rounded border border-border bg-surface-card px-1 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                               aria-label={`${entry.name} damage type`}
                             >
                               {DAMAGE_TYPES.map((type) => (
@@ -2407,10 +2450,10 @@ export function TheoreticalDamageCalculator({
                                     motionValuePct: Math.max(0, Number(event.target.value) || 0),
                                   })
                                 }
-                                className="w-16 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                                className="w-16 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                                 aria-label={`${entry.name} multiplier percent`}
                               />
-                              <span className="text-[9px] text-slate-400">%</span>
+                              <span className="text-[11px] text-slate-600 dark:text-slate-400">%</span>
                             </div>
                           </td>
                           <td className="py-1 pr-2">
@@ -2424,7 +2467,7 @@ export function TheoreticalDamageCalculator({
                                   hits: Math.max(1, Math.floor(Number(event.target.value) || 1)),
                                 })
                               }
-                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                               aria-label={`${entry.name} hits`}
                             />
                           </td>
@@ -2439,7 +2482,7 @@ export function TheoreticalDamageCalculator({
                                   casts: Math.max(0, Number(event.target.value) || 0),
                                 })
                               }
-                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                               aria-label={`${entry.name} casts`}
                             />
                           </td>
@@ -2451,7 +2494,7 @@ export function TheoreticalDamageCalculator({
                                   scalingStat: event.target.value as 'ATK' | 'HP' | 'DEF',
                                 })
                               }
-                              className="w-full rounded border border-border bg-surface-card px-1 py-1 text-[10px] font-semibold text-slate-700 focus:border-amber-500/60 focus:outline-none dark:bg-base dark:text-white"
+                              className="w-full rounded border border-border bg-surface-card px-1 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
                               aria-label={`${entry.name} scaling stat`}
                             >
                               <option value="ATK">ATK</option>
@@ -2468,27 +2511,30 @@ export function TheoreticalDamageCalculator({
                                 })
                               }
                               placeholder="Note"
-                              className="w-full rounded border border-transparent bg-transparent px-1 py-1 text-[10px] text-slate-600 placeholder:text-slate-400 focus:border-border focus:bg-surface-card focus:outline-none dark:text-white/70"
+                              className="w-full rounded border border-transparent bg-transparent px-1 py-1 text-[11px] text-slate-700 placeholder:text-slate-600 dark:placeholder:text-slate-400 focus:border-teal-500 focus:bg-surface-card focus:outline-none focus:ring-2 focus:ring-teal-500/35"
                               aria-label={`${entry.name} note`}
                             />
                           </td>
-                          <td className="py-1 pr-2 text-right font-mono text-[10px] font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                          <td className="py-1 pr-2 text-right font-mono text-[11px] font-bold tabular-nums text-amber-700">
                             {formatNumber(damage.expectedDamage)}
                           </td>
-                          <td className="py-1 pr-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-white/60">
+                          <td className="py-1 pr-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                             {formatNumber(damage.nonCritDamage)}
                           </td>
-                          <td className="py-1 pr-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-white/60">
+                          <td className="py-1 pr-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                             {formatNumber(damage.critDamage)}
                           </td>
                           <td className="py-1 text-right">
                             <button
                               type="button"
                               onClick={() => removeRotation(fighter.state.slot, entry.id)}
-                              className="rounded p-0.5 text-slate-300 transition-colors hover:text-rose-600 dark:hover:text-rose-300"
+                              className={cn(
+                                'inline-flex min-h-7 min-w-7 items-center justify-center rounded-md p-1.5 text-slate-600 transition-colors hover:bg-rose-500/10 hover:text-rose-700 dark:text-slate-400',
+                                FOCUS_RING
+                              )}
                               aria-label={`Remove ${entry.name}`}
                             >
-                              <X className="size-3" />
+                              <X className="size-3.5" aria-hidden="true" />
                             </button>
                           </td>
                         </tr>
@@ -2510,7 +2556,7 @@ export function TheoreticalDamageCalculator({
           title="Damage breakdown"
           subtitle="Expected damage per rotation entry after crit weighting, DEF / RES amendment, and taken multipliers."
           right={
-            <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 font-mono text-[10px] font-bold tabular-nums text-amber-700 dark:text-amber-300">
+            <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-amber-700">
               {formatNumber(totalExpected)} total
             </span>
           }
@@ -2518,7 +2564,7 @@ export function TheoreticalDamageCalculator({
 
         {damageRows.length === 0 ? (
           <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-6 text-center">
-            <p className="text-[11px] text-slate-500 dark:text-white/55">
+            <p className="text-xs text-slate-600 dark:text-slate-400">
               Add an ability to a Trekker to see the damage breakdown.
             </p>
           </div>
@@ -2526,7 +2572,7 @@ export function TheoreticalDamageCalculator({
           <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[780px] text-xs">
               <thead>
-                <tr className="border-b border-border text-[9px] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                   <th className="px-2 py-2 text-left font-bold">Trekker</th>
                   <th className="px-2 py-2 text-left font-bold">Ability</th>
                   <th className="px-2 py-2 text-left font-bold">Type</th>
@@ -2555,45 +2601,45 @@ export function TheoreticalDamageCalculator({
                               ELEMENT_STYLES[fighter.element].dot
                             )}
                           />
-                          <span className="font-semibold text-slate-700 dark:text-white/80">
+                          <span className="font-semibold text-slate-700">
                             {fighter.character?.name.EN ?? SLOT_META[fighter.state.slot].label}
                           </span>
-                          <span className="text-[8px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                          <span className="text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-400">
                             {SLOT_META[fighter.state.slot].shortLabel}
                           </span>
                         </div>
                       </td>
                       <td className="px-2 py-2">
                         <div className="flex items-center gap-1.5">
-                          <AbilityIcon icon={entry.icon} className="size-4" />
-                          <span className="text-[11px] font-medium text-slate-700 dark:text-white/80">
+                          <AbilityIcon icon={entry.icon} className="size-5" />
+                          <span className="text-[11px] font-medium text-slate-700">
                             {entry.name}
                           </span>
                         </div>
                       </td>
                       <td className="px-2 py-2">
-                        <span className="inline-flex rounded border border-border bg-surface-subtle px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-slate-500 dark:text-white/60">
+                        <span className="inline-flex rounded border border-border bg-surface-subtle px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">
                           {entry.damageType}
                         </span>
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-white/60">
+                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                         {entry.motionValuePct.toFixed(1)}%
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-white/60">
+                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                         {entry.hits}×{entry.casts}
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-white/60">
+                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                         {fighter.stats.critRatePct.toFixed(1)}% /{' '}
                         {fighter.stats.critDmgPct.toFixed(0)}%
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-white/60">
+                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                         {(damage.defAmend * 100).toFixed(1)}% /{' '}
                         {(damage.erAmend * 100).toFixed(1)}%
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[11px] font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                      <td className="px-2 py-2 text-right font-mono text-[11px] font-bold tabular-nums text-amber-700">
                         {formatNumber(damage.expectedDamage)}
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-white/60">
+                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                         {share.toFixed(1)}%
                       </td>
                     </tr>
@@ -2604,14 +2650,14 @@ export function TheoreticalDamageCalculator({
                 <tr className="border-t border-border bg-surface-subtle">
                   <td
                     colSpan={7}
-                    className="px-2 py-2 text-right text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
+                    className="px-2 py-2 text-right text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400"
                   >
                     Team total
                   </td>
                   <td className="px-2 py-2 text-right font-mono text-[12px] font-bold tabular-nums text-slate-900 dark:text-white">
                     {formatNumber(totalExpected)}
                   </td>
-                  <td className="px-2 py-2 text-right font-mono text-[10px] tabular-nums text-slate-500 dark:text-slate-400">
+                  <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
                     100%
                   </td>
                 </tr>
@@ -2621,15 +2667,15 @@ export function TheoreticalDamageCalculator({
         )}
 
         <div className="mt-3 rounded-lg border border-border-subtle bg-surface-subtle px-3 py-2">
-          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-            <Info className="size-3" />
+          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
+            <Info className="size-3.5 shrink-0" aria-hidden="true" />
             Expected-value model
           </div>
-          <div className="mt-1 overflow-x-auto whitespace-nowrap font-mono text-[10px] text-slate-500 dark:text-white/55">
+          <div className="mt-1 overflow-x-auto whitespace-nowrap font-mono text-[11px] text-slate-700">
             Damage = ATK × MV × Skill Intensity × Slot DMG × Element DMG × Expected Crit × DEF
             Amend × RES Amend × Taken × Break
           </div>
-          <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-[11px] text-slate-600 dark:text-slate-400">
             Expected crit = 1 + min(100%, Crit Rate) × (Crit DMG − 1).
           </p>
         </div>
@@ -2638,24 +2684,45 @@ export function TheoreticalDamageCalculator({
       {/* Optimization & Sensitivity */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          title="Optimization &amp; Sensitivity"
+          title="Optimization & Sensitivity"
           subtitle="What-if sweeps computed from the current team: talent tiers, each equipped disc, and flat RES PEN."
         />
 
-        <div className="mt-3 flex flex-wrap gap-1">
+        <div
+          role="tablist"
+          aria-label="Optimization and sensitivity sweeps"
+          className="mt-3 flex flex-wrap gap-1.5"
+          onKeyDown={(event) => {
+            if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+            event.preventDefault();
+            const idx = SENSITIVITY_TABS.findIndex((t) => t.key === sensitivityTab);
+            const nextIdx =
+              event.key === 'ArrowRight'
+                ? (idx + 1) % SENSITIVITY_TABS.length
+                : (idx - 1 + SENSITIVITY_TABS.length) % SENSITIVITY_TABS.length;
+            const nextTab = SENSITIVITY_TABS[nextIdx];
+            setSensitivityTab(nextTab.key);
+            document.getElementById(`sensitivity-tab-${nextTab.key}`)?.focus();
+          }}
+        >
           {SENSITIVITY_TABS.map((tab) => {
             const selected = sensitivityTab === tab.key;
             return (
               <button
                 key={tab.key}
+                id={`sensitivity-tab-${tab.key}`}
                 type="button"
-                aria-pressed={selected}
+                role="tab"
+                aria-selected={selected}
+                aria-controls={`sensitivity-panel-${tab.key}`}
+                tabIndex={selected ? 0 : -1}
                 onClick={() => setSensitivityTab(tab.key)}
                 className={cn(
-                  'rounded-lg border px-2.5 py-1 text-[10px] font-bold transition-colors',
+                  'min-h-8 rounded-lg border px-3 py-1.5 text-xs font-bold transition-colors',
+                  FOCUS_RING,
                   selected
-                    ? 'border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-300'
-                    : 'border-border bg-surface-subtle text-slate-600 hover:border-amber-500/30 dark:text-white/65'
+                    ? 'border-amber-500/50 bg-amber-500/10 text-amber-700'
+                    : 'border-border bg-surface-subtle text-slate-600 hover:border-amber-500/30 dark:text-slate-400'
                 )}
               >
                 {tab.label}
@@ -2665,7 +2732,12 @@ export function TheoreticalDamageCalculator({
         </div>
 
         {sensitivityTab === 'talents' && (
-          <div className="mt-3 space-y-2.5">
+          <div
+            role="tabpanel"
+            id="sensitivity-panel-talents"
+            aria-labelledby="sensitivity-tab-talents"
+            className="mt-3 space-y-2.5"
+          >
             <div className="flex flex-wrap items-end justify-between gap-2.5">
               <Field label="Trekker" className="w-48">
                 <select
@@ -2683,7 +2755,7 @@ export function TheoreticalDamageCalculator({
                     ))}
                 </select>
               </Field>
-              <p className="max-w-lg text-[10px] leading-snug text-slate-500 dark:text-slate-400">
+              <p className="max-w-lg text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                 Each tier applies that Trekker&apos;s talent rows while the rest of the team keeps
                 its current tiers. Gains are measured against T0.
               </p>
@@ -2692,7 +2764,7 @@ export function TheoreticalDamageCalculator({
             <div className="overflow-x-auto">
               <table className="w-full min-w-[480px] text-xs">
                 <thead>
-                  <tr className="border-b border-border text-[9px] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                  <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                     <th className="px-2 py-2 text-left font-bold">Tier</th>
                     <th className="px-2 py-2 text-right font-bold">Team damage</th>
                     <th className="px-2 py-2 text-right font-bold">Team gain</th>
@@ -2706,19 +2778,19 @@ export function TheoreticalDamageCalculator({
                       key={point.tier}
                       className="border-b border-border-subtle last:border-0 hover:bg-surface-subtle/60"
                     >
-                      <td className="px-2 py-1.5 font-mono text-[10px] font-bold text-slate-700 dark:text-white">
+                      <td className="px-2 py-1.5 font-mono text-[11px] font-bold text-slate-700 dark:text-white">
                         T{point.tier}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700 dark:text-white/80">
+                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700">
                         {formatNumber(point.teamDmg)}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[10px] tabular-nums text-emerald-600 dark:text-emerald-400">
+                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-emerald-700">
                         {formatSignedPct(point.teamGainPct)}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700 dark:text-white/80">
+                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700">
                         {formatNumber(point.personalDmg)}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[10px] tabular-nums text-emerald-600 dark:text-emerald-400">
+                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-emerald-700">
                         {formatSignedPct(point.personalGainPct)}
                       </td>
                     </tr>
@@ -2730,21 +2802,26 @@ export function TheoreticalDamageCalculator({
         )}
 
         {sensitivityTab === 'discs' && (
-          <div className="mt-3 space-y-2.5">
+          <div
+            role="tabpanel"
+            id="sensitivity-panel-discs"
+            aria-labelledby="sensitivity-tab-discs"
+            className="mt-3 space-y-2.5"
+          >
             {discPoints.length === 0 ? (
-              <div className="rounded-lg border border-dashed border-border px-4 py-5 text-center text-[11px] text-slate-500 dark:text-white/55">
+              <div className="rounded-lg border border-dashed border-border px-4 py-5 text-center text-xs text-slate-600 dark:text-slate-400">
                 No discs equipped — load a preset to measure disc impact.
               </div>
             ) : (
               <>
-                <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400">
+                <p className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                   Team damage recomputed with each disc removed. Support discs also drop their
                   starting notes.
                 </p>
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[480px] text-xs">
                     <thead>
-                      <tr className="border-b border-border text-[9px] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                      <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                         <th className="px-2 py-2 text-left font-bold">Disc</th>
                         <th className="px-2 py-2 text-left font-bold">Slot</th>
                         <th className="px-2 py-2 text-right font-bold">Team damage</th>
@@ -2757,16 +2834,16 @@ export function TheoreticalDamageCalculator({
                           key={`${point.slot}-${point.index}`}
                           className="border-b border-border-subtle last:border-0 hover:bg-surface-subtle/60"
                         >
-                          <td className="px-2 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-white/85">
+                          <td className="px-2 py-1.5 text-[11px] font-semibold text-slate-700">
                             {point.name}
                           </td>
-                          <td className="px-2 py-1.5 text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                          <td className="px-2 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                             {point.slot}
                           </td>
-                          <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700 dark:text-white/80">
+                          <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700">
                             {formatNumber(point.teamDmg)}
                           </td>
-                          <td className="px-2 py-1.5 text-right font-mono text-[10px] tabular-nums text-rose-600 dark:text-rose-400">
+                          <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-rose-700">
                             {formatSignedPct(-point.lossPct)}
                           </td>
                         </tr>
@@ -2780,9 +2857,14 @@ export function TheoreticalDamageCalculator({
         )}
 
         {sensitivityTab === 'pen' && (
-          <div className="mt-3 space-y-2.5">
+          <div
+            role="tabpanel"
+            id="sensitivity-panel-pen"
+            aria-labelledby="sensitivity-tab-pen"
+            className="mt-3 space-y-2.5"
+          >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400">
+              <p className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                 Flat RES PEN against {enemyRes} RES
                 {penReferenceFighter?.character
                   ? ` for ${penReferenceFighter.character.name.EN} (${penReferenceFighter.stats.vulPct.toFixed(0)}% VUL, ${penReferenceFighter.stats.resIgnorePct.toFixed(0)}% RES ignore)`
@@ -2790,7 +2872,7 @@ export function TheoreticalDamageCalculator({
                 . Gain is relative to 0 PEN.
               </p>
               {penReferenceFighter && (
-                <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] font-bold tabular-nums text-amber-700 dark:text-amber-300">
+                <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 font-mono text-[11px] font-bold tabular-nums text-amber-700">
                   Current PEN {Math.round(penReferenceFighter.stats.resPen)}
                 </span>
               )}
@@ -2798,7 +2880,7 @@ export function TheoreticalDamageCalculator({
             <div className="max-h-80 overflow-auto">
               <table className="w-full min-w-[360px] text-xs">
                 <thead className="sticky top-0 bg-surface-card">
-                  <tr className="border-b border-border text-[9px] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                  <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                     <th className="px-2 py-2 text-right font-bold">PEN</th>
                     <th className="px-2 py-2 text-right font-bold">Effective RES</th>
                     <th className="px-2 py-2 text-right font-bold">RES amend</th>
@@ -2817,16 +2899,16 @@ export function TheoreticalDamageCalculator({
                           isCurrentBracket && 'bg-amber-500/10'
                         )}
                       >
-                        <td className="px-2 py-1 text-right font-mono text-[10px] font-bold tabular-nums text-slate-700 dark:text-white">
+                        <td className="px-2 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 dark:text-white">
                           {point.pen}
                         </td>
-                        <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-slate-600 dark:text-white/70">
+                        <td className="px-2 py-1 text-right font-mono text-[11px] tabular-nums text-slate-700">
                           {Math.round(point.effectiveRes)}
                         </td>
-                        <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-slate-600 dark:text-white/70">
+                        <td className="px-2 py-1 text-right font-mono text-[11px] tabular-nums text-slate-700">
                           {(point.erAmend * 100).toFixed(1)}%
                         </td>
-                        <td className="px-2 py-1 text-right font-mono text-[10px] tabular-nums text-emerald-600 dark:text-emerald-400">
+                        <td className="px-2 py-1 text-right font-mono text-[11px] tabular-nums text-emerald-700">
                           {formatSignedPct(point.gainPct)}
                         </td>
                       </tr>
@@ -2859,13 +2941,13 @@ export function TheoreticalDamageCalculator({
                   <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
                     {fighter.character?.name.EN}
                   </span>
-                  <span className="ml-auto font-mono text-[10px] font-bold tabular-nums text-slate-500 dark:text-slate-400">
+                  <span className="ml-auto font-mono text-[11px] font-bold tabular-nums text-slate-600 dark:text-slate-400">
                     {formatCompact(fighter.totals.expected)}
                   </span>
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                       Damage type
                     </div>
                     <div className="mt-2 flex flex-col items-center gap-2">
@@ -2878,7 +2960,7 @@ export function TheoreticalDamageCalculator({
                     </div>
                   </div>
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
                       Damage source
                     </div>
                     <div className="mt-2 flex flex-col items-center gap-2">
