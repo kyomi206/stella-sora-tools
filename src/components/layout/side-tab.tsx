@@ -101,13 +101,13 @@ export function SideTab() {
       <aside
         aria-label="Tools Navigation Sidebar"
         className={cn(
-          'game-gradient-bg border-r border-border-subtle select-none z-40 flex flex-col rail-collapse',
+          'border-r border-border-subtle select-none z-40 flex flex-col rail-collapse',
           // Desktop styles: static in flex flow, sticky to viewport height
           'hidden md:flex md:shrink-0 md:h-screen md:sticky md:top-0',
           isCollapsed ? 'md:w-14' : 'md:w-60',
           // Mobile styles: fixed slide-over drawer below TopBar (h-12)
           (isMobileOpen || isMobileClosing) && [
-            '!flex fixed left-0 top-12 bottom-0 w-64 shadow-2xl z-50',
+            'game-gradient-bg !flex fixed left-0 top-12 bottom-0 w-64 shadow-2xl z-50',
             isMobileClosing ? 'sidebar-mobile-exit' : 'sidebar-mobile-enter'
           ]
         )}
