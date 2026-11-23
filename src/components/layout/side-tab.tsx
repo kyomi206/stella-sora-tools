@@ -159,18 +159,10 @@ export function SideTab() {
                   'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
                   pathname === '/'
                     ? 'bg-surface-elevated text-slate-900 dark:text-white font-semibold border border-border-subtle'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover border border-transparent'
+                    : 'text-slate-600 hover:text-slate-900 focus-visible:text-slate-900 hover:bg-surface-hover focus-visible:bg-surface-hover border border-transparent'
                 )}
               >
-                <Home
-                  className={cn(
-                    'size-4 shrink-0 transition-colors',
-                    pathname === '/'
-                      ? 'text-slate-900 dark:text-white'
-                      : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200'
-                  )}
-                  aria-hidden="true"
-                />
+                <Home className="size-4 shrink-0" aria-hidden="true" />
                 <span
                   className={cn(
                     'rail-label',
@@ -225,18 +217,10 @@ export function SideTab() {
                         'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
                         isActive
                           ? 'bg-surface-elevated text-slate-900 dark:text-white font-semibold border border-border-subtle'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover border border-transparent'
+                          : 'text-slate-600 hover:text-slate-900 focus-visible:text-slate-900 hover:bg-surface-hover focus-visible:bg-surface-hover border border-transparent'
                       )}
                     >
-                      <Icon
-                        className={cn(
-                          'size-4 shrink-0 transition-colors',
-                          isActive
-                            ? 'text-slate-900 dark:text-white'
-                            : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200'
-                        )}
-                        aria-hidden="true"
-                      />
+                      <Icon className="size-4 shrink-0" aria-hidden="true" />
                       <span
                         className={cn(
                           'rail-label',
