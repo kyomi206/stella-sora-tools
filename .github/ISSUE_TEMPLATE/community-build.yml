@@ -1,0 +1,104 @@
+name: Community Build Preset
+description: Submit a verified Stella Sora squad preset (36-char In-Game Code or SST1 Advanced Code)
+title: "[Build] <Element> — <Short Squad Name>"
+labels: ["community-build"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit a vetted squad preset to be added to **Stella Sora Tools**. You can paste either a **36-character In-Game Potential Code** or an **SST1 Advanced Preset Code** exported from the Preset Visualizer.
+
+  - type: input
+    id: title
+    attributes:
+      label: Build Title
+      description: Keep concise (<= 60 chars). English only.
+      placeholder: "e.g. Ignis Skill Cycle (F2P)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: In-Game Code (36-char) or SST1 Advanced Code
+      description: Paste either the 36-char in-game Potential preset code OR an SST1... code from /builder/advanced.
+      placeholder: "AAAA... or SST1..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: element
+    attributes:
+      label: Primary Element
+      options:
+        - Ignis
+        - Aqua
+        - Terra
+        - Ventus
+        - Umbra
+        - Lux
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Investment Tier
+      options:
+        - f2p
+        - standard
+        - premium
+    validations:
+      required: true
+
+  - type: input
+    id: modes
+    attributes:
+      label: Recommended Modes & Archetype
+      placeholder: "e.g. General, Boss Blitz | Skill Cycle"
+    validations:
+      required: true
+
+  - type: textarea
+    id: discs_notes
+    attributes:
+      label: Runic Discs & Musical Notes (if submitting only a 36-char In-Game Code)
+      description: Optional if you already pasted an SST1 code. List Main 1-3, Support 1-3, and target Harmony notes.
+      placeholder: "Main: ... | Support: ... | Notes: ..."
+
+  - type: textarea
+    id: rotation
+    attributes:
+      label: Rotation & Potential Notes (Optional — 3-5 short steps)
+      placeholder: |
+        1. Open with Support skill...
+        2. Swap to Vanguard...
+
+  - type: textarea
+    id: combat_rotation_json
+    attributes:
+      label: Custom Combat Rotation JSON (Optional)
+      description: Optional. Paste the exported BuildRotation JSON from /builds/local if you want a custom cast-count rotation instead of Auto-Estimated.
+      placeholder: '{"version":1,"slots":{"vanguard":[...]}}'
+
+  - type: textarea
+    id: substitutions
+    attributes:
+      label: F2P / Flexible Substitutions (Optional)
+      placeholder: "e.g. Swap Signature Disc -> F2P Cataclysm shop disc"
+
+  - type: input
+    id: source
+    attributes:
+      label: Author & Source Link (Sheet / Video / Guide / Post)
+      placeholder: "Author name — https://..."
+    validations:
+      required: true
+
+  - type: input
+    id: patch
+    attributes:
+      label: Verified Game Patch
+      placeholder: "e.g. 2.0"
+    validations:
+      required: true

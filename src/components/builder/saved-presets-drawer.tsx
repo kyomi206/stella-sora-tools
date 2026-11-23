@@ -12,6 +12,7 @@ import {
   Download,
   Edit3,
   KeyRound,
+  Layers,
   Search,
   Trash2,
   Upload,
@@ -66,17 +67,17 @@ const SLOT_LABELS: ReadonlyArray<{
   {
     key: 'vanguard',
     label: 'Vanguard',
-    badgeClass: 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30',
+    badgeClass: 'bg-rose-500/15 text-rose-700 border-rose-500/30',
   },
   {
     key: 'versatile',
     label: 'Support',
-    badgeClass: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border-indigo-500/30',
+    badgeClass: 'bg-indigo-500/15 text-indigo-700 border-indigo-500/30',
   },
   {
     key: 'support',
     label: 'Support',
-    badgeClass: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
+    badgeClass: 'bg-emerald-500/15 text-emerald-700 border-emerald-500/30',
   },
 ];
 
@@ -561,7 +562,7 @@ export function SavedPresetsControl({
                 : 'Save current squad to local bookmarks'
               : 'Assign at least one Trekker or Runic Disc before saving'
           }
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-elevated hover:border-border-hover text-xs font-semibold text-slate-800 dark:text-white transition-colors cursor-pointer press-feedback disabled:opacity-45 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-elevated hover:border-border-hover text-xs font-semibold text-slate-800 dark:text-white transition-colors cursor-pointer press-feedback disabled:opacity-45 disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
         >
           {quickSaved ? (
             <>
@@ -584,11 +585,11 @@ export function SavedPresetsControl({
             setPresets(loadSavedPresetsFromStorage());
             setIsOpen(true);
           }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-elevated hover:border-border-hover text-xs font-semibold text-slate-800 dark:text-white transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-elevated hover:border-border-hover text-xs font-semibold text-slate-800 dark:text-white transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
         >
           <Bookmark className="size-3.5 text-teal-600 dark:text-teal-400" aria-hidden="true" />
           <span>Saved Squads</span>
-          <span className="inline-flex items-center justify-center min-w-4.5 h-4.5 px-1 rounded-full bg-surface-elevated border border-border-subtle text-[11px] font-mono tabular-nums font-bold text-slate-700 dark:text-white/90">
+          <span className="inline-flex items-center justify-center min-w-4.5 h-4.5 px-1 rounded-full bg-surface-elevated border border-border-subtle text-[11px] font-mono font-mono tabular-nums font-bold text-slate-700 dark:text-white/90">
             {presets.length}
           </span>
         </button>
@@ -614,7 +615,6 @@ export function SavedPresetsControl({
             {/* Modal Header */}
             <div className="flex items-center justify-between gap-4 p-4 sm:p-5 border-b border-border bg-surface-card shrink-0">
               <div className="flex items-center gap-2">
-                <Bookmark className="size-5 text-teal-600 dark:text-teal-400" aria-hidden="true" />
                 <h2
                   id="saved-presets-modal-title"
                   className="text-base sm:text-lg font-bold text-slate-900 dark:text-white"
@@ -626,14 +626,28 @@ export function SavedPresetsControl({
                 </span>
               </div>
 
-              <button
-                type="button"
-                onClick={requestClose}
-                aria-label="Close saved squads modal"
-                className="size-8 rounded-lg border border-border flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white hover:bg-surface-hover transition-colors cursor-pointer shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-              >
-                <X className="size-4" aria-hidden="true" />
-              </button>
+              <div className="flex items-center gap-2 shrink-0">
+                {presets.length > 0 && (
+                  <Link
+                    href="/builds"
+                    onClick={requestClose}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-subtle hover:bg-surface-hover text-xs font-semibold text-sky-700 dark:text-sky-400 transition-colors focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                  >
+                    <Layers className="size-3.5 text-teal-600 dark:text-teal-400" aria-hidden="true" />
+                    <span>Browse Community Builds</span>
+                    <ArrowRight className="size-3" aria-hidden="true" />
+                  </Link>
+                )}
+
+                <button
+                  type="button"
+                  onClick={requestClose}
+                  aria-label="Close saved squads modal"
+                  className="size-8 rounded-lg border border-border flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white hover:bg-surface-hover transition-colors cursor-pointer shrink-0 focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                >
+                  <X className="size-4" aria-hidden="true" />
+                </button>
+              </div>
             </div>
 
             {/* Action & Search Toolbar */}
@@ -645,7 +659,7 @@ export function SavedPresetsControl({
                       <button
                         type="button"
                         onClick={() => handleSaveBuild(false)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                       >
                         <BookmarkPlus className="size-3.5" aria-hidden="true" />
                         <span>Update Active</span>
@@ -653,7 +667,7 @@ export function SavedPresetsControl({
                       <button
                         type="button"
                         onClick={() => handleSaveBuild(true)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-800 dark:text-white transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-800 dark:text-white transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                       >
                         <Copy className="size-3.5" aria-hidden="true" />
                         <span>Save as New</span>
@@ -664,7 +678,7 @@ export function SavedPresetsControl({
                       type="button"
                       onClick={() => handleSaveBuild(true)}
                       disabled={!hasCurrentContent}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors cursor-pointer press-feedback disabled:opacity-45 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors cursor-pointer press-feedback disabled:opacity-45 disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                     >
                       <BookmarkPlus className="size-3.5" aria-hidden="true" />
                       <span>Save Current Squad</span>
@@ -678,7 +692,7 @@ export function SavedPresetsControl({
                       type="button"
                       data-testid="toggle-select-all-squads-btn"
                       onClick={handleToggleSelectAll}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold tabular-nums text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold font-mono tabular-nums text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                     >
                       <Check
                         className={cn(
@@ -706,14 +720,14 @@ export function SavedPresetsControl({
                           type="button"
                           data-testid="confirm-delete-selected-squads-btn"
                           onClick={handleDeleteSelected}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-[#be123c] text-xs font-bold tabular-nums text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-[#be123c] text-xs font-bold font-mono tabular-nums text-white transition-colors cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
                         >
                           <span>Confirm Delete ({selectedCount})</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => setConfirmBatchDelete(false)}
-                          className="px-2 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-medium text-slate-600 dark:text-white/80 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                          className="px-2 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-medium text-slate-600 dark:text-white/80 transition-colors cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                         >
                           Cancel
                         </button>
@@ -723,7 +737,7 @@ export function SavedPresetsControl({
                         type="button"
                         data-testid="delete-selected-squads-btn"
                         onClick={() => setConfirmBatchDelete(true)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20 text-xs font-semibold tabular-nums text-rose-700 dark:text-rose-300 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20 text-xs font-semibold font-mono tabular-nums text-rose-700 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
                       >
                         <Trash2 className="size-3.5" aria-hidden="true" />
                         <span>Delete Selected ({selectedCount})</span>
@@ -735,7 +749,7 @@ export function SavedPresetsControl({
                     type="button"
                     onClick={handleExportJson}
                     disabled={presets.length === 0}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold tabular-nums text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback disabled:opacity-45 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold font-mono tabular-nums text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback disabled:opacity-45 disabled:cursor-not-allowed focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                   >
                     <Download className="size-3.5" aria-hidden="true" />
                     <span>{selectedCount > 0 ? `Export Selected (${selectedCount})` : 'Export JSON'}</span>
@@ -744,7 +758,7 @@ export function SavedPresetsControl({
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                   >
                     <Upload className="size-3.5" aria-hidden="true" />
                     <span>Import JSON</span>
@@ -774,14 +788,14 @@ export function SavedPresetsControl({
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Filter by squad name, Trekker, or Runic Disc…"
                     aria-label="Filter saved squads"
-                    className="w-full rounded-lg border border-border bg-base pl-9 pr-9 py-1.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-600 dark:placeholder:text-white/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                    className="w-full rounded-lg border border-border bg-base pl-9 pr-9 py-1.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-600 dark:placeholder:text-white/60 focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                   />
                   {search && (
                     <button
                       type="button"
                       onClick={() => setSearch('')}
                       aria-label="Clear search filter"
-                      className="absolute right-1.5 top-1/2 -translate-y-1/2 size-6 flex items-center justify-center text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white cursor-pointer rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 size-6 flex items-center justify-center text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white cursor-pointer rounded focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                     >
                       <X className="size-3.5" aria-hidden="true" />
                     </button>
@@ -808,7 +822,6 @@ export function SavedPresetsControl({
             <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
               {decodedEntries.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-border bg-surface-elevated/40 p-8 text-center space-y-2">
-                  <Bookmark className="size-7 mx-auto text-slate-600 dark:text-white/60" aria-hidden="true" />
                   <p className="text-sm font-semibold text-slate-800 dark:text-white text-balance">
                     {presets.length === 0 ? 'No saved squads yet' : 'No saved squads match your search'}
                   </p>
@@ -817,6 +830,19 @@ export function SavedPresetsControl({
                       ? 'Assemble a squad on the canvas and click Save Squad to bookmark setups for quick switching or backup.'
                       : 'Try another Trekker, Runic Disc, or squad name.'}
                   </p>
+                  {presets.length === 0 && (
+                    <div className="pt-2">
+                      <Link
+                        href="/builds"
+                        onClick={requestClose}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-sky-700 dark:text-sky-400 transition-colors focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                      >
+                        <Layers className="size-3.5 text-teal-600 dark:text-teal-400" aria-hidden="true" />
+                        <span>Browse Community Builds</span>
+                        <ArrowRight className="size-3.5" aria-hidden="true" />
+                      </Link>
+                    </div>
+                  )}
                 </div>
               ) : (
                 decodedEntries.map(({ record, unpacked }) => {
@@ -854,7 +880,7 @@ export function SavedPresetsControl({
                             data-testid="select-saved-squad-checkbox"
                             onClick={(e) => toggleSelectedId(record.id, e.shiftKey)}
                             className={cn(
-                              'size-6 rounded border flex items-center justify-center shrink-0 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
+                              'size-6 rounded border flex items-center justify-center shrink-0 transition-colors cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                               isSelected
                                 ? 'bg-teal-500 border-teal-500 text-slate-950'
                                 : 'bg-surface-card border-border hover:border-teal-500/60 hover:bg-teal-500/10'
@@ -878,18 +904,18 @@ export function SavedPresetsControl({
                                 maxLength={MAX_PRESET_NAME_LENGTH}
                                 aria-label="New squad name"
                                 autoFocus
-                                className="flex-1 rounded-md border border-border bg-base px-2.5 py-1 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                                className="flex-1 rounded-md border border-border bg-base px-2.5 py-1 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                               />
                               <button
                                 type="submit"
-                                className="px-2.5 py-1 rounded-md bg-amber-500 text-slate-950 text-xs font-bold cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                                className="px-2.5 py-1 rounded-md bg-amber-500 text-slate-950 text-xs font-bold cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                               >
                                 Save
                               </button>
                               <button
                                 type="button"
                                 onClick={() => setRenamingId(null)}
-                                className="px-2 py-1 rounded-md border border-border text-xs text-slate-600 dark:text-white/80 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                                className="px-2 py-1 rounded-md border border-border text-xs text-slate-600 dark:text-white/80 cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                               >
                                 Cancel
                               </button>
@@ -903,11 +929,11 @@ export function SavedPresetsControl({
                                 {record.name}
                               </h3>
                               {isActive && (
-                                <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-[11px] font-bold text-amber-700 dark:text-amber-300">
+                                <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-[11px] font-bold text-amber-700">
                                   Active
                                 </span>
                               )}
-                              <span className="text-[11px] text-slate-600 dark:text-white/75 font-mono tabular-nums">
+                              <span className="text-[11px] text-slate-600 dark:text-white/75 font-mono font-mono tabular-nums">
                                 {formatSavedTimestamp(record.updatedAt)}
                               </span>
                             </>
@@ -920,7 +946,7 @@ export function SavedPresetsControl({
                             onClick={() => handleStartRename(record)}
                             aria-label={`Rename ${record.name}`}
                             title="Rename squad"
-                            className="size-8 rounded-md border border-border bg-surface-card hover:bg-surface-hover flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                            className="size-8 rounded-md border border-border bg-surface-card hover:bg-surface-hover flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                           >
                             <Edit3 className="size-3.5" aria-hidden="true" />
                           </button>
@@ -930,7 +956,7 @@ export function SavedPresetsControl({
                             onClick={() => handleDuplicate(record.id)}
                             aria-label={`Duplicate ${record.name}`}
                             title="Duplicate squad"
-                            className="size-8 rounded-md border border-border bg-surface-card hover:bg-surface-hover flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                            className="size-8 rounded-md border border-border bg-surface-card hover:bg-surface-hover flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                           >
                             <Copy className="size-3.5" aria-hidden="true" />
                           </button>
@@ -940,14 +966,14 @@ export function SavedPresetsControl({
                               <button
                                 type="button"
                                 onClick={() => handleDelete(record.id)}
-                                className="px-2 py-1 rounded-md bg-rose-600 hover:bg-[#be123c] text-[11px] font-bold text-white cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                                className="px-2 py-1 rounded-md bg-rose-600 hover:bg-[#be123c] text-[11px] font-bold text-white cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
                               >
                                 Delete
                               </button>
                               <button
                                 type="button"
                                 onClick={() => setConfirmDeleteId(null)}
-                                className="px-2 py-1 rounded-md border border-border text-[11px] text-slate-600 dark:text-white/80 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                                className="px-2 py-1 rounded-md border border-border text-[11px] text-slate-600 dark:text-white/80 cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                               >
                                 Cancel
                               </button>
@@ -958,7 +984,7 @@ export function SavedPresetsControl({
                               onClick={() => setConfirmDeleteId(record.id)}
                               aria-label={`Delete ${record.name}`}
                               title="Delete squad"
-                              className="size-8 rounded-md border border-border bg-surface-card hover:bg-rose-500/15 hover:border-rose-500/40 flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-rose-600 dark:hover:text-rose-400 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                              className="size-8 rounded-md border border-border bg-surface-card hover:bg-rose-500/15 hover:border-rose-500/40 flex items-center justify-center text-slate-600 dark:text-white/80 hover:text-rose-600 dark:hover:text-rose-400 transition-colors cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
                             >
                               <Trash2 className="size-3.5" aria-hidden="true" />
                             </button>
@@ -1018,7 +1044,7 @@ export function SavedPresetsControl({
                                     <div className="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5">
                                       {char.name.EN}
                                     </div>
-                                    <div className="text-[11px] text-slate-600 dark:text-white/75 tabular-nums">
+                                    <div className="text-[11px] text-slate-600 dark:text-white/75 font-mono tabular-nums">
                                       {slotState.potentials.length} Potentials
                                     </div>
                                   </div>
@@ -1061,7 +1087,7 @@ export function SavedPresetsControl({
                                 <span className="truncate max-w-[140px]">
                                   {disc?.name || `#${slot.discId}`}
                                 </span>
-                                <span className="font-mono tabular-nums text-[11px] text-slate-600 dark:text-white/75">
+                                <span className="font-mono font-mono tabular-nums text-[11px] text-slate-600 dark:text-white/75">
                                   Lv.{slot.level} C{slot.crescendo}
                                 </span>
                               </span>
@@ -1087,14 +1113,14 @@ export function SavedPresetsControl({
                                 <span className="truncate max-w-[120px]">
                                   {disc?.name || `#${slot.discId}`}
                                 </span>
-                                <span className="font-mono tabular-nums text-[11px] text-slate-600 dark:text-white/75">
+                                <span className="font-mono font-mono tabular-nums text-[11px] text-slate-600 dark:text-white/75">
                                   P{slot.phase + 1}
                                 </span>
                               </span>
                             );
                           })}
                           {noteCount > 0 && (
-                            <span className="px-2 py-0.5 rounded-md bg-surface-card border border-border-subtle text-[11px] font-mono tabular-nums text-slate-600 dark:text-white/75">
+                            <span className="px-2 py-0.5 rounded-md bg-surface-card border border-border-subtle text-[11px] font-mono font-mono tabular-nums text-slate-600 dark:text-white/75">
                               {noteCount} Target Notes
                             </span>
                           )}
@@ -1115,16 +1141,24 @@ export function SavedPresetsControl({
                               });
                               requestClose();
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                           >
                             <span>Load Squad</span>
                           </button>
+
+                          <Link
+                            href={`/builds/local?id=${encodeURIComponent(record.id)}&tab=math`}
+                            onClick={requestClose}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                          >
+                            <span>Investment Math</span>
+                          </Link>
 
                           {mode === 'basic' && (
                             <Link
                               href={`/builder/advanced?adv=${encodeURIComponent(record.advCode)}`}
                               onClick={requestClose}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                             >
                               <span>Open in Advanced</span>
                               <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -1136,7 +1170,7 @@ export function SavedPresetsControl({
                           <button
                             type="button"
                             onClick={() => handleCopyInGameCode(record)}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                           >
                             {copiedId === record.id ? (
                               <>

@@ -4,6 +4,7 @@ import {
   getEmblemStatMeta,
   getEmblemValue,
   getTalentKey,
+  getTalentMinorStatBonuses,
   getTalentTiers,
   mapTalentRow,
   resolveTalentTarget,
@@ -23,6 +24,7 @@ import type {
   AbilityInput,
   BuffStatKey,
   CharacterStats,
+  DamageType,
   DiscAndNoteContributions,
   EnemyInput,
   StatBlock,
@@ -81,6 +83,7 @@ export interface TeamBuffInput {
   target: BuffTarget;
   stat: BuffStatKey;
   value: number;
+  realisticUptime?: number;
 }
 
 export interface TeamCalcInput {
@@ -180,6 +183,23 @@ function applyTalents(recipient: ResolvedFighter, roster: ResolvedFighter[], bon
       }
     }
   }
+
+  if (recipient.character && recipient.state.talentTier > 0) {
+    for (const minor of getTalentMinorStatBonuses(
+      String(recipient.character.id),
+      recipient.state.talentTier
+    )) {
+      applyBuffStat(bonuses, minor.key, minor.value);
+    }
+  }
+}
+
+function isHpScaler(combat: CharacterCombatEntry | null, rotation: RotationAbility[]): boolean {
+  if (rotation.some((r) => r.scalingStat === 'HP')) return true;
+  if (combat?.id === 162) return true;
+  const skillDesc = combat?.skill?.desc ?? '';
+  const normalDesc = combat?.normalAtk?.desc ?? '';
+  return /\bof\s+(?:Base\s+|Max\s+)?HP\b/i.test(skillDesc) || /\bof\s+(?:Base\s+|Max\s+)?HP\b/i.test(normalDesc);
 }
 
 export function calculateTeam(input: TeamCalcInput): TeamCalcResult {
@@ -226,6 +246,7 @@ export function calculateTeam(input: TeamCalcInput): TeamCalcResult {
       squadDiscBaseAtk: input.contributions.discBaseAtk,
       squadDiscBaseHp: input.contributions.discBaseHp,
       element,
+      primaryScalingStat: isHpScaler(combat, state.rotation) ? 'HP' : 'ATK',
       bonuses,
     });
 
@@ -291,4 +312,78 @@ export function calculateTeam(input: TeamCalcInput): TeamCalcResult {
     totalCrit: fighters.reduce((sum, fighter) => sum + fighter.totals.crit, 0),
     totalHits: fighters.reduce((sum, fighter) => sum + fighter.totals.hits, 0),
   };
+}
+
+export interface DamageSourceSummary {
+  label: string;
+  value: number;
+}
+
+/**
+ * Resolve the canonical skill label for a rotation row so multi-part hits
+ * (e.g. "Immediate Execution #1/#2/(Mark)" or "Divine") and duplicate rows
+ * collapse cleanly under one skill name.
+ */
+export function resolveAbilitySourceLabel(
+  entry: Pick<RotationAbility, 'source' | 'name'>,
+  combat: CharacterCombatEntry | null
+): string {
+  if (entry.source !== 'custom') {
+    const skillName = combat?.[entry.source]?.name?.trim();
+    if (skillName) return skillName;
+  }
+  const normalized = entry.name.trim().replace(/\s+\(#\d+\)$/, '').trim();
+  return normalized || 'Custom ability';
+}
+
+/**
+ * Merge rotation rows belonging to the same skill into a single damage source,
+ * summing expected damage and sorting largest contributor first.
+ */
+export function aggregateDamageSources(
+  abilities: Array<{
+    entry: Pick<RotationAbility, 'source' | 'name'>;
+    damage: { expectedDamage: number };
+  }>,
+  combat: CharacterCombatEntry | null
+): DamageSourceSummary[] {
+  const buckets = new Map<string, DamageSourceSummary>();
+  for (const { entry, damage } of abilities) {
+    if (damage.expectedDamage <= 0) continue;
+    const label = resolveAbilitySourceLabel(entry, combat);
+    const key = label.toLowerCase();
+    const existing = buckets.get(key);
+    if (existing) {
+      existing.value += damage.expectedDamage;
+    } else {
+      buckets.set(key, { label, value: damage.expectedDamage });
+    }
+  }
+  return Array.from(buckets.values()).sort((a, b) => b.value - a.value);
+}
+
+/**
+ * Format a compact, non-redundant label for a skill's Part dropdown by stripping
+ * the parent skill name prefix (e.g. "Immediate Execution (Mark)" -> "Mark · 125%",
+ * "Glorious Smite" -> "Main hit · 771%").
+ */
+export function formatPartOptionLabel(
+  skillName: string,
+  part: { label: string; mvPct: number; damageType: DamageType }
+): string {
+  const s = skillName.trim();
+  const l = part.label.trim();
+  let short = l;
+
+  if (s && l.toLowerCase() === s.toLowerCase()) {
+    short = part.damageType === 'Ultimate' ? 'Main hit' : part.damageType;
+  } else if (s && l.toLowerCase().startsWith(s.toLowerCase())) {
+    const rest = l.slice(s.length).replace(/^[\s:\-–—]+/, '').trim();
+    if (rest) {
+      const unwrapped = rest.replace(/^\(([^()]+)\)$/, '$1').trim();
+      short = unwrapped || rest;
+    }
+  }
+
+  return `${short} · ${part.mvPct}%`;
 }

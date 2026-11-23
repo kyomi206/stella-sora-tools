@@ -58,3 +58,7 @@ Thumbs.db
 start.bat
 DESIGN.md
 PRODUCT.md
+.stignore
+.stfolder/
+HANDOFF.md
+docs/

@@ -41,6 +41,10 @@ export function PieChart({
   const visible = slices.filter((slice) => slice.value > 0);
   const total = visible.reduce((sum, slice) => sum + slice.value, 0);
 
+  if (total <= 0) {
+    return null;
+  }
+
   return (
     <svg
       viewBox="0 0 100 100"
@@ -50,17 +54,7 @@ export function PieChart({
       aria-label={label ?? 'Pie chart'}
       className={cn('shrink-0', className)}
     >
-      {total <= 0 ? (
-        <circle
-          cx={50}
-          cy={50}
-          r={46}
-          fill="none"
-          stroke="var(--color-border)"
-          strokeWidth={2}
-          strokeDasharray="4 3"
-        />
-      ) : visible.length === 1 ? (
+      {visible.length === 1 ? (
         <circle cx={50} cy={50} r={49} fill={visible[0].color} className="chart-slice" />
       ) : (
         visible.map((slice, index) => {
@@ -103,7 +97,7 @@ export function PieLegend({
   const visible = slices.filter((slice) => slice.value > 0);
 
   if (visible.length === 0) {
-    return <p className={cn('text-[11px] text-slate-600 dark:text-slate-400', className)}>{emptyLabel}</p>;
+    return <p className={cn('text-xs text-slate-600 dark:text-slate-400', className)}>{emptyLabel}</p>;
   }
 
   return (
@@ -111,15 +105,18 @@ export function PieLegend({
       {visible.map((slice, index) => {
         const share = sum > 0 ? (slice.value / sum) * 100 : 0;
         return (
-          <li key={`${slice.label}-${index}`} className="flex min-w-0 items-center gap-1.5">
+          <li key={`${slice.label}-${index}`} className="flex min-w-0 items-start gap-1.5">
             <span
-              className="size-2.5 shrink-0 rounded-[2px]"
+              className="mt-1 size-2.5 shrink-0 rounded-[2px]"
               style={{ backgroundColor: slice.color }}
             />
-            <span className="min-w-0 flex-1 truncate text-[11px] font-medium text-slate-700">
+            <span
+              className="min-w-0 flex-1 break-words text-xs font-medium leading-snug text-slate-700"
+              title={slice.label}
+            >
               {slice.label}
             </span>
-            <span className="shrink-0 font-mono text-[11px] font-bold tabular-nums text-slate-600 dark:text-slate-400">
+            <span className="shrink-0 text-xs font-bold leading-snug tabular-nums text-slate-600 dark:text-slate-400">
               {share.toFixed(1)}%
             </span>
           </li>

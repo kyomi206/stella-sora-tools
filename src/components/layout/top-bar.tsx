@@ -7,6 +7,7 @@ import { PanelLeft, ChevronRight, Sun, Moon } from 'lucide-react';
 import { useSidebar } from '@/components/layout/sidebar-context';
 import { useTheme } from '@/components/layout/theme-context';
 import { cn } from '@/lib/utils';
+import communityPresetsData from '@/data/community-presets.json';
 
 interface BreadcrumbItem {
   name: string;
@@ -31,6 +32,12 @@ const ROUTE_BREADCRUMBS: Record<string, BreadcrumbConfig> = {
     categoryHref: '/',
     name: 'Preset Visualizer',
     href: '/builder',
+  },
+  '/builds': {
+    category: 'Gameplay Tools',
+    categoryHref: '/',
+    name: 'Community Builds',
+    href: '/builds',
   },
   '/builder/advanced': {
     category: 'Gameplay Tools',
@@ -66,7 +73,7 @@ const ROUTE_BREADCRUMBS: Record<string, BreadcrumbConfig> = {
   '/roadmap': {
     category: 'Gameplay Tools',
     categoryHref: '/',
-    name: 'Timeline Visualizer',
+    name: 'Events Roadmap',
     href: '/roadmap',
   },
   '/trekkers': {
@@ -128,6 +135,26 @@ function TopBarContent() {
     }
   }
 
+  if (!currentBreadcrumb && pathname.startsWith('/builds/')) {
+    const rawId = pathname.replace('/builds/', '').replace(/\/+$/, '');
+    if (rawId) {
+      const decodedId = decodeURIComponent(rawId);
+      const matched = (communityPresetsData as Array<{ id: string; title: string }>).find(
+        (preset) => preset.id === decodedId
+      );
+      const formattedId = decodedId
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (ch) => ch.toUpperCase());
+      currentBreadcrumb = {
+        category: 'Gameplay Tools',
+        categoryHref: '/',
+        items: [{ name: 'Community Builds', href: '/builds' }],
+        name: matched?.title || formattedId,
+        href: pathname,
+      };
+    }
+  }
+
   if (!currentBreadcrumb && pathname.startsWith('/discs/')) {
     const rawSlug = pathname.replace('/discs/', '').replace(/\/+$/, '');
     if (rawSlug) {
@@ -165,7 +192,7 @@ function TopBarContent() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-30 flex h-12 w-full items-center justify-between border-b border-border-subtle bg-surface-subtle/90 px-3 sm:px-4 backdrop-blur-md select-none transition-transform duration-200',
+        'sticky top-0 z-30 flex h-12 w-full items-center justify-between border-b border-border-subtle bg-surface-subtle px-3 sm:px-4 select-none transition-transform duration-200',
         isHidden && '-translate-y-full pointer-events-none'
       )}
     >
@@ -173,7 +200,7 @@ function TopBarContent() {
         {/* Mobile Brand Avatar (< md screens) */}
         <Link
           href="/"
-          className="md:hidden flex items-center gap-2 shrink-0 press-feedback rounded-md focus-visible:ring-2 focus-visible:ring-amber-400"
+          className="md:hidden flex items-center gap-2 shrink-0 press-feedback rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           aria-label="Stella Sora Tools Home"
         >
           <div className="size-7 rounded-md bg-surface-elevated border border-amber-500/30 flex items-center justify-center overflow-hidden shrink-0">
@@ -186,7 +213,7 @@ function TopBarContent() {
           <button
             type="button"
             onClick={handleToggle}
-            className="flex size-7 items-center justify-center rounded-md border border-border-hover bg-surface-hover text-slate-700 hover:text-slate-900 hover:border-amber-500/40 hover:bg-surface-elevated transition-colors cursor-pointer press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
+            className="flex size-7 items-center justify-center rounded-md border border-border-hover bg-surface-hover text-slate-700 hover:text-slate-900 hover:border-amber-500/40 hover:bg-surface-elevated transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             aria-expanded={!isCollapsed}
           >
@@ -210,7 +237,7 @@ function TopBarContent() {
             <>
               <Link
                 href={currentBreadcrumb.categoryHref || '/'}
-                className="hidden sm:inline font-medium text-slate-600 hover:text-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-amber-400 rounded shrink-0"
+                className="hidden sm:inline font-medium text-slate-600 hover:text-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded shrink-0"
               >
                 {currentBreadcrumb.category}
               </Link>
@@ -223,7 +250,7 @@ function TopBarContent() {
             <div key={item.href} className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <Link
                 href={item.href}
-                className="font-medium text-slate-600 hover:text-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-amber-400 rounded shrink-0"
+                className="font-medium text-slate-600 hover:text-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded shrink-0"
               >
                 {item.name}
               </Link>
@@ -234,7 +261,7 @@ function TopBarContent() {
 
           <Link
             href={currentBreadcrumb.href}
-            className="font-semibold text-slate-900 hover:text-amber-700 transition-colors tracking-tight focus-visible:ring-2 focus-visible:ring-amber-400 rounded truncate"
+            className="font-semibold text-slate-900 hover:text-amber-700 transition-colors tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded truncate"
           >
             {currentBreadcrumb.name}
           </Link>
@@ -246,7 +273,7 @@ function TopBarContent() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="flex size-7 items-center justify-center rounded-md border border-border-hover bg-surface-hover text-slate-700 hover:text-slate-900 hover:border-amber-500/40 hover:bg-surface-elevated transition-colors cursor-pointer press-feedback focus-visible:ring-2 focus-visible:ring-amber-400"
+          className="flex size-7 items-center justify-center rounded-md border border-border-hover bg-surface-hover text-slate-700 hover:text-slate-900 hover:border-amber-500/40 hover:bg-surface-elevated transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           aria-label="Toggle color theme"
           title="Toggle color theme"
         >
@@ -262,7 +289,7 @@ export function TopBar() {
   return (
     <Suspense
       fallback={
-        <header className="sticky top-0 z-30 flex h-12 w-full items-center justify-between border-b border-border-subtle bg-surface-subtle/90 px-3 sm:px-4 backdrop-blur-md select-none">
+        <header className="sticky top-0 z-30 flex h-12 w-full items-center justify-between border-b border-border-subtle bg-surface-subtle px-3 sm:px-4 select-none">
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <span className="font-semibold text-slate-900 tracking-tight text-xs sm:text-sm">
               Stella Sora Tools

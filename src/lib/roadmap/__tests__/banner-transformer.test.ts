@@ -19,6 +19,10 @@ test('getDiscIconUrl computes WikiTide disc icon URL', () => {
     getDiscIconUrl(224004),
     'https://static.wikitide.net/stellasorawiki/0/0a/Disc_icon_Wisteria_Dream.png'
   );
+  assert.ok(
+    getDiscIconUrl(214068).endsWith('/Disc_icon_Beneath_Billowing_Sails.png'),
+    'Should resolve Version 2.1 Beneath Billowing Sails disc icon'
+  );
   assert.strictEqual(getDiscIconUrl(undefined), '');
 });
 

@@ -8,9 +8,16 @@ import {
   createEmptyStatBlock,
 } from '../damage-engine.ts';
 import type { EnemyInput } from '../damage-engine.ts';
-import { computePenCurve } from '../sensitivity-engine.ts';
-import { mapTalentRow } from '../talent-emblem.ts';
-import type { NoteName, SSDisc } from '../../../types/index.ts';
+import { computeDiscContributions, computePenCurve } from '../sensitivity-engine.ts';
+import { getTalentMinorStatBonuses, mapTalentRow } from '../talent-emblem.ts';
+import { getResolvedCommunityPresetById } from '../../community-presets.ts';
+import { extractDiscPresetBuffs, extractPotentialPresetBuffs, extractSkillKitPresetBuffs } from '../preset-buffs.ts';
+import { aggregateDamageSources, calculateTeam, formatPartOptionLabel } from '../fighter-calc.ts';
+import { calculateSupportStartingNotes, MUSICAL_NOTES } from '../../../data/notes.ts';
+import charactersData from '../../../data/characters.json' with { type: 'json' };
+import characterCombatData from '../../../data/character-combat.json' with { type: 'json' };
+import discsData from '../../../data/discs.json' with { type: 'json' };
+import type { NoteName, SSCharacter, SSDisc } from '../../../types/index.ts';
 
 function assertClose(actual: number, expected: number, tol = 1e-6, msg?: string): void {
   assert.ok(
@@ -166,5 +173,299 @@ describe('spreadsheet parity tests (Maygi V1.1.0 / ZiLenTz / AutumnVN)', () => {
     const curve = computePenCurve(570);
     const last = curve[curve.length - 1];
     assert.ok(last.pen >= 600, `expected curve maxPen >= 600, got ${last.pen}`);
+  });
+
+  it('RECORD_LEVEL_BASE_HP + AFFINITY_LEVEL_BASE_HP + HP-scaler Affinity HP% match Firstlight Noya (139,528) and Gerie (125,512)', () => {
+    const fnoyaBonuses = createEmptyStatBlock();
+    fnoyaBonuses.baseHp = 600;
+    const fnoyaStats = buildCharacterStats({
+      characterBaseAtk: 0,
+      characterBaseHp: 94662,
+      affinityLevel: 30,
+      recordLevel: 31,
+      squadDiscBaseAtk: 0,
+      squadDiscBaseHp: 6990,
+      element: 'Lux',
+      primaryScalingStat: 'HP',
+      bonuses: fnoyaBonuses,
+    });
+    assert.equal(fnoyaStats.baseHp, 139528);
+    assert.equal(fnoyaStats.affinityHpPct, 12);
+
+    const gerieStats = buildCharacterStats({
+      characterBaseAtk: 0,
+      characterBaseHp: 88236,
+      affinityLevel: 30,
+      recordLevel: 31,
+      squadDiscBaseAtk: 0,
+      squadDiscBaseHp: 0,
+      element: 'Terra',
+      primaryScalingStat: 'HP',
+      bonuses: createEmptyStatBlock(),
+    });
+    assert.equal(gerieStats.baseHp, 125512);
+  });
+
+  it('resilienceBreakUptimePct scales breakMult continuously (0% -> 1.0x, 27.7778% -> 1.1389x, 100% -> 1.5x)', () => {
+    const stats = buildCharacterStats({
+      characterBaseAtk: 10000,
+      affinityLevel: 0,
+      recordLevel: 0,
+      squadDiscBaseAtk: 0,
+      element: 'Ignis',
+      bonuses: createEmptyStatBlock(),
+    });
+    const ability = {
+      name: 'Hit',
+      motionValuePct: 100,
+      hits: 1,
+      casts: 1,
+      damageType: 'Skill' as const,
+      scalingStat: 'ATK' as const,
+    };
+
+    const r0 = calculateAbilityDamage(stats, ability, {
+      def: 0,
+      res: 0,
+      resilienceBroken: false,
+      resilienceBreakUptimePct: 0,
+    });
+    const rBlitz = calculateAbilityDamage(stats, ability, {
+      def: 0,
+      res: 0,
+      resilienceBroken: false,
+      resilienceBreakUptimePct: 27.7778,
+    });
+    const r100 = calculateAbilityDamage(stats, ability, {
+      def: 0,
+      res: 0,
+      resilienceBroken: false,
+      resilienceBreakUptimePct: 100,
+    });
+
+    assertClose(r0.breakMult, 1.0, 1e-6);
+    assertClose(rBlitz.breakMult, 1.138889, 1e-5);
+    assertClose(r100.breakMult, 1.5, 1e-6);
+  });
+
+  it('getTalentMinorStatBonuses extracts 4-star T5 minor stat nodes and returns empty at T0', () => {
+    assert.deepEqual(getTalentMinorStatBonuses('142', 0), []);
+    const sumByKey = (charId: string, tier: number) => {
+      const totals: Record<string, number> = {};
+      for (const b of getTalentMinorStatBonuses(charId, tier)) {
+        totals[b.key] = (totals[b.key] || 0) + b.value;
+      }
+      return totals;
+    };
+    const tiliaT5 = sumByKey('107', 5);
+    assert.equal(tiliaT5.baseAtk, 400);
+    assert.equal(tiliaT5.baseHp, 4600);
+    assert.equal(tiliaT5.skillDmg, 21);
+    assert.equal(tiliaT5.ultDmg, 43);
+
+    const cosetteT5 = sumByKey('142', 5);
+    assert.equal(cosetteT5.baseAtk, 400);
+    assert.equal(cosetteT5.baseHp, 4600);
+    assert.equal(cosetteT5.skillDmg, 21);
+    assert.equal(cosetteT5.ultDmg, 43);
+  });
+
+  it('computeDiscContributions with rebuildBuffs ranks Main Disc Deer\'s Song > Support Discs (>20% loss) on eleanor-skill-willow', () => {
+    const preset = getResolvedCommunityPresetById('eleanor-skill-willow');
+    assert.ok(preset);
+    const chars = charactersData as unknown as Record<string, SSCharacter>;
+    const discs = discsData as unknown as Record<string, SSDisc>;
+    const combatDb = characterCombatData as unknown as Record<string, any>;
+
+    const build = {
+      id: preset.id,
+      name: preset.title,
+      createdAt: 0,
+      slots: preset.advData.slots,
+      mainDiscs: preset.advData.mainDiscs,
+      supportDiscs: preset.advData.supportDiscs,
+      targetNotes: preset.advData.targetNotes,
+    };
+
+    const rosterSlots = (['vanguard', 'versatile', 'support'] as const).map((slot) => ({
+      slot,
+      character: build.slots[slot].characterId ? chars[String(build.slots[slot].characterId)] ?? null : null,
+    }));
+
+    const supportStart = calculateSupportStartingNotes(build.supportDiscs, discs);
+    const effectiveNotes = Object.fromEntries(
+      MUSICAL_NOTES.map((n) => [
+        n.name,
+        build.targetNotes[n.name] !== undefined
+          ? Math.max(0, Number(build.targetNotes[n.name]) || 0)
+          : supportStart[n.name] || 0,
+      ])
+    ) as Record<NoteName, number>;
+
+    const emptyEmblems = { '70': [], '80': [], '90': [] };
+    const fighters = (['vanguard', 'versatile', 'support'] as const).map((slot) => {
+      const charId = build.slots[slot].characterId;
+      const character = charId ? chars[String(charId)] ?? null : null;
+      const combat = charId ? combatDb[String(charId)] ?? null : null;
+      return {
+        state: {
+          slot,
+          level: '90' as const,
+          skillLevel: 10,
+          affinityLevel: 30,
+          talentTier: character?.star === 4 ? 5 : 0,
+          emblems: emptyEmblems,
+          rotation: slot === 'vanguard' && combat?.skill
+            ? [{ id: 's', source: 'skill' as const, name: 'Skill', damageType: 'Skill' as const, scalingStat: 'ATK' as const, motionValuePct: 1000, hits: 1, casts: 3 }]
+            : [],
+        },
+        character,
+        combat,
+      };
+    });
+
+    const discEvalContext = { enforceTriggers: true, uptimeMode: 'realistic' as const, fightMode: 'single' as const, destinyCards: 10 };
+    const nonDiscBuffs = [
+      ...extractPotentialPresetBuffs(build, rosterSlots),
+      ...extractSkillKitPresetBuffs(fighters, rosterSlots),
+    ];
+
+    const getReduced = (without: { slot: 'main' | 'support'; index: number } | null) => {
+      const mainDiscs = without?.slot === 'main' ? build.mainDiscs.filter((_, i) => i !== without.index) : build.mainDiscs;
+      const supportDiscs = without?.slot === 'support' ? build.supportDiscs.filter((_, i) => i !== without.index) : build.supportDiscs;
+      let notes = effectiveNotes;
+      if (without?.slot === 'support') {
+        const rem = calculateSupportStartingNotes(supportDiscs, discs);
+        notes = Object.fromEntries(
+          MUSICAL_NOTES.map((n) => [n.name, Math.max(0, (effectiveNotes[n.name] || 0) - ((supportStart[n.name] || 0) - (rem[n.name] || 0)))])
+        ) as Record<NoteName, number>;
+      }
+      return { mainDiscs, supportDiscs, notes };
+    };
+
+    const discBuffs = extractDiscPresetBuffs(build.mainDiscs, effectiveNotes, discs, rosterSlots, undefined, discEvalContext);
+    const toTeamBuffs = (items: typeof discBuffs) =>
+      items.map((b) => ({
+        target: b.target,
+        stat: b.stat,
+        value: b.realisticUptime !== undefined ? +(b.value * b.realisticUptime).toFixed(4) : b.value,
+      }));
+
+    const teamInput = {
+      fighters,
+      contributions: computePresetContributions(build.mainDiscs, build.supportDiscs, effectiveNotes, discs),
+      buffs: toTeamBuffs([...discBuffs, ...nonDiscBuffs]),
+      recordLevel: 31,
+      enemy: { def: 500, res: 250, resilienceBroken: false },
+    };
+
+    const entries = [
+      ...build.mainDiscs.map((d, i) => ({ slot: 'main' as const, index: i, discId: d.discId!, name: discs[String(d.discId)]?.name ?? '' })),
+      ...build.supportDiscs.map((d, i) => ({ slot: 'support' as const, index: i, discId: d.discId!, name: discs[String(d.discId)]?.name ?? '' })),
+    ];
+
+    const points = computeDiscContributions(
+      teamInput,
+      entries,
+      (w) => {
+        const r = getReduced(w);
+        return computePresetContributions(r.mainDiscs, r.supportDiscs, r.notes, discs);
+      },
+      (w) => {
+        const r = getReduced(w);
+        return toTeamBuffs([
+          ...extractDiscPresetBuffs(r.mainDiscs, r.notes, discs, rosterSlots, undefined, discEvalContext),
+          ...nonDiscBuffs,
+        ]);
+      }
+    );
+
+    const deersSong = points.find((p) => p.slot === 'main' && p.name.includes('Deer'));
+    const maxSupportLoss = Math.max(...points.filter((p) => p.slot === 'support').map((p) => p.lossPct));
+    assert.ok(deersSong, 'Expected Deer\'s Song in disc sweep');
+    assert.ok(deersSong.lossPct > 20, `Expected Deer's Song loss > 20%, got ${deersSong.lossPct.toFixed(2)}%`);
+    assert.ok(deersSong.lossPct > maxSupportLoss, `Expected Deer's Song (${deersSong.lossPct.toFixed(2)}%) > max support (${maxSupportLoss.toFixed(2)}%)`);
+  });
+
+  it('aggregateDamageSources: merges multi-part skills, duplicate skill rows, and numbered custom potential hits', () => {
+    const combatDb = characterCombatData as unknown as Record<string, any>;
+    const gerieCombat = combatDb['149'];
+    const makeDamage = (expectedDamage: number) => ({
+      expectedDamage,
+      nonCritDamage: expectedDamage,
+      critDamage: expectedDamage,
+      totalHits: 1,
+      defAmend: 0.5,
+      erAmend: 0.75,
+    });
+    const makeAbility = (
+      id: string,
+      source: 'normalAtk' | 'skill' | 'supportSkill' | 'ultimate' | 'custom',
+      name: string,
+      damageType: 'Auto Attack' | 'Skill' | 'Ultimate' | 'Mark' | 'Minion',
+      expected: number
+    ) => ({
+      entry: {
+        id,
+        source,
+        name,
+        motionValuePct: 100,
+        hits: 1,
+        casts: 1,
+        damageType,
+        scalingStat: 'ATK' as const,
+      },
+      damage: makeDamage(expected),
+    });
+
+    const merged = aggregateDamageSources(
+      [
+        makeAbility('1', 'supportSkill', 'Immediate Execution #1', 'Skill', 640),
+        makeAbility('2', 'supportSkill', 'Immediate Execution #2', 'Skill', 480),
+        makeAbility('3', 'supportSkill', 'Immediate Execution (Mark)', 'Mark', 4590),
+        makeAbility('4', 'ultimate', 'Divine: Retribution of Evil', 'Ultimate', 2460),
+        makeAbility('5', 'ultimate', 'Divine', 'Mark', 1530),
+        makeAbility('6', 'normalAtk', 'Strike 1', 'Auto Attack', 50),
+        makeAbility('7', 'normalAtk', 'Strike 2', 'Auto Attack', 40),
+        makeAbility('8', 'custom', 'Curtain Call (#1)', 'Skill', 100),
+        makeAbility('9', 'custom', 'Curtain Call (#2)', 'Skill', 150),
+        makeAbility('10', 'custom', 'Zero Row', 'Skill', 0),
+      ],
+      gerieCombat
+    );
+
+    assert.deepEqual(merged, [
+      { label: 'Immediate Execution', value: 5710 },
+      { label: 'Divine: Retribution of Evil', value: 3990 },
+      { label: 'Curtain Call', value: 250 },
+      { label: 'Kiss of Death', value: 90 },
+    ]);
+  });
+
+  it('formatPartOptionLabel: strips redundant parent skill names while keeping parts clear', () => {
+    assert.equal(
+      formatPartOptionLabel('Immediate Execution', { label: 'Immediate Execution #1', mvPct: 292, damageType: 'Skill' }),
+      '#1 · 292%'
+    );
+    assert.equal(
+      formatPartOptionLabel('Immediate Execution', { label: 'Immediate Execution (Mark)', mvPct: 125, damageType: 'Mark' }),
+      'Mark · 125%'
+    );
+    assert.equal(
+      formatPartOptionLabel('Glorious Smite', { label: 'Glorious Smite', mvPct: 771, damageType: 'Ultimate' }),
+      'Main hit · 771%'
+    );
+    assert.equal(
+      formatPartOptionLabel('Glorious Smite', { label: 'Glorious Smite (Skill)', mvPct: 41.3, damageType: 'Skill' }),
+      'Skill · 41.3%'
+    );
+    assert.equal(
+      formatPartOptionLabel('Divine: Retribution of Evil', { label: 'Divine', mvPct: 125, damageType: 'Mark' }),
+      'Divine · 125%'
+    );
+    assert.equal(
+      formatPartOptionLabel('Fireworks Jam', { label: 'Fireworks Jam', mvPct: 106, damageType: 'Skill' }),
+      'Skill · 106%'
+    );
   });
 });

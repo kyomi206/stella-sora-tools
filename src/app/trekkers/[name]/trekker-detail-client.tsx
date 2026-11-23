@@ -3,38 +3,22 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
-  Activity,
   ArrowUpRight,
   Award,
   BookOpen,
-  Camera,
   ChevronLeft,
   ChevronRight,
-  Compass,
-  Contact,
-  Crosshair,
   Disc,
   ExternalLink,
-  Fan,
-  Flame,
   Gift,
-  Heart,
-  IceCream,
   Layers,
-  Moon,
-  Shield,
-  Sparkles,
-  Star,
   Swords,
-  Wind,
   X,
-  Coffee,
 } from 'lucide-react';
 
 import {
   STELLA_SORA_GIFTS,
   GIFT_FAMILIES,
-  GiftFamily,
   isGiftLovedBy,
   getCharacterFavoriteFamilies,
 } from '@/data/gifts';
@@ -140,39 +124,13 @@ export function formatSkillDesc(
 }
 
 // ------------------------------------------------------------------------------
-// Family Icon Helper
-// ------------------------------------------------------------------------------
-function FamilyIcon({ family, className }: { family: GiftFamily; className?: string }) {
-  switch (family) {
-    case 'Flame':
-      return <Flame className={cn('text-amber-500', className)} />;
-    case 'Ceramic':
-      return <Coffee className={cn('text-emerald-500', className)} />;
-    case 'Astral':
-      return <Moon className={cn('text-indigo-400', className)} />;
-    case 'Dessert':
-      return <IceCream className={cn('text-pink-400', className)} />;
-    case 'Photo':
-      return <Camera className={cn('text-blue-400', className)} />;
-    case 'Wind':
-      return <Wind className={cn('text-teal-400', className)} />;
-    case 'Spinner':
-      return <Fan className={cn('text-cyan-400', className)} />;
-    case 'Star':
-      return <Star className={cn('text-yellow-400', className)} />;
-    default:
-      return <Gift className={cn('text-amber-500', className)} />;
-  }
-}
-
-// ------------------------------------------------------------------------------
 // Navigation Types & Definitions
 // ------------------------------------------------------------------------------
 export type DetailTab = 'details' | 'skills' | 'potentials' | 'talents' | 'affinity';
 
 const DOCK_TABS: { key: DetailTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { key: 'details', label: 'Details', icon: BookOpen },
-  { key: 'skills', label: 'Skills', icon: Sparkles },
+  { key: 'skills', label: 'Skills', icon: Swords },
   { key: 'potentials', label: 'Potentials', icon: Layers },
   { key: 'talents', label: 'Talents', icon: Award },
   { key: 'affinity', label: 'Affinity', icon: Gift },
@@ -361,7 +319,7 @@ export default function TrekkerDetailClient({
           description:
             character.name.EN === 'Chitose'
               ? 'An Auto Attack build that generates Coiling Serpents and Mirror Images upon skill activation.'
-              : 'Primary combat build enhancing core skill damage and auto-attack synergies.',
+              : '',
           potentials: [
             ...potentialGroups.mainCore.slice(0, 2),
             ...[...potentialGroups.mainNormal.slice(0, 3)].sort((a, b) => a.rarityNum - b.rarityNum),
@@ -373,7 +331,7 @@ export default function TrekkerDetailClient({
           description:
             character.name.EN === 'Chitose'
               ? 'A skill build that allows skills to enhance Coiling Serpents and create Mirror Images.'
-              : 'Tactical ability build specialized for skill cooldown acceleration and burst multipliers.',
+              : '',
           potentials: [
             ...potentialGroups.mainCore.slice(2, 4),
             ...[...potentialGroups.mainNormal.slice(3, 6)].sort((a, b) => a.rarityNum - b.rarityNum),
@@ -382,7 +340,7 @@ export default function TrekkerDetailClient({
         {
           id: 'generic',
           title: 'Generic',
-          description: 'Universal and versatile potentials compatible across multiple tactical situations.',
+          description: '',
           potentials: [
             ...potentialGroups.mainNormal.slice(6),
             ...potentialGroups.common,
@@ -394,7 +352,7 @@ export default function TrekkerDetailClient({
         {
           id: 'support-1',
           title: `${character.name.EN}: Support Build 1`,
-          description: 'Off-field support build providing elemental assistance and auxiliary attacks.',
+          description: '',
           potentials: [
             ...potentialGroups.supportCore.slice(0, 2),
             ...[...potentialGroups.supportNormal.slice(0, 3)].sort((a, b) => a.rarityNum - b.rarityNum),
@@ -403,7 +361,7 @@ export default function TrekkerDetailClient({
         {
           id: 'support-2',
           title: `${character.name.EN}: Support Build 2`,
-          description: 'Cooperative support build augmenting squad damage and tactical survivability.',
+          description: '',
           potentials: [
             ...potentialGroups.supportCore.slice(2, 4),
             ...[...potentialGroups.supportNormal.slice(3, 6)].sort((a, b) => a.rarityNum - b.rarityNum),
@@ -412,7 +370,7 @@ export default function TrekkerDetailClient({
         {
           id: 'generic',
           title: 'Generic',
-          description: 'Universal assist potentials for flexible team rotations.',
+          description: '',
           potentials: [
             ...potentialGroups.supportNormal.slice(6),
             ...potentialGroups.common,
@@ -481,7 +439,7 @@ export default function TrekkerDetailClient({
         />
 
         {/* Full Illustration Viewport */}
-        <div className="relative aspect-[3/4.3] min-h-[480px] bg-gradient-to-b from-slate-50 to-slate-100/80 dark:from-[#0f172a] dark:to-[#090d16] flex items-center justify-center p-4 overflow-hidden select-none">
+        <div className="relative aspect-[3/4.3] min-h-[480px] bg-surface-subtle dark:bg-[#090d16] flex items-center justify-center p-4 overflow-hidden select-none">
           {/* Top-right floating controls (1/N counter + open full image) */}
           <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5">
             {illustrations.length > 0 && (
@@ -557,7 +515,7 @@ export default function TrekkerDetailClient({
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 space-y-6 flex flex-col justify-between min-h-[700px]">
-      <div className="space-y-6">
+      <div className="space-y-6 pb-24 scroll-pb-24 [&_a]:scroll-mb-24 [&_button]:scroll-mb-24 [&_input]:scroll-mb-24">
         <h1 className="sr-only">{character.name.EN}</h1>
 
         {/* ==================================================================== */}
@@ -640,9 +598,9 @@ export default function TrekkerDetailClient({
                       <div className="flex flex-wrap items-center gap-2 pt-1.5">
                         <Link
                           href={`/builder?char=${character.id}`}
-                          className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs transition-colors press-feedback shadow-xs cursor-pointer"
+                          className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs transition-colors press-feedback cursor-pointer"
                         >
-                          <Layers className="size-3.5" />
+                          <Layers className="size-3.5" aria-hidden="true" />
                           <span>Load in Preset Visualizer</span>
                         </Link>
 
@@ -650,7 +608,7 @@ export default function TrekkerDetailClient({
                           href={`/bond?char=${character.id}`}
                           className="inline-flex items-center justify-center gap-1.5 h-8 px-2.5 rounded-lg border border-border-subtle bg-surface-elevated hover:bg-surface-hover text-slate-700 dark:text-white text-xs font-medium transition-colors"
                         >
-                          <Gift className="size-3.5 text-amber-600 dark:text-amber-400" />
+                          <Gift className="size-3.5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
                           <span>Affinity Calc</span>
                         </Link>
 
@@ -661,14 +619,14 @@ export default function TrekkerDetailClient({
                           className="inline-flex items-center justify-center gap-1 h-8 px-2 text-xs text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white transition-colors"
                         >
                           <span>Open Wiki Entry</span>
-                          <ExternalLink className="size-3" />
+                          <ExternalLink className="size-3" aria-hidden="true" />
                         </a>
                       </div>
                     </div>
 
                   {/* Right: Square Portrait Thumbnail (image.png top-right) */}
                   <div className="hidden sm:block shrink-0">
-                    <div className="size-24 rounded-xl overflow-hidden border border-border-subtle bg-slate-900 shadow-sm">
+                    <div className="size-24 rounded-xl overflow-hidden border border-border-subtle bg-slate-900">
                       <img
                         src={headUrl}
                         alt={`${character.name.EN} Portrait`}
@@ -687,13 +645,9 @@ export default function TrekkerDetailClient({
 
               {/* Profile Card Window */}
               <div className="game-card celestial-card p-5 sm:p-6 space-y-4">
-                {/* Header with Icon and Title */}
-                <div className="flex items-center gap-2">
-                  <Contact className="size-5 text-[#0e7490] dark:text-[#22d3ee]" />
-                  <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
-                    Profile
-                  </h2>
-                </div>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                  Profile
+                </h2>
 
                 {/* Profile Description / Story Box */}
                 {lore?.profile && (
@@ -788,37 +742,9 @@ export default function TrekkerDetailClient({
 
               {/* Base Attributes */}
               <div className="game-card celestial-card p-5 sm:p-6 space-y-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <Activity className="size-5 text-[#0e7490] dark:text-[#22d3ee]" aria-hidden="true" />
-                    <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
-                      Base Attributes
-                    </h2>
-                  </div>
-
-                  {/* Level Stepper / Milestone Pills */}
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-medium text-slate-600 dark:text-white/80 mr-1">
-                      Milestones:
-                    </span>
-                    {[1, 70, 80, 90].map((lvl) => (
-                      <button
-                        key={lvl}
-                        type="button"
-                        aria-pressed={statLevel === lvl}
-                        onClick={() => setStatLevel(lvl)}
-                        className={cn(
-                          'px-2 py-0.5 rounded text-xs font-mono transition-colors press-feedback cursor-pointer',
-                          statLevel === lvl
-                            ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
-                            : 'bg-surface-elevated border border-border-subtle text-slate-700 dark:text-white hover:bg-surface-hover hover:text-slate-900 dark:hover:text-white'
-                        )}
-                      >
-                        Lv.{lvl}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                  Base Attributes
+                </h2>
 
                 {/* Level Slider Control */}
                 <div className="space-y-2">
@@ -826,7 +752,7 @@ export default function TrekkerDetailClient({
                     <span className="font-medium text-slate-700 dark:text-white">
                       Selected Level
                     </span>
-                    <span className="font-mono tabular-nums text-sm font-bold text-amber-700 dark:text-amber-400">
+                    <span className="tabular-nums text-sm font-bold text-amber-700 dark:text-amber-400">
                       Lv. {statLevel} <span className="text-xs text-slate-600 dark:text-white/75 font-normal">/ 90</span>
                     </span>
                   </div>
@@ -842,98 +768,54 @@ export default function TrekkerDetailClient({
                   />
                 </div>
 
-                {/* In-Game Horizontal Telemetry Pills Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  {/* HP Pill */}
-                  <div className="p-3.5 rounded-xl bg-surface-elevated/70 border border-border-subtle space-y-2">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="size-6 rounded-md bg-teal-500/10 border border-teal-500/30 flex items-center justify-center">
-                          <Heart className="size-3.5 text-[#0e7490] dark:text-[#22d3ee]" />
-                        </div>
-                        <span className="text-xs font-bold text-slate-700 dark:text-white">
-                          HP <span className="text-[11px] font-normal text-slate-600 dark:text-white/75">(Health Points)</span>
-                        </span>
-                      </div>
-                      <span className="font-mono tabular-nums font-bold text-slate-900 dark:text-white text-sm">
-                        {currentStats.hp.toLocaleString()}
+                {/* Clean 4-Cell Divided Stat Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 border border-border-subtle rounded-xl bg-surface-elevated/60 overflow-hidden max-sm:[&>*:not(:first-child)]:border-t sm:[&>*:nth-child(2n)]:border-l sm:[&>*:nth-child(n+3)]:border-t border-border-subtle">
+                  <div className="px-4 py-3 flex items-baseline justify-between gap-3 border-border-subtle">
+                    <span className="text-xs font-semibold text-slate-700 dark:text-white">
+                      HP{' '}
+                      <span className="font-normal text-slate-500 dark:text-slate-400">
+                        (Health Points)
                       </span>
-                    </div>
-                    <div className="h-2 w-full bg-slate-200 dark:bg-slate-700/60 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-[#0e7490] dark:bg-[#0abec5] rounded-full transition-[width] duration-150"
-                        style={{ width: `${Math.min(100, Math.round((currentStats.hp / 100000) * 100))}%` }}
-                      />
-                    </div>
+                    </span>
+                    <span className="text-sm font-bold tabular-nums text-slate-900 dark:text-white text-right">
+                      {currentStats.hp.toLocaleString()}
+                    </span>
                   </div>
 
-                  {/* ATK Pill */}
-                  <div className="p-3.5 rounded-xl bg-surface-elevated/70 border border-border-subtle space-y-2">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="size-6 rounded-md bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
-                          <Swords className="size-3.5 text-amber-600 dark:text-amber-400" />
-                        </div>
-                        <span className="text-xs font-bold text-slate-700 dark:text-white">
-                          ATK <span className="text-[11px] font-normal text-slate-600 dark:text-white/75">(Attack Power)</span>
-                        </span>
-                      </div>
-                      <span className="font-mono tabular-nums font-bold text-slate-900 dark:text-white text-sm">
-                        {currentStats.atk.toLocaleString()}
+                  <div className="px-4 py-3 flex items-baseline justify-between gap-3 border-border-subtle">
+                    <span className="text-xs font-semibold text-slate-700 dark:text-white">
+                      ATK{' '}
+                      <span className="font-normal text-slate-500 dark:text-slate-400">
+                        (Attack Power)
                       </span>
-                    </div>
-                    <div className="h-2 w-full bg-slate-200 dark:bg-slate-700/60 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-amber-600 dark:bg-amber-500 rounded-full transition-[width] duration-150"
-                        style={{ width: `${Math.min(100, Math.round((currentStats.atk / 8000) * 100))}%` }}
-                      />
-                    </div>
+                    </span>
+                    <span className="text-sm font-bold tabular-nums text-slate-900 dark:text-white text-right">
+                      {currentStats.atk.toLocaleString()}
+                    </span>
                   </div>
 
-                  {/* DEF Pill */}
-                  <div className="p-3.5 rounded-xl bg-surface-elevated/70 border border-border-subtle space-y-2">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="size-6 rounded-md bg-sky-500/10 border border-sky-500/30 flex items-center justify-center">
-                          <Shield className="size-3.5 text-sky-600 dark:text-sky-400" />
-                        </div>
-                        <span className="text-xs font-bold text-slate-700 dark:text-white">
-                          DEF <span className="text-[11px] font-normal text-slate-600 dark:text-white/75">(Defense Rating)</span>
-                        </span>
-                      </div>
-                      <span className="font-mono tabular-nums font-bold text-slate-900 dark:text-white text-sm">
-                        {currentStats.def}
+                  <div className="px-4 py-3 flex items-baseline justify-between gap-3 border-border-subtle">
+                    <span className="text-xs font-semibold text-slate-700 dark:text-white">
+                      DEF{' '}
+                      <span className="font-normal text-slate-500 dark:text-slate-400">
+                        (Defense Rating)
                       </span>
-                    </div>
-                    <div className="h-2 w-full bg-slate-200 dark:bg-slate-700/60 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-sky-600 dark:bg-sky-500 rounded-full transition-[width] duration-150"
-                        style={{ width: `${Math.min(100, Math.round((currentStats.def / 250) * 100))}%` }}
-                      />
-                    </div>
+                    </span>
+                    <span className="text-sm font-bold tabular-nums text-slate-900 dark:text-white text-right">
+                      {currentStats.def}
+                    </span>
                   </div>
 
-                  {/* VUL Pill */}
-                  <div className="p-3.5 rounded-xl bg-surface-elevated/70 border border-border-subtle space-y-2">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="size-6 rounded-md bg-rose-500/10 border border-rose-500/30 flex items-center justify-center">
-                          <Crosshair className="size-3.5 text-rose-600 dark:text-rose-400" />
-                        </div>
-                        <span className="text-xs font-bold text-slate-700 dark:text-white">
-                          VUL <span className="text-[11px] font-normal text-slate-600 dark:text-white/75">(Vulnerability)</span>
-                        </span>
-                      </div>
-                      <span className="font-mono tabular-nums font-bold text-slate-900 dark:text-white text-sm">
-                        {currentStats.vul}%
+                  <div className="px-4 py-3 flex items-baseline justify-between gap-3 border-border-subtle">
+                    <span className="text-xs font-semibold text-slate-700 dark:text-white">
+                      VUL{' '}
+                      <span className="font-normal text-slate-500 dark:text-slate-400">
+                        (Vulnerability)
                       </span>
-                    </div>
-                    <div className="h-2 w-full bg-slate-200 dark:bg-slate-700/60 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-rose-600 dark:bg-rose-500 rounded-full transition-[width] duration-150"
-                        style={{ width: `${Math.min(100, Math.round((currentStats.vul / 10) * 100))}%` }}
-                      />
-                    </div>
+                    </span>
+                    <span className="text-sm font-bold tabular-nums text-slate-900 dark:text-white text-right">
+                      {currentStats.vul}%
+                    </span>
                   </div>
                 </div>
               </div>
@@ -946,23 +828,16 @@ export default function TrekkerDetailClient({
                   discStar,
                   discElement,
                   maxAtk,
-                  bannerKind,
-                  bannerName,
                 } = signatureDiscInfo;
                 const discElementLabel = discElement === 'None' ? 'Neutral' : discElement;
 
                 return (
                   <div className="game-card celestial-card p-5 sm:p-6 space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <Disc className="size-5 text-[#0e7490] dark:text-[#22d3ee]" aria-hidden="true" />
-                        <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
-                          Featured Runic Disc
-                        </h2>
-                      </div>
-                      <span className="inline-flex items-center self-start sm:self-center px-2.5 py-1 rounded-md bg-surface-elevated border border-border-subtle text-xs font-medium text-slate-700 dark:text-white/80">
-                        {bannerKind} Banner · {bannerName}
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <Disc className="size-5 text-[#0e7490] dark:text-[#22d3ee]" aria-hidden="true" />
+                      <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                        Featured Runic Disc
+                      </h2>
                     </div>
 
                     <Link
@@ -1028,38 +903,13 @@ export default function TrekkerDetailClient({
             <div className="min-w-0 space-y-4">
               <div className="game-card celestial-card p-5 space-y-4">
                 {/* Level Controls Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border-subtle pb-3">
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                      Ability Matrix & Execution Rail
-                    </h2>
-                    <p className="text-xs text-slate-600 dark:text-white/80">
-                      Select any combat ability from the rail to inspect dynamic level scaling.
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {/* Milestones */}
-                    <div className="flex items-center gap-1">
-                      <span className="text-xs text-slate-600 dark:text-white/75 mr-0.5">Milestones:</span>
-                      {[1, 7, 10, 13].map((lvl) => (
-                        <button
-                          key={lvl}
-                          type="button"
-                          aria-pressed={skillLevel === lvl}
-                          onClick={() => setSkillLevel(lvl)}
-                          className={cn(
-                            'px-2 py-0.5 rounded text-xs font-mono transition-colors press-feedback cursor-pointer',
-                            skillLevel === lvl
-                              ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
-                              : 'bg-surface-elevated border border-border-subtle text-slate-700 dark:text-white hover:bg-surface-hover hover:text-slate-900 dark:hover:text-white'
-                          )}
-                        >
-                          Lv.{lvl}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                <div className="border-b border-border-subtle pb-3">
+                  <h2 className="text-base font-bold text-slate-900 dark:text-white">
+                    Combat Skills
+                  </h2>
+                  <p className="text-xs text-slate-600 dark:text-white/80">
+                    Select a skill to inspect level scaling.
+                  </p>
                 </div>
 
                 {/* Skill Level Slider */}
@@ -1068,7 +918,7 @@ export default function TrekkerDetailClient({
                     <span className="text-slate-600 dark:text-white">
                       Skill Level Scaling (Lv 1–13)
                     </span>
-                    <span className="font-mono tabular-nums text-sm font-bold text-amber-700 dark:text-amber-400">
+                    <span className="tabular-nums text-sm font-bold text-amber-700 dark:text-amber-400">
                       Lv. {skillLevel} <span className="text-xs text-slate-600 dark:text-white/75 font-normal">/ 13</span>
                     </span>
                   </div>
@@ -1149,7 +999,7 @@ export default function TrekkerDetailClient({
                             <span className="block text-xs font-bold leading-tight truncate text-slate-900 dark:text-white">
                               {tab.label}
                             </span>
-                            <span className="block text-[10px] text-slate-600 dark:text-white/75 truncate">
+                            <span className="block text-[11px] text-slate-600 dark:text-white/75 truncate">
                               {abilityData?.name || 'Standard'}
                             </span>
                           </div>
@@ -1603,15 +1453,17 @@ export default function TrekkerDetailClient({
                 <div className="space-y-6">
                   {currentBuilds.map((build) => (
                     <div key={build.id} className="space-y-2.5">
-                      {/* Cyan Ribbon Header & Subtitle */}
+                      {/* Cyan Ribbon Header */}
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h2 className="bg-[#0e7490] text-white px-3 py-1 font-bold text-xs uppercase tracking-wider inline-flex items-center rounded-sm [clip-path:polygon(0_0,calc(100%-8px)_0,100%_100%,0_100%)] shadow-xs">
+                          <h2 className="bg-[#0e7490] text-white px-3 py-1 font-bold text-xs tracking-wide inline-flex items-center rounded-sm [clip-path:polygon(0_0,calc(100%-8px)_0,100%_100%,0_100%)]">
                             {build.title}
                           </h2>
-                          <span className="text-xs text-slate-600 dark:text-white/80 leading-normal">
-                            {build.description}
-                          </span>
+                          {build.description && (
+                            <span className="text-xs text-slate-600 dark:text-white/80 leading-normal">
+                              {build.description}
+                            </span>
+                          )}
                         </div>
                       </div>
 
@@ -1731,21 +1583,30 @@ export default function TrekkerDetailClient({
               {/* Loved Gifts Showcase Card */}
               <div className="game-card celestial-card p-5 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border-subtle pb-3">
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                      <Gift className="size-4 text-amber-600 dark:text-amber-400" />
-                      <span>Loved Gifts Collection ({lovedGifts.length})</span>
+                  <div className="space-y-1">
+                    <h2 className="text-base font-bold text-slate-900 dark:text-white">
+                      Loved Gifts Collection ({lovedGifts.length})
                     </h2>
                     <p className="text-xs text-slate-600 dark:text-white/80">
                       Gifts in the character&apos;s loved category grant a <strong>+50% Affinity EXP bonus</strong>.
                     </p>
+                    {favoriteFamilies.length > 0 && (
+                      <p className="text-xs text-slate-600 dark:text-white/75">
+                        Preferred families:{' '}
+                        <span className="font-semibold text-slate-800 dark:text-white">
+                          {favoriteFamilies
+                            .map((famKey) => GIFT_FAMILIES[famKey]?.label || famKey)
+                            .join(' · ')}
+                        </span>
+                      </p>
+                    )}
                   </div>
 
                   <Link
                     href={`/bond?char=${character.id}`}
-                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs transition-colors press-feedback shadow-xs"
+                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs transition-colors press-feedback shrink-0"
                   >
-                    <Gift className="size-3.5" />
+                    <Gift className="size-3.5" aria-hidden="true" />
                     <span>Calculate in Affinity Tool</span>
                   </Link>
                 </div>
@@ -1787,54 +1648,22 @@ export default function TrekkerDetailClient({
 
                               <div className="flex-1 min-w-0 h-full flex flex-col justify-between gap-1">
                                 <div>
-                                  <div className="flex items-center gap-1 mb-0.5">
-                                    {Array.from({ length: gift.rarity }).map((_, i) => (
-                                      <Star
-                                        key={i}
-                                        className="size-2.5 fill-amber-400 text-amber-400"
-                                      />
-                                    ))}
+                                  <div className="mb-0.5">
+                                    <RarityStars count={gift.rarity} size="sm" />
                                   </div>
                                   <h3 className="text-xs font-bold text-slate-900 dark:text-white break-words">
                                     {gift.name}
                                   </h3>
                                 </div>
-                                <div className="flex items-center gap-1 text-[11px] text-slate-600 dark:text-white/80">
-                                  <FamilyIcon family={gift.family} className="size-3 shrink-0" />
-                                  <span className="truncate">{gift.familyName}</span>
-                                </div>
+                                <span className="text-xs text-slate-600 dark:text-white/75 truncate">
+                                  {gift.familyName}
+                                </span>
                               </div>
                             </div>
                           </div>
                         ))}
                       </div>
                     ))}
-                </div>
-              </div>
-
-              {/* Favorite Gift Families */}
-              <div className="game-card celestial-card p-5 space-y-3">
-                <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Compass className="size-4 text-teal-700 dark:text-teal-400" />
-                  <span>Preferred Gift Families ({favoriteFamilies.length})</span>
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {favoriteFamilies.map((famKey) => {
-                    const famData = GIFT_FAMILIES[famKey];
-                    return (
-                      <div
-                        key={famKey}
-                        className="p-3 rounded-lg border border-border-subtle bg-surface-elevated/40 flex items-center gap-3"
-                      >
-                        <div className="p-2 rounded-lg bg-surface-elevated border border-border shrink-0">
-                          <FamilyIcon family={famKey} className="size-5" />
-                        </div>
-                        <h3 className="text-xs font-bold text-slate-900 dark:text-white">
-                          {famData?.label || famKey}
-                        </h3>
-                      </div>
-                    );
-                  })}
                 </div>
               </div>
               </div>
@@ -1845,14 +1674,14 @@ export default function TrekkerDetailClient({
         {/* AUTHENTIC IN-GAME BOTTOM DOCK NAVIGATION BAR                        */}
         {/* ==================================================================== */}
         <div className="sticky bottom-3 z-30 w-full pt-2 pointer-events-none">
-          <div className="pointer-events-auto w-full max-w-2xl mx-auto p-1 rounded-xl bg-surface-card/95 dark:bg-[#081526]/95 backdrop-blur-md border border-border-subtle dark:border-[#1a3250] shadow-lg flex items-center justify-between gap-1">
+          <div className="pointer-events-auto w-full max-w-2xl mx-auto p-1 rounded-xl bg-surface-card dark:bg-[#0d1f38] border border-border dark:border-[#1a3250] shadow-md flex items-center justify-between gap-1">
             <button
               type="button"
               aria-label="Previous section"
               onClick={() => cycleTab('prev')}
-              className="p-1.5 rounded-lg bg-surface-elevated/80 hover:bg-surface-hover text-slate-700 dark:text-white/90 hover:text-slate-900 dark:hover:text-white transition-colors press-feedback cursor-pointer shrink-0"
+              className="p-1.5 rounded-lg bg-surface-elevated/80 hover:bg-surface-hover text-slate-700 dark:text-white/90 hover:text-slate-900 dark:hover:text-white transition-colors press-feedback cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
-              <ChevronLeft className="size-4" />
+              <ChevronLeft className="size-4" aria-hidden="true" />
             </button>
 
             <div className="flex-1 grid grid-cols-5 gap-1">
@@ -1866,22 +1695,21 @@ export default function TrekkerDetailClient({
                     aria-current={isActive ? 'page' : undefined}
                     onClick={() => setActiveTab(tab.key)}
                     className={cn(
-                      'group relative px-2 py-1.5 text-xs font-semibold tracking-wide transition-colors press-feedback cursor-pointer flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-none select-none',
+                      'group relative px-2 py-2 text-xs font-semibold tracking-wide transition-colors press-feedback cursor-pointer flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-none select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                       isActive
                         ? 'bg-[#132c4a] dark:bg-[#16365c] text-white border-b-2 border-[#0e7490] dark:border-[#0abec5] sm:[clip-path:polygon(7px_0%,100%_0%,calc(100%-7px)_100%,0%_100%)]'
                         : 'bg-surface-elevated/70 dark:bg-[#0e2138]/60 hover:bg-surface-hover dark:hover:bg-[#163050] text-slate-700 dark:text-white/85 hover:text-slate-900 dark:hover:text-white border border-border-subtle/50 dark:border-[#1b3455]/50'
                     )}
                   >
-                    <div
+                    <Icon
                       className={cn(
-                        'size-5 rounded-full flex items-center justify-center shrink-0 transition-colors',
+                        'size-3.5 shrink-0 transition-colors',
                         isActive
-                          ? 'bg-[#0e7490] dark:bg-[#0abec5] text-white dark:text-slate-950'
-                          : 'bg-black/5 dark:bg-white/5 text-slate-600 dark:text-white/75 group-hover:text-slate-900 dark:group-hover:text-white'
+                          ? 'text-white'
+                          : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white'
                       )}
-                    >
-                      <Icon className="size-3" />
-                    </div>
+                      aria-hidden="true"
+                    />
                     <span
                       className={cn(
                         'font-bold tracking-wide whitespace-nowrap text-xs',
@@ -1901,15 +1729,15 @@ export default function TrekkerDetailClient({
               type="button"
               aria-label="Next section"
               onClick={() => cycleTab('next')}
-              className="p-1.5 rounded-lg bg-surface-elevated/80 hover:bg-surface-hover text-slate-700 dark:text-white/90 hover:text-slate-900 dark:hover:text-white transition-colors press-feedback cursor-pointer shrink-0"
+              className="p-1.5 rounded-lg bg-surface-elevated/80 hover:bg-surface-hover text-slate-700 dark:text-white/90 hover:text-slate-900 dark:hover:text-white transition-colors press-feedback cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
-              <ChevronRight className="size-4" />
+              <ChevronRight className="size-4" aria-hidden="true" />
             </button>
           </div>
         </div>
 
       {/* ==================================================================== */}
-      {/* TAROT INSPECT MODAL: ARCHED PRESENTATION WITH CORNER STARS          */}
+      {/* TAROT INSPECT MODAL: ARCHED PRESENTATION                              */}
       {/* ==================================================================== */}
       {inspectedPotential && (
         <div
@@ -1930,12 +1758,6 @@ export default function TrekkerDetailClient({
             )}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Ornate Corner Stars */}
-            <span className="absolute top-3 left-3 text-pink-400 text-sm pointer-events-none" aria-hidden="true">✦</span>
-            <span className="absolute top-3 right-3 text-pink-400 text-sm pointer-events-none" aria-hidden="true">✦</span>
-            <span className="absolute bottom-3 left-3 text-pink-400 text-sm pointer-events-none" aria-hidden="true">✦</span>
-            <span className="absolute bottom-3 right-3 text-pink-400 text-sm pointer-events-none" aria-hidden="true">✦</span>
-
             {/* Close Button */}
             <button
               ref={modalCloseBtnRef}
@@ -1949,7 +1771,7 @@ export default function TrekkerDetailClient({
 
             {/* Modal Header */}
             <div className="flex items-start gap-3.5 pr-8">
-              <div className="size-14 rounded-full bg-[#0f172a] border-2 border-pink-400/60 overflow-hidden shrink-0 flex items-center justify-center p-1 shadow-md">
+              <div className="size-14 rounded-full bg-[#0f172a] border-2 border-pink-400/60 overflow-hidden shrink-0 flex items-center justify-center p-1">
                 <img
                   src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/potential/${inspectedPotential.icon}_A.webp`}
                   alt={inspectedPotential.name}
@@ -2012,8 +1834,8 @@ export default function TrekkerDetailClient({
 
             {/* Scaled Description at Current Slider Level */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-semibold text-slate-600 dark:text-white/80 uppercase tracking-wider tabular-nums">
-                Scaled Description (Lv. {potentialLevel})
+              <span className="text-xs font-semibold text-slate-600 dark:text-white/80 tabular-nums">
+                Scaled description (Lv. {potentialLevel})
               </span>
               <div className="p-3.5 rounded-lg bg-surface-elevated/50 border border-border-subtle text-xs sm:text-sm text-slate-700 dark:text-white leading-relaxed font-normal whitespace-pre-line">
                 <PotentialDesc
@@ -2035,8 +1857,8 @@ export default function TrekkerDetailClient({
             {/* Effect Types */}
             {inspectedPotential.effectType && inspectedPotential.effectType.length > 0 && (
               <div className="space-y-1">
-                <span className="text-[11px] font-semibold text-slate-600 dark:text-white/80 uppercase tracking-wider">
-                  Effect Types
+                <span className="text-xs font-semibold text-slate-600 dark:text-white/80">
+                  Effect types
                 </span>
                 <div className="flex flex-wrap gap-1">
                   {inspectedPotential.effectType.map((eff, i) => (

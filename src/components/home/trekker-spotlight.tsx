@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import charactersData from '@/data/characters.json';
 import { SSCharacter } from '@/types';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
+import { RarityStars } from '@/components/ui/rarity-stars';
 
 const CHAR_LIST = Object.values(charactersData as Record<string, SSCharacter>);
 
@@ -38,7 +39,7 @@ export function TrekkerSpotlight() {
       <div className="flex-1 p-6 game-card celestial-card border border-border bg-surface-card flex flex-col items-center justify-center gap-3">
         {/* Circular Avatar with Element and Role Accents */}
         <div className="relative">
-          <div className="size-32 sm:size-36 rounded-full overflow-hidden border-2 border-amber-400/60 shadow-xl bg-surface-subtle">
+          <div className="size-32 sm:size-36 rounded-full overflow-hidden border-2 border-amber-400/60 bg-surface-subtle">
             <img
               src={getTrekkerImageUrl(featured.id)}
               alt={featured.name.EN}
@@ -48,7 +49,7 @@ export function TrekkerSpotlight() {
             />
           </div>
           {/* Element Badge */}
-          <div className="absolute bottom-0 right-1 size-7 rounded-full bg-surface-subtle border border-border-hover p-0.5 shadow-md flex items-center justify-center">
+          <div className="absolute bottom-0 right-1 size-7 rounded-full bg-surface-subtle border border-border-hover p-0.5 flex items-center justify-center">
             <img
               src={`/ss-element/${featured.element}.webp`}
               alt={featured.element}
@@ -65,9 +66,7 @@ export function TrekkerSpotlight() {
             <h3 className="font-bold text-lg sm:text-xl text-slate-900 tracking-tight">
               {featured.name.EN}
             </h3>
-            <span className="text-xs px-2 py-0.5 rounded font-mono font-bold bg-amber-500 text-slate-950 tabular-nums">
-              {featured.star}★
-            </span>
+            <RarityStars count={featured.star} size="sm" />
           </div>
           <div className="flex items-center gap-1.5 text-xs">
             <span className="px-2 py-0.5 rounded bg-surface-elevated border border-border-subtle text-slate-700 font-medium">

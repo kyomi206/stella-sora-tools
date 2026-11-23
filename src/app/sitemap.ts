@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import charactersData from '../data/characters.json' with { type: 'json' };
+import { getResolvedCommunityPresets } from '../lib/community-presets.ts';
 import { getAllDiscs, getDiscSlug } from '../lib/discs.ts';
 import { CONTENT_LAST_MODIFIED, toAbsoluteUrl } from '../lib/seo.ts';
 
@@ -11,6 +12,7 @@ const STATIC_ROUTES: ReadonlyArray<{
   { path: '/', changeFrequency: 'weekly', priority: 1.0 },
   { path: '/trekkers', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/discs', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/builds', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/builder', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/builder/advanced', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/bond', changeFrequency: 'monthly', priority: 0.8 },
@@ -56,6 +58,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: CONTENT_LAST_MODIFIED,
       changeFrequency: 'monthly',
       priority: 0.7,
+    });
+  }
+
+  for (const preset of getResolvedCommunityPresets()) {
+    pushEntry({
+      url: toAbsoluteUrl(`/builds/${encodeURIComponent(preset.id)}`),
+      lastModified: CONTENT_LAST_MODIFIED,
+      changeFrequency: 'weekly',
+      priority: 0.8,
     });
   }
 

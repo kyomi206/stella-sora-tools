@@ -55,9 +55,9 @@ describe('KiyoStella SEO & AI Discoverability', () => {
     assert.ok(config.sitemap && String(config.sitemap).endsWith('/sitemap.xml'));
   });
 
-  it('sitemap() includes 157 canonical URLs, excludes /damage and numeric aliases', () => {
+  it('sitemap() includes 172 canonical URLs, excludes /damage and numeric aliases', () => {
     const entries = sitemap();
-    assert.equal(entries.length, 157); // 9 static + 42 trekkers + 106 discs
+    assert.equal(entries.length, 172); // 10 static + 42 trekkers + 106 discs + 14 builds
 
     const urls = entries.map((e) => e.url);
     assert.equal(new Set(urls).size, entries.length, 'Sitemap URLs must be unique');
@@ -75,6 +75,8 @@ describe('KiyoStella SEO & AI Discoverability', () => {
     assert.ok(urls.some((u) => u.endsWith('/trekkers/Chitose')));
     assert.ok(urls.some((u) => u.endsWith('/trekkers/Snowish%20Laru')));
     assert.ok(urls.some((u) => u.endsWith('/discs/beneath-billowing-sails')));
+    assert.ok(urls.some((u) => u.endsWith('/builds')));
+    assert.ok(urls.some((u) => u.endsWith('/builds/eleanor-skill-willow')));
   });
 
   it('buildPageMetadata, JSON-LD builders, and serializeJsonLd escape safely', () => {
@@ -135,6 +137,7 @@ describe('KiyoStella SEO & AI Discoverability', () => {
     assert.equal(text.includes('/damage'), false, 'Must not expose /damage in llms.txt');
 
     for (const pathSegment of [
+      '/builds',
       '/builder',
       '/builder/advanced',
       '/bond',

@@ -538,7 +538,7 @@ export function AdvancedBuildCardExport({
 
               {harmonySkills.length === 0 ? (
                 <p className="mt-2 text-[11px] italic text-[color:var(--np-ink-muted)]">
-                  Equip Main Discs to unlock Harmony Skills.
+                  Equip Main Discs to meet Harmony Skills.
                 </p>
               ) : (
                 <div className="mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 sm:gap-2">

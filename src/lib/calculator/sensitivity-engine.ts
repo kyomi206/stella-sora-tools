@@ -1,7 +1,7 @@
 import { calculateResAmend } from './damage-engine.ts';
 import type { DiscAndNoteContributions } from './damage-engine.ts';
 import { calculateTeam } from './fighter-calc.ts';
-import type { SlotKey, TeamCalcInput } from './fighter-calc.ts';
+import type { SlotKey, TeamBuffInput, TeamCalcInput } from './fighter-calc.ts';
 
 export interface TalentSweepPoint {
   tier: number;
@@ -67,7 +67,8 @@ export interface DiscSweepPoint extends DiscSweepEntry {
 export function computeDiscContributions(
   input: TeamCalcInput,
   entries: DiscSweepEntry[],
-  rebuildContributions: (without: DiscSweepEntry | null) => DiscAndNoteContributions
+  rebuildContributions: (without: DiscSweepEntry | null) => DiscAndNoteContributions,
+  rebuildBuffs?: (without: DiscSweepEntry | null) => TeamBuffInput[]
 ): DiscSweepPoint[] {
   if (entries.length === 0) return [];
 
@@ -77,6 +78,7 @@ export function computeDiscContributions(
     const teamDmg = calculateTeam({
       ...input,
       contributions: rebuildContributions(entry),
+      ...(rebuildBuffs ? { buffs: rebuildBuffs(entry) } : {}),
     }).totalExpected;
 
     return {

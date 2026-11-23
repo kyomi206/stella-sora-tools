@@ -97,20 +97,20 @@ export function TrekkerCard({
         )}
       >
         <div className="w-full text-center">
-          <span className="text-[11px] font-semibold text-slate-500 dark:text-white/60">
+          <span className="text-[11px] font-semibold text-slate-600 dark:text-white/75">
             Slot #{slot === 'vanguard' ? '1' : slot === 'versatile' ? '2' : '3'}
           </span>
         </div>
         <div className="flex flex-col items-center justify-center my-auto">
           <UserPlus
-            className="size-5 text-slate-400 group-hover:text-slate-700 dark:text-white/60 dark:group-hover:text-white transition-colors mb-1"
+            className="size-5 text-slate-500 group-hover:text-slate-700 dark:text-white/70 dark:group-hover:text-white transition-colors mb-1"
             aria-hidden="true"
           />
           <span className="text-xs font-semibold text-slate-800 dark:text-white group-hover:text-slate-900 dark:group-hover:text-white text-center transition-colors">
             Assign {role.label}
           </span>
         </div>
-        <span className="text-[11px] text-slate-400 dark:text-white/50 text-center">
+        <span className="text-[11px] text-slate-600 dark:text-white/75 text-center">
           {isDragOver ? 'Drop Trekker here' : 'Click to choose'}
         </span>
       </div>

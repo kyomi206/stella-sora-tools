@@ -30,9 +30,9 @@ const MONTH_PADDING_X = 12;
 const CARD_STICKY_INSET = SIDEBAR_WIDTH + CARD_PADDING_X;
 const MONTH_STICKY_INSET = SIDEBAR_WIDTH + MONTH_PADDING_X;
 
-// Historical timeline range from the game's launch on October 19, 2025 through the 1st Anniversary
+// Historical timeline range from the game's launch on October 19, 2025 through December 2026
 const RANGE_START = new Date('2025-10-15T00:00:00Z');
-const RANGE_END = new Date('2026-11-30T23:59:59Z');
+const RANGE_END = new Date('2026-12-31T23:59:59Z');
 
 interface LaneAssignment {
   lanes: Map<string, number>;
@@ -133,39 +133,39 @@ function wikiArtworkThumb(url: string, width = 320): string {
 // Color theme classes (module scope so they are not re-allocated per item per render).
 const COLOR_STYLES: Record<string, { card: string; badge: string; badgeText: string }> = {
   purple: {
-    card: 'border-violet-300 bg-gradient-to-r from-violet-100 via-violet-50 to-surface-card text-violet-900 hover:border-violet-400',
-    badge: 'bg-violet-100 text-violet-800 border-violet-300',
-    badgeText: 'text-violet-700',
+    card: 'border-teal-300 border-l-[3px] border-l-teal-500 bg-teal-50 text-teal-900 hover:border-teal-400',
+    badge: 'bg-teal-100 text-teal-800 border-teal-300',
+    badgeText: 'text-teal-700',
   },
   amber: {
-    card: 'border-amber-300 bg-gradient-to-r from-amber-100 via-amber-50 to-surface-card text-amber-900 hover:border-amber-400',
+    card: 'border-amber-300 border-l-[3px] border-l-amber-500 bg-amber-50 text-amber-900 hover:border-amber-400',
     badge: 'bg-amber-100 text-amber-800 border-amber-300',
     badgeText: 'text-amber-700',
   },
   blue: {
-    card: 'border-sky-300 bg-gradient-to-r from-sky-100 via-sky-50 to-surface-card text-sky-900 hover:border-sky-400',
+    card: 'border-sky-300 border-l-[3px] border-l-sky-500 bg-sky-50 text-sky-900 hover:border-sky-400',
     badge: 'bg-sky-100 text-sky-800 border-sky-300',
     badgeText: 'text-sky-700',
   },
   rose: {
-    card: 'border-rose-300 bg-gradient-to-r from-rose-100 via-rose-50 to-surface-card text-rose-900 hover:border-rose-400',
+    card: 'border-rose-300 border-l-[3px] border-l-rose-500 bg-rose-50 text-rose-900 hover:border-rose-400',
     badge: 'bg-rose-100 text-rose-700 border-rose-300',
     badgeText: 'text-rose-600',
   },
   emerald: {
-    card: 'border-emerald-300 bg-gradient-to-r from-emerald-100 via-emerald-50 to-surface-card text-emerald-900 hover:border-emerald-400',
+    card: 'border-emerald-300 border-l-[3px] border-l-emerald-500 bg-emerald-50 text-emerald-900 hover:border-emerald-400',
     badge: 'bg-emerald-100 text-emerald-800 border-emerald-300',
     badgeText: 'text-emerald-700',
   },
   orange: {
-    card: 'border-orange-300 bg-gradient-to-r from-orange-100 via-orange-50 to-surface-card text-orange-900 hover:border-orange-400',
+    card: 'border-orange-300 border-l-[3px] border-l-orange-500 bg-orange-50 text-orange-900 hover:border-orange-400',
     badge: 'bg-orange-100 text-orange-800 border-orange-300',
     badgeText: 'text-orange-700',
   },
   indigo: {
-    card: 'border-indigo-300 bg-gradient-to-r from-indigo-100 via-indigo-50 to-surface-card text-indigo-900 hover:border-indigo-400',
-    badge: 'bg-indigo-100 text-indigo-800 border-indigo-300',
-    badgeText: 'text-indigo-700',
+    card: 'border-slate-300 border-l-[3px] border-l-slate-500 bg-slate-100 text-slate-900 hover:border-slate-400',
+    badge: 'bg-slate-200 text-slate-800 border-slate-300',
+    badgeText: 'text-slate-700',
   },
 };
 
@@ -195,9 +195,9 @@ const TimelineCard = memo(function TimelineCard({
         // artwork exactly the same way but does not create a scroll container, so
         // the native `position: sticky` content below still tracks the timeline
         // scrollport instead of the card itself.
-        'absolute rounded-xl border px-2.5 py-1 flex items-center overflow-clip shadow-md group select-none transition-[border-color,box-shadow] duration-150',
+        'absolute rounded-xl border px-2.5 py-1 flex items-center overflow-clip group select-none transition-[border-color] duration-150',
         colorStyles.card,
-        isOngoing && 'ring-1 ring-white/20 shadow-[0_0_12px_rgba(15,23,42,0.12)]'
+        isOngoing && 'ring-1 ring-slate-900/10 dark:ring-white/20'
       )}
       style={{ left: `${left}px`, width: `${width}px`, top: `${top}px`, height: `${LANE_HEIGHT - 6}px` }}
       title={item.title}
@@ -297,7 +297,7 @@ const TimelineCard = memo(function TimelineCard({
             {(item.badge || item.category === 'events') && (
               <span
                 className={cn(
-                  'text-[9px] font-black tracking-wider shrink-0',
+                  'text-[11px] font-bold shrink-0',
                   item.category === 'bossBlitz' || item.category === 'events' || item.category === 'cataclysm'
                     ? colorStyles.badgeText
                     : cn('px-1.5 py-0.2 rounded border', colorStyles.badge)
@@ -307,7 +307,7 @@ const TimelineCard = memo(function TimelineCard({
               </span>
             )}
             {isOngoing && (
-              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <span className="size-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true" />
             )}
             {item.bossWeakness && item.bossWeakness.length > 0 && width > 180 && (
               <div className="hidden sm:flex items-center gap-1 shrink-0 ml-0.5">
@@ -331,7 +331,7 @@ const TimelineCard = memo(function TimelineCard({
           </span>
 
           {/* Date range subtitle */}
-          <span className="text-[10px] opacity-75 font-mono truncate mt-0.5">
+          <span className="text-[11px] opacity-80 tabular-nums truncate mt-0.5">
             {formatDateRangeShort(item.startDate, item.endDate, timezone)}
           </span>
         </div>
@@ -354,15 +354,15 @@ const MainStoryPin = memo(function MainStoryPin({ item, left, top, timezone }: M
       style={{ left: `${left}px`, top: `${top}px` }}
       title={item.title}
     >
-      {/* Circle dot marker matching lore1.png */}
+      {/* Circle dot marker */}
       <div className="relative mt-0.5 shrink-0">
-        <span className="block size-2.5 rounded-full bg-[#6366f1] shadow-[0_0_8px_rgba(99,102,241,0.9)] group-hover:scale-125 transition-transform" />
+        <span className="block size-2.5 rounded-full bg-sky-600 dark:bg-sky-400 transition-transform group-hover:scale-125" />
       </div>
 
-      {/* Stacked text matching lore1.png */}
+      {/* Stacked text */}
       <div className="flex flex-col min-w-0">
-        <span className="text-[10px] font-bold tracking-wider uppercase text-sky-600 leading-none">
-          MAIN STORY
+        <span className="text-[11px] font-semibold text-sky-700 dark:text-sky-400 leading-none">
+          Main story
         </span>
         <div className="flex items-center gap-1.5 mt-1">
           <span className="text-xs font-bold text-slate-900 whitespace-nowrap leading-snug group-hover:text-sky-800 transition-colors">
@@ -381,7 +381,7 @@ const MainStoryPin = memo(function MainStoryPin({ item, left, top, timezone }: M
             </a>
           )}
         </div>
-        <span className="text-[10px] text-sky-700/80 font-mono whitespace-nowrap leading-none mt-1">
+        <span className="text-[11px] text-sky-700/90 tabular-nums whitespace-nowrap leading-none mt-1">
           {formatMilestoneDate(item.startDate, timezone)}
         </span>
       </div>
@@ -442,11 +442,11 @@ export function RoadmapTimeline() {
   const { rangeStartMs, rangeEndMs } = useMemo(() => {
     if (timezone === 'server') {
       const s = new Date('2025-10-15T00:00:00-07:00').getTime();
-      const e = new Date('2026-11-30T23:59:59-07:00').getTime();
+      const e = new Date('2026-12-31T23:59:59-07:00').getTime();
       return { rangeStartMs: s, rangeEndMs: e };
     }
     const s = new Date(2025, 9, 15, 0, 0, 0, 0).getTime();
-    const e = new Date(2026, 10, 30, 23, 59, 59, 999).getTime();
+    const e = new Date(2026, 11, 31, 23, 59, 59, 999).getTime();
     return { rangeStartMs: s, rangeEndMs: e };
   }, [timezone]);
 
@@ -698,7 +698,7 @@ export function RoadmapTimeline() {
 
     let y = 2025;
     let m = 9; // Oct (0-indexed)
-    while (y < 2026 || (y === 2026 && m <= 10)) {
+    while (y < 2026 || (y === 2026 && m <= 11)) {
       const curMonthStart =
         timezone === 'server'
           ? new Date(`${y}-${String(m + 1).padStart(2, '0')}-01T00:00:00-07:00`)
@@ -856,10 +856,10 @@ export function RoadmapTimeline() {
         {/* Right Toolbar Controls */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Drag Hint */}
-          <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-base text-xs text-slate-600 select-none">
-            <Move className="size-3 text-amber-600 shrink-0" aria-hidden="true" />
+          <span className="hidden lg:inline-flex items-center gap-1.5 text-xs text-slate-500 select-none">
+            <Move className="size-3 shrink-0" aria-hidden="true" />
             <span>Drag canvas to pan timeline</span>
-          </div>
+          </span>
 
           {/* Timezone Switch: UTC-7 (Server) vs Local */}
           <div className="flex items-center rounded-md border border-border bg-base p-[2px] text-[11px]">
@@ -898,12 +898,12 @@ export function RoadmapTimeline() {
               onClick={() => handleZoom(-6)}
               disabled={dayWidth <= 18}
               aria-label="Zoom Out"
-              className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
+              className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               title="Zoom Out"
             >
               <ZoomOut className="size-3.5" aria-hidden="true" />
             </button>
-            <span className="px-2 font-mono text-xs font-semibold text-slate-600">
+            <span className="px-2 tabular-nums text-xs font-semibold text-slate-600">
               {dayWidth}px
             </span>
             <button
@@ -911,7 +911,7 @@ export function RoadmapTimeline() {
               onClick={() => handleZoom(6)}
               disabled={dayWidth >= 60}
               aria-label="Zoom In"
-              className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-amber-400"
+              className="p-1.5 rounded text-slate-600 hover:text-slate-900 disabled:opacity-40 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               title="Zoom In"
             >
               <ZoomIn className="size-3.5" aria-hidden="true" />
@@ -922,7 +922,7 @@ export function RoadmapTimeline() {
           <button
             type="button"
             onClick={handleJumpToLaunch}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-base text-amber-700 border border-amber-500/30 hover:bg-surface-hover text-xs font-semibold transition-colors cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-base text-amber-700 border border-amber-500/30 hover:bg-surface-hover text-xs font-semibold transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             title="Jump to Game Launch (Oct 19, 2025)"
           >
             <span>Launch (Oct '25)</span>
@@ -932,8 +932,8 @@ export function RoadmapTimeline() {
           <button
             type="button"
             onClick={handleJumpToToday}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 border border-amber-600 hover:bg-amber-400 text-xs font-semibold transition-colors cursor-pointer shrink-0 shadow-sm"
-            title="Jump to Current Time (Oct 26, 2026)"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 border border-amber-600 hover:bg-amber-600 text-xs font-semibold transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            title="Jump to Today"
           >
             <span>Jump to Active</span>
           </button>
@@ -941,7 +941,7 @@ export function RoadmapTimeline() {
       </div>
 
       {/* Main Timeline Viewport Container */}
-      <div className="relative isolate z-10 rounded-xl border border-border bg-base shadow-2xl overflow-hidden flex flex-col">
+      <div className="relative isolate z-10 rounded-xl border border-border bg-base overflow-hidden flex flex-col">
         {/* Scrollable Container with Pointer Drag Panning */}
         <div
           ref={scrollContainerRef}
@@ -966,13 +966,13 @@ export function RoadmapTimeline() {
             >
               {/* Top Corner Box (Timezone indicator) */}
               <div
-                className="flex items-center justify-between px-3 border-b border-border bg-surface-card text-[11px] font-semibold uppercase tracking-wider text-slate-600 shrink-0"
+                className="flex items-center justify-between px-3 border-b border-border bg-surface-card text-xs font-semibold text-slate-600 shrink-0"
                 style={{ height: HEADER_HEIGHT }}
               >
                 <span>Category</span>
                 <span
                   className={cn(
-                    'font-mono text-[10px] font-bold px-1.5 py-0.5 rounded border',
+                    'tabular-nums text-[11px] font-bold px-1.5 py-0.5 rounded border',
                     timezone === 'server'
                       ? 'text-amber-700 bg-amber-500/10 border-amber-500/30'
                       : 'text-emerald-700 bg-emerald-500/10 border-emerald-500/30'
@@ -983,7 +983,7 @@ export function RoadmapTimeline() {
                       : 'Displaying in Your Browser Local Time'
                   }
                 >
-                  {timezone === 'server' ? 'UTC-7' : 'LOCAL'}
+                  {timezone === 'server' ? 'UTC-7' : 'Local'}
                 </span>
               </div>
 
@@ -1000,7 +1000,7 @@ export function RoadmapTimeline() {
                       {category.label.split('(')[0].trim()}
                     </span>
                   </div>
-                  <span className="text-[10px] text-muted-foreground mt-1">
+                  <span className="text-[11px] text-muted-foreground mt-1 tabular-nums">
                     {items.length} {items.length === 1 ? 'entry' : 'entries'}
                   </span>
                 </div>
@@ -1041,7 +1041,7 @@ export function RoadmapTimeline() {
                     <div
                       key={d.x}
                       className={cn(
-                        'absolute top-0 bottom-0 flex items-center justify-center font-mono text-[10px] border-r border-border/20',
+                        'absolute top-0 bottom-0 flex items-center justify-center tabular-nums text-[11px] border-r border-border/20',
                         d.isWeekend
                           ? 'bg-sky-500/[0.08] text-sky-700 font-semibold'
                           : 'text-muted-foreground'
@@ -1080,7 +1080,7 @@ export function RoadmapTimeline() {
                   m.left > 0 ? (
                     <div
                       key={m.key}
-                      className="absolute inset-y-0 border-l-2 border-sky-400/70 shadow-[0_0_8px_rgba(56,189,248,0.25)] z-10"
+                      className="absolute inset-y-0 border-l-2 border-sky-400/70 z-10"
                       style={{ left: m.left }}
                     />
                   ) : null
@@ -1090,11 +1090,11 @@ export function RoadmapTimeline() {
               {/* Red Vertical Today Line Indicator (client-only: clock-dependent) */}
               {isHydrated && (
                 <div
-                  className="absolute top-0 bottom-0 z-20 w-0.5 bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.35)] pointer-events-none"
+                  className="absolute top-0 bottom-0 z-20 w-0.5 bg-rose-500 pointer-events-none"
                   style={{ left: todayX }}
                 >
-                  <div className="sticky top-[48px] -translate-x-1/2 bg-rose-600 text-white font-black text-[9px] px-1.5 py-0.5 rounded-sm shadow-md uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
-                    <span className="size-1.5 rounded-full bg-white animate-ping" />
+                  <div className="sticky top-[48px] -translate-x-1/2 inline-flex w-max bg-rose-600 text-white font-bold text-[11px] px-2 py-0.5 rounded-sm items-center gap-1 whitespace-nowrap">
+                    <span className="size-1.5 rounded-full bg-white shrink-0" aria-hidden="true" />
                     <span>Today</span>
                   </div>
                 </div>

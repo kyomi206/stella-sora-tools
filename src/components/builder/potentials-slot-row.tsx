@@ -5,7 +5,7 @@ import { SelectedPotential, SlotType } from '@/types';
 import { getPotentialById, getPotentialImageUrl } from '@/lib/potentials';
 import { PotentialDesc } from './potential-desc';
 import { SSPotentialFull } from '@/types';
-import { X, Sparkles } from 'lucide-react';
+import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface PotentialsSlotRowProps {

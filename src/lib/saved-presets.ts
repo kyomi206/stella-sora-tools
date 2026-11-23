@@ -11,6 +11,7 @@ import type {
   SlotType,
   TeamBuild,
 } from '../types/index.ts';
+import { sanitizeBuildRotation, type BuildRotation } from './calculator/build-rotation.ts';
 
 export const SAVED_PRESETS_STORAGE_KEY = 'sstt:saved-presets:v1';
 export const ACTIVE_DRAFT_STORAGE_KEY = 'sstt:active-draft:v1';
@@ -28,6 +29,8 @@ export interface SavedPresetRecord {
   inGameCode: string | null;
   createdAt: number;
   updatedAt: number;
+  combatRotation?: BuildRotation;
+  sourcePresetId?: string;
 }
 
 export interface UpsertSavedPresetInput {
@@ -38,6 +41,8 @@ export interface UpsertSavedPresetInput {
   mainDiscs?: SelectedMainDisc[];
   supportDiscs?: SelectedSupportDisc[];
   targetNotes?: Partial<Record<NoteName, number>>;
+  combatRotation?: BuildRotation | null;
+  sourcePresetId?: string | null;
   now?: number;
   forceNew?: boolean;
 }
@@ -235,6 +240,17 @@ export function upsertSavedPreset(
       ? 'advanced'
       : 'basic';
 
+  const sanitizedRotation =
+    input.combatRotation !== undefined
+      ? sanitizeBuildRotation(input.combatRotation)
+      : existing?.combatRotation;
+  const sourcePresetId =
+    input.sourcePresetId !== undefined
+      ? typeof input.sourcePresetId === 'string' && input.sourcePresetId.trim()
+        ? input.sourcePresetId.trim()
+        : undefined
+      : existing?.sourcePresetId;
+
   const record: SavedPresetRecord = {
     id: existing ? existing.id : generatePresetId(now),
     name: normalizePresetName(input.name, effectiveMode),
@@ -243,6 +259,8 @@ export function upsertSavedPreset(
     inGameCode,
     createdAt: existing ? existing.createdAt : now,
     updatedAt: now,
+    ...(sanitizedRotation ? { combatRotation: sanitizedRotation } : {}),
+    ...(sourcePresetId ? { sourcePresetId } : {}),
   };
 
   const nextList = existing
@@ -292,18 +310,50 @@ export function duplicateSavedPreset(
   const baseLimit = MAX_PRESET_NAME_LENGTH - suffix.length;
   const baseName = Array.from(original.name).slice(0, baseLimit).join('').trimEnd();
 
+  const clonedRotation = original.combatRotation
+    ? sanitizeBuildRotation(original.combatRotation)
+    : undefined;
+
   const duplicated: SavedPresetRecord = {
     ...original,
     id: generatePresetId(now),
     name: `${baseName || original.name}${suffix}`,
     createdAt: now,
     updatedAt: now,
+    ...(clonedRotation ? { combatRotation: clonedRotation } : {}),
   };
 
   return {
     list: sortByUpdatedDesc([duplicated, ...list]).slice(0, MAX_SAVED_PRESETS),
     duplicated,
   };
+}
+
+export function getSavedPresetById(
+  list: SavedPresetRecord[],
+  id: string
+): SavedPresetRecord | null {
+  if (!id) return null;
+  return list.find((item) => item.id === id) ?? null;
+}
+
+export function updateSavedPresetRotation(
+  list: SavedPresetRecord[],
+  id: string,
+  combatRotation: BuildRotation | null,
+  now = Date.now()
+): SavedPresetRecord[] {
+  const sanitized = combatRotation ? sanitizeBuildRotation(combatRotation) : undefined;
+  let changed = false;
+  const next = list.map((item) => {
+    if (item.id !== id) return item;
+    changed = true;
+    const { combatRotation: _prev, ...rest } = item;
+    return sanitized
+      ? { ...rest, combatRotation: sanitized, updatedAt: now }
+      : { ...rest, updatedAt: now };
+  });
+  return changed ? sortByUpdatedDesc(next) : list;
 }
 
 export function deleteSavedPreset(
@@ -366,6 +416,12 @@ function validateAndSanitizeRecord(raw: unknown): SavedPresetRecord | null {
   const canonicalAdvCode = packAdvancedPresetCode(unpacked) || obj.advCode.trim();
   const inGameCode = packPresetCode(unpacked.slots);
 
+  const combatRotation = sanitizeBuildRotation(obj.combatRotation);
+  const sourcePresetId =
+    typeof obj.sourcePresetId === 'string' && obj.sourcePresetId.trim()
+      ? obj.sourcePresetId.trim()
+      : undefined;
+
   return {
     id,
     name,
@@ -374,6 +430,8 @@ function validateAndSanitizeRecord(raw: unknown): SavedPresetRecord | null {
     inGameCode,
     createdAt,
     updatedAt,
+    ...(combatRotation ? { combatRotation } : {}),
+    ...(sourcePresetId ? { sourcePresetId } : {}),
   };
 }
 

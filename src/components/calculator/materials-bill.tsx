@@ -6,7 +6,7 @@ import {
   getMaterialRarityStyle,
   MATERIAL_DATA,
 } from '@/lib/calculator/material-icons';
-import { Coins, Layers } from 'lucide-react';
+import { Coins } from 'lucide-react';
 
 interface MaterialsBillProps {
   tally: MaterialTally;
@@ -75,7 +75,7 @@ export function MaterialsBill({
           )}
         </div>
         <span className="text-xs font-bold text-slate-700">Dorra</span>
-        <span className="text-sm sm:text-base font-extrabold !text-amber-600 font-mono tabular-nums">
+        <span className="text-sm sm:text-base font-extrabold !text-amber-600 tabular-nums">
           {formatNumber(tally.dorra)}
         </span>
       </div>
@@ -83,11 +83,8 @@ export function MaterialsBill({
       {/* All Upgrade Materials */}
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-slate-700">
-            <Layers className="w-3.5 h-3.5 text-slate-600" aria-hidden="true" />
-            <span className="text-xs font-bold">Upgrade Materials</span>
-          </div>
-          <span className="text-xs text-slate-600 font-mono tabular-nums">
+          <span className="text-xs font-bold text-slate-700">Upgrade Materials</span>
+          <span className="text-xs text-slate-600 tabular-nums">
             {tally.breakthroughItems.length + tally.skillItems.length} types
           </span>
         </div>
@@ -101,7 +98,7 @@ export function MaterialsBill({
                 className="material-row py-1 flex items-center gap-2.5 transition-colors"
               >
                 <MaterialIconItem name={item.name} />
-                <span className="text-sm font-bold text-slate-900 font-mono tabular-nums shrink-0">
+                <span className="text-sm font-bold text-slate-900 tabular-nums shrink-0">
                   x{formatNumber(item.count)}
                 </span>
                 <span className="text-sm font-medium text-slate-800 truncate" title={item.name}>

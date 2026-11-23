@@ -11,6 +11,7 @@ import {
   Disc,
   Calendar,
   Calculator,
+  Layers,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/components/layout/sidebar-context';
@@ -48,37 +49,36 @@ export function SideTab() {
       name: 'Preset Visualizer',
       href: '/builder',
       icon: Swords,
-      iconColor: 'text-rose-600',
+    },
+    {
+      name: 'Community Builds',
+      href: '/builds',
+      icon: Layers,
     },
     {
       name: 'Affinity Calculator',
       href: '/bond',
       icon: Heart,
-      iconColor: 'text-purple-600',
     },
     {
       name: 'Resource Calculator',
       href: '/calculator',
       icon: Calculator,
-      iconColor: 'text-amber-600',
     },
     {
       name: 'Events Roadmap',
       href: '/roadmap',
       icon: Calendar,
-      iconColor: 'text-sky-600',
     },
     {
       name: 'Trekker Encyclopedia',
       href: '/trekkers',
       icon: Users,
-      iconColor: 'text-emerald-600',
     },
     {
       name: 'Runic Discs',
       href: '/discs',
       icon: Disc,
-      iconColor: 'text-cyan-600',
     },
   ];
 
@@ -103,7 +103,7 @@ export function SideTab() {
         className={cn(
           'border-r border-border-subtle select-none z-40 flex flex-col rail-collapse',
           // Desktop styles: static in flex flow, sticky to viewport height
-          'hidden md:flex md:shrink-0 md:h-screen md:sticky md:top-0',
+          'hidden md:flex md:shrink-0 md:h-dvh md:sticky md:top-0',
           isCollapsed ? 'md:w-14' : 'md:w-60',
           // Mobile styles: fixed slide-over drawer below TopBar (h-12)
           (isMobileOpen || isMobileClosing) && [
@@ -123,7 +123,7 @@ export function SideTab() {
             <Link
               href="/"
               aria-label="Stella Sora Tools"
-              className="flex items-center gap-2.5 overflow-hidden press-feedback rounded-md focus-visible:ring-2 focus-visible:ring-amber-400"
+              className="flex items-center gap-2.5 overflow-hidden press-feedback rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
               <div className="size-7 rounded-md bg-surface-elevated border border-amber-500/30 shadow-xs flex items-center justify-center overflow-hidden shrink-0">
                 <img src="/bastelina.png" alt="Bastelina" width={28} height={28} className="size-full object-contain" />
@@ -156,16 +156,18 @@ export function SideTab() {
                 aria-label="Home"
                 onClick={() => { if (isMobileOpen) handleCloseMobile(); }}
                 className={cn(
-                  'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
+                  'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
                   pathname === '/'
-                    ? 'bg-surface-elevated text-slate-900 font-medium border-l-2 border-amber-400 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover'
+                    ? 'bg-surface-elevated text-slate-900 dark:text-white font-semibold border border-border-subtle'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover border border-transparent'
                 )}
               >
                 <Home
                   className={cn(
                     'size-4 shrink-0 transition-colors',
-                    pathname === '/' ? 'text-amber-600' : 'text-slate-600 group-hover:text-amber-700'
+                    pathname === '/'
+                      ? 'text-slate-900 dark:text-white'
+                      : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200'
                   )}
                   aria-hidden="true"
                 />
@@ -192,7 +194,7 @@ export function SideTab() {
             <div className="h-5 flex items-center px-2.5 mb-1 overflow-hidden">
               <span
                 className={cn(
-                  'text-[11px] font-semibold uppercase tracking-wider text-slate-500 rail-label',
+                  'text-xs font-medium text-slate-500 dark:text-slate-400 rail-label',
                   isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
                 )}
               >
@@ -220,16 +222,18 @@ export function SideTab() {
                       aria-label={tool.name}
                       onClick={() => { if (isMobileOpen) handleCloseMobile(); }}
                       className={cn(
-                        'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
+                        'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
                         isActive
-                          ? 'bg-surface-elevated text-slate-900 font-medium border-l-2 border-amber-400 shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover'
+                          ? 'bg-surface-elevated text-slate-900 dark:text-white font-semibold border border-border-subtle'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-surface-hover border border-transparent'
                       )}
                     >
                       <Icon
                         className={cn(
                           'size-4 shrink-0 transition-colors',
-                          isActive ? tool.iconColor : 'text-slate-600 group-hover:text-slate-800'
+                          isActive
+                            ? 'text-slate-900 dark:text-white'
+                            : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200'
                         )}
                         aria-hidden="true"
                       />

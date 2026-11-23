@@ -16,7 +16,7 @@ import { TrekkerSelector } from '@/components/calculator/trekker-selector';
 import {
   Heart,
   RotateCcw,
-  Sparkles,
+  Star,
   Trash2,
   Minus,
   Plus,
@@ -42,13 +42,13 @@ const rarityTheme: Record<
   5: {
     label: 'Exquisite Gift',
     shortLabel: 'EXQ',
-    cardBorder: 'border-purple-500/30 hover:border-purple-500/50',
-    cardBg: 'bg-purple-50',
-    badgeStyle: 'bg-purple-500/20 text-purple-700 border-purple-500/40',
-    titleColor: 'text-purple-700',
-    totalExpColor: 'text-purple-700',
-    fillBtnStyle: 'border-purple-500/40 bg-purple-500/15 hover:bg-purple-500/25 text-purple-700',
-    inputFocus: 'focus:border-purple-500',
+    cardBorder: 'border-teal-500/35 hover:border-teal-500/60',
+    cardBg: 'bg-teal-50',
+    badgeStyle: 'bg-teal-500/15 text-teal-700 border-teal-500/40',
+    titleColor: 'text-teal-700',
+    totalExpColor: 'text-teal-700',
+    fillBtnStyle: 'border-teal-500/40 bg-teal-500/15 hover:bg-teal-500/25 text-teal-700',
+    inputFocus: 'focus:border-teal-500',
   },
   4: {
     label: 'Rare Gift',
@@ -291,7 +291,7 @@ export function BondClient() {
                   Affinity Milestone
                 </span>
               </div>
-              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-700 border border-amber-500/30 tabular-nums">
+              <span className="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-700 border border-amber-500/30 tabular-nums">
                 Lv. {currentLevel} &rarr; Lv. {targetLevel}
               </span>
             </div>
@@ -306,11 +306,11 @@ export function BondClient() {
                       onClick={() => setCurrentLevel((prev) => Math.max(1, prev - 1))}
                       disabled={currentLevel <= 1}
                       aria-label="Decrease current level"
-                      className="size-8 sm:size-7 rounded-md bg-surface-elevated hover:bg-border border border-border disabled:opacity-40 flex items-center justify-center text-slate-800 cursor-pointer disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-amber-400 touch-manipulation"
+                      className="size-8 sm:size-7 rounded-md bg-surface-elevated hover:bg-border border border-border disabled:opacity-40 flex items-center justify-center text-slate-800 cursor-pointer disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 touch-manipulation"
                     >
                       <Minus className="size-3" aria-hidden="true" />
                     </button>
-                    <span className="font-mono text-slate-900 font-bold w-8 text-center tabular-nums">Lv. {currentLevel}</span>
+                    <span className="text-slate-900 font-bold w-8 text-center tabular-nums">Lv. {currentLevel}</span>
                     <button
                       type="button"
                       onClick={() => {
@@ -320,7 +320,7 @@ export function BondClient() {
                       }}
                       disabled={currentLevel >= 98}
                       aria-label="Increase current level"
-                      className="size-8 sm:size-7 rounded-md bg-surface-elevated hover:bg-border border border-border disabled:opacity-40 flex items-center justify-center text-slate-800 cursor-pointer disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-amber-400 touch-manipulation"
+                      className="size-8 sm:size-7 rounded-md bg-surface-elevated hover:bg-border border border-border disabled:opacity-40 flex items-center justify-center text-slate-800 cursor-pointer disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 touch-manipulation"
                     >
                       <Plus className="size-3" aria-hidden="true" />
                     </button>
@@ -350,11 +350,11 @@ export function BondClient() {
                       onClick={() => setTargetLevel((prev) => Math.max(currentLevel + 1, prev - 1))}
                       disabled={targetLevel <= currentLevel + 1}
                       aria-label="Decrease target level"
-                      className="size-8 sm:size-7 rounded-md bg-surface-elevated hover:bg-border border border-border disabled:opacity-40 flex items-center justify-center text-slate-800 cursor-pointer disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-amber-400 touch-manipulation"
+                      className="size-8 sm:size-7 rounded-md bg-surface-elevated hover:bg-border border border-border disabled:opacity-40 flex items-center justify-center text-slate-800 cursor-pointer disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 touch-manipulation"
                     >
                       <Minus className="size-3" aria-hidden="true" />
                     </button>
-                    <span className="font-mono text-slate-900 font-bold w-8 text-center tabular-nums">Lv. {targetLevel}</span>
+                    <span className="text-slate-900 font-bold w-8 text-center tabular-nums">Lv. {targetLevel}</span>
                     <button
                       type="button"
                       onClick={() => setTargetLevel((prev) => Math.min(99, prev + 1))}
@@ -391,7 +391,7 @@ export function BondClient() {
                         if (lvl > currentLevel) setTargetLevel(lvl);
                       }}
                       className={cn(
-                        'py-1 rounded-md text-xs font-mono font-medium border transition-colors cursor-pointer text-center press-feedback focus-visible:ring-2 focus-visible:ring-amber-400',
+                        'py-1 rounded-md text-xs font-medium tabular-nums border transition-colors cursor-pointer text-center press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                         targetLevel === lvl
                           ? 'bg-amber-500 text-slate-950 border-amber-600 font-bold'
                           : 'bg-surface-elevated text-slate-700 border-border hover:text-slate-900 hover:border-slate-400'
@@ -418,18 +418,18 @@ export function BondClient() {
                 <div className="flex items-baseline gap-2 mt-1">
                   {remainingExp === 0 ? (
                     <>
-                      <span className="text-2xl sm:text-3xl font-bold text-emerald-600 font-mono">
+                      <span className="text-2xl sm:text-3xl font-bold text-emerald-600 tabular-nums">
                         Target Met
                       </span>
                       {overflowExp > 0 && (
-                        <span className="text-xs text-emerald-600/80 font-mono tabular-nums">
+                        <span className="text-xs text-emerald-600/80 tabular-nums">
                           (+{overflowExp.toLocaleString()} EXP overflow)
                         </span>
                       )}
                     </>
                   ) : (
                     <>
-                      <span className="text-2xl sm:text-3xl font-bold text-slate-900 font-mono tabular-nums">
+                      <span className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums">
                         {remainingExp.toLocaleString()}
                       </span>
                       <span className="text-xs text-slate-600">points remaining</span>
@@ -438,7 +438,7 @@ export function BondClient() {
                 </div>
               </div>
 
-              <div className="text-xs font-mono bg-base px-3 py-2 rounded-lg border border-border">
+              <div className="text-xs bg-base px-3 py-2 rounded-lg border border-border tabular-nums">
                 <span className="text-slate-600 block text-xs">Current</span>
                 <strong className={cn('font-bold tabular-nums', totalExpProvided >= expStats.neededExp ? 'text-emerald-600' : 'text-slate-800')}>
                   {totalExpProvided.toLocaleString()}
@@ -459,7 +459,7 @@ export function BondClient() {
                   style={{ transform: `scaleX(${progressPct / 100})` }}
                 />
               </div>
-              <div className="flex justify-between text-xs text-slate-600 font-mono">
+              <div className="flex justify-between text-xs text-slate-600 tabular-nums">
                 <span>Lv. {currentLevel}</span>
                 <span className={cn('font-semibold tabular-nums', progressPct >= 100 ? 'text-emerald-600' : 'text-amber-600')}>
                   {progressPct}% Complete
@@ -527,37 +527,37 @@ export function BondClient() {
                 type="button"
                 onClick={() => setGiftFilter(5)}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-colors shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-400',
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                   giftFilter === 5
-                    ? 'bg-purple-500/20 text-purple-800 border-purple-500/40'
+                    ? 'bg-teal-500/20 text-teal-800 border-teal-500/45'
                     : 'bg-base text-slate-600 border-border hover:text-slate-900'
                 )}
               >
-                <span>5★ Exquisite Gift</span>
+                <span>5-Star Exquisite Gift</span>
               </button>
               <button
                 type="button"
                 onClick={() => setGiftFilter(4)}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-colors shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-400',
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                   giftFilter === 4
                     ? 'bg-amber-500/20 text-amber-800 border-amber-500/40'
                     : 'bg-base text-slate-600 border-border hover:text-slate-900'
                 )}
               >
-                <span>4★ Rare Gift</span>
+                <span>4-Star Rare Gift</span>
               </button>
               <button
                 type="button"
                 onClick={() => setGiftFilter(3)}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-colors shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-400',
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                   giftFilter === 3
                     ? 'bg-sky-500/20 text-sky-800 border-sky-500/40'
                     : 'bg-base text-slate-600 border-border hover:text-slate-900'
                 )}
               >
-                <span>3★ Common Gift</span>
+                <span>3-Star Common Gift</span>
               </button>
             </div>
 
@@ -574,9 +574,9 @@ export function BondClient() {
                     key={gift.id}
                     className={cn(
                       'flex flex-col items-center p-1.5 rounded-lg border transition-colors bg-base relative group select-none',
-                      count > 0 ? 'border-amber-500/50 shadow-md shadow-amber-500/5 ring-1 ring-amber-500/30' : 'border-border hover:border-slate-400'
+                      count > 0 ? 'border-amber-500/50 ring-1 ring-amber-500/30' : 'border-border hover:border-slate-400'
                     )}
-                    title={`${gift.name} (${gift.rarity}★) • +${effectiveExp.toLocaleString()} EXP`}
+                    title={`${gift.name} (${gift.rarity}-Star) · +${effectiveExp.toLocaleString()} EXP`}
                   >
                     {/* Picture of the Gift as an accessible button */}
                     <button
@@ -584,7 +584,7 @@ export function BondClient() {
                       onClick={() => updateGiftCount(gift.id, count + 1)}
                       aria-label={`Select ${gift.name} to increase amount`}
                       className={cn(
-                        'relative aspect-square w-full rounded-md border flex items-center justify-center overflow-hidden cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-400',
+                        'relative aspect-square w-full rounded-md border flex items-center justify-center overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                         theme.badgeStyle
                       )}
                     >
@@ -594,7 +594,7 @@ export function BondClient() {
                         width={64}
                         height={64}
                         loading="lazy"
-                        className="size-full object-contain p-1.5 drop-shadow"
+                        className="size-full object-contain p-1.5"
                       />
 
                       {/* Top Right of Gift Image: Loved / Neutral / Disliked */}
@@ -603,8 +603,9 @@ export function BondClient() {
                       </div>
 
                       {/* Bottom Right: Compact Rarity Star Pill */}
-                      <span className="absolute bottom-1 right-1 px-1 py-0.5 rounded text-[10px] font-mono font-bold bg-black/85 text-amber-300 border border-white/20 leading-none pointer-events-none">
-                        {gift.rarity}★
+                      <span className="absolute bottom-1 right-1 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] tabular-nums font-bold bg-black/85 text-amber-300 border border-white/20 leading-none pointer-events-none">
+                        <span>{gift.rarity}</span>
+                        <Star className="size-2.5 fill-amber-300 text-amber-300" aria-hidden="true" />
                       </span>
                     </button>
 
@@ -629,7 +630,7 @@ export function BondClient() {
                           updateGiftCount(gift.id, Math.max(0, parseInt(e.target.value) || 0))
                         }
                         aria-label={`${gift.name} count`}
-                        className="w-8 text-center font-mono font-bold text-xs bg-transparent text-slate-900 focus-visible:ring-1 focus-visible:ring-amber-400 rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="w-8 text-center tabular-nums font-bold text-xs bg-transparent text-slate-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400 rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
 
                       <button
@@ -637,7 +638,7 @@ export function BondClient() {
                         aria-label="Increase"
                         onClick={() => updateGiftCount(gift.id, count + 1)}
                         title={`Increase ${gift.name}`}
-                        className="size-6 rounded flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer focus-visible:ring-1 focus-visible:ring-amber-400"
+                        className="size-6 rounded flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-400"
                       >
                         +
                       </button>
@@ -653,7 +654,7 @@ export function BondClient() {
                 <span>Days needed to send all gifts (10 gifts/day limit):</span>
               </div>
 
-              <div className="flex items-center gap-2 font-mono">
+              <div className="flex items-center gap-2 tabular-nums">
                 <span className="text-slate-600 text-xs">
                   ({totalGiftsCount} {totalGiftsCount === 1 ? 'gift' : 'gifts'}) &rarr;
                 </span>

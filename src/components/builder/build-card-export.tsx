@@ -138,7 +138,7 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
       <div
         ref={cardRef}
         id="team-card-export"
-        className="w-full bg-surface-card text-slate-900 dark:text-white p-4 sm:p-6 rounded-xl flex flex-col gap-4 relative select-none shadow-xl border border-border"
+        className="w-full bg-surface-card text-slate-900 dark:text-white p-4 sm:p-6 rounded-xl flex flex-col gap-4 relative select-none border border-border"
       >
         {squadRows.map(({ slotKey, roleBadge, roleBadgeBg, char, potentials }) => {
           const isFiveStar = (char?.star || 4) >= 5;
@@ -220,7 +220,7 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
                 ) : (
                   <div className="w-24 sm:w-28 aspect-[3.4/4.4] rounded-lg border border-dashed border-slate-300 dark:border-border bg-slate-50 dark:bg-surface-elevated flex flex-col items-center justify-center p-2 text-center text-slate-600 dark:text-white/75">
                     <span className="text-xs font-semibold capitalize text-slate-700 dark:text-white/90">Empty</span>
-                    <span className="text-[10px] capitalize text-slate-500 dark:text-white/60">{slotKey}</span>
+                    <span className="text-[11px] capitalize text-slate-600 dark:text-white/75">{slotKey}</span>
                   </div>
                 )}
               </div>
@@ -367,7 +367,7 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
             type="button"
             disabled={isExporting}
             onClick={handleDownloadImage}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-black font-bold text-xs transition-colors cursor-pointer shadow-md shadow-sky-500/20 disabled:opacity-50"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           >
             <Download className="size-3.5" />
             <span>{isExporting ? 'Generating PNG...' : 'Download Image Card'}</span>

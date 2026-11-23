@@ -21,7 +21,7 @@ import {
 } from '@/data/notes';
 import { DiscSlotRef } from './disc-picker-modal';
 import { DiscSkillText } from './disc-detail-card';
-import { Disc, Plus, Minus, Trash2, Sparkles, RotateCcw, Info } from 'lucide-react';
+import { Disc, Plus, Minus, Trash2, RotateCcw, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface DiscsAndNotesSectionProps {
@@ -98,7 +98,7 @@ function DiscSkillBubble({
             : 'border-border bg-surface-card text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white hover:border-slate-400'
         )}
       >
-        {kind === 'main' ? <Sparkles className="size-3" /> : <Info className="size-3" />}
+        {kind !== 'main' && <Info className="size-3" aria-hidden="true" />}
         <span>{kind === 'main' ? 'Skills' : 'Notes'}</span>
       </button>
 
@@ -775,7 +775,7 @@ export function DiscsAndNotesSection({
               >
                 {/* Hover Message Bubble for Note Description */}
                 <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 z-50 w-56 opacity-0 invisible group-hover/note:opacity-100 group-hover/note:visible transition-[opacity,transform] duration-150 transform scale-95 group-hover/note:scale-100">
-                  <div className="relative rounded-xl border border-border bg-surface-elevated/95 p-2.5 shadow-xl backdrop-blur-md text-left select-none text-slate-900 dark:text-white">
+                  <div className="relative rounded-xl border border-border bg-surface-elevated p-2.5 shadow-md text-left select-none text-slate-900 dark:text-white">
                     <div className="flex items-center gap-1.5 pb-1.5 border-b border-border/60">
                       <img
                         src={getNoteIconUrl(note.id)}
@@ -820,7 +820,7 @@ export function DiscsAndNotesSection({
                                 : 'text-slate-700 dark:text-white/90'
                             )}
                           >
-                            {totalVal}/{reqMaxVal} {isMet ? '✓ Active' : ''}
+                            {totalVal}/{reqMaxVal} {isMet ? 'Active' : ''}
                           </span>
                         </div>
                       )}

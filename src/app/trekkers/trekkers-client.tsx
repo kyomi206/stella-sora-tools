@@ -204,8 +204,8 @@ export function TrekkersClient() {
 
   const rarityOptions: FilterOption[] = useMemo(
     () => [
-      { value: '5', label: '5★', customContent: <RarityStars count={5} /> },
-      { value: '4', label: '4★', customContent: <RarityStars count={4} /> },
+      { value: '5', label: '5-Star', customContent: <RarityStars count={5} /> },
+      { value: '4', label: '4-Star', customContent: <RarityStars count={4} /> },
     ],
     []
   );
@@ -402,22 +402,18 @@ export function TrekkersClient() {
           />
         </div>
 
-        <div>
-          <button
-            type="button"
-            onClick={handleClearFilters}
-            disabled={!hasActiveFilters}
-            className={cn(
-              'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-amber-400',
-              hasActiveFilters
-                ? 'bg-base border-border-subtle text-slate-700 hover:text-slate-900 hover:border-border-hover cursor-pointer press-feedback'
-                : 'bg-base/50 border-border-subtle/60 text-slate-400 cursor-not-allowed'
-            )}
-          >
-            <X className="size-3.5" aria-hidden="true" />
-            <span>Clear Filters</span>
-          </button>
-        </div>
+        {hasActiveFilters && (
+          <div>
+            <button
+              type="button"
+              onClick={handleClearFilters}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border-subtle bg-base text-slate-700 hover:text-slate-900 hover:border-border-hover text-xs font-medium transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            >
+              <X className="size-3.5" aria-hidden="true" />
+              <span>Clear Filters</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Results Count */}

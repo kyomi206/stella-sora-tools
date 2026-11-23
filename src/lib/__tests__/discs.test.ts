@@ -95,6 +95,10 @@ describe('Runic Disc catalog and exclusive banner helpers', () => {
 
     assert.deepEqual(getDiscStatSummary(catGod, 'lv90', 0), c1);
     assert.deepEqual(getDiscStatSummary(catGod, 'lv90', 9), c6);
+    assert.deepEqual(getDiscStatSummary(catGod, 90, 1), c1);
+    const lv40 = getDiscStatSummary(catGod, 40, 1);
+    assert.ok(lv40.baseAtk > 14 && lv40.baseAtk < 889);
+    assert.equal(lv40.secondaryLabel, 'Ignis DMG');
 
     const harmonyNotes = getDiscRequiredHarmonyNotes(catGod);
     assert.ok(harmonyNotes.includes('Melody of Burst'));

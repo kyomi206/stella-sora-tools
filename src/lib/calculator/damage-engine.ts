@@ -57,9 +57,71 @@ export const RECORD_LEVEL_BASE_ATK: Record<number, number> = {
   40: 3275,
 };
 
+export const RECORD_LEVEL_BASE_HP: Record<number, number> = {
+  0: 0,
+  1: 470,
+  2: 610,
+  3: 750,
+  4: 890,
+  5: 1030,
+  6: 1170,
+  7: 1310,
+  8: 1450,
+  9: 1590,
+  10: 1730,
+  11: 2210,
+  12: 2770,
+  13: 3330,
+  14: 4300,
+  15: 6820,
+  16: 7380,
+  17: 7800,
+  18: 7940,
+  19: 8080,
+  20: 9840,
+  21: 13600,
+  22: 13740,
+  23: 13880,
+  24: 14020,
+  25: 23020,
+  26: 23160,
+  27: 23300,
+  28: 23440,
+  29: 23580,
+  30: 23720,
+  31: 29270,
+  32: 29410,
+  33: 29550,
+  34: 29690,
+  35: 29830,
+  36: 29970,
+  37: 30110,
+  38: 30250,
+  39: 30390,
+  40: 30570,
+};
+
+export const AFFINITY_LEVEL_BASE_HP: readonly number[] = [
+  0, 334, 667, 1001, 1334, 1334,
+  1668, 2002, 2335, 2669, 2669,
+  3002, 3336, 3670, 4003, 4003,
+  4337, 4670, 5004, 5338, 5338,
+  5671, 6005, 6338, 6672, 6672,
+  7006, 7339, 7673, 8006, 8006,
+  8340, 8674, 9007, 9341, 9674,
+  10008, 10342, 10675, 11009, 11342,
+  11676, 12010, 12343, 12677, 13010,
+  13344, 13678, 14011, 14345, 14678,
+];
+
 const AFFINITY_ATK_PCT_MILESTONES = [5, 10, 15, 20, 25, 30];
 
-export function getAffinityBonuses(affinityLevel: number): { baseAtk: number; atkPct: number } {
+export function getAffinityBonuses(affinityLevel: number): {
+  baseAtk: number;
+  baseHp: number;
+  atkPct: number;
+  hpPct: number;
+} {
   const clamped = Math.max(0, Math.min(50, Math.floor(affinityLevel)));
   let milestonesPassed = 0;
   for (const m of AFFINITY_ATK_PCT_MILESTONES) {
@@ -68,7 +130,9 @@ export function getAffinityBonuses(affinityLevel: number): { baseAtk: number; at
   const flatLevels = clamped - milestonesPassed;
   return {
     baseAtk: flatLevels * 36,
+    baseHp: AFFINITY_LEVEL_BASE_HP[clamped] ?? 0,
     atkPct: milestonesPassed * 4,
+    hpPct: milestonesPassed * 2,
   };
 }
 
@@ -578,6 +642,7 @@ export interface CharacterStatInput {
   squadDiscBaseAtk: number;
   squadDiscBaseHp?: number;
   element: ElementType;
+  primaryScalingStat?: ScalingStat;
   bonuses: StatBlock;
 }
 
@@ -599,6 +664,14 @@ export interface CharacterStats {
   finalAtk: number;
 
   baseHp: number;
+  baseHpParts: {
+    character: number;
+    affinity: number;
+    record: number;
+    discs: number;
+    bonus: number;
+  };
+  affinityHpPct: number;
   hpPct: number;
   finalHp: number;
   baseDef: number;
@@ -650,11 +723,22 @@ export function buildCharacterStats(input: CharacterStatInput): CharacterStats {
   const atkPct = input.bonuses.atkPct;
   const totalAtkPct = atkPctPerma + atkPct;
 
+  const recordHp = RECORD_LEVEL_BASE_HP[input.recordLevel] ?? 0;
+  const baseHpParts = {
+    character: Math.max(0, input.characterBaseHp ?? 0),
+    affinity: affinity.baseHp,
+    record: recordHp,
+    discs: Math.max(0, input.squadDiscBaseHp ?? 0),
+    bonus: input.bonuses.baseHp,
+  };
   const baseHp =
-    Math.max(0, input.characterBaseHp ?? 0) +
-    Math.max(0, input.squadDiscBaseHp ?? 0) +
-    input.bonuses.baseHp;
-  const hpPct = input.bonuses.hpPct;
+    baseHpParts.character +
+    baseHpParts.affinity +
+    baseHpParts.record +
+    baseHpParts.discs +
+    baseHpParts.bonus;
+  const affinityHpPct = input.primaryScalingStat === 'HP' ? affinity.hpPct : 0;
+  const hpPct = affinityHpPct + input.bonuses.hpPct;
   const baseDef = Math.max(0, input.characterBaseDef ?? 0) + input.bonuses.baseDef;
   const defPct = input.bonuses.defPct;
 
@@ -670,6 +754,8 @@ export function buildCharacterStats(input: CharacterStatInput): CharacterStats {
     finalAtk: baseAtk * (1 + totalAtkPct / 100),
 
     baseHp,
+    baseHpParts,
+    affinityHpPct,
     hpPct,
     finalHp: baseHp * (1 + hpPct / 100),
     baseDef,
@@ -716,6 +802,8 @@ export interface EnemyInput {
   def: number;
   res: number;
   resilienceBroken: boolean;
+  /** Optional 0..100 uptime percentage for average break multiplier across a rotation. Takes precedence over resilienceBroken when finite. */
+  resilienceBreakUptimePct?: number;
 }
 
 export interface AbilityDamageResult {
@@ -778,9 +866,14 @@ export function calculateAbilityDamage(
   );
   const expectedCritMult = 1 + critRate * (critMult - 1);
 
-  const breakMult = enemy.resilienceBroken
-    ? 1.5 * (1 + stats.resilienceBreakDmgPct / 100)
-    : 1;
+  const breakUptime =
+    enemy.resilienceBreakUptimePct !== undefined && Number.isFinite(enemy.resilienceBreakUptimePct)
+      ? Math.max(0, Math.min(100, enemy.resilienceBreakUptimePct)) / 100
+      : enemy.resilienceBroken
+        ? 1
+        : 0;
+  const fullBreakMult = 1.5 * (1 + stats.resilienceBreakDmgPct / 100);
+  const breakMult = 1 + breakUptime * (fullBreakMult - 1);
 
   const scalingStat = ability.scalingStat ?? 'ATK';
   // Minions use additive permanent/all-friendly ATK% plus minion-scoped ATK%

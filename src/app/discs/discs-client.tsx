@@ -207,7 +207,7 @@ export function DiscsClient() {
         setter: setSelectedRarities,
         options: [5, 4, 3].map((star) => ({
           value: String(star),
-          label: `${star}★`,
+          label: `${star}-Star`,
           customContent: <RarityStars count={star} size="sm" />,
         })),
       },
@@ -410,7 +410,7 @@ export function DiscsClient() {
               onChange={(e) => setSortBy(e.target.value as DiscSortKey)}
               className="px-2.5 py-2 rounded-lg bg-base dark:bg-[#0f172a] border border-border-subtle text-xs font-medium text-slate-900 dark:text-white/90 focus-visible:ring-2 focus-visible:ring-amber-400 focus:outline-none cursor-pointer"
             >
-              <option value="rarity">Rarity (5★ → 3★)</option>
+              <option value="rarity">Rarity (5-Star to 3-Star)</option>
               <option value="atk">Max ATK (Lv.90)</option>
               <option value="name">Name (A–Z)</option>
             </select>
@@ -436,22 +436,18 @@ export function DiscsClient() {
           ))}
         </div>
 
-        <div>
-          <button
-            type="button"
-            onClick={handleClearFilters}
-            disabled={!hasActiveFilters}
-            className={cn(
-              'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-amber-400',
-              hasActiveFilters
-                ? 'bg-base border-border-subtle text-slate-700 dark:text-white/90 hover:text-slate-900 dark:hover:text-white hover:border-border-hover cursor-pointer press-feedback'
-                : 'bg-base/50 border-border-subtle/60 text-slate-400 dark:text-white/35 cursor-not-allowed'
-            )}
-          >
-            <X className="size-3.5" aria-hidden="true" />
-            <span>Clear Filters</span>
-          </button>
-        </div>
+        {hasActiveFilters && (
+          <div>
+            <button
+              type="button"
+              onClick={handleClearFilters}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border-subtle bg-base text-slate-700 dark:text-white/90 hover:text-slate-900 dark:hover:text-white hover:border-border-hover text-xs font-medium transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            >
+              <X className="size-3.5" aria-hidden="true" />
+              <span>Clear Filters</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Results Count */}

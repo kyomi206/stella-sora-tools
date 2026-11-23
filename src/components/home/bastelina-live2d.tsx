@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { X, Sparkles } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const INTERACTION_MOTIONS = ['ChatA', 'ChatB', 'ChatC', 'ChatD', 'ChatE'];
 
@@ -222,18 +222,17 @@ export function BastelinaLive2D() {
   // Minimized Floating Pill Mode
   if (isMinimized) {
     return (
-      <div className="fixed bottom-4 right-4 z-20 hidden lg:block">
+      <div className="fixed bottom-4 right-4 z-20 hidden xl:block">
         <button
           type="button"
           onClick={() => toggleMinimize(false)}
-          className="group flex items-center gap-2.5 px-3 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-md hover:shadow-lg transition-all duration-200 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 cursor-pointer"
+          className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-card border border-border hover:border-border-hover transition-[opacity,transform,background-color,border-color] duration-200 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           title="Show Bastelina"
         >
-          <div className="size-6 rounded-full overflow-hidden bg-sky-100 dark:bg-sky-950/60 ring-1 ring-amber-400/50 flex-shrink-0">
+          <div className="size-6 rounded-full overflow-hidden bg-surface-subtle border border-border flex-shrink-0">
             <img src="/bastelina.png" alt="Bastelina" className="size-full object-contain" />
           </div>
-          <span>Bastelina</span>
-          <Sparkles className="size-3.5 text-amber-500 group-hover:rotate-12 transition-transform" />
+          <span>Show Bastelina</span>
         </button>
       </div>
     );
@@ -242,18 +241,19 @@ export function BastelinaLive2D() {
   return (
     <aside
       aria-label="Bastelina Mascot"
-      className="fixed bottom-0 -right-6 2xl:-right-2 z-20 pointer-events-none select-none hidden lg:block group"
+      className="fixed bottom-12 min-[1840px]:bottom-0 -right-6 min-[1840px]:-right-2 z-20 pointer-events-none select-none hidden xl:block group"
     >
       <div className="relative flex flex-col items-center">
         {/* Floating Minimize Button (Appears on Hover) */}
-        <div className="pointer-events-auto absolute top-6 right-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="pointer-events-auto absolute top-6 right-4 z-30 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200">
           <button
             type="button"
             onClick={() => toggleMinimize(true)}
-            className="p-1.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 shadow-sm transition-colors cursor-pointer"
+            className="p-1.5 rounded-full bg-surface-card border border-border text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             title="Minimize"
+            aria-label="Minimize Bastelina"
           >
-            <X className="size-3.5" />
+            <X className="size-3.5" aria-hidden="true" />
           </button>
         </div>
 
@@ -266,8 +266,7 @@ export function BastelinaLive2D() {
         >
           <canvas
             ref={canvasRef}
-            className="pointer-events-none w-[420px] h-[720px] 2xl:w-[480px] 2xl:h-[780px] object-contain"
-            style={{ width: '420px', height: '720px' }}
+            className="pointer-events-none w-[175px] h-[300px] min-[1500px]:w-[195px] min-[1500px]:h-[335px] min-[1840px]:w-[420px] min-[1840px]:h-[720px] object-contain"
           />
 
           {/* Narrow Hit-Box strictly over Bastelina's Figure */}
@@ -282,7 +281,7 @@ export function BastelinaLive2D() {
               }
             }}
             aria-label="Interact with Bastelina"
-            className="pointer-events-auto absolute bottom-0 right-2 w-[180px] 2xl:w-[210px] h-[640px] 2xl:h-[700px] cursor-pointer rounded-t-[80px] focus:outline-none"
+            className="pointer-events-auto absolute bottom-0 right-4 w-[100px] min-[1500px]:w-[110px] min-[1840px]:w-[180px] h-[270px] min-[1500px]:h-[305px] min-[1840px]:h-[640px] cursor-pointer rounded-t-[80px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             title="Click to interact with Bastelina"
           />
         </div>

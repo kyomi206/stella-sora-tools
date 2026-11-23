@@ -138,6 +138,7 @@ export default async function TrekkerPage({ params }: TrekkerPageProps) {
     (trekkerIllustrationsData as Record<string, string[]>)[charIdStr] || [];
 
   const exclusiveDisc = getExclusiveDiscForTrekker(char.id);
+
   const signatureDiscInfo: SignatureDiscSummary | null = exclusiveDisc
     ? {
         discId: exclusiveDisc.disc.id,

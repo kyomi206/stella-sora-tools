@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Swords, Heart, Users, ExternalLink, Sparkles, Calendar } from 'lucide-react';
+import { Swords, Heart, Users, ExternalLink, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function Navbar() {

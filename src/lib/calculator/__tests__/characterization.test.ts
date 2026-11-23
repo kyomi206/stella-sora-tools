@@ -203,6 +203,7 @@ describe('calculator characterization tests', () => {
     };
 
     const teamResult = calculateTeam(teamInput);
-    assertClose(teamResult.totalExpected, 127013, 'team totalExpected');
+    // Includes Amber T5 minor talent nodes (+600 Base ATK, +15% ATK% Perma, +30% Crit DMG).
+    assertClose(teamResult.totalExpected, 156822, 'team totalExpected');
   });
 });

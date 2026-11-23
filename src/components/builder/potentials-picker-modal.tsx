@@ -16,7 +16,7 @@ import {
   getPotentialImageUrl,
 } from '@/lib/potentials';
 import { PotentialDesc } from './potential-desc';
-import { X, Trash2, Sparkles, ChevronRight, SlidersHorizontal, Lock, AlertCircle } from 'lucide-react';
+import { X, Trash2, ChevronRight, SlidersHorizontal, Lock, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useOverlayExit } from '@/lib/use-overlay-exit';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
@@ -74,7 +74,7 @@ const AvailablePotentialCard = memo(function AvailablePotentialCard({
       {/* Top-Right Info Circle Button (i) */}
       <div
         title="Hover to view combat effect"
-        className="absolute top-1 right-1 size-4 rounded-full bg-black/50 backdrop-blur-xs border border-white/40 text-white group-hover:bg-black/80 flex items-center justify-center text-[10px] font-bold z-20 pointer-events-none"
+        className="absolute top-1 right-1 size-4 rounded-full bg-black/75 border border-white/40 text-white group-hover:bg-black/90 flex items-center justify-center text-[10px] font-bold z-20 pointer-events-none"
       >
         i
       </div>
@@ -297,7 +297,6 @@ export function PotentialsPickerModal({
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-border/40 bg-secondary/20 shrink-0">
           <div className="flex items-center gap-3">
-            <Sparkles className="size-4.5 text-amber-600" aria-hidden="true" />
             <h2 id="potentials-picker-modal-title" className="text-base font-bold text-foreground">
               Choose Potentials & Priorities
             </h2>
@@ -563,12 +562,12 @@ export function PotentialsPickerModal({
             <div className="border-t border-border/50 bg-surface-subtle p-3 max-h-[310px] overflow-y-auto shrink-0 flex flex-col gap-2.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="size-3.5 text-sky-600" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-foreground">
+                  <SlidersHorizontal className="size-3.5 text-teal-600 dark:text-teal-400" aria-hidden="true" />
+                  <span className="text-xs font-semibold text-foreground">
                     Chosen Potentials & Priorities ({currentSelectedLevelSum})
                   </span>
                 </div>
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-[11px] text-muted-foreground">
                   Adjust Level & Priority. Click red X to remove back to available pool.
                 </span>
               </div>
@@ -717,7 +716,7 @@ export function PotentialsPickerModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-black font-bold text-xs transition-colors cursor-pointer shadow-md"
+            className="px-6 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           >
             Done
           </button>

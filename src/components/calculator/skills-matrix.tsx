@@ -2,7 +2,7 @@
 
 import { SkillRankRange, CharacterUpgradeInfo } from '@/lib/calculator/resource-engine';
 import { getSkillIconUrl } from '@/lib/calculator/material-icons';
-import { Minus, Plus, RotateCcw, Zap } from 'lucide-react';
+import { Minus, Plus, RotateCcw } from 'lucide-react';
 
 interface SkillsState {
   combat: SkillRankRange;
@@ -130,7 +130,9 @@ export function SkillsMatrix({ skills, character, onChange, onBulkSet, onReset }
                       }}
                     />
                   ) : (
-                    <Zap className="w-6 h-6 text-amber-600" aria-hidden="true" />
+                    <span className="text-xs font-semibold text-slate-500">
+                      {skillName.charAt(0)}
+                    </span>
                   )}
                 </div>
 
@@ -138,7 +140,7 @@ export function SkillsMatrix({ skills, character, onChange, onBulkSet, onReset }
                   <div className="flex items-center justify-between gap-1.5">
                     <span className="text-xs font-semibold text-slate-600">{track.label}</span>
                     <span
-                      className={`text-xs font-bold px-2 py-0.5 rounded border font-mono tabular-nums ${
+                      className={`text-xs font-bold px-2 py-0.5 rounded border tabular-nums ${
                         isUpgraded
                           ? 'bg-amber-500 border-amber-600 text-slate-950'
                           : 'bg-surface-elevated border-border text-slate-600'
@@ -171,7 +173,7 @@ export function SkillsMatrix({ skills, character, onChange, onBulkSet, onReset }
                       >
                         <Minus className="w-3.5 h-3.5 sm:w-3 sm:h-3" aria-hidden="true" />
                       </button>
-                      <span className="text-xs font-bold text-slate-900 w-6 text-center font-mono tabular-nums">
+                      <span className="text-xs font-bold text-slate-900 w-6 text-center tabular-nums">
                         {state.current}
                       </span>
                       <button
@@ -199,7 +201,7 @@ export function SkillsMatrix({ skills, character, onChange, onBulkSet, onReset }
                       >
                         <Minus className="w-3.5 h-3.5 sm:w-3 sm:h-3" aria-hidden="true" />
                       </button>
-                      <span className="text-xs font-bold text-slate-900 w-6 text-center font-mono tabular-nums">
+                      <span className="text-xs font-bold text-slate-900 w-6 text-center tabular-nums">
                         {state.target}
                       </span>
                       <button
@@ -223,7 +225,7 @@ export function SkillsMatrix({ skills, character, onChange, onBulkSet, onReset }
                   value={state.target}
                   aria-label={`Target level slider for ${track.label}`}
                   onChange={(e) => handleTargetChange(track.key, Number(e.target.value))}
-                  className="w-full accent-amber-500 bg-slate-100 h-1.5 rounded-lg cursor-pointer focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
+                  className="celestial-slider w-full accent-teal-600 dark:accent-teal-400 [color-scheme:light_dark] h-1.5 rounded-lg cursor-pointer focus:outline-none focus-visible:outline-none focus:ring-0"
                 />
               </div>
             </div>

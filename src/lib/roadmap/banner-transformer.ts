@@ -79,6 +79,8 @@ export const DISC_NAME_BY_ID: Record<number, string> = {
   214059: 'Fly, O Caged Bird',
   214061: 'Bedtime Story',
   214066: 'My Guiding Star',
+  214068: 'Beneath Billowing Sails',
+  214069: 'Emergency Evacuation',
 };
 
 export function formatDiscWikiName(name: string): string {

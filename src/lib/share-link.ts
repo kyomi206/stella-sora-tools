@@ -9,6 +9,7 @@ import type {
   NoteName,
 } from '../types/index.ts';
 import { MUSICAL_NOTES } from '../data/notes.ts';
+import { sanitizeBuildRotation } from './calculator/build-rotation.ts';
 
 export const MAX_ENCODED_LENGTH = 4000;
 
@@ -230,6 +231,8 @@ export function decompressAdvancedBuild(
       }
     }
 
+    const rotation = sanitizeBuildRotation(raw.rotation);
+
     return {
       id: raw.id || 'default',
       name: raw.name || 'New Squad Build',
@@ -238,6 +241,7 @@ export function decompressAdvancedBuild(
       mainDiscs,
       supportDiscs,
       targetNotes,
+      ...(rotation ? { rotation } : {}),
     };
   } catch {
     return null;

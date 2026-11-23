@@ -1,0 +1,1478 @@
+[
+  {
+    "id": "gerie-mark-leafia",
+    "title": "Gerie Mark | Leafia & Nazuna",
+    "inGameCode": "AAAAnAAAAJUAAAChwYAHbAZgADsMAM2wAAwA",
+    "mainDiscs": [
+      {
+        "discId": 214037,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214023,
+        "level": 90,
+        "crescendo": 6
+      },
+      {
+        "discId": 214068,
+        "level": 90,
+        "crescendo": 1
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214042,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214052,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214069,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 15,
+      "Melody of Focus": 15,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 15,
+      "Melody of Terra": 30
+    },
+    "element": "Terra",
+    "archetype": "Mark Detonation",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "cataclysm"
+    ],
+    "tier": "premium",
+    "blitzIds": [
+      "6310280"
+    ],
+    "summary": "Rank #1 overall Terra Mark squad in ZiLenTz's Team Rankings (100.00% benchmark). Nazuna anchors Main slot to fuel Leafia and Gerie Mark detonations.",
+    "rotation": [
+      "Open on Nazuna Main to stack Terra Marks and keep her squad buffs active.",
+      "Trigger Leafia Support Skill on cooldown so Tactical Co-Draw and Observer Iteration amplify Marks.",
+      "Fire Gerie Support Skill and Ultimate inside Vulnerability windows to burst stacked Terra Marks."
+    ],
+    "potentialNote": "Prioritize Nazuna's Small Force + Wobble Dance, Gerie's Curtain Call + Sin-Bound Echo, and Leafia's Tactical Co-Draw + Observer Iteration.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 161,
+        "alternativeIds": [
+          107,
+          159
+        ],
+        "note": "T1+ Tilia (~2.2% behind Leafia) or Springseek Coronis (~5% behind) slots straight into Support 2."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214068,
+        "alternativeIds": [
+          214036,
+          214033
+        ],
+        "note": "The Lost Pilgrim or Dancing with the Bones covers Terra Mark if missing Beneath Billowing Sails."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Terra Mark x Leafia",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=4ah4Zdbo3LM",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Gerie Mark | Leafia",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1rh9cJqr7GpNPOH_WJkS86zRMwrwYmT6EwlP9Nh-GJ98/edit?gid=1791763844#gid=1791763844",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-11-17",
+    "status": "verified"
+  },
+  {
+    "id": "gerie-mark-tilia",
+    "title": "Gerie Mark | T1+ Tilia Core",
+    "inGameCode": "AAAAnAAAAJUAAABrYYEHbAZgADsMAMGAAGAG",
+    "mainDiscs": [
+      {
+        "discId": 214037,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214068,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214023,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214042,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214052,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214069,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 30,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 15,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 15,
+      "Melody of Terra": 30
+    },
+    "element": "Terra",
+    "archetype": "Mark Detonation",
+    "modes": [
+      "general",
+      "boss-blitz"
+    ],
+    "tier": "standard",
+    "blitzIds": [
+      "6310280"
+    ],
+    "summary": "97.77% benchmark alternative swapping Leafia for 4-star T1+ Tilia, keeping nearly identical Terra Mark ceiling without pulling a second limited Support.",
+    "rotation": [
+      "Hold Nazuna on-field for Mark application and Wily Wonder / Cutie's Rally uptime.",
+      "Cast Tilia Support Skill on cooldown to keep Holy Inscription and Renewed Spectrum active.",
+      "Time Gerie Support Skill and Ultimate bursts right after Tilia applies her Lux-to-Squad amplifiers."
+    ],
+    "potentialNote": "Take Nazuna's Wobble Dance + Roll the Dice with Tilia's Holy Inscription + Renewed Spectrum and Blinding Beam.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 107,
+        "alternativeIds": [
+          161,
+          159
+        ],
+        "note": "Swap in Leafia for ceiling damage or Springseek Coronis for full mono-Terra."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214068,
+        "alternativeIds": [
+          214036
+        ],
+        "note": "The Lost Pilgrim works well if Beneath Billowing Sails is unavailable."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Leafia vs Tilia Comparison",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=4ah4Zdbo3LM",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Gerie Mark | Tilia",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1rh9cJqr7GpNPOH_WJkS86zRMwrwYmT6EwlP9Nh-GJ98/edit?gid=389818416#gid=389818416",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-11-17",
+    "status": "verified"
+  },
+  {
+    "id": "sparkla-jaw-terra",
+    "title": "Sparkla Jaw | S.Coronis & Nazuna",
+    "inGameCode": "AAAAjAAAAJ8AAACcMAbbYgDBiBhgMMGAGA2G",
+    "mainDiscs": [
+      {
+        "discId": 214054,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214044,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214023,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214052,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214042,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214005,
+        "level": 80,
+        "crescendo": 1,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 15,
+      "Melody of Focus": 15,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 15,
+      "Melody of Terra": 30
+    },
+    "element": "Terra",
+    "archetype": "Skill Hypercarry",
+    "modes": [
+      "general",
+      "boss-blitz"
+    ],
+    "tier": "standard",
+    "blitzIds": [
+      "6310280"
+    ],
+    "summary": "Sparkla Jaw skill-burst setup backed by Springseek Coronis and Nazuna, excelling in multi-target and fast-cycling Terra Boss Blitz encounters.",
+    "rotation": [
+      "Use Sparkla Main Skill cycles with Fluffy Rechamber and Neo Radiance Burst on cooldown.",
+      "Trigger Springseek Coronis Support Skill (Essence Extraction + Vernal Breath) for Terra vulnerability.",
+      "Weave Nazuna Support Skill and Sparkla Ultimate between skill resets."
+    ],
+    "potentialNote": "Lock Sparkla's Fluffy Rechamber + Neo Radiance Burst first, followed by Cyclone Dial, Ticking Aftershock, and Harmonic Barrage.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 159,
+        "alternativeIds": [
+          107,
+          116
+        ],
+        "note": "Tilia or 4-star Ridge works if you skipped Springseek Coronis."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214054,
+        "alternativeIds": [
+          214036,
+          214014
+        ],
+        "note": "The Lost Pilgrim or Sweet Times replaces Sparkla signature disc at ~10-15% lower ceiling."
+      }
+    ],
+    "sources": [
+      {
+        "label": "Calculation Sheet: Sparkla Jaw Build",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1VMlX6UgfFRC5bQIBsZY1fBucRYJKKbyVJ2GPGVhpQA4/edit?gid=1615682881#gid=1615682881",
+        "kind": "sheet"
+      },
+      {
+        "label": "YouTube Guide: Sparkla Complete Guide",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=Neu7ID0u2VU",
+        "kind": "video"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-11-12",
+    "status": "verified"
+  },
+  {
+    "id": "allie-mark-teresa",
+    "title": "Allie Mark | Teresa & S.Willow",
+    "inGameCode": "AAAAiwAAAH8AAACgMAbCYDDMQAANgM2GAAIG",
+    "mainDiscs": [
+      {
+        "discId": 214061,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214026,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214062,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214021,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214047,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214056,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 20,
+      "Melody of Skill": 20,
+      "Melody of Ultimate": 20,
+      "Melody of Aqua": 30
+    },
+    "element": "Aqua",
+    "archetype": "Mark Detonation",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "cataclysm"
+    ],
+    "tier": "standard",
+    "blitzIds": [
+      "6310260",
+      "6310270"
+    ],
+    "summary": "Top Aqua squad (#4 overall at 86.24% in Team Rankings). Pairs Main Allie with 4-star Teresa and Suntide Willow to chain rapid Aqua Mark procs.",
+    "rotation": [
+      "Dash-attack and weave Allie Main Skill after Sweep Extension triggers to maximize Mark applications.",
+      "Pop Suntide Willow Support Skill on cooldown to trigger Flying Droplets and Flooding Shore amplifiers.",
+      "Layer Teresa Support Skill and Allie Ultimate during boss stagger phases."
+    ],
+    "potentialNote": "ZiLenTz recommends Allie's Dusting Vortex + Sweep Extension with Wide Blade Arc and Overtime Chore. Avoid over-investing in Mark emblem before Skill DMG.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 127,
+        "alternativeIds": [
+          130
+        ],
+        "note": "Donna (preset code included in ZiLenTz guide) reaches ~92% of T5 Teresa output."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214061,
+        "alternativeIds": [
+          214008,
+          213010
+        ],
+        "note": "Soaring Blue or 4-star Steam Syndrome slots in if missing Bedtime Story."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Allie Full Mark Guide",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=laefwrwHgoU",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Allie Mark | Teresa",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1k_wbHZrPOR9fhxNhLE4k8zvdU9Z1NIUdPV-EoeW_Ec8/edit?gid=1577876630#gid=1577876630",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-10-04",
+    "status": "verified"
+  },
+  {
+    "id": "chitose-mark-willow",
+    "title": "Chitose Mark | Tilia & S.Willow",
+    "inGameCode": "AAAAkAAAAGsAAACgkAgjDDDBhgRgAM22AAAG",
+    "mainDiscs": [
+      {
+        "discId": 214026,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214062,
+        "level": 90,
+        "crescendo": 6
+      },
+      {
+        "discId": 214061,
+        "level": 90,
+        "crescendo": 1
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214021,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214047,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214056,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 10,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 25,
+      "Melody of Aqua": 30
+    },
+    "element": "Aqua",
+    "archetype": "Mark Detonation",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "monolith"
+    ],
+    "tier": "standard",
+    "blitzIds": [
+      "6310260",
+      "6310270"
+    ],
+    "summary": "Strong, low-investment Chitose Mark build enabled by Suntide Willow and 4-star T1+ Tilia (75.99% benchmark), easy to pilot across Boss Blitz and Monolith.",
+    "rotation": [
+      "Trigger Chitose's Serpent's Glide dash attacks and Against the Flow skill to detonate Marks.",
+      "Keep Suntide Willow Support Skill active on cooldown for Words Unchanged and Hovering Gale.",
+      "Rotate Tilia Support Skill ahead of Ultimates to stack Brilliant Relay and Blinding Beam."
+    ],
+    "potentialNote": "Core picks: Chitose Serpent's Glide + Against the Flow, S.Willow Flying Droplets + Flooding Shore, Tilia Holy Inscription + Renewed Spectrum.",
+    "substitutions": [
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214061,
+        "alternativeIds": [
+          214055,
+          214005
+        ],
+        "note": "Fleeting Glimmers or Sunlit Blossom saves pulls if you don't own Allie's signature disc."
+      },
+      {
+        "replacesType": "trekker",
+        "replacesId": 107,
+        "alternativeIds": [
+          127,
+          130
+        ],
+        "note": "Teresa or Donna can replace Tilia for full mono-Aqua."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: S.Willow x Chitose Mark",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=igxGeWp5PsY",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Chitose Mark | Tilia",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1kjYdH3b4khB8aiF2jlItvgSjG9Gw6GXKf84ZJSGGufM/edit?gid=1318543766#gid=1318543766",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-07-30",
+    "status": "verified"
+  },
+  {
+    "id": "firstlight-noya-skill",
+    "title": "Firstlight Noya Skill | Firefly & Tilia",
+    "inGameCode": "AAAAogAAAHMAAABrzbADYYbNiAAMAGwIAGAA",
+    "mainDiscs": [
+      {
+        "discId": 214066,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214038,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214039,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214067,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214010,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214005,
+        "level": 80,
+        "crescendo": 1,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 15,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 25,
+      "Melody of Focus": 15,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 15,
+      "Melody of Lux": 30
+    },
+    "element": "Lux",
+    "archetype": "Skill Cycle",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "cataclysm"
+    ],
+    "tier": "premium",
+    "blitzIds": [
+      "6310250",
+      "6310270",
+      "6310280"
+    ],
+    "summary": "Premier Lux Skill team (70.82% with sprint-cancel tech, 67.44% standard). Stacks HP% Notes for Firstlight Noya while Firefly and Tilia multiply Lux Skill damage.",
+    "rotation": [
+      "Open with Tilia and Firefly Support Skills before chaining Firstlight Noya Main Skill combos.",
+      "Optional sprint-cancel tech trims recovery frames for a ~3.4% team DPS gain.",
+      "Aim for Melody of Stamina Lv25 and Skill Lv25 to trigger F.Noya HP-scaling disc & kit bonuses."
+    ],
+    "potentialNote": "Take Lucent Blitz + Dawnflare + Prism Warp on Firstlight Noya, Twin Shadow + Radiance Blade: Firefly on Firefly, and Renewed Spectrum + Perfect Spiral on Tilia.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 107,
+        "alternativeIds": [
+          155
+        ],
+        "note": "Shia subs in with Moonfall potential if Tilia is locked to another Boss Blitz team."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214066,
+        "alternativeIds": [
+          214051,
+          214020
+        ],
+        "note": "Stellar Destination or Sparkling Moment works if missing My Guiding Star."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Firstlight Noya Complete Guide",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=iWnTY4vn6-w",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Firstlight Noya Skill",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1bEBF7P5C0XG2pX1P4l-brJ3tTfj2y5wVuDaVWHzUxz0/edit?gid=1224946512#gid=1224946512",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-10-25",
+    "status": "verified"
+  },
+  {
+    "id": "firstlight-noya-aa",
+    "title": "Firstlight Noya AA | Firefly & Tilia",
+    "inGameCode": "AAAAogAAAHMAAABrMAbbbDYxjsAMAM2IAGAA",
+    "mainDiscs": [
+      {
+        "discId": 214066,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214038,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214051,
+        "level": 90,
+        "crescendo": 1
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214067,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214020,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214055,
+        "level": 80,
+        "crescendo": 1,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 15,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 25,
+      "Melody of Focus": 25,
+      "Melody of Skill": 15,
+      "Melody of Ultimate": 15,
+      "Melody of Lux": 30
+    },
+    "element": "Lux",
+    "archetype": "Auto Attack",
+    "modes": [
+      "general",
+      "boss-blitz"
+    ],
+    "tier": "standard",
+    "blitzIds": [
+      "6310250",
+      "6310270",
+      "6310280"
+    ],
+    "summary": "Consistent Auto-Attack build for Firstlight Noya (56.65% benchmark) favoring smooth sustained basic attacks and Stellar Destination synergy over Skill cancels.",
+    "rotation": [
+      "Hold Firstlight Noya basic attack strings under Stardust Descent and Sinbreaker.",
+      "Trigger Firefly Support Skill (Blazing Edge + Pursuing Slash) for persistent Lux AA vulnerability.",
+      "Press Tilia Support Skill on cooldown to keep Holy Inscription crit & attack buffs active."
+    ],
+    "potentialNote": "Focus on Stardust Descent, Sinbreaker, Eclipse Phantom, and Gavel of Absolution; pivot Support Notes toward Melody of Focus Lv25.",
+    "substitutions": [
+      {
+        "replacesType": "supportDisc",
+        "replacesId": 214055,
+        "alternativeIds": [
+          214010,
+          213006
+        ],
+        "note": "Prayer Beneath Light or 4-star Good Night fills the third support disc slot cleanly."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Firstlight Noya AA Section",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=iWnTY4vn6-w",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Firstlight Noya AA",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1bEBF7P5C0XG2pX1P4l-brJ3tTfj2y5wVuDaVWHzUxz0/edit?gid=1796394495#gid=1796394495",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-10-25",
+    "status": "verified"
+  },
+  {
+    "id": "eleanor-skill-willow",
+    "title": "Eleanor Skill | S.Willow Main & Nazuka",
+    "inGameCode": "AAAAoAAAAIkAAACFMAbDYAjCMANsADAAw2wA",
+    "mainDiscs": [
+      {
+        "discId": 214059,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214015,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214018,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214060,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214024,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214005,
+        "level": 80,
+        "crescendo": 1,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 20,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 15,
+      "Melody of Ventus": 30
+    },
+    "element": "Ventus",
+    "archetype": "Dual Support Skill",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "cataclysm"
+    ],
+    "tier": "premium",
+    "blitzIds": [
+      "6310250"
+    ],
+    "summary": "Top Ventus team (63.83% benchmark). Runs Suntide Willow on-field to drive dual off-field Ventus skill bombs from Eleanor and Nazuka.",
+    "rotation": [
+      "Pilot Suntide Willow Main to trigger Rhythmic Bubbles and Rainbow Rebound cooldown resets.",
+      "Fire Eleanor Support Skill on cooldown so Chain Detonation and Seismic Spread amplify Ventus.",
+      "Maintain Nazuka Flower Formation turrets and weave Ultimates during vulnerable windows."
+    ],
+    "potentialNote": "Take double Versatile skill amplification: Eleanor Chain Detonation + Seismic Spread and Nazuka Flower Formation: Waves + Turbulent.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 160,
+        "alternativeIds": [
+          156,
+          120
+        ],
+        "note": "Nazuna (preset in video) or 4-star Canace can pilot Main slot if S.Willow is used in Aqua."
+      },
+      {
+        "replacesType": "supportDisc",
+        "replacesId": 214005,
+        "alternativeIds": [
+          214046
+        ],
+        "note": "Dawn After Winter fits comfortably in Support if Sunlit Blossom is unavailable."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Best Way to Build Eleanor",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=VW-t72XSON4",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Eleanor Skill | Willow Main",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1pEBZQcQzUGtndS0rCSL0lsD70MO2aNQQPDeSflA8oXk/edit?gid=1455027366#gid=1455027366",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-09-14",
+    "status": "verified"
+  },
+  {
+    "id": "wraith-aa-eleanor",
+    "title": "Wraith AA | Eleanor & Ann",
+    "inGameCode": "AAAAjwAAAIkAAAB7zEgDDAAwBgdsAKBGwAwA",
+    "mainDiscs": [
+      {
+        "discId": 214016,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214059,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214060,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214046,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214024,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214055,
+        "level": 80,
+        "crescendo": 1,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 25,
+      "Melody of Skill": 20,
+      "Melody of Ultimate": 15,
+      "Melody of Ventus": 30
+    },
+    "element": "Ventus",
+    "archetype": "Auto Attack",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "monolith"
+    ],
+    "tier": "standard",
+    "blitzIds": [
+      "6310250"
+    ],
+    "summary": "Strongest Wraith Auto-Attack core (60.38% benchmark), pairing Wraith on-field basic combos with Eleanor off-field damage and 4-star Ann Ventus buffs.",
+    "rotation": [
+      "Stay in Wraith basic-attack rhythm to trigger Last Gasp of Gale and Twin Shadows procs.",
+      "Press Eleanor Support Skill on cooldown for Piercing Trajectory and Annihilation Echo.",
+      "Cast Ann Support Skill and Ultimate to keep Forest Princess' Blessing and Turbulent Flow up."
+    ],
+    "potentialNote": "Grab Wraith's Last Gasp of Gale + Twin Shadows, Eleanor's Function Sustain + Cluster Barrage, and Ann's Gale Bastion + Wind Banish.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 143,
+        "alternativeIds": [
+          120
+        ],
+        "note": "4-star Canace takes Main slot directly for players without Wraith."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214016,
+        "alternativeIds": [
+          214018,
+          213007
+        ],
+        "note": "Lemon & Black Tea or 4-star Emerald Dream subs in cleanly if Chronicles of Spring is missing."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Wraith & Eleanor AA Showcase",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=VW-t72XSON4",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Wraith AA | Eleanor",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1pEBZQcQzUGtndS0rCSL0lsD70MO2aNQQPDeSflA8oXk/edit?gid=892623817#gid=892623817",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-09-14",
+    "status": "verified"
+  },
+  {
+    "id": "eleanor-aa-canace",
+    "title": "Budget Ventus AA | Canace, Eleanor & Ann",
+    "inGameCode": "AAAAeAAAAIkAAAB7rAAAjAAwBhtsAKAGwAwA",
+    "mainDiscs": [
+      {
+        "discId": 214059,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214060,
+        "level": 90,
+        "crescendo": 6
+      },
+      {
+        "discId": 214018,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214046,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214024,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214055,
+        "level": 80,
+        "crescendo": 1,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 25,
+      "Melody of Skill": 20,
+      "Melody of Ultimate": 15,
+      "Melody of Ventus": 30
+    },
+    "element": "Ventus",
+    "archetype": "F2P Auto Attack",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "monolith"
+    ],
+    "tier": "f2p",
+    "blitzIds": [
+      "6310250"
+    ],
+    "summary": "Accessible 1-limited Ventus squad using 4-star Canace and 4-star Ann alongside Eleanor — clears Ventus Boss Blitz cleanly on a tight pull budget.",
+    "rotation": [
+      "Pilot Canace on-field with basic attacks and skill casts to maintain Most Admired and Erratic Weather.",
+      "Use Eleanor Support Skill on cooldown so off-field explosions carry the bulk of boss damage.",
+      "Maintain Ann Support Skill buffs (Gale Bastion + Wind Banish) before Ultimate phases."
+    ],
+    "potentialNote": "Focus rainbow rolls on Eleanor's Piercing Trajectory, Annihilation Echo, and Ann's Forest Princess' Blessing.",
+    "substitutions": [
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214059,
+        "alternativeIds": [
+          214015,
+          213008
+        ],
+        "note": "Deer's Song or 4-star Tranquil Retreat works well without Fly, O Caged Bird."
+      },
+      {
+        "replacesType": "supportDisc",
+        "replacesId": 214055,
+        "alternativeIds": [
+          213007
+        ],
+        "note": "4-star Emerald Dream replaces Fleeting Glimmers for a pure Ventus disc set."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Budget Canace Variant",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=VW-t72XSON4",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Canace AA | Eleanor",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1pEBZQcQzUGtndS0rCSL0lsD70MO2aNQQPDeSflA8oXk/edit?gid=1586330603#gid=1586330603",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-09-14",
+    "status": "verified"
+  },
+  {
+    "id": "karin-ultimate-umbra",
+    "title": "Karin Ultimate | Otoha & Cosette",
+    "inGameCode": "AAAAnQAAAJEAAACOzbADADDNgBsAAGwAwAww",
+    "mainDiscs": [
+      {
+        "discId": 214057,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214045,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214012,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214022,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214050,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214043,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 10,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 25,
+      "Melody of Umbra": 30
+    },
+    "element": "Umbra",
+    "archetype": "Ultimate Burst",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "cataclysm"
+    ],
+    "tier": "premium",
+    "summary": "Flagship Umbra Ultimate burst team pairing Karin with Otoha and 4-star Cosette (61.00% peak with FE discs / 50.27% with standard C6 Umbra discs).",
+    "rotation": [
+      "Apply Cosette and Otoha Support Marks before triggering Ultimates so Eclipse Imprint & Night-Walker stack.",
+      "Unleash Karin Ultimate with Predator's Vortex and Shark Ambush inside burst windows.",
+      "Chain Otoha Ultimate directly afterward for double Umbra Ultimate burst."
+    ],
+    "potentialNote": "Stack Ult DMG & Crit emblems across Karin and Otoha; pick Predator's Vortex + Shark Ambush alongside Otoha's Lonely Twin Shadows + Night-Walker.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 145,
+        "alternativeIds": [
+          135,
+          118
+        ],
+        "note": "Mistique or 4-star Coronis replaces Otoha (dedicated codes linked in ZiLenTz video description)."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214045,
+        "alternativeIds": [
+          214006,
+          214058
+        ],
+        "note": "Witch's Swing or Summer March covers Main Disc 2 if Petals of Blooming Mirage is missing."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Karin Ultimate & AA",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=JjntJffv3bA",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Karin Ultimate | Umbra Discs",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1Yi2EHrnHe_Rithw_ZihYZYl06-Slaw7_W3FgRVhmGPg/edit?gid=1973367383#gid=1973367383",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-08-23",
+    "status": "verified"
+  },
+  {
+    "id": "karin-aa-umbra",
+    "title": "Karin Auto Attack | Otoha & Cosette",
+    "inGameCode": "AAAAnQAAAJEAAACOMAbDYAYwBhtgAG2AwAwA",
+    "mainDiscs": [
+      {
+        "discId": 214057,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214045,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214058,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214022,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214050,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214012,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 20,
+      "Melody of Skill": 20,
+      "Melody of Ultimate": 20,
+      "Melody of Umbra": 30
+    },
+    "element": "Umbra",
+    "archetype": "Auto Attack",
+    "modes": [
+      "general",
+      "boss-blitz"
+    ],
+    "tier": "standard",
+    "summary": "Consistent Umbra Auto-Attack build (60.34% benchmark) that matches Karin Ultimate in sustained fights without Finale Echoing disc requirements.",
+    "rotation": [
+      "Hold basic attacks on Karin Main while cycling Scatter Shot and Hunting Dark Shackle.",
+      "Trigger Otoha Support Skill (Ripple of Shadow + Evening Rain) on cooldown for off-field Umbra hits.",
+      "Maintain Cosette Support Skill Marks for constant Dark: Demon Mark shred."
+    ],
+    "potentialNote": "Prioritize Scatter Shot, Hunting Dark Shackle, Dark Shackle Detonation on Karin, and Ripple of Shadow + Evening Rain on Otoha.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 145,
+        "alternativeIds": [
+          135,
+          118
+        ],
+        "note": "Mistique or 4-star Coronis slots in cleanly if Otoha is unavailable."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214058,
+        "alternativeIds": [
+          214043,
+          213012
+        ],
+        "note": "The Bud of Change or 4-star Starry Night Ode substitutes for Summer March."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Karin AA Section",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=JjntJffv3bA",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Karin AA",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1Yi2EHrnHe_Rithw_ZihYZYl06-Slaw7_W3FgRVhmGPg/edit?gid=1773193755#gid=1773193755",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-08-23",
+    "status": "verified"
+  },
+  {
+    "id": "otoha-dps-mistique",
+    "title": "Otoha Off-Field DPS | Cosette & Mistique",
+    "inGameCode": "AAAAjgAAAJEAAACHXDYEAgAwBtsMAM2wwGAA",
+    "mainDiscs": [
+      {
+        "discId": 214004,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214045,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214006,
+        "level": 90,
+        "crescendo": 1
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214005,
+        "level": 80,
+        "crescendo": 1,
+        "phase": 8
+      },
+      {
+        "discId": 214050,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214058,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 10,
+      "Melody of Skill": 25,
+      "Melody of Ultimate": 25,
+      "Melody of Umbra": 30
+    },
+    "element": "Umbra",
+    "archetype": "Dual Support DPS",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "monolith"
+    ],
+    "tier": "f2p",
+    "summary": "4-star Cosette anchors Main slot to enable dual off-field Umbra damage from Otoha and Mistique — ideal when skipping Karin or running standard shop/banner discs.",
+    "rotation": [
+      "Pilot Cosette Main to stack Nightscar Trace and Nocturn Mark shred on the boss.",
+      "Keep Otoha Support Skill (Ripple of Shadow + Evening Rain) cycling on cooldown.",
+      "Overlap Mistique Support Skill summons (Happy Face + Reality Erosion) with Otoha waves."
+    ],
+    "potentialNote": "Core picks: Cosette Nightscar Trace + Nocturn Mark, Otoha Ripple of Shadow + Evening Rain + Inevitable End, Mistique Happy Face + Reality Erosion.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 135,
+        "alternativeIds": [
+          118
+        ],
+        "note": "4-star Coronis fits Support 2 for a super accessible two-4-star Umbra setup."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214045,
+        "alternativeIds": [
+          214012,
+          213019
+        ],
+        "note": "Those with Ambition or 4-star Delusion works if missing Petals of Blooming Mirage."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Otoha Complete Guide",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=VUiktIb7FG4",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Otoha DPS | Mistique",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/17yCFRpsO7qG3HN5Lol_foPpL8QSOGn0VejA_iJsq4vc/edit?gid=1754589053#gid=1754589053",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-11-14",
+    "status": "verified"
+  },
+  {
+    "id": "fuyuka-ultimate-slaru",
+    "title": "Fuyuka Ultimate | S.Laru & Flora",
+    "inGameCode": "AAAAhgAAAJ4AAAB+MAEDDDbAABgMBqwwGGGA",
+    "mainDiscs": [
+      {
+        "discId": 214048,
+        "level": 90,
+        "crescendo": 1
+      },
+      {
+        "discId": 214013,
+        "level": 90,
+        "crescendo": 6
+      },
+      {
+        "discId": 214019,
+        "level": 90,
+        "crescendo": 6
+      }
+    ],
+    "supportDiscs": [
+      {
+        "discId": 214041,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214040,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      },
+      {
+        "discId": 214053,
+        "level": 80,
+        "crescendo": 6,
+        "phase": 8
+      }
+    ],
+    "targetNotes": {
+      "Melody of Pummel": 25,
+      "Melody of Luck": 20,
+      "Melody of Burst": 15,
+      "Melody of Stamina": 10,
+      "Melody of Focus": 15,
+      "Melody of Skill": 20,
+      "Melody of Ultimate": 25,
+      "Melody of Ignis": 30
+    },
+    "element": "Ignis",
+    "archetype": "Ultimate Burst",
+    "modes": [
+      "general",
+      "boss-blitz",
+      "cataclysm"
+    ],
+    "tier": "standard",
+    "blitzIds": [
+      "6310260"
+    ],
+    "summary": "Top Ignis Ultimate setup (57.49% benchmark). Snowish Laru and 4-star Flora stack Ignis Taken and Ult multipliers behind Fuyuka's explosive punches.",
+    "rotation": [
+      "Stack Flora Support Skill (Ember of Tomorrow + Ashes of the Past) for Crit DMG and Ignis vulnerability.",
+      "Cast Snowish Laru Support Skill for Fire Downpour + Fairy Tale Rule Ignis debuffs.",
+      "Trigger Fuyuka Ultimate inside full buff overlap for maximum gauntlet slam crit damage."
+    ],
+    "potentialNote": "Prioritize Fuyuka Kitty Punch + Multi-Shot + Finishing Blow, S.Laru Fire Downpour + Special Ammo, and Flora Ember of Tomorrow + Ashes of the Past.",
+    "substitutions": [
+      {
+        "replacesType": "trekker",
+        "replacesId": 158,
+        "alternativeIds": [
+          107,
+          160,
+          141
+        ],
+        "note": "ZiLenTz provides codes swapping Snowish Laru for Tilia, Suntide Willow, or Chixia."
+      },
+      {
+        "replacesType": "mainDisc",
+        "replacesId": 214019,
+        "alternativeIds": [
+          214027,
+          214029
+        ],
+        "note": "Mystic Brushstrokes or The Cat's Treasure performs right alongside One Shot, One Down."
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube Guide: Fuyuka Updated Build Guide",
+        "author": "ZiLenTz",
+        "url": "https://www.youtube.com/watch?v=c2UFkY52dTc",
+        "kind": "video"
+      },
+      {
+        "label": "Calculation Sheet: Fuyuka Ultimate | S.Laru",
+        "author": "ZiLenTz",
+        "url": "https://docs.google.com/spreadsheets/d/1aVp8XhuH9ZJxN_c2syBFq6ITNKLv4QmacH1EdSHu7H8/edit?gid=1154343064#gid=1154343064",
+        "kind": "sheet"
+      }
+    ],
+    "verifiedPatch": "2.0",
+    "verifiedAt": "2026-09-06",
+    "status": "verified"
+  }
+]

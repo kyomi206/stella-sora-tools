@@ -162,8 +162,11 @@ export interface SelectedSupportDisc {
   crescendo?: number; // 1 to 6 (1 = C0 base, 6 = C5 max dupe)
 }
 
+import type { BuildRotation } from '../lib/calculator/build-rotation.ts';
+
 export interface AdvancedTeamBuild extends TeamBuild {
   mainDiscs: [SelectedMainDisc, SelectedMainDisc, SelectedMainDisc];
   supportDiscs: [SelectedSupportDisc, SelectedSupportDisc, SelectedSupportDisc];
   targetNotes: Partial<Record<NoteName, number>>;
+  rotation?: BuildRotation;
 }

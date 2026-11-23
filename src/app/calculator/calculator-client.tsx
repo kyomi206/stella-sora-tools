@@ -112,7 +112,6 @@ export function CalculatorClient() {
           <TrekkerSelector
             selectedId={selectedCharId}
             onSelect={(id) => setSelectedCharId(id)}
-            subtitle="Calculate exact Dorra, class breakthrough drops, and skill cartridges for your Trekker."
           />
 
           <LevelStepper
@@ -143,7 +142,7 @@ export function CalculatorClient() {
       </div>
 
       {/* Mobile Sticky Summary Dock (Visible only on < lg screens) */}
-      <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 bg-surface-card/95 backdrop-blur-md border-t border-border px-4 py-2.5 shadow-2xl">
+      <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 bg-surface-card border-t border-border px-4 py-2.5 shadow-md">
         <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="size-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center shrink-0">
@@ -151,7 +150,7 @@ export function CalculatorClient() {
             </div>
             <div className="min-w-0">
               <div className="text-xs font-medium text-slate-600">Total Dorra</div>
-              <div className="text-sm font-extrabold text-amber-600 font-mono tabular-nums truncate">
+              <div className="text-sm font-extrabold text-amber-600 tabular-nums truncate">
                 {tally.dorra.toLocaleString()}
               </div>
             </div>
@@ -160,7 +159,7 @@ export function CalculatorClient() {
           <button
             type="button"
             onClick={() => setIsMobileDrawerOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 press-feedback cursor-pointer shrink-0 focus-visible:ring-2 focus-visible:ring-amber-400"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs press-feedback cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           >
             <FileText className="size-3.5" aria-hidden="true" />
             <span>View Bill ({tally.allMaterials.length})</span>

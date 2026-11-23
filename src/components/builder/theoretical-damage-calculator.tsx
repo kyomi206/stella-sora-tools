@@ -22,10 +22,13 @@ import {
   BUFF_STAT_OPTIONS,
   DAMAGE_TYPES,
   RECORD_LEVEL_BASE_ATK,
+  RECORD_LEVEL_BASE_HP,
   calculateDefAmend,
   calculateResAmend,
   computePresetContributions,
 } from '@/lib/calculator/damage-engine';
+import { toSlotRotationAbilities } from '@/lib/calculator/build-rotation';
+import { getPotentialById } from '@/lib/potentials';
 import type {
   BuffStatKey,
   DamageType,
@@ -48,6 +51,7 @@ import {
 } from '@/lib/calculator/motion-value-parser';
 import type { EmblemLevel, EmblemRarity, EmblemRowState } from '@/lib/calculator/talent-emblem';
 import {
+  aggregateDamageSources,
   calculateTeam,
   type BuffTarget,
   type CharacterCombatEntry,
@@ -66,6 +70,7 @@ import {
 } from '@/lib/calculator/sensitivity-engine';
 import { PieChart, PieLegend } from './damage-charts';
 import type { PieSlice } from './damage-charts';
+import { RotationPanel } from './rotation-panel';
 import { AnimatedNumber } from '@/components/ui/animated-number';
 import {
   Disc3,
@@ -76,12 +81,14 @@ import {
   Trash2,
   TrendingDown,
   TrendingUp,
-  X,
-  Zap,
 } from 'lucide-react';
 import {
   extractDiscPresetBuffs,
+  extractPotentialExtraHitSpecs,
   extractPotentialPresetBuffs,
+  extractSkillKitPresetBuffs,
+  renderPotentialAtLevel,
+  type DiscBuffEvaluationContext,
   type PresetBuffItem,
 } from '@/lib/calculator/preset-buffs';
 import { cn } from '@/lib/utils';
@@ -280,10 +287,10 @@ const FOCUS_RING =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70 focus-visible:border-teal-500';
 
 const INPUT_CLASS =
-  'w-full rounded-lg border border-border bg-base px-2.5 py-1.5 font-mono text-xs font-semibold tabular-nums text-slate-900 transition-colors placeholder:font-sans placeholder:font-normal placeholder:text-slate-600 dark:placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white';
+  'w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-xs font-semibold tabular-nums text-slate-900 transition-colors placeholder:font-normal placeholder:text-slate-600 dark:placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white';
 
 const SMALL_INPUT_CLASS =
-  'w-full rounded border border-border bg-surface-card px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-900 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white';
+  'w-full rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-bold tabular-nums text-slate-900 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white';
 
 function formatNumber(value: number): string {
   if (!Number.isFinite(value)) return '0';
@@ -375,19 +382,37 @@ function createDefaultRotation(
   combat: CharacterCombatEntry | null
 ): RotationAbility[] {
   if (!combat) return [];
-  const presetKey: AbilityPresetKey | null = combat.ultimate
-    ? 'ultimate'
-    : combat.skill
-      ? 'skill'
-      : combat.normalAtk
-        ? 'normalAtk'
-        : null;
-  if (!presetKey) return [];
-  const entry = combat[presetKey];
-  if (!entry) return [];
-
-  const part = parsePrimarySkillPart(entry, presetKey, 10);
-  return [buildRotationFromPart(`${slot}-initial`, presetKey, entry, part)];
+  const candidateKeys: AbilityPresetKey[] =
+    slot === 'vanguard'
+      ? ['skill', 'ultimate']
+      : ['supportSkill', 'ultimate'];
+  const keysToLoad = candidateKeys.filter((k) => Boolean(combat[k]));
+  if (keysToLoad.length === 0 && combat.normalAtk) {
+    keysToLoad.push('normalAtk');
+  }
+  const defaultCasts: Record<AbilityPresetKey, number> = {
+    normalAtk: 4,
+    skill: 3,
+    supportSkill: 3,
+    ultimate: 1,
+  };
+  const rows: RotationAbility[] = [];
+  for (const presetKey of keysToLoad) {
+    const entry = combat[presetKey];
+    if (!entry) continue;
+    const parts = parseSkillParts(entry, presetKey, 10);
+    if (parts.length > 0) {
+      parts.forEach((part, idx) => {
+        const built = buildRotationFromPart(`${slot}-init-${presetKey}-${idx}`, presetKey, entry, part);
+        rows.push({ ...built, casts: defaultCasts[presetKey] });
+      });
+    } else {
+      const part = parsePrimarySkillPart(entry, presetKey, 10);
+      const built = buildRotationFromPart(`${slot}-init-${presetKey}`, presetKey, entry, part);
+      rows.push({ ...built, casts: defaultCasts[presetKey] });
+    }
+  }
+  return rows;
 }
 
 function createEmptyEmblemRows(): EmblemRowState[] {
@@ -402,18 +427,24 @@ function createEmblemSet(): Record<EmblemLevel, EmblemRowState[]> {
   };
 }
 
-function createFighters(build: AdvancedTeamBuild): FighterStateInput[] {
+function createFighters(
+  build: AdvancedTeamBuild,
+  characters: Record<string, SSCharacter>
+): FighterStateInput[] {
   return SLOT_KEYS.map((slot) => {
     const characterId = build.slots[slot].characterId;
+    const character = characterId ? characters[String(characterId)] ?? null : null;
     const combat = characterId ? COMBAT_DB[String(characterId)] ?? null : null;
+    const star = character?.star ?? combat?.star ?? 5;
+    const fromBuild = build.rotation ? toSlotRotationAbilities(build.rotation, slot) : [];
     return {
       slot,
       level: '90',
       skillLevel: 10,
       affinityLevel: 30,
-      talentTier: 5,
+      talentTier: star === 4 ? 5 : 0,
       emblems: createEmblemSet(),
-      rotation: createDefaultRotation(slot, combat),
+      rotation: fromBuild.length > 0 ? fromBuild : createDefaultRotation(slot, combat),
     };
   });
 }
@@ -479,11 +510,11 @@ function Field({
 }) {
   return (
     <label className={cn('block min-w-0', className)}>
-      <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
+      <span className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
         {label}
       </span>
       {children}
-      {hint && <span className="mt-1 block text-[11px] text-slate-600 dark:text-slate-400">{hint}</span>}
+      {hint && <span className="mt-1 block text-xs text-slate-600 dark:text-slate-400">{hint}</span>}
     </label>
   );
 }
@@ -492,29 +523,18 @@ function HeroMetric({
   label,
   value,
   hint,
-  tone = 'default',
 }: {
   label: string;
   value: string;
   hint: string;
-  tone?: 'default' | 'amber' | 'emerald' | 'sky';
 }) {
-  const toneClass =
-    tone === 'amber'
-      ? 'text-amber-700'
-      : tone === 'emerald'
-        ? 'text-emerald-700'
-        : tone === 'sky'
-          ? 'text-sky-700'
-          : 'text-slate-900 dark:text-white';
-
   return (
     <div className="rounded-lg border border-border-subtle bg-surface-subtle p-2.5">
-      <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">{label}</div>
-      <div className={cn('mt-1 font-mono text-base font-bold tabular-nums', toneClass)}>
+      <div className="text-xs font-medium text-slate-600 dark:text-slate-400">{label}</div>
+      <div className="mt-1 text-base font-bold tabular-nums text-slate-900 dark:text-white">
         {value}
       </div>
-      <div className="mt-0.5 text-[11px] text-slate-600 dark:text-slate-400">{hint}</div>
+      <div className="mt-0.5 text-xs text-slate-600 dark:text-slate-400">{hint}</div>
     </div>
   );
 }
@@ -524,7 +544,7 @@ function DeltaChip({ value, label = 'vs baseline' }: { value: number; label?: st
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold tabular-nums',
+        'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-xs font-bold tabular-nums',
         positive
           ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700'
           : 'border-rose-500/30 bg-rose-500/10 text-rose-700'
@@ -557,7 +577,9 @@ function AbilityIcon({ icon, className }: { icon?: string; className?: string })
           }}
         />
       ) : (
-        <Zap className="size-3 text-white/85" aria-hidden="true" />
+        <span className="text-[10px] font-bold leading-none text-white/80" aria-hidden="true">
+          •
+        </span>
       )}
     </span>
   );
@@ -574,7 +596,7 @@ function NoteGroup({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="w-20 shrink-0 text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+      <div className="w-20 shrink-0 text-xs font-medium text-slate-600 dark:text-slate-400">
         {label}
       </div>
       <div className="flex flex-1 flex-wrap items-end gap-x-1 gap-y-2">
@@ -602,7 +624,7 @@ function NoteGroup({
               />
               <span
                 className={cn(
-                  'font-mono text-[11px] font-bold leading-none tabular-nums',
+                  'text-xs font-bold leading-none tabular-nums',
                   count > 0
                     ? 'text-slate-800 dark:text-white'
                     : 'text-slate-600 dark:text-slate-400'
@@ -689,7 +711,7 @@ function BuffRow({
             aria-label="Buff value"
           />
           {suffix && (
-            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 dark:text-slate-400">
               %
             </span>
           )}
@@ -732,10 +754,10 @@ function EmblemLevelBlock({
   return (
     <div className="rounded-lg border border-border-subtle bg-surface-subtle p-2">
       <div className="flex items-center justify-between px-0.5 pb-1.5">
-        <span className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+        <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
           Emblem {level}
         </span>
-        <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">
+        <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
           Stat / Rarity / Value
         </span>
       </div>
@@ -782,7 +804,7 @@ function EmblemLevelBlock({
                   </option>
                 ))}
               </select>
-              <span className="truncate text-right font-mono text-[11px] font-bold tabular-nums text-slate-700">
+              <span className="truncate text-right text-xs font-bold tabular-nums text-slate-700">
                 {meta && displayValue > 0
                   ? meta.levelBonus
                     ? `+${displayValue.toFixed(0)}`
@@ -805,27 +827,33 @@ export function TheoreticalDamageCalculator({
   const rotationSeq = useRef(0);
   const buffSeq = useRef(0);
 
-  const [fighters, setFighters] = useState<FighterStateInput[]>(() => createFighters(build));
+  const [fighters, setFighters] = useState<FighterStateInput[]>(() =>
+    createFighters(build, characters)
+  );
   const [buffs, setBuffs] = useState<BuffRowState[]>([]);
   const [disabledPresetBuffIds, setDisabledPresetBuffIds] = useState<Record<string, boolean>>({});
   const [potentialBonusLevels, setPotentialBonusLevels] = useState<Record<string, 0 | 1 | 2 | 3>>({});
   const [potentialLevelOverrides, setPotentialLevelOverrides] = useState<Record<string, number>>({});
+  const [uptimeMode, setUptimeMode] = useState<'realistic' | 'ideal'>('realistic');
+  const [fightMode, setFightMode] = useState<'single' | 'multi'>('single');
   const [recordLevel, setRecordLevel] = useState(31);
   const [enemyDef, setEnemyDef] = useState(500);
   const [enemyRes, setEnemyRes] = useState(250);
-  const [resilienceBroken, setResilienceBroken] = useState(false);
+  const [resilienceBreakUptimePct, setResilienceBreakUptimePct] = useState(0);
+  const [fightDurationSec, setFightDurationSec] = useState(() => build.rotation?.durationSec ?? 90);
   const [baseline, setBaseline] = useState<BaselineSnapshot | null>(null);
   const [sensitivityTab, setSensitivityTab] = useState<SensitivityTab>('talents');
   const [talentSlot, setTalentSlot] = useState<SlotKey>('vanguard');
 
   useEffect(() => {
-    setFighters(createFighters(build));
+    setFighters(createFighters(build, characters));
     setBuffs([]);
     setDisabledPresetBuffIds({});
     setPotentialBonusLevels({});
     setPotentialLevelOverrides({});
+    setFightDurationSec(build.rotation?.durationSec ?? 90);
     setBaseline(null);
-  }, [build]);
+  }, [build, characters]);
 
   const supportStartingNotes = useMemo(
     () => calculateSupportStartingNotes(build.supportDiscs, discs),
@@ -865,29 +893,72 @@ export function TheoreticalDamageCalculator({
     [build.slots, characters]
   );
 
+  const discEvalContext = useMemo<DiscBuffEvaluationContext>(
+    () => ({
+      enforceTriggers: true,
+      uptimeMode,
+      fightMode,
+      destinyCards: 10,
+    }),
+    [uptimeMode, fightMode]
+  );
+
+  const fighterInputs = useMemo(
+    () =>
+      fighters.map((state) => {
+        const characterId = build.slots[state.slot].characterId;
+        const character = characterId ? characters[String(characterId)] ?? null : null;
+        const combat = characterId ? COMBAT_DB[String(characterId)] ?? null : null;
+        return { state, character, combat };
+      }),
+    [fighters, build.slots, characters]
+  );
+
+  const nonDiscImportedBuffs = useMemo<PresetBuffItem[]>(() => {
+    const potBuffs = extractPotentialPresetBuffs(build, rosterSlots, {
+      bonusLevels: potentialBonusLevels,
+      levelOverrides: potentialLevelOverrides,
+      disabledIds: disabledPresetBuffIds,
+    });
+    const skillBuffs = extractSkillKitPresetBuffs(
+      fighterInputs,
+      rosterSlots,
+      disabledPresetBuffIds
+    );
+    return [...potBuffs, ...skillBuffs];
+  }, [
+    build,
+    rosterSlots,
+    disabledPresetBuffIds,
+    potentialBonusLevels,
+    potentialLevelOverrides,
+    fighterInputs,
+  ]);
+
   const importedBuffs = useMemo<PresetBuffItem[]>(() => {
     const discBuffs = extractDiscPresetBuffs(
       build.mainDiscs,
       effectiveNotes,
       discs,
       rosterSlots,
-      disabledPresetBuffIds
+      disabledPresetBuffIds,
+      discEvalContext
     );
-    const potBuffs = extractPotentialPresetBuffs(build, rosterSlots, {
-      bonusLevels: potentialBonusLevels,
-      levelOverrides: potentialLevelOverrides,
-      disabledIds: disabledPresetBuffIds,
-    });
-    return [...discBuffs, ...potBuffs];
+    return [...discBuffs, ...nonDiscImportedBuffs];
   }, [
-    build,
+    build.mainDiscs,
     effectiveNotes,
     discs,
     rosterSlots,
     disabledPresetBuffIds,
-    potentialBonusLevels,
-    potentialLevelOverrides,
+    discEvalContext,
+    nonDiscImportedBuffs,
   ]);
+
+  const applyUptimeScale = (item: PresetBuffItem) =>
+    uptimeMode === 'realistic' && item.realisticUptime !== undefined
+      ? +(item.value * item.realisticUptime).toFixed(4)
+      : item.value;
 
   const combinedBuffs = useMemo(
     () => [
@@ -896,38 +967,34 @@ export function TheoreticalDamageCalculator({
         .map((item) => ({
           target: item.target,
           stat: item.stat,
-          value: item.value,
+          value: applyUptimeScale(item),
         })),
       ...buffs,
     ],
-    [importedBuffs, buffs]
+    [importedBuffs, buffs, uptimeMode]
   );
 
   const teamInput = useMemo<TeamCalcInput>(() => {
-    const roster = fighters.map((state) => {
-      const characterId = build.slots[state.slot].characterId;
-      const character = characterId ? characters[String(characterId)] ?? null : null;
-      const combat = characterId ? COMBAT_DB[String(characterId)] ?? null : null;
-      return { state, character, combat };
-    });
-
     return {
-      fighters: roster,
+      fighters: fighterInputs,
       contributions,
       buffs: combinedBuffs,
       recordLevel,
-      enemy: { def: enemyDef, res: enemyRes, resilienceBroken },
+      enemy: {
+        def: enemyDef,
+        res: enemyRes,
+        resilienceBroken: resilienceBreakUptimePct >= 100,
+        resilienceBreakUptimePct,
+      },
     };
   }, [
-    fighters,
-    build.slots,
-    characters,
+    fighterInputs,
     contributions,
     combinedBuffs,
     recordLevel,
     enemyDef,
     enemyRes,
-    resilienceBroken,
+    resilienceBreakUptimePct,
   ]);
 
   const teamCalc = useMemo(() => calculateTeam(teamInput), [teamInput]);
@@ -958,7 +1025,7 @@ export function TheoreticalDamageCalculator({
   const discPoints = useMemo(() => {
     if (discEntries.length === 0) return [];
 
-    const rebuild = (without: DiscSweepEntry | null) => {
+    const getReducedSetup = (without: DiscSweepEntry | null) => {
       const mainDiscs =
         without?.slot === 'main'
           ? build.mainDiscs.filter((_, index) => index !== without.index)
@@ -980,10 +1047,50 @@ export function TheoreticalDamageCalculator({
         ) as Record<NoteName, number>;
       }
 
+      return { mainDiscs, supportDiscs, notes };
+    };
+
+    const rebuild = (without: DiscSweepEntry | null) => {
+      const { mainDiscs, supportDiscs, notes } = getReducedSetup(without);
       return computePresetContributions(mainDiscs, supportDiscs, notes, discs);
     };
 
-    return computeDiscContributions(teamInput, discEntries, rebuild);
+    const rebuildBuffs = (without: DiscSweepEntry | null) => {
+      const { mainDiscs, notes } = getReducedSetup(without);
+      const sweptDiscBuffs = extractDiscPresetBuffs(
+        mainDiscs,
+        notes,
+        discs,
+        rosterSlots,
+        disabledPresetBuffIds,
+        discEvalContext
+      );
+      return [
+        ...sweptDiscBuffs
+          .filter((item) => item.enabled)
+          .map((item) => ({
+            target: item.target,
+            stat: item.stat,
+            value:
+              uptimeMode === 'realistic' && item.realisticUptime !== undefined
+                ? +(item.value * item.realisticUptime).toFixed(4)
+                : item.value,
+          })),
+        ...nonDiscImportedBuffs
+          .filter((item) => item.enabled)
+          .map((item) => ({
+            target: item.target,
+            stat: item.stat,
+            value:
+              uptimeMode === 'realistic' && item.realisticUptime !== undefined
+                ? +(item.value * item.realisticUptime).toFixed(4)
+                : item.value,
+          })),
+        ...buffs,
+      ];
+    };
+
+    return computeDiscContributions(teamInput, discEntries, rebuild, rebuildBuffs);
   }, [
     teamInput,
     discEntries,
@@ -992,6 +1099,12 @@ export function TheoreticalDamageCalculator({
     effectiveNotes,
     supportStartingNotes,
     discs,
+    rosterSlots,
+    disabledPresetBuffIds,
+    discEvalContext,
+    nonDiscImportedBuffs,
+    buffs,
+    uptimeMode,
   ]);
 
   const talentPoints = useMemo(
@@ -1030,6 +1143,8 @@ export function TheoreticalDamageCalculator({
       ? ((totalExpected - baseline.total) / baseline.total) * 100
       : null;
   const recordAtk = RECORD_LEVEL_BASE_ATK[recordLevel] ?? 0;
+  const recordHp = RECORD_LEVEL_BASE_HP[recordLevel] ?? 0;
+  const teamDps = totalExpected / Math.max(1, fightDurationSec);
   const baseDefAmend = calculateDefAmend(enemyDef).defAmend;
   const baseResAmend = calculateResAmend(enemyRes).erAmend;
 
@@ -1058,9 +1173,9 @@ export function TheoreticalDamageCalculator({
     .filter((fighter) => fighter.character)
     .map((fighter) => ({
       fighter,
-      slices: fighter.abilities.map(({ entry, damage }, index) => ({
-        label: entry.name,
-        value: damage.expectedDamage,
+      slices: aggregateDamageSources(fighter.abilities, fighter.combat).map((item, index) => ({
+        label: item.label,
+        value: item.value,
         color: SOURCE_PALETTE[index % SOURCE_PALETTE.length],
       })),
     }));
@@ -1262,6 +1377,56 @@ export function TheoreticalDamageCalculator({
     );
   };
 
+  const importDamagingPotentials = (slot: SlotKey) => {
+    const slotData = build.slots[slot];
+    if (!slotData?.characterId || !slotData.potentials?.length) return;
+    const combat = COMBAT_DB[String(slotData.characterId)] ?? null;
+    const defaultScalingStat =
+      combat?.id === 162 ||
+      /\bof\s+(?:Base\s+|Max\s+)?HP\b/i.test(combat?.skill?.desc ?? '')
+        ? 'HP'
+        : 'ATK';
+
+    const newRows: RotationAbility[] = [];
+    for (const sel of slotData.potentials) {
+      const pot = getPotentialById(slotData.characterId, sel.id);
+      if (!pot) continue;
+      const potKey = `${slot}:${pot.id}`;
+      const tierCap = pot.isCore ? 1 : Math.min(9, Math.max(pot.maxLevel || 1, 6));
+      const baseLevel = pot.isCore
+        ? 1
+        : Math.min(tierCap, Math.max(1, Math.round(potentialLevelOverrides[potKey] ?? (Number(sel.level) || 6))));
+      const bonus = pot.isCore ? 0 : (potentialBonusLevels[potKey] ?? 0);
+      const effectiveLevel = pot.isCore ? 1 : Math.min(tierCap, Math.max(1, baseLevel + bonus));
+      const rendered = renderPotentialAtLevel(pot.descTemplate, pot.params, effectiveLevel);
+      const specs = extractPotentialExtraHitSpecs(rendered, defaultScalingStat);
+      specs.forEach((spec, idx) => {
+        const label = specs.length > 1 ? `${pot.name} (#${idx + 1})` : pot.name;
+        newRows.push({
+          id: nextRotationId(),
+          source: 'custom',
+          name: label,
+          damageType: spec.damageType,
+          scalingStat: spec.scalingStat,
+          motionValuePct: spec.mvPct,
+          hits: spec.hits,
+          casts: 1,
+        });
+      });
+    }
+
+    if (newRows.length === 0) return;
+    setFighters((previous) =>
+      previous.map((fighter) => {
+        if (fighter.slot !== slot) return fighter;
+        const existingNames = new Set(fighter.rotation.map((r) => r.name));
+        const uniqueNew = newRows.filter((r) => !existingNames.has(r.name));
+        if (uniqueNew.length === 0) return fighter;
+        return { ...fighter, rotation: [...fighter.rotation, ...uniqueNew] };
+      })
+    );
+  };
+
   const addBuff = () => {
     const id = `buff-${buffSeq.current++}`;
     setBuffs((previous) => [
@@ -1375,19 +1540,19 @@ export function TheoreticalDamageCalculator({
 
           <div className="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.7fr)_minmax(0,0.9fr)] lg:items-start">
             <div className="min-w-0">
-              <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-slate-600 dark:text-slate-400">
+              <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
                 Expected team damage
               </div>
               <div className="mt-1 flex flex-wrap items-end gap-2">
                 <AnimatedNumber
                   value={totalExpected}
                   format={formatNumber}
-                  className="font-mono text-4xl font-extrabold leading-none tracking-tight text-slate-900 tabular-nums dark:text-white sm:text-5xl"
+                  className="text-3xl font-bold leading-none tracking-tight text-slate-900 tabular-nums dark:text-white"
                 />
                 {snapshotDelta !== null && <DeltaChip value={snapshotDelta} />}
               </div>
               {teamSize > 0 && (
-                <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400">
+                <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400 tabular-nums">
                   {activeAbilities} {activeAbilities === 1 ? 'ability' : 'abilities'} ·{' '}
                   {formatNumber(totalHits)} hits · {teamSize}{' '}
                   {teamSize === 1 ? 'Trekker' : 'Trekkers'}
@@ -1431,7 +1596,7 @@ export function TheoreticalDamageCalculator({
                         return (
                           <span
                             key={fighter.state.slot}
-                            className="inline-flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-400"
+                            className="inline-flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400"
                           >
                             <span
                               className={cn(
@@ -1442,7 +1607,7 @@ export function TheoreticalDamageCalculator({
                             <span className="font-semibold text-slate-700">
                               {fighter.character?.name.EN}
                             </span>
-                            <span className="font-mono tabular-nums text-slate-600 dark:text-slate-400">
+                            <span className="tabular-nums text-slate-600 dark:text-slate-400">
                               {share.toFixed(0)}%
                             </span>
                           </span>
@@ -1454,20 +1619,31 @@ export function TheoreticalDamageCalculator({
             </div>
 
             <div className="rounded-xl border border-border-subtle bg-surface-subtle p-3">
-              <div className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-600 dark:text-slate-400">
+              <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
                 Team damage
               </div>
-              <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row lg:flex-col xl:flex-row">
-                <PieChart slices={teamSlices} size={124} label="Team damage share" />
-                <PieLegend
-                  slices={teamSlices}
-                  total={totalExpected}
-                  className="w-full"
-                />
-              </div>
+              {totalExpected <= 0 ? (
+                <p className="mt-2 text-xs text-slate-600 dark:text-slate-400">
+                  No damage calculated yet.
+                </p>
+              ) : (
+                <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                  <PieChart slices={teamSlices} size={124} label="Team damage share" />
+                  <PieLegend
+                    slices={teamSlices}
+                    total={totalExpected}
+                    className="w-full"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-2">
+              <HeroMetric
+                label="Team DPS"
+                value={`${formatCompact(teamDps)}/s`}
+                hint={`${fightDurationSec}s fight`}
+              />
               <HeroMetric
                 label="Non-crit floor"
                 value={formatCompact(totalNonCrit)}
@@ -1477,19 +1653,11 @@ export function TheoreticalDamageCalculator({
                 label="Full-crit ceiling"
                 value={formatCompact(totalCrit)}
                 hint="Every hit crits"
-                tone="amber"
               />
               <HeroMetric
                 label="Avg crit multiplier"
                 value={`×${avgCritMult.toFixed(2)}`}
-                hint="Expected ÷ non-crit"
-                tone="emerald"
-              />
-              <HeroMetric
-                label="Rotation hits"
-                value={formatNumber(totalHits)}
-                hint={`${activeAbilities} abilities`}
-                tone="sky"
+                hint={`${formatNumber(totalHits)} hits · ${activeAbilities} abilities`}
               />
             </div>
           </div>
@@ -1507,13 +1675,29 @@ export function TheoreticalDamageCalculator({
                     Math.max(0, Math.min(40, Math.floor(Number(event.target.value) || 0)))
                   )
                 }
-                className="w-16 rounded-md border border-border bg-base px-2 py-1 font-mono text-xs font-bold tabular-nums text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
+                className="w-16 rounded-md border border-border bg-base px-2 py-1 text-xs font-bold tabular-nums text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                 aria-label="Record rating"
               />
             </label>
-            <span className="font-mono text-xs tabular-nums text-slate-600 dark:text-slate-400">
-              +{recordAtk} ATK
+            <span className="text-xs tabular-nums text-slate-600 dark:text-slate-400">
+              +{formatNumber(recordAtk)} ATK · +{formatNumber(recordHp)} HP
             </span>
+            <label className="inline-flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 sm:ml-auto">
+              Fight Duration (s)
+              <input
+                type="number"
+                min={1}
+                max={600}
+                value={fightDurationSec}
+                onChange={(event) =>
+                  setFightDurationSec(
+                    Math.max(1, Math.min(600, Number(event.target.value) || 90))
+                  )
+                }
+                className="w-16 rounded-md border border-border bg-base px-2 py-1 text-xs font-bold tabular-nums text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
+                aria-label="Fight duration in seconds"
+              />
+            </label>
           </div>
         </div>
       </div>
@@ -1545,8 +1729,8 @@ export function TheoreticalDamageCalculator({
                       : 'border-border bg-surface-subtle text-slate-600 hover:border-amber-500/30 dark:text-slate-400'
                   )}
                 >
-                  <span className="text-[11px] font-bold">{preset.label}</span>
-                  <span className="font-mono text-[11px] tabular-nums opacity-85">
+                  <span className="text-xs font-bold">{preset.label}</span>
+                  <span className="text-xs tabular-nums opacity-85">
                     {preset.res} RES · {preset.def} DEF
                   </span>
                 </button>
@@ -1576,52 +1760,64 @@ export function TheoreticalDamageCalculator({
             />
           </Field>
           <div className="rounded-lg border border-border-subtle bg-surface-subtle p-2.5">
-            <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
+            <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
               Base mitigation
             </div>
-            <div className="mt-1 font-mono text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
+            <div className="mt-1 text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
               DEF {(baseDefAmend * 100).toFixed(1)}%
             </div>
-            <div className="font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+            <div className="text-xs tabular-nums text-slate-600 dark:text-slate-400">
               RES {(baseResAmend * 100).toFixed(1)}%
             </div>
           </div>
-          <button
-            type="button"
-            aria-pressed={resilienceBroken}
-            onClick={() => setResilienceBroken((value) => !value)}
-            className={cn(
-              'flex flex-col justify-between rounded-lg border p-2.5 text-left transition-colors',
-              FOCUS_RING,
-              resilienceBroken
-                ? 'border-amber-500/50 bg-amber-500/10'
-                : 'border-border-subtle bg-surface-subtle hover:border-border-hover'
-            )}
-          >
-            <span className="flex items-center justify-between gap-2 text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
-              Resilience break
-              <span
-                className={cn(
-                  'rounded px-1.5 py-0.5 font-mono text-[11px]',
-                  resilienceBroken
-                    ? 'bg-amber-500/20 text-amber-700'
-                    : 'bg-surface-card text-slate-600 dark:text-slate-400'
-                )}
-              >
-                {resilienceBroken ? 'ON' : 'OFF'}
+          <div className="rounded-lg border border-border-subtle bg-surface-subtle p-2.5">
+            <div className="flex items-center justify-between gap-2 text-xs font-medium text-slate-600 dark:text-slate-400">
+              <span>Break Uptime %</span>
+              <span className="font-bold tabular-nums text-slate-900 dark:text-white">
+                ×{(1 + (Math.max(0, Math.min(100, resilienceBreakUptimePct)) / 100) * 0.5).toFixed(2)}
               </span>
-            </span>
-            <span
-              className={cn(
-                'mt-1 font-mono text-sm font-bold tabular-nums',
-                resilienceBroken
-                  ? 'text-amber-700'
-                  : 'text-slate-900 dark:text-white'
-              )}
-            >
-              {resilienceBroken ? '×1.50' : '×1.00'}
-            </span>
-          </button>
+            </div>
+            <input
+              type="number"
+              min={0}
+              max={100}
+              step={0.1}
+              value={resilienceBreakUptimePct}
+              onChange={(event) =>
+                setResilienceBreakUptimePct(
+                  Math.max(0, Math.min(100, Number(event.target.value) || 0))
+                )
+              }
+              className={cn(INPUT_CLASS, 'mt-1')}
+              aria-label="Resilience break uptime percentage"
+            />
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {[
+                { label: '0% None', value: 0 },
+                { label: '27.8% Blitz', value: 27.8 },
+                { label: '100% Broken', value: 100 },
+              ].map((chip) => {
+                const active = Math.abs(resilienceBreakUptimePct - chip.value) < 0.05;
+                return (
+                  <button
+                    key={chip.label}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setResilienceBreakUptimePct(chip.value)}
+                    className={cn(
+                      'rounded border px-1.5 py-0.5 text-[11px] font-semibold transition-colors',
+                      FOCUS_RING,
+                      active
+                        ? 'border-amber-500/50 bg-amber-500/15 text-amber-700'
+                        : 'border-border bg-surface-card text-slate-600 hover:border-amber-500/30 hover:text-slate-900'
+                    )}
+                  >
+                    {chip.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-600 dark:text-slate-400">
@@ -1656,11 +1852,11 @@ export function TheoreticalDamageCalculator({
                   <div className="flex min-w-0 items-start gap-2.5">
                     <div
                       className={cn(
-                        'relative grid size-12 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-surface-subtle ring-2',
-                        elementStyle.ring
+                        'relative grid size-12 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-surface-subtle',
+                        character && cn('ring-2', elementStyle.ring)
                       )}
                     >
-                      <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400">
+                      <span className="text-xs font-bold text-slate-600 dark:text-slate-400">
                         {character ? getCharacterInitials(character.name.EN) : '—'}
                       </span>
                       {character && (
@@ -1678,25 +1874,29 @@ export function TheoreticalDamageCalculator({
                       <h2 className="truncate text-sm font-bold tracking-tight text-slate-900 dark:text-white">
                         {character?.name.EN ?? 'Empty slot'}
                       </h2>
-                      <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                        <span
-                          className={cn(
-                            'inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-bold leading-none',
-                            elementStyle.chip
-                          )}
-                        >
-                          {element}
-                        </span>
-                        {character && (
-                          <span className="text-[11px] text-slate-600 dark:text-slate-400">
-                            {character.class} · {character.star}★
+                      {character ? (
+                        <div className="mt-1 flex flex-wrap items-center gap-1.5">
+                          <span
+                            className={cn(
+                              'inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs font-bold leading-none',
+                              elementStyle.chip
+                            )}
+                          >
+                            {element}
                           </span>
-                        )}
-                      </div>
+                          <span className="text-xs text-slate-600 dark:text-slate-400 tabular-nums">
+                            {character.class} · {character.star}-Star
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                          {SLOT_META[state.slot].label}
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  <label className="flex shrink-0 items-center gap-1 text-[11px] text-slate-600 dark:text-slate-400">
+                  <label className="flex shrink-0 items-center gap-1 text-xs text-slate-600 dark:text-slate-400">
                     Lv
                     <select
                       value={state.level}
@@ -1705,7 +1905,7 @@ export function TheoreticalDamageCalculator({
                           level: event.target.value as TrekkerLevel,
                         })
                       }
-                      className="rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
+                      className="rounded-md border border-border bg-base px-1.5 py-1 text-xs font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} level`}
                     >
                       {TREKKER_LEVELS.map((level) => (
@@ -1717,53 +1917,99 @@ export function TheoreticalDamageCalculator({
                   </label>
                 </div>
 
-                <div
-                  className="grid grid-cols-3 gap-1.5 rounded-lg border border-border-subtle bg-surface-subtle p-2"
-                  title={`Base ATK ${formatNumber(stats.baseAtkParts.character)} + affinity ${formatNumber(stats.baseAtkParts.affinity)} + record ${formatNumber(stats.baseAtkParts.record)} + discs ${formatNumber(stats.baseAtkParts.discs)} + manual ${formatNumber(stats.baseAtkParts.bonus)}`}
-                >
-                  <div className="min-w-0">
-                    <div className="truncate text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
-                      Final ATK
-                    </div>
-                    <div className="mt-0.5 truncate font-mono text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
-                      {formatNumber(stats.finalAtk)}
-                    </div>
-                    <div className="truncate font-mono text-[11px] text-slate-600 dark:text-slate-400">
-                      +{stats.totalAtkPct.toFixed(1)}%
-                    </div>
-                  </div>
-                  <div className="min-w-0 border-l border-border-subtle pl-1.5">
-                    <div className="truncate text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
-                      Crit rate
-                    </div>
-                    <div className="mt-0.5 truncate font-mono text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
-                      {stats.critRatePct.toFixed(1)}%
-                    </div>
-                    <div className="truncate font-mono text-[11px] text-slate-600 dark:text-slate-400">
-                      {stats.critDmgPct.toFixed(0)}% DMG
-                    </div>
-                  </div>
-                  <div className="min-w-0 border-l border-border-subtle pl-1.5">
-                    <div className="truncate text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
-                      {element} DMG
-                    </div>
-                    <div
-                      className={cn(
-                        'mt-0.5 truncate font-mono text-[13px] font-bold tabular-nums',
-                        elementStyle.text
+                {(() => {
+                  const isHpScaler =
+                    fighter.abilities.some((a) => a.damage.scalingStat === 'HP') ||
+                    fighter.combat?.id === 162;
+                  const minionAtk =
+                    stats.baseAtk * (1 + (stats.atkPctPerma + stats.minionAtkPct) / 100);
+                  const showMinionAtk =
+                    stats.minionAtkPct > 0 ||
+                    fighter.abilities.some((a) => a.entry.damageType === 'Minion');
+                  const statTooltip = isHpScaler
+                    ? `Base HP ${formatNumber(stats.baseHpParts.character)} + affinity ${formatNumber(stats.baseHpParts.affinity)} + record ${formatNumber(stats.baseHpParts.record)} + discs ${formatNumber(stats.baseHpParts.discs)} + manual ${formatNumber(stats.baseHpParts.bonus)}`
+                    : `Base ATK ${formatNumber(stats.baseAtkParts.character)} + affinity ${formatNumber(stats.baseAtkParts.affinity)} + record ${formatNumber(stats.baseAtkParts.record)} + discs ${formatNumber(stats.baseAtkParts.discs)} + manual ${formatNumber(stats.baseAtkParts.bonus)}`;
+
+                  return (
+                    <>
+                      <div
+                        className="grid grid-cols-3 gap-1.5 rounded-lg border border-border-subtle bg-surface-subtle p-2"
+                        title={statTooltip}
+                      >
+                        <div className="min-w-0">
+                          <div className="truncate text-xs font-medium text-slate-600 dark:text-slate-400">
+                            {isHpScaler ? 'Final HP' : 'Final ATK'}
+                          </div>
+                          <div className="mt-0.5 truncate text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
+                            {formatNumber(isHpScaler ? stats.finalHp : stats.finalAtk)}
+                          </div>
+                          <div className="truncate text-xs tabular-nums text-slate-600 dark:text-slate-400">
+                            +{isHpScaler ? stats.hpPct.toFixed(1) : stats.totalAtkPct.toFixed(1)}%
+                          </div>
+                        </div>
+                        <div className="min-w-0 border-l border-border-subtle pl-1.5">
+                          <div className="truncate text-xs font-medium text-slate-600 dark:text-slate-400">
+                            Crit rate
+                          </div>
+                          <div className="mt-0.5 truncate text-[13px] font-bold tabular-nums text-slate-900 dark:text-white">
+                            {stats.critRatePct.toFixed(1)}%
+                          </div>
+                          <div className="truncate text-xs tabular-nums text-slate-600 dark:text-slate-400">
+                            {stats.critDmgPct.toFixed(0)}% DMG
+                          </div>
+                        </div>
+                        <div className="min-w-0 border-l border-border-subtle pl-1.5">
+                          <div className="truncate text-xs font-medium text-slate-600 dark:text-slate-400">
+                            {element} DMG
+                          </div>
+                          <div
+                            className={cn(
+                              'mt-0.5 truncate text-[13px] font-bold tabular-nums',
+                              elementStyle.text
+                            )}
+                          >
+                            +{stats.elementDmgPct.toFixed(1)}%
+                          </div>
+                          <div className="truncate text-xs tabular-nums text-slate-600 dark:text-slate-400">
+                            DEF {fighter.defAmend >= 0 ? (fighter.defAmend * 100).toFixed(0) : '—'}%
+                          </div>
+                        </div>
+                      </div>
+
+                      {(stats.skillIntensityPct > 0 ||
+                        showMinionAtk ||
+                        stats.dmgTakenPct > 0 ||
+                        stats.resPen > 0) && (
+                        <div className="flex flex-wrap gap-1.5 text-[11px] tabular-nums">
+                          {stats.skillIntensityPct > 0 && (
+                            <span className="rounded border border-border-subtle bg-surface-subtle px-1.5 py-0.5 font-semibold text-slate-700">
+                              Skill Intensity +{stats.skillIntensityPct.toFixed(1)}%
+                            </span>
+                          )}
+                          {showMinionAtk && (
+                            <span className="rounded border border-border-subtle bg-surface-subtle px-1.5 py-0.5 font-semibold text-slate-700">
+                              Minion ATK {formatNumber(minionAtk)}
+                            </span>
+                          )}
+                          {stats.dmgTakenPct > 0 && (
+                            <span className="rounded border border-border-subtle bg-surface-subtle px-1.5 py-0.5 font-semibold text-slate-700">
+                              DMG Taken +{stats.dmgTakenPct.toFixed(1)}%
+                            </span>
+                          )}
+                          {stats.resPen > 0 && (
+                            <span className="rounded border border-border-subtle bg-surface-subtle px-1.5 py-0.5 font-semibold text-slate-700">
+                              RES PEN {Math.round(stats.resPen)}
+                            </span>
+                          )}
+                        </div>
                       )}
-                    >
-                      +{stats.elementDmgPct.toFixed(1)}%
-                    </div>
-                    <div className="truncate font-mono text-[11px] text-slate-600 dark:text-slate-400">
-                      DEF {fighter.defAmend >= 0 ? (fighter.defAmend * 100).toFixed(0) : '—'}%
-                    </div>
-                  </div>
-                </div>
+                    </>
+                  );
+                })()}
 
                 <div className="grid grid-cols-3 gap-1.5">
                   <label className="block min-w-0">
-                    <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
+                    <span className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
                       Talent tier
                     </span>
                     <select
@@ -1773,7 +2019,7 @@ export function TheoreticalDamageCalculator({
                           talentTier: Math.max(0, Math.min(5, Number(event.target.value) || 0)),
                         })
                       }
-                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
+                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 text-xs font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} talent tier`}
                     >
                       {Array.from({ length: 6 }, (_, index) => index).map((tier) => (
@@ -1784,7 +2030,7 @@ export function TheoreticalDamageCalculator({
                     </select>
                   </label>
                   <label className="block min-w-0">
-                    <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
+                    <span className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
                       Skill Lv
                     </span>
                     <select
@@ -1794,7 +2040,7 @@ export function TheoreticalDamageCalculator({
                           skillLevel: Math.max(1, Math.min(13, Number(event.target.value) || 10)),
                         })
                       }
-                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
+                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 text-xs font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} skill level`}
                     >
                       {SKILL_LEVELS.map((lv) => (
@@ -1805,7 +2051,7 @@ export function TheoreticalDamageCalculator({
                     </select>
                   </label>
                   <label className="block min-w-0">
-                    <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.04em] text-slate-600 dark:text-slate-400">
+                    <span className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
                       Affinity Lv
                     </span>
                     <input
@@ -1821,7 +2067,7 @@ export function TheoreticalDamageCalculator({
                           ),
                         })
                       }
-                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
+                      className="w-full rounded-md border border-border bg-base px-1.5 py-1 text-xs font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:text-white"
                       aria-label={`${character?.name.EN ?? 'Trekker'} affinity level`}
                     />
                   </label>
@@ -1830,12 +2076,12 @@ export function TheoreticalDamageCalculator({
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-surface-subtle px-4 py-2.5">
-                <span className="font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                <span className="text-xs tabular-nums text-slate-600 dark:text-slate-400">
                   DEF {(fighter.defAmend * 100).toFixed(1)}% · RES {(fighter.erAmend * 100).toFixed(1)}%
                 </span>
                 <div className="flex items-center gap-1.5">
                   {cardDelta !== null && <DeltaChip value={cardDelta} label="" />}
-                  <span className="font-mono text-sm font-bold tabular-nums text-slate-900 dark:text-white">
+                  <span className="text-sm font-bold tabular-nums text-slate-900 dark:text-white">
                     {formatCompact(fighter.totals.expected)}
                   </span>
                 </div>
@@ -1886,13 +2132,13 @@ export function TheoreticalDamageCalculator({
                     </div>
                   )}
                   <div className="min-w-0 flex-1">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+                    <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
                       {slot.kind === 'main' ? 'Main' : 'Support'} #{slot.index + 1}
                     </div>
                     <div className="truncate text-xs font-bold text-slate-800 dark:text-white">
                       {disc?.name ?? 'Empty slot'}
                     </div>
-                    <div className="truncate font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                    <div className="truncate text-xs tabular-nums text-slate-600 dark:text-slate-400">
                       {disc
                         ? `Lv${slot.level} · ${slot.kind === 'main' ? `C${slot.crescendo - 1}` : `Phase ${slot.phase + 1}`} · +${formatNumber(atk)} ATK${supportNotes > 0 ? ` · +${supportNotes} notes` : ''}`
                         : 'Not equipped'}
@@ -1908,7 +2154,7 @@ export function TheoreticalDamageCalculator({
           <SectionHeader
             title="Musical notes"
             right={
-              <span className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-600 dark:text-slate-400">
+              <span className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 text-xs font-bold tabular-nums text-slate-600 dark:text-slate-400">
                 {Object.values(effectiveNotes).reduce((sum, count) => sum + count, 0)} notes
               </span>
             }
@@ -1935,15 +2181,15 @@ export function TheoreticalDamageCalculator({
             ].map(([label, value]) => (
               <span
                 key={label}
-                className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 text-[11px] text-slate-600 dark:text-slate-400"
+                className="rounded-md border border-border-subtle bg-surface-subtle px-2 py-1 text-xs text-slate-600 dark:text-slate-400"
               >
                 <span className="font-semibold text-slate-700">{label}</span>{' '}
-                <span className="font-mono font-bold tabular-nums text-amber-700">
+                <span className="font-bold tabular-nums text-amber-700">
                   +{Number(value).toFixed(2)}%
                 </span>
               </span>
             ))}
-            <span className="inline-flex items-center gap-1 px-1 text-[11px] text-slate-600 dark:text-slate-400">
+            <span className="inline-flex items-center gap-1 px-1 text-xs text-slate-600 dark:text-slate-400">
               <Info className="size-3.5 shrink-0" aria-hidden="true" />
               Applied to every Trekker.
             </span>
@@ -1956,49 +2202,115 @@ export function TheoreticalDamageCalculator({
           title="Emblems"
           subtitle="Each Trekker has their own emblem sets at level 70, 80, and 90. Stats feed that Trekker's final stats."
         />
-        <div className="mt-4 grid gap-4 lg:grid-cols-3">
-          {fighterCalcs
-            .filter((fighter) => fighter.character)
-            .map((fighter) => (
-              <div key={fighter.state.slot}>
-                <div className="mb-2 flex items-center gap-2">
-                  <span
-                    className={cn('size-2.5 rounded-full', ELEMENT_STYLES[fighter.element].dot)}
-                  />
-                  <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
-                    {fighter.character?.name.EN}
-                  </span>
-                  <span className="text-[11px] text-slate-600 dark:text-slate-400">
-                    {SLOT_META[fighter.state.slot].label}
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  {EMBLEM_LEVELS.map((level) => (
-                    <EmblemLevelBlock
-                      key={level}
-                      level={level}
-                      rows={fighter.state.emblems[level]}
-                      onChange={(index, patch) =>
-                        updateEmblem(fighter.state.slot, level, index, patch)
-                      }
+        {!fighterCalcs.some((fighter) => fighter.character) ? (
+          <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-5 text-center text-xs text-slate-600 dark:text-slate-400">
+            Select Trekkers in Advanced Visualizer to configure emblems.
+          </div>
+        ) : (
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            {fighterCalcs
+              .filter((fighter) => fighter.character)
+              .map((fighter) => (
+                <div key={fighter.state.slot}>
+                  <div className="mb-2 flex items-center gap-2">
+                    <span
+                      className={cn('size-2.5 rounded-full', ELEMENT_STYLES[fighter.element].dot)}
                     />
-                  ))}
+                    <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
+                      {fighter.character?.name.EN}
+                    </span>
+                    <span className="text-xs text-slate-600 dark:text-slate-400">
+                      {SLOT_META[fighter.state.slot].label}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {EMBLEM_LEVELS.map((level) => (
+                      <EmblemLevelBlock
+                        key={level}
+                        level={level}
+                        rows={fighter.state.emblems[level]}
+                        onChange={(index, patch) =>
+                          updateEmblem(fighter.state.slot, level, index, patch)
+                        }
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-        </div>
+              ))}
+          </div>
+        )}
       </div>
 
 
-      {/* Auto-imported Disc & Potential buffs */}
+      {/* Auto-imported Disc, Potential & Skill buffs */}
       <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
         <SectionHeader
-          title="Auto-imported Disc & Potential buffs"
-          subtitle="Active Melody skills, unlocked Harmony skills from Musical Notes, and equipped Potentials. Uncheck conditional effects that are inactive."
+          title="Auto-imported Disc, Potential & Kit buffs"
+          subtitle="Active Melody skills, active Harmony skills from Musical Notes, equipped Potentials, and Trekker kit buffs. Uncheck conditional effects that are inactive."
           right={
             <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex rounded-lg border border-border bg-surface-subtle p-0.5 text-xs font-semibold">
+                <button
+                  type="button"
+                  aria-pressed={uptimeMode === 'realistic'}
+                  onClick={() => setUptimeMode('realistic')}
+                  className={cn(
+                    'rounded-md px-2 py-1 transition-colors',
+                    FOCUS_RING,
+                    uptimeMode === 'realistic'
+                      ? 'bg-surface-card text-amber-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                  )}
+                >
+                  Realistic
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={uptimeMode === 'ideal'}
+                  onClick={() => setUptimeMode('ideal')}
+                  className={cn(
+                    'rounded-md px-2 py-1 transition-colors',
+                    FOCUS_RING,
+                    uptimeMode === 'ideal'
+                      ? 'bg-surface-card text-amber-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                  )}
+                >
+                  Ideal
+                </button>
+              </div>
+              <div className="inline-flex rounded-lg border border-border bg-surface-subtle p-0.5 text-xs font-semibold">
+                <button
+                  type="button"
+                  aria-pressed={fightMode === 'single'}
+                  onClick={() => setFightMode('single')}
+                  className={cn(
+                    'rounded-md px-2 py-1 transition-colors',
+                    FOCUS_RING,
+                    fightMode === 'single'
+                      ? 'bg-surface-card text-teal-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                  )}
+                >
+                  Single
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={fightMode === 'multi'}
+                  onClick={() => setFightMode('multi')}
+                  className={cn(
+                    'rounded-md px-2 py-1 transition-colors',
+                    FOCUS_RING,
+                    fightMode === 'multi'
+                      ? 'bg-surface-card text-teal-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                  )}
+                >
+                  Multi
+                </button>
+              </div>
               {importedBuffs.length > 0 && (
-                <span className="rounded-md border border-border bg-surface-subtle px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-slate-700">
+                <span className="rounded-md border border-border bg-surface-subtle px-2 py-1 text-xs font-bold tabular-nums text-slate-700">
                   {importedBuffs.filter((item) => item.enabled).length}/{importedBuffs.length} active
                 </span>
               )}
@@ -2006,7 +2318,7 @@ export function TheoreticalDamageCalculator({
                 type="button"
                 onClick={resetImportedBuffs}
                 className={cn(
-                  'inline-flex min-h-8 items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-[11px] font-bold text-slate-700 transition-colors hover:border-amber-500/40 hover:text-amber-700',
+                  'inline-flex min-h-8 items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-2.5 py-1.5 text-xs font-bold text-slate-700 transition-colors hover:border-amber-500/40 hover:text-amber-700',
                   FOCUS_RING
                 )}
               >
@@ -2022,8 +2334,8 @@ export function TheoreticalDamageCalculator({
             <p className="text-xs font-semibold text-slate-700">
               No active disc skills or stat potentials in this preset.
             </p>
-            <p className="mt-1 text-[11px] leading-relaxed text-slate-600 dark:text-slate-400">
-              Equip Main Discs, unlock Harmony requirements via Musical Notes, or assign Trekkers with Potentials in the Advanced Visualizer.
+            <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+              Equip Main Discs, meet Harmony requirements via Musical Notes, or assign Trekkers with Potentials in the Advanced Visualizer.
             </p>
           </div>
         ) : (
@@ -2031,9 +2343,14 @@ export function TheoreticalDamageCalculator({
             {importedBuffs.map((item) => {
               const statMeta = BUFF_STAT_MAP[item.stat];
               const statLabel = statMeta?.label ?? item.stat;
+              const effectiveValue = applyUptimeScale(item);
               const valueText = statMeta?.percent
-                ? `+${Number(item.value.toFixed(2))}%`
-                : `+${Math.round(item.value)}`;
+                ? `+${Number(effectiveValue.toFixed(2))}%`
+                : `+${Math.round(effectiveValue)}`;
+              const hasUptimeDiscount =
+                uptimeMode === 'realistic' &&
+                item.realisticUptime !== undefined &&
+                item.realisticUptime < 1;
               const potKey = item.slot && item.potentialId ? `${item.slot}:${item.potentialId}` : '';
               const showPotentialLevels =
                 item.origin === 'potential' && !item.isCore && (item.maxLevel ?? 1) > 1 && potKey !== '';
@@ -2042,13 +2359,17 @@ export function TheoreticalDamageCalculator({
                   ? `Melody C${item.crescendo ?? 1}`
                   : item.origin === 'harmony'
                     ? `Harmony Lv.${item.harmonyLevel ?? 1}`
-                    : 'Potential';
+                    : item.origin === 'skill'
+                      ? 'Kit Skill'
+                      : 'Potential';
               const originClass =
                 item.origin === 'melody'
                   ? 'border-amber-500/30 bg-amber-500/10 text-amber-700'
                   : item.origin === 'harmony'
                     ? 'border-teal-500/30 bg-teal-500/10 text-teal-700'
-                    : 'border-sky-500/30 bg-sky-500/10 text-sky-700';
+                    : item.origin === 'skill'
+                      ? 'border-indigo-500/30 bg-indigo-500/10 text-indigo-700'
+                      : 'border-sky-500/30 bg-sky-500/10 text-sky-700';
               const targetLabel =
                 item.target === 'team' ? 'Team' : SLOT_META[item.target].shortLabel;
 
@@ -2072,7 +2393,7 @@ export function TheoreticalDamageCalculator({
                       <div className="flex flex-wrap items-center gap-1.5">
                         <span
                           className={cn(
-                            'inline-flex shrink-0 items-center rounded border px-1.5 py-0.5 text-[11px] font-bold uppercase leading-none tracking-[0.04em]',
+                            'inline-flex shrink-0 items-center rounded border px-1.5 py-0.5 text-xs font-semibold leading-none',
                             originClass
                           )}
                         >
@@ -2081,11 +2402,11 @@ export function TheoreticalDamageCalculator({
                         <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
                           {item.sourceName}
                         </span>
-                        <span aria-hidden="true" className="text-[11px] text-slate-600 dark:text-slate-400">·</span>
+                        <span aria-hidden="true" className="text-xs text-slate-600 dark:text-slate-400">·</span>
                         <span className="truncate text-xs font-semibold text-slate-700">
                           {item.skillName}
                         </span>
-                        <span className="rounded border border-border bg-surface-card px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase leading-none text-slate-700">
+                        <span className="rounded border border-border bg-surface-card px-1.5 py-0.5 text-xs font-semibold leading-none text-slate-700">
                           {targetLabel}
                         </span>
                       </div>
@@ -2123,7 +2444,7 @@ export function TheoreticalDamageCalculator({
                               Number(event.target.value) as 0 | 1 | 2 | 3
                             )
                           }
-                          className={cn(SMALL_INPUT_CLASS, 'w-12 font-mono')}
+                          className={cn(SMALL_INPUT_CLASS, 'w-12')}
                           aria-label={`Lv.90 Emblem potential bonus for ${item.skillName}`}
                           title="Lv.90 Emblem +Potential offset"
                         >
@@ -2136,15 +2457,20 @@ export function TheoreticalDamageCalculator({
                     )}
 
                     <div className="min-w-[110px] text-left sm:text-right">
-                      <div className="text-[11px] font-semibold text-slate-700">
+                      <div className="text-xs font-semibold text-slate-700">
                         {statLabel}
                       </div>
-                      <div className="font-mono text-xs font-bold tabular-nums text-amber-700">
+                      <div className="text-xs font-bold tabular-nums text-amber-700">
                         {valueText}
                         {item.stacks && item.stacks > 1 && (
                           <span className="ml-1 text-[11px] font-normal text-slate-600 dark:text-slate-400">
                             ({item.baseValue}
                             {statMeta?.percent ? '%' : ''}×{item.stacks})
+                          </span>
+                        )}
+                        {hasUptimeDiscount && item.realisticUptime !== undefined && (
+                          <span className="ml-1 rounded bg-surface-card px-1 py-0.5 text-[10px] font-semibold text-slate-600">
+                            ×{Math.round(item.realisticUptime * 100)}% uptime
                           </span>
                         )}
                       </div>
@@ -2203,350 +2529,15 @@ export function TheoreticalDamageCalculator({
       </div>
 
       {/* Rotation */}
-      <div className="rounded-xl border border-border bg-surface-card p-4 sm:p-5">
-        <SectionHeader
-          title="Rotation"
-          subtitle="Ability sequence per Trekker. Pick an ability, tune its multiplier and notes, and the crit values update live."
-          right={
-            <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-amber-700">
-              {formatNumber(totalExpected)} total
-            </span>
-          }
-        />
-
-        {fighterCalcs.every((fighter) => !fighter.character) ? (
-          <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-5 text-center text-xs text-slate-600 dark:text-slate-400">
-            No team loaded —{' '}
-            <Link
-              href="/builder/advanced"
-              className="font-semibold text-teal-700 underline underline-offset-2 hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70"
-            >
-              open a preset from the Advanced Visualizer
-            </Link>{' '}
-            to populate the rotation.
-          </div>
-        ) : (
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[1040px] border-collapse text-left">
-              <thead>
-                <tr className="border-b border-border text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
-                  <th className="w-28 py-2 pr-2">Trekker</th>
-                  <th className="py-2 pr-2">Ability / part</th>
-                  <th className="w-28 py-2 pr-2">Type</th>
-                  <th className="w-24 py-2 pr-2 text-right">Multiplier</th>
-                  <th className="w-16 py-2 pr-2 text-right">Hits</th>
-                  <th className="w-16 py-2 pr-2 text-right">Casts</th>
-                  <th className="w-18 py-2 pr-2">Scaling</th>
-                  <th className="w-32 py-2 pr-2">Notes</th>
-                  <th className="py-2 pr-2 text-right">Crit average</th>
-                  <th className="py-2 pr-2 text-right">No crit</th>
-                  <th className="py-2 pr-2 text-right">Crit</th>
-                  <th className="w-8 py-2" />
-                </tr>
-              </thead>
-              {fighterCalcs
-                .filter((fighter) => fighter.character)
-                .map((fighter) => (
-                  <tbody key={fighter.state.slot} className="border-b border-border">
-                    <tr className="bg-surface-subtle">
-                      <td colSpan={12} className="px-1 py-1.5">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span
-                            className={cn(
-                              'size-2.5 rounded-full',
-                              ELEMENT_STYLES[fighter.element].dot
-                            )}
-                          />
-                          <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
-                            {fighter.character?.name.EN}
-                          </span>
-                          <span className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
-                            {SLOT_META[fighter.state.slot].label}
-                          </span>
-                          <span className="font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
-                            {fighter.state.rotation.length}{' '}
-                            {fighter.state.rotation.length === 1 ? 'ability' : 'abilities'} ·{' '}
-                            {formatCompact(fighter.totals.expected)} expected
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => addRotationAbility(fighter.state.slot)}
-                            className={cn(
-                              'ml-auto inline-flex min-h-7 items-center gap-1 rounded-md border border-border bg-surface-card px-2.5 py-1 text-[11px] font-bold text-slate-700 transition-colors hover:border-amber-500/40 hover:text-amber-700',
-                              FOCUS_RING
-                            )}
-                          >
-                            <Plus className="size-3.5" aria-hidden="true" />
-                            Ability
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-
-                    {fighter.state.rotation.length === 0 ? (
-                      <tr>
-                        <td
-                          colSpan={12}
-                          className="px-2 py-3 text-center text-xs text-slate-600 dark:text-slate-400"
-                        >
-                          No abilities yet. Add one to start this Trekker&apos;s rotation.
-                        </td>
-                      </tr>
-                    ) : (
-                      fighter.abilities.map(({ entry, damage }) => {
-                        const effectiveSkillLevel = getEffectiveSkillLevel(
-                          fighter.state.skillLevel,
-                          fighter.state.emblems,
-                          entry.source
-                        );
-                        const skillParts =
-                          entry.source !== 'custom' && fighter.combat?.[entry.source]
-                            ? parseSkillParts(
-                                fighter.combat[entry.source],
-                                entry.source,
-                                effectiveSkillLevel
-                              )
-                            : [];
-                        const activePartId =
-                          entry.partId && skillParts.some((part) => part.id === entry.partId)
-                            ? entry.partId
-                            : skillParts[0]?.id ?? '';
-
-                        return (
-                        <tr
-                          key={entry.id}
-                          className="border-t border-border-subtle/60 align-middle hover:bg-surface-subtle/60"
-                        >
-                          <td className="py-1 pr-2">
-                            <span className="inline-flex min-w-0 items-center gap-1.5">
-                              <span
-                                className={cn(
-                                  'size-1.5 shrink-0 rounded-full',
-                                  ELEMENT_STYLES[fighter.element].dot
-                                )}
-                              />
-                              <span className="truncate text-[11px] font-semibold text-slate-700">
-                                {fighter.character?.name.EN}
-                              </span>
-                            </span>
-                          </td>
-                          <td className="py-1 pr-2">
-                            <div className="flex min-w-0 items-center gap-1.5">
-                              <AbilityIcon icon={entry.icon} className="size-5 shrink-0" />
-                              <select
-                                value={entry.source}
-                                onChange={(event) => {
-                                  const key = event.target.value as AbilityPresetKey | 'custom';
-                                  if (key === 'custom') {
-                                    updateRotation(fighter.state.slot, entry.id, {
-                                      source: 'custom',
-                                      partId: undefined,
-                                      name: 'Custom ability',
-                                      icon: undefined,
-                                      damageType: 'Skill',
-                                    });
-                                    return;
-                                  }
-                                  const presetEntry = fighter.combat?.[key];
-                                  if (!presetEntry) return;
-                                  const nextLevel = getEffectiveSkillLevel(
-                                    fighter.state.skillLevel,
-                                    fighter.state.emblems,
-                                    key
-                                  );
-                                  const part = parsePrimarySkillPart(presetEntry, key, nextLevel);
-                                  updateRotation(fighter.state.slot, entry.id, {
-                                    source: key,
-                                    partId: part?.id,
-                                    name: part?.label ?? presetEntry.name,
-                                    icon: presetEntry.icon,
-                                    motionValuePct: part?.mvPct ?? 0,
-                                    hits: part?.hits ?? 1,
-                                    damageType: part?.damageType ?? ABILITY_PRESET_MAP[key].damageType,
-                                    scalingStat: part?.scalingStat ?? 'ATK',
-                                  });
-                                }}
-                                className="min-w-0 max-w-[200px] flex-1 truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                                aria-label={`Ability for ${fighter.character?.name.EN ?? 'Trekker'}`}
-                              >
-                                {ABILITY_PRESETS.filter(
-                                  (preset) => fighter.combat?.[preset.key]
-                                ).map((preset) => (
-                                  <option key={preset.key} value={preset.key}>
-                                    {fighter.combat?.[preset.key]?.name}
-                                  </option>
-                                ))}
-                                {entry.source !== 'custom' && !fighter.combat?.[entry.source] && (
-                                  <option value={entry.source}>{entry.name}</option>
-                                )}
-                                <option value="custom">Custom ability</option>
-                              </select>
-                              {skillParts.length > 1 && (
-                                <select
-                                  value={activePartId}
-                                  onChange={(event) => {
-                                    const part = skillParts.find((item) => item.id === event.target.value);
-                                    if (!part) return;
-                                    updateRotation(fighter.state.slot, entry.id, {
-                                      partId: part.id,
-                                      name: part.label,
-                                      motionValuePct: part.mvPct,
-                                      hits: part.hits,
-                                      damageType: part.damageType,
-                                      scalingStat: part.scalingStat,
-                                    });
-                                  }}
-                                  className="min-w-0 max-w-[155px] truncate rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                                  aria-label={`Part for ${entry.name}`}
-                                >
-                                  {skillParts.map((part) => (
-                                    <option key={part.id} value={part.id}>
-                                      {part.label} ({part.mvPct}%)
-                                    </option>
-                                  ))}
-                                </select>
-                              )}
-                              {entry.source === 'custom' && (
-                                <input
-                                  value={entry.name}
-                                  onChange={(event) =>
-                                    updateRotation(fighter.state.slot, entry.id, {
-                                      name: event.target.value,
-                                    })
-                                  }
-                                  className="w-24 min-w-0 rounded border border-border bg-surface-card px-1.5 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                                  aria-label="Custom ability name"
-                                />
-                              )}
-                            </div>
-                          </td>
-                          <td className="py-1 pr-2">
-                            <select
-                              value={entry.damageType}
-                              onChange={(event) =>
-                                updateRotation(fighter.state.slot, entry.id, {
-                                  damageType: event.target.value as DamageType,
-                                })
-                              }
-                              className="w-full rounded border border-border bg-surface-card px-1 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                              aria-label={`${entry.name} damage type`}
-                            >
-                              {DAMAGE_TYPES.map((type) => (
-                                <option key={type} value={type}>
-                                  {type}
-                                </option>
-                              ))}
-                            </select>
-                          </td>
-                          <td className="py-1 pr-2">
-                            <div className="flex items-center justify-end gap-1">
-                              <input
-                                type="number"
-                                min={0}
-                                step="0.1"
-                                value={entry.motionValuePct}
-                                onChange={(event) =>
-                                  updateRotation(fighter.state.slot, entry.id, {
-                                    motionValuePct: Math.max(0, Number(event.target.value) || 0),
-                                  })
-                                }
-                                className="w-16 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                                aria-label={`${entry.name} multiplier percent`}
-                              />
-                              <span className="text-[11px] text-slate-600 dark:text-slate-400">%</span>
-                            </div>
-                          </td>
-                          <td className="py-1 pr-2">
-                            <input
-                              type="number"
-                              min={1}
-                              step={1}
-                              value={entry.hits}
-                              onChange={(event) =>
-                                updateRotation(fighter.state.slot, entry.id, {
-                                  hits: Math.max(1, Math.floor(Number(event.target.value) || 1)),
-                                })
-                              }
-                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                              aria-label={`${entry.name} hits`}
-                            />
-                          </td>
-                          <td className="py-1 pr-2">
-                            <input
-                              type="number"
-                              min={0}
-                              step="0.1"
-                              value={entry.casts}
-                              onChange={(event) =>
-                                updateRotation(fighter.state.slot, entry.id, {
-                                  casts: Math.max(0, Number(event.target.value) || 0),
-                                })
-                              }
-                              className="w-14 rounded border border-border bg-surface-card px-1 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                              aria-label={`${entry.name} casts`}
-                            />
-                          </td>
-                          <td className="py-1 pr-2">
-                            <select
-                              value={entry.scalingStat ?? 'ATK'}
-                              onChange={(event) =>
-                                updateRotation(fighter.state.slot, entry.id, {
-                                  scalingStat: event.target.value as 'ATK' | 'HP' | 'DEF',
-                                })
-                              }
-                              className="w-full rounded border border-border bg-surface-card px-1 py-1 text-[11px] font-semibold text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/35 dark:bg-base dark:text-white"
-                              aria-label={`${entry.name} scaling stat`}
-                            >
-                              <option value="ATK">ATK</option>
-                              <option value="HP">HP</option>
-                              <option value="DEF">DEF</option>
-                            </select>
-                          </td>
-                          <td className="py-1 pr-2">
-                            <input
-                              value={entry.note ?? ''}
-                              onChange={(event) =>
-                                updateRotation(fighter.state.slot, entry.id, {
-                                  note: event.target.value,
-                                })
-                              }
-                              placeholder="Note"
-                              className="w-full rounded border border-transparent bg-transparent px-1 py-1 text-[11px] text-slate-700 placeholder:text-slate-600 dark:placeholder:text-slate-400 focus:border-teal-500 focus:bg-surface-card focus:outline-none focus:ring-2 focus:ring-teal-500/35"
-                              aria-label={`${entry.name} note`}
-                            />
-                          </td>
-                          <td className="py-1 pr-2 text-right font-mono text-[11px] font-bold tabular-nums text-amber-700">
-                            {formatNumber(damage.expectedDamage)}
-                          </td>
-                          <td className="py-1 pr-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
-                            {formatNumber(damage.nonCritDamage)}
-                          </td>
-                          <td className="py-1 pr-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
-                            {formatNumber(damage.critDamage)}
-                          </td>
-                          <td className="py-1 text-right">
-                            <button
-                              type="button"
-                              onClick={() => removeRotation(fighter.state.slot, entry.id)}
-                              className={cn(
-                                'inline-flex min-h-7 min-w-7 items-center justify-center rounded-md p-1.5 text-slate-600 transition-colors hover:bg-rose-500/10 hover:text-rose-700 dark:text-slate-400',
-                                FOCUS_RING
-                              )}
-                              aria-label={`Remove ${entry.name}`}
-                            >
-                              <X className="size-3.5" aria-hidden="true" />
-                            </button>
-                          </td>
-                        </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                ))}
-            </table>
-          </div>
-        )}
-      </div>
+      <RotationPanel
+        build={build}
+        fighterCalcs={fighterCalcs}
+        totalExpected={totalExpected}
+        onAddAbility={addRotationAbility}
+        onImportDamagingPotentials={importDamagingPotentials}
+        onUpdateRotation={updateRotation}
+        onRemoveRotation={removeRotation}
+      />
 
 
 
@@ -2556,7 +2547,7 @@ export function TheoreticalDamageCalculator({
           title="Damage breakdown"
           subtitle="Expected damage per rotation entry after crit weighting, DEF / RES amendment, and taken multipliers."
           right={
-            <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 font-mono text-[11px] font-bold tabular-nums text-amber-700">
+            <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-1 text-xs font-bold tabular-nums text-amber-700">
               {formatNumber(totalExpected)} total
             </span>
           }
@@ -2572,7 +2563,7 @@ export function TheoreticalDamageCalculator({
           <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[780px] text-xs">
               <thead>
-                <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+                <tr className="border-b border-border text-xs font-semibold text-slate-600 dark:text-slate-400">
                   <th className="px-2 py-2 text-left font-bold">Trekker</th>
                   <th className="px-2 py-2 text-left font-bold">Ability</th>
                   <th className="px-2 py-2 text-left font-bold">Type</th>
@@ -2604,7 +2595,7 @@ export function TheoreticalDamageCalculator({
                           <span className="font-semibold text-slate-700">
                             {fighter.character?.name.EN ?? SLOT_META[fighter.state.slot].label}
                           </span>
-                          <span className="text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                          <span className="text-xs text-slate-600 dark:text-slate-400">
                             {SLOT_META[fighter.state.slot].shortLabel}
                           </span>
                         </div>
@@ -2612,34 +2603,34 @@ export function TheoreticalDamageCalculator({
                       <td className="px-2 py-2">
                         <div className="flex items-center gap-1.5">
                           <AbilityIcon icon={entry.icon} className="size-5" />
-                          <span className="text-[11px] font-medium text-slate-700">
+                          <span className="text-xs font-medium text-slate-700">
                             {entry.name}
                           </span>
                         </div>
                       </td>
                       <td className="px-2 py-2">
-                        <span className="inline-flex rounded border border-border bg-surface-subtle px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                        <span className="inline-flex rounded border border-border bg-surface-subtle px-1.5 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-400">
                           {entry.damageType}
                         </span>
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                      <td className="px-2 py-2 text-right text-xs tabular-nums text-slate-600 dark:text-slate-400">
                         {entry.motionValuePct.toFixed(1)}%
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                      <td className="px-2 py-2 text-right text-xs tabular-nums text-slate-600 dark:text-slate-400">
                         {entry.hits}×{entry.casts}
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                      <td className="px-2 py-2 text-right text-xs tabular-nums text-slate-600 dark:text-slate-400">
                         {fighter.stats.critRatePct.toFixed(1)}% /{' '}
                         {fighter.stats.critDmgPct.toFixed(0)}%
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                      <td className="px-2 py-2 text-right text-xs tabular-nums text-slate-600 dark:text-slate-400">
                         {(damage.defAmend * 100).toFixed(1)}% /{' '}
                         {(damage.erAmend * 100).toFixed(1)}%
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[11px] font-bold tabular-nums text-amber-700">
+                      <td className="px-2 py-2 text-right text-xs font-bold tabular-nums text-amber-700">
                         {formatNumber(damage.expectedDamage)}
                       </td>
-                      <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                      <td className="px-2 py-2 text-right text-xs tabular-nums text-slate-600 dark:text-slate-400">
                         {share.toFixed(1)}%
                       </td>
                     </tr>
@@ -2650,14 +2641,14 @@ export function TheoreticalDamageCalculator({
                 <tr className="border-t border-border bg-surface-subtle">
                   <td
                     colSpan={7}
-                    className="px-2 py-2 text-right text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400"
+                    className="px-2 py-2 text-right text-xs font-semibold text-slate-600 dark:text-slate-400"
                   >
                     Team total
                   </td>
-                  <td className="px-2 py-2 text-right font-mono text-[12px] font-bold tabular-nums text-slate-900 dark:text-white">
+                  <td className="px-2 py-2 text-right text-xs font-bold tabular-nums text-slate-900 dark:text-white">
                     {formatNumber(totalExpected)}
                   </td>
-                  <td className="px-2 py-2 text-right font-mono text-[11px] tabular-nums text-slate-600 dark:text-slate-400">
+                  <td className="px-2 py-2 text-right text-xs tabular-nums text-slate-600 dark:text-slate-400">
                     100%
                   </td>
                 </tr>
@@ -2667,15 +2658,15 @@ export function TheoreticalDamageCalculator({
         )}
 
         <div className="mt-3 rounded-lg border border-border-subtle bg-surface-subtle px-3 py-2">
-          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
             <Info className="size-3.5 shrink-0" aria-hidden="true" />
             Expected-value model
           </div>
-          <div className="mt-1 overflow-x-auto whitespace-nowrap font-mono text-[11px] text-slate-700">
+          <code className="mt-1 block overflow-x-auto whitespace-nowrap font-mono text-xs text-slate-700">
             Damage = ATK × MV × Skill Intensity × Slot DMG × Element DMG × Expected Crit × DEF
             Amend × RES Amend × Taken × Break
-          </div>
-          <p className="mt-1 text-[11px] text-slate-600 dark:text-slate-400">
+          </code>
+          <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
             Expected crit = 1 + min(100%, Crit Rate) × (Crit DMG − 1).
           </p>
         </div>
@@ -2764,7 +2755,7 @@ export function TheoreticalDamageCalculator({
             <div className="overflow-x-auto">
               <table className="w-full min-w-[480px] text-xs">
                 <thead>
-                  <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+                  <tr className="border-b border-border text-xs font-semibold text-slate-600 dark:text-slate-400">
                     <th className="px-2 py-2 text-left font-bold">Tier</th>
                     <th className="px-2 py-2 text-right font-bold">Team damage</th>
                     <th className="px-2 py-2 text-right font-bold">Team gain</th>
@@ -2778,19 +2769,19 @@ export function TheoreticalDamageCalculator({
                       key={point.tier}
                       className="border-b border-border-subtle last:border-0 hover:bg-surface-subtle/60"
                     >
-                      <td className="px-2 py-1.5 font-mono text-[11px] font-bold text-slate-700 dark:text-white">
+                      <td className="px-2 py-1.5 text-xs font-bold tabular-nums text-slate-700 dark:text-white">
                         T{point.tier}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700">
+                      <td className="px-2 py-1.5 text-right text-xs tabular-nums text-slate-700">
                         {formatNumber(point.teamDmg)}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-emerald-700">
+                      <td className="px-2 py-1.5 text-right text-xs tabular-nums text-emerald-700">
                         {formatSignedPct(point.teamGainPct)}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700">
+                      <td className="px-2 py-1.5 text-right text-xs tabular-nums text-slate-700">
                         {formatNumber(point.personalDmg)}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-emerald-700">
+                      <td className="px-2 py-1.5 text-right text-xs tabular-nums text-emerald-700">
                         {formatSignedPct(point.personalGainPct)}
                       </td>
                     </tr>
@@ -2814,14 +2805,14 @@ export function TheoreticalDamageCalculator({
               </div>
             ) : (
               <>
-                <p className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                <p className="text-xs leading-snug text-slate-600 dark:text-slate-400">
                   Team damage recomputed with each disc removed. Support discs also drop their
                   starting notes.
                 </p>
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[480px] text-xs">
                     <thead>
-                      <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+                      <tr className="border-b border-border text-xs font-semibold text-slate-600 dark:text-slate-400">
                         <th className="px-2 py-2 text-left font-bold">Disc</th>
                         <th className="px-2 py-2 text-left font-bold">Slot</th>
                         <th className="px-2 py-2 text-right font-bold">Team damage</th>
@@ -2834,16 +2825,16 @@ export function TheoreticalDamageCalculator({
                           key={`${point.slot}-${point.index}`}
                           className="border-b border-border-subtle last:border-0 hover:bg-surface-subtle/60"
                         >
-                          <td className="px-2 py-1.5 text-[11px] font-semibold text-slate-700">
+                          <td className="px-2 py-1.5 text-xs font-semibold text-slate-700">
                             {point.name}
                           </td>
-                          <td className="px-2 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+                          <td className="px-2 py-1.5 text-xs font-medium capitalize text-slate-600 dark:text-slate-400">
                             {point.slot}
                           </td>
-                          <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-slate-700">
+                          <td className="px-2 py-1.5 text-right text-xs tabular-nums text-slate-700">
                             {formatNumber(point.teamDmg)}
                           </td>
-                          <td className="px-2 py-1.5 text-right font-mono text-[11px] tabular-nums text-rose-700">
+                          <td className="px-2 py-1.5 text-right text-xs tabular-nums text-rose-700">
                             {formatSignedPct(-point.lossPct)}
                           </td>
                         </tr>
@@ -2864,7 +2855,7 @@ export function TheoreticalDamageCalculator({
             className="mt-3 space-y-2.5"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+              <p className="text-xs leading-snug text-slate-600 dark:text-slate-400">
                 Flat RES PEN against {enemyRes} RES
                 {penReferenceFighter?.character
                   ? ` for ${penReferenceFighter.character.name.EN} (${penReferenceFighter.stats.vulPct.toFixed(0)}% VUL, ${penReferenceFighter.stats.resIgnorePct.toFixed(0)}% RES ignore)`
@@ -2872,7 +2863,7 @@ export function TheoreticalDamageCalculator({
                 . Gain is relative to 0 PEN.
               </p>
               {penReferenceFighter && (
-                <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 font-mono text-[11px] font-bold tabular-nums text-amber-700">
+                <span className="rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-xs font-bold tabular-nums text-amber-700">
                   Current PEN {Math.round(penReferenceFighter.stats.resPen)}
                 </span>
               )}
@@ -2880,7 +2871,7 @@ export function TheoreticalDamageCalculator({
             <div className="max-h-80 overflow-auto">
               <table className="w-full min-w-[360px] text-xs">
                 <thead className="sticky top-0 bg-surface-card">
-                  <tr className="border-b border-border text-[11px] uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
+                  <tr className="border-b border-border text-xs font-semibold text-slate-600 dark:text-slate-400">
                     <th className="px-2 py-2 text-right font-bold">PEN</th>
                     <th className="px-2 py-2 text-right font-bold">Effective RES</th>
                     <th className="px-2 py-2 text-right font-bold">RES amend</th>
@@ -2899,16 +2890,16 @@ export function TheoreticalDamageCalculator({
                           isCurrentBracket && 'bg-amber-500/10'
                         )}
                       >
-                        <td className="px-2 py-1 text-right font-mono text-[11px] font-bold tabular-nums text-slate-700 dark:text-white">
+                        <td className="px-2 py-1 text-right text-xs font-bold tabular-nums text-slate-700 dark:text-white">
                           {point.pen}
                         </td>
-                        <td className="px-2 py-1 text-right font-mono text-[11px] tabular-nums text-slate-700">
+                        <td className="px-2 py-1 text-right text-xs tabular-nums text-slate-700">
                           {Math.round(point.effectiveRes)}
                         </td>
-                        <td className="px-2 py-1 text-right font-mono text-[11px] tabular-nums text-slate-700">
+                        <td className="px-2 py-1 text-right text-xs tabular-nums text-slate-700">
                           {(point.erAmend * 100).toFixed(1)}%
                         </td>
-                        <td className="px-2 py-1 text-right font-mono text-[11px] tabular-nums text-emerald-700">
+                        <td className="px-2 py-1 text-right text-xs tabular-nums text-emerald-700">
                           {formatSignedPct(point.gainPct)}
                         </td>
                       </tr>
@@ -2927,60 +2918,66 @@ export function TheoreticalDamageCalculator({
           title="Damage type breakdown"
           subtitle="How each Trekker's rotation splits across damage sources and damage types."
         />
-        <div className="mt-4 grid gap-4 lg:grid-cols-3">
-          {typeBreakdown.map(({ fighter, slices }) => {
-            const source = sourceBreakdown.find(
-              (item) => item.fighter.state.slot === fighter.state.slot
-            );
-            return (
-              <div key={fighter.state.slot} className="rounded-lg border border-border-subtle bg-surface-subtle p-3">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={cn('size-2.5 rounded-full', ELEMENT_STYLES[fighter.element].dot)}
-                  />
-                  <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
-                    {fighter.character?.name.EN}
-                  </span>
-                  <span className="ml-auto font-mono text-[11px] font-bold tabular-nums text-slate-600 dark:text-slate-400">
-                    {formatCompact(fighter.totals.expected)}
-                  </span>
-                </div>
-                <div className="mt-3 grid grid-cols-2 gap-3">
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
-                      Damage type
+        {!fighterCalcs.some((fighter) => fighter.character) ? (
+          <div className="mt-3 rounded-lg border border-dashed border-border px-4 py-5 text-center text-xs text-slate-600 dark:text-slate-400">
+            Select Trekkers in Advanced Visualizer to view damage breakdown.
+          </div>
+        ) : (
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            {typeBreakdown.map(({ fighter, slices }) => {
+              const source = sourceBreakdown.find(
+                (item) => item.fighter.state.slot === fighter.state.slot
+              );
+              return (
+                <div key={fighter.state.slot} className="rounded-lg border border-border-subtle bg-surface-subtle p-3">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={cn('size-2.5 rounded-full', ELEMENT_STYLES[fighter.element].dot)}
+                    />
+                    <span className="truncate text-xs font-bold text-slate-800 dark:text-white">
+                      {fighter.character?.name.EN}
+                    </span>
+                    <span className="ml-auto text-xs font-bold tabular-nums text-slate-600 dark:text-slate-400">
+                      {formatCompact(fighter.totals.expected)}
+                    </span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div>
+                      <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
+                        Damage type
+                      </div>
+                      <div className="mt-2 flex flex-col items-center gap-2">
+                        <PieChart slices={slices} size={88} label="Damage type" />
+                        <PieLegend
+                          slices={slices}
+                          total={fighter.totals.expected}
+                          className="w-full"
+                        />
+                      </div>
                     </div>
-                    <div className="mt-2 flex flex-col items-center gap-2">
-                      <PieChart slices={slices} size={88} label="Damage type" />
-                      <PieLegend
-                        slices={slices}
-                        total={fighter.totals.expected}
-                        className="w-full"
-                      />
+                    <div>
+                      <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
+                        Damage source
+                      </div>
+                      <div className="mt-2 flex flex-col items-center gap-2">
+                        <PieChart
+                          slices={source?.slices ?? []}
+                          size={88}
+                          label="Damage source"
+                        />
+                        <PieLegend
+                          slices={source?.slices ?? []}
+                          total={fighter.totals.expected}
+                          className="w-full"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-600 dark:text-slate-400">
-                      Damage source
-                    </div>
-                    <div className="mt-2 flex flex-col items-center gap-2">
-                      <PieChart
-                        slices={source?.slices ?? []}
-                        size={88}
-                        label="Damage source"
-                      />
-                      <PieLegend
-                        slices={source?.slices ?? []}
-                        total={fighter.totals.expected}
-                        className="w-full"
-                      />
-                    </div>
-                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

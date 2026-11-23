@@ -1,4 +1,5 @@
 import raw from '../../data/talent-emblem.json' with { type: 'json' };
+import trekkerTalentsRaw from '../../data/trekker-talents.json' with { type: 'json' };
 import type { BuffStatKey } from './damage-engine.ts';
 import type { ElementType } from '../../types/index.ts';
 
@@ -258,4 +259,50 @@ export function resolveTalentTarget(
   if (element) return { kind: 'element', element };
   if (target === context.talentKey) return { kind: 'slot', slot: context.slot };
   return { kind: 'other' };
+}
+
+const TALENT_MINOR_STAT_MAP: Record<string, BuffStatKey> = {
+  'Base ATK': 'baseAtk',
+  'Base HP': 'baseHp',
+  'Base DEF': 'baseDef',
+  ATK: 'atkPctPerma',
+  'Crit DMG': 'critDmg',
+  'Auto Attack DMG': 'aaDmg',
+  'Auto Attack DMG Boost': 'aaDmg',
+  'Skill DMG': 'skillDmg',
+  'Skill DMG Boost': 'skillDmg',
+  'Ultimate DMG': 'ultDmg',
+  'Ignis DMG': 'elementDmg',
+  'Aqua DMG': 'elementDmg',
+  'Terra DMG': 'elementDmg',
+  'Ventus DMG': 'elementDmg',
+  'Lux DMG': 'elementDmg',
+  'Umbra DMG': 'elementDmg',
+};
+
+interface TrekkerTalentEntry {
+  tier: number;
+  statBonuses?: Array<{ stat: string; value: string }>;
+}
+
+const TREKKER_TALENTS = trekkerTalentsRaw as Record<string, TrekkerTalentEntry[]>;
+
+export function getTalentMinorStatBonuses(
+  characterId: string,
+  talentTier: number
+): Array<{ key: BuffStatKey; value: number }> {
+  const tiers = TREKKER_TALENTS[characterId];
+  if (!tiers || talentTier <= 0) return [];
+  const result: Array<{ key: BuffStatKey; value: number }> = [];
+  const limit = Math.min(talentTier, tiers.length);
+  for (let i = 0; i < limit; i++) {
+    for (const bonus of tiers[i]?.statBonuses ?? []) {
+      const key = TALENT_MINOR_STAT_MAP[bonus.stat];
+      const value = parseFloat(String(bonus.value));
+      if (key && Number.isFinite(value) && value !== 0) {
+        result.push({ key, value });
+      }
+    }
+  }
+  return result;
 }

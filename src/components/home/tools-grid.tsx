@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Swords, Heart, Users, Disc, Calendar, Calculator } from 'lucide-react';
+import { Swords, Heart, Users, Disc, Calendar, Calculator, Layers } from 'lucide-react';
 
 export function ToolsGrid() {
   const tools = [
@@ -7,7 +7,6 @@ export function ToolsGrid() {
       title: 'Preset Visualizer',
       href: '/builder',
       icon: Swords,
-      iconStyle: 'text-rose-600',
       description:
         'Visualize your presets. Create presets for yourself, or to share with other players.',
     },
@@ -15,7 +14,6 @@ export function ToolsGrid() {
       title: 'Affinity Calculator',
       href: '/bond',
       icon: Heart,
-      iconStyle: 'text-purple-700',
       description:
         'Calculate the affinity level you can get from giving gifts to your trekkers.',
     },
@@ -23,15 +21,13 @@ export function ToolsGrid() {
       title: 'Resource Calculator',
       href: '/calculator',
       icon: Calculator,
-      iconStyle: 'text-amber-700',
       description:
         'Calculate required promotion materials, level-up exp, and skill upgrade costs for trekkers.',
     },
     {
-      title: 'Events Roadmap & Schedule',
+      title: 'Events Roadmap',
       href: '/roadmap',
       icon: Calendar,
-      iconStyle: 'text-sky-700',
       description:
         'Interactive timeline tracking character banners, Boss Blitz, events, and more.',
     },
@@ -39,17 +35,22 @@ export function ToolsGrid() {
       title: 'Trekker Encyclopedia',
       href: '/trekkers',
       icon: Users,
-      iconStyle: 'text-emerald-700',
       description:
-        "Explore trekkers' profiles. Search for a specific trekker and view their combat roles, potentials lists, elements…",
+        "Browse every Trekker's combat role, skills, potentials, and affinity gifts.",
     },
     {
       title: 'Runic Disc Encyclopedia',
       href: '/discs',
       icon: Disc,
-      iconStyle: 'text-cyan-700',
       description:
         'Browse all Runic Discs. Filter by element, tags, or Musical Notes and inspect Melody, Harmony, and Support skills.',
+    },
+    {
+      title: 'Community Builds & Guides',
+      href: '/builds',
+      icon: Layers,
+      description:
+        'Browse community squad presets across all 6 elements with potential codes, F2P swaps, and investment math.',
     },
   ];
 
@@ -62,13 +63,13 @@ export function ToolsGrid() {
           <Link
             key={tool.title}
             href={tool.href}
-            className={`block group focus-visible:ring-2 focus-visible:ring-amber-400 rounded-xl ${
+            className={`block group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded-xl ${
               isLastOdd ? 'md:col-span-2' : ''
             }`}
           >
-            <div className="h-full p-5 game-card celestial-card hover:border-border-hover transition-colors duration-300 flex flex-col press-feedback">
+            <div className="h-full p-5 game-card celestial-card hover:border-border-hover transition-colors duration-200 flex flex-col press-feedback">
               <div className="flex items-center gap-2.5 mb-2.5">
-                <Icon className={`size-5 shrink-0 transition-transform group-hover:scale-105 ${tool.iconStyle}`} aria-hidden="true" />
+                <Icon className="size-4.5 shrink-0 text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" aria-hidden="true" />
                 <h3 className="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-amber-800 transition-colors">
                   {tool.title}
                 </h3>

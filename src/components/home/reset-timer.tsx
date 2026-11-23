@@ -58,11 +58,7 @@ function computeTimerState(): TimerState {
 }
 
 export function ResetTimer() {
-  const [timerState, setTimerState] = useState<TimerState>({
-    daily: { hours: 0, minutes: 0, seconds: 0 },
-    weekly: { days: 0, hours: 0, minutes: 0, seconds: 0 },
-    localResetText: '',
-  });
+  const [timerState, setTimerState] = useState<TimerState | null>(null);
 
   useEffect(() => {
     setTimerState(computeTimerState());
@@ -87,14 +83,21 @@ export function ResetTimer() {
         <div className="flex flex-col items-center justify-center text-center">
           <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-600 font-medium">
             <span>Next reset in:</span>
-            {timerState.localResetText && (
+            {timerState?.localResetText && (
               <span className="text-xs text-slate-500 font-normal">
                 ({timerState.localResetText} local)
               </span>
             )}
           </div>
-          <div suppressHydrationWarning className="text-2xl sm:text-3xl font-mono font-bold tracking-wider text-slate-900 mt-0.5 tabular-nums">
-            {format2(timerState.daily.hours)}:{format2(timerState.daily.minutes)}:{format2(timerState.daily.seconds)}
+          <div
+            suppressHydrationWarning
+            className="text-2xl sm:text-3xl font-bold text-slate-900 mt-0.5 tabular-nums"
+          >
+            {timerState ? (
+              `${format2(timerState.daily.hours)}:${format2(timerState.daily.minutes)}:${format2(timerState.daily.seconds)}`
+            ) : (
+              <span className="text-slate-400 dark:text-slate-500">--:--:--</span>
+            )}
           </div>
         </div>
 
@@ -106,13 +109,22 @@ export function ResetTimer() {
           <span className="text-xs sm:text-sm text-slate-600 font-medium">
             Next weekly reset in:
           </span>
-          <div suppressHydrationWarning className="text-2xl sm:text-3xl font-mono font-bold tracking-wider text-slate-800 mt-0.5 tabular-nums">
-            {timerState.weekly.days > 0 && (
-              <span className="text-slate-600 mr-2 text-xl sm:text-2xl font-normal">
-                {timerState.weekly.days}d
-              </span>
+          <div
+            suppressHydrationWarning
+            className="text-2xl sm:text-3xl font-bold text-slate-800 mt-0.5 tabular-nums"
+          >
+            {timerState ? (
+              <>
+                {timerState.weekly.days > 0 && (
+                  <span className="text-slate-600 mr-2 text-xl sm:text-2xl font-normal">
+                    {timerState.weekly.days}d
+                  </span>
+                )}
+                {format2(timerState.weekly.hours)}:{format2(timerState.weekly.minutes)}:{format2(timerState.weekly.seconds)}
+              </>
+            ) : (
+              <span className="text-slate-400 dark:text-slate-500">--:--:--</span>
             )}
-            {format2(timerState.weekly.hours)}:{format2(timerState.weekly.minutes)}:{format2(timerState.weekly.seconds)}
           </div>
         </div>
       </div>

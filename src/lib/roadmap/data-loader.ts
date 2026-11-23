@@ -41,12 +41,13 @@ export function getMergedRoadmapItems(): RoadmapItem[] {
         const matchBoss = blitzBossList.find(
           (b) =>
             b.name.toLowerCase() === item.title.toLowerCase() ||
+            (item.bossName && item.bossName.toLowerCase().includes(b.name.toLowerCase())) ||
             (item.subtitle && b.name.toLowerCase().includes(item.subtitle.toLowerCase()))
         );
         if (matchBoss) {
           return {
             ...item,
-            bossResist: matchBoss.resistTo,
+            bossResist: item.bossResist ?? matchBoss.resistTo,
             mechanics: matchBoss.mechanic?.filter((m) => m.name !== '!NONEED!').map((m) => ({
               name: m.name,
               desc: m.desc,

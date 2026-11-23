@@ -37,28 +37,92 @@ import { decompressAdvancedBuild } from '@/lib/share-link';
 import { unpackAdvancedPresetCode, unpackPresetCode } from '@/lib/preset-code';
 import {
   clearDraftBuildFromStorage,
+  getSavedPresetById,
+  hasAnyBuildContent,
   loadDraftBuildFromStorage,
+  loadSavedPresetsFromStorage,
   MAX_PRESET_NAME_LENGTH,
 } from '@/lib/saved-presets';
-import { RotateCcw, ArrowLeft } from 'lucide-react';
+import { getResolvedCommunityPresetById } from '@/lib/community-presets';
+import { RotateCcw, ArrowLeft, Layers } from 'lucide-react';
+
+interface SavedAdvancedDraftSnapshot {
+  id: string;
+  name: string;
+  data: {
+    slots: AdvancedTeamBuild['slots'];
+    mainDiscs: AdvancedTeamBuild['mainDiscs'];
+    supportDiscs: AdvancedTeamBuild['supportDiscs'];
+    targetNotes: Partial<Record<NoteName, number>>;
+  };
+  loadedTitle: string;
+}
 
 function AdvancedQueryHydrator({
   characters,
   discs,
   setBuild,
   setIsDraftReady,
+  setRestorableDraft,
 }: {
   characters: Record<string, SSCharacter>;
   discs: Record<string, SSDisc>;
   setBuild: Dispatch<SetStateAction<AdvancedTeamBuild>>;
   setIsDraftReady: Dispatch<SetStateAction<boolean>>;
+  setRestorableDraft: Dispatch<SetStateAction<SavedAdvancedDraftSnapshot | null>>;
 }) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    const savedParam = searchParams.get('saved');
+    const communityParam = searchParams.get('community');
     const encoded = searchParams.get('b');
     const advParam = searchParams.get('adv');
     const codeParam = searchParams.get('code') || searchParams.get('preset');
+
+    if (savedParam) {
+      const savedRecord = getSavedPresetById(loadSavedPresetsFromStorage(), savedParam);
+      if (savedRecord) {
+        const unpacked = unpackAdvancedPresetCode(savedRecord.advCode, characters, discs);
+        if (unpacked) {
+          setBuild((prev) => ({
+            ...prev,
+            id: savedRecord.id,
+            name: savedRecord.name,
+            ...unpacked,
+          }));
+          setIsDraftReady(true);
+          return;
+        }
+      }
+    }
+
+    if (communityParam) {
+      const communityPreset = getResolvedCommunityPresetById(communityParam);
+      if (communityPreset) {
+        const existingDraft = loadDraftBuildFromStorage('advanced');
+        if (
+          existingDraft &&
+          existingDraft.id !== `community:${communityPreset.id}` &&
+          hasAnyBuildContent(existingDraft.data)
+        ) {
+          setRestorableDraft({
+            id: existingDraft.id,
+            name: existingDraft.name,
+            data: existingDraft.data,
+            loadedTitle: communityPreset.title,
+          });
+        }
+        setBuild((prev) => ({
+          ...prev,
+          id: `community:${communityPreset.id}`,
+          name: communityPreset.title,
+          ...communityPreset.advData,
+        }));
+        setIsDraftReady(true);
+        return;
+      }
+    }
 
     if (advParam) {
       const advParsed = unpackAdvancedPresetCode(advParam, characters, discs);
@@ -116,7 +180,7 @@ function AdvancedQueryHydrator({
     }
 
     setIsDraftReady(true);
-  }, [searchParams, characters, discs, setBuild, setIsDraftReady]);
+  }, [searchParams, characters, discs, setBuild, setIsDraftReady, setRestorableDraft]);
 
   return null;
 }
@@ -133,6 +197,7 @@ export function AdvancedBuilderClient() {
   const [dragOverSlot, setDragOverSlot] = useState<SlotType | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isDraftReady, setIsDraftReady] = useState(false);
+  const [restorableDraft, setRestorableDraft] = useState<SavedAdvancedDraftSnapshot | null>(null);
 
   useDebouncedDraftSave('advanced', build, isDraftReady);
 
@@ -288,8 +353,8 @@ export function AdvancedBuilderClient() {
 
   return (
     <div className="flex flex-col gap-6 max-w-6xl mx-auto px-4 py-6">
-      <h1 className="sr-only">
-        Stella Sora Advanced Preset Visualizer — Runic Discs &amp; Musical Notes
+      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+        Advanced Preset Visualizer
       </h1>
       <Suspense fallback={null}>
         <AdvancedQueryHydrator
@@ -297,6 +362,7 @@ export function AdvancedBuilderClient() {
           discs={discs}
           setBuild={setBuild}
           setIsDraftReady={setIsDraftReady}
+          setRestorableDraft={setRestorableDraft}
         />
       </Suspense>
       {/* Top Navigation & Mode Switch Bar */}
@@ -404,6 +470,47 @@ export function AdvancedBuilderClient() {
           )}
         </div>
       </div>
+
+      {restorableDraft && (
+        <div
+          role="status"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-teal-500/40 bg-teal-500/10 px-4 py-2.5 text-xs text-slate-800 dark:text-white"
+        >
+          <div className="flex items-center gap-2">
+            <Layers className="size-4 text-teal-600 dark:text-teal-400 shrink-0" aria-hidden="true" />
+            <span>
+              Loaded community build <strong>{restorableDraft.loadedTitle}</strong>. Your previous local draft is still preserved here.
+            </span>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setBuild((prev) => ({
+                  ...prev,
+                  id: restorableDraft.id,
+                  name: restorableDraft.name,
+                  ...restorableDraft.data,
+                }));
+                setRestorableDraft(null);
+                const nextUrl = new URL(window.location.href);
+                nextUrl.searchParams.delete('community');
+                window.history.replaceState(null, '', nextUrl.pathname + nextUrl.search + nextUrl.hash);
+              }}
+              className="px-2.5 py-1 rounded-md border border-teal-600/40 bg-surface-card hover:bg-surface-hover font-semibold text-teal-700 dark:text-teal-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            >
+              Restore Previous Draft
+            </button>
+            <button
+              type="button"
+              onClick={() => setRestorableDraft(null)}
+              className="px-2 py-1 rounded-md text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* In-Game & Advanced Preset Code Import / Export */}
       <PresetCodeBar

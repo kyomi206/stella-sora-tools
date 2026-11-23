@@ -16,10 +16,12 @@ import { decompressBuild } from '@/lib/share-link';
 import { unpackPresetCode } from '@/lib/preset-code';
 import {
   clearDraftBuildFromStorage,
+  hasAnyBuildContent,
   loadDraftBuildFromStorage,
   MAX_PRESET_NAME_LENGTH,
 } from '@/lib/saved-presets';
-import { RotateCcw, Edit3, ArrowRight } from 'lucide-react';
+import { getResolvedCommunityPresetById } from '@/lib/community-presets';
+import { RotateCcw, Edit3, ArrowRight, Layers } from 'lucide-react';
 
 const INITIAL_BUILD: TeamBuild = {
   id: 'default',
@@ -32,22 +34,59 @@ const INITIAL_BUILD: TeamBuild = {
   },
 };
 
+interface SavedBasicDraftSnapshot {
+  id: string;
+  name: string;
+  slots: TeamBuild['slots'];
+  loadedTitle: string;
+}
+
 function BuilderQueryHydrator({
   characters,
   setBuild,
   setIsDraftReady,
+  setRestorableDraft,
 }: {
   characters: Record<string, SSCharacter>;
   setBuild: Dispatch<SetStateAction<TeamBuild>>;
   setIsDraftReady: Dispatch<SetStateAction<boolean>>;
+  setRestorableDraft: Dispatch<SetStateAction<SavedBasicDraftSnapshot | null>>;
 }) {
   const searchParams = useSearchParams();
 
   // Check URL query for compressed build or in-game preset code, falling back to saved local draft
   useEffect(() => {
+    const communityParam = searchParams.get('community');
     const encoded = searchParams.get('b');
     const codeParam = searchParams.get('code') || searchParams.get('preset');
     const vanguardParam = searchParams.get('vanguard') || searchParams.get('char');
+
+    if (communityParam) {
+      const communityPreset = getResolvedCommunityPresetById(communityParam);
+      if (communityPreset) {
+        const existingDraft = loadDraftBuildFromStorage('basic');
+        if (
+          existingDraft &&
+          existingDraft.id !== `community:${communityPreset.id}` &&
+          hasAnyBuildContent(existingDraft.data)
+        ) {
+          setRestorableDraft({
+            id: existingDraft.id,
+            name: existingDraft.name,
+            slots: existingDraft.data.slots,
+            loadedTitle: communityPreset.title,
+          });
+        }
+        setBuild((prev) => ({
+          ...prev,
+          id: `community:${communityPreset.id}`,
+          name: communityPreset.title,
+          slots: communityPreset.advData.slots,
+        }));
+        setIsDraftReady(true);
+        return;
+      }
+    }
 
     if (codeParam) {
       const slots = unpackPresetCode(codeParam, characters);
@@ -94,7 +133,7 @@ function BuilderQueryHydrator({
     }
 
     setIsDraftReady(true);
-  }, [searchParams, characters, setBuild, setIsDraftReady]);
+  }, [searchParams, characters, setBuild, setIsDraftReady, setRestorableDraft]);
 
   return null;
 }
@@ -109,6 +148,7 @@ export function BuilderClient() {
   const [draggedSlot, setDraggedSlot] = useState<SlotType | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<SlotType | null>(null);
   const [isDraftReady, setIsDraftReady] = useState(false);
+  const [restorableDraft, setRestorableDraft] = useState<SavedBasicDraftSnapshot | null>(null);
 
   useDebouncedDraftSave('basic', build, isDraftReady);
 
@@ -181,12 +221,15 @@ export function BuilderClient() {
 
   return (
     <div className="flex flex-col gap-6 max-w-5xl mx-auto px-4 py-6">
-      <h1 className="sr-only">Stella Sora Preset Visualizer &amp; Squad Builder</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+        Preset Visualizer
+      </h1>
       <Suspense fallback={null}>
         <BuilderQueryHydrator
           characters={characters}
           setBuild={setBuild}
           setIsDraftReady={setIsDraftReady}
+          setRestorableDraft={setRestorableDraft}
         />
       </Suspense>
       {/* Top Header with Squad Name Input */}
@@ -270,6 +313,47 @@ export function BuilderClient() {
           )}
         </div>
       </div>
+
+      {restorableDraft && (
+        <div
+          role="status"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-teal-500/40 bg-teal-500/10 px-4 py-2.5 text-xs text-slate-800 dark:text-white"
+        >
+          <div className="flex items-center gap-2">
+            <Layers className="size-4 text-teal-600 dark:text-teal-400 shrink-0" aria-hidden="true" />
+            <span>
+              Loaded community build <strong>{restorableDraft.loadedTitle}</strong>. Your previous local draft is still preserved here.
+            </span>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setBuild((prev) => ({
+                  ...prev,
+                  id: restorableDraft.id,
+                  name: restorableDraft.name,
+                  slots: restorableDraft.slots,
+                }));
+                setRestorableDraft(null);
+                const nextUrl = new URL(window.location.href);
+                nextUrl.searchParams.delete('community');
+                window.history.replaceState(null, '', nextUrl.pathname + nextUrl.search + nextUrl.hash);
+              }}
+              className="px-2.5 py-1 rounded-md border border-teal-600/40 bg-surface-card hover:bg-surface-hover font-semibold text-teal-700 dark:text-teal-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            >
+              Restore Previous Draft
+            </button>
+            <button
+              type="button"
+              onClick={() => setRestorableDraft(null)}
+              className="px-2 py-1 rounded-md text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* In-Game Preset Code Import / Export */}
       <PresetCodeBar

@@ -9,8 +9,6 @@ import {
   ChevronRight,
   Disc,
   ExternalLink,
-  Heart,
-  Sword,
 } from 'lucide-react';
 import {
   NOTE_BY_NAME,
@@ -180,33 +178,6 @@ function HarmonySkillBlock({
   );
 }
 
-function DiscStatPill({
-  icon,
-  label,
-  value,
-  bonusText,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  bonusText?: string;
-}) {
-  return (
-    <div className="flex min-w-0 items-center gap-2 rounded-full border-[1.5px] border-[var(--dc-pill-border)] bg-[var(--dc-pill-bg)] py-1 pl-1 pr-3.5">
-      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--dc-pill-badge)] text-white">
-        {icon}
-      </span>
-      <span className={cn('min-w-0 flex-1 truncate text-xs font-bold', INK)}>{label}</span>
-      <span className={cn('shrink-0 font-mono text-sm font-bold tabular-nums', INK)}>
-        {value}
-        {bonusText && (
-          <span className="text-xs font-semibold text-[var(--dc-value)]"> {bonusText}</span>
-        )}
-      </span>
-    </div>
-  );
-}
-
 export interface DiscNavItem {
   name: string;
   slug: string;
@@ -232,12 +203,12 @@ export default function DiscDetailClient({
   nextDisc,
   exclusiveBanner,
 }: DiscDetailClientProps) {
-  const [levelKey, setLevelKey] = useState<'lv1' | 'lv80' | 'lv90'>('lv90');
+  const [discLevel, setDiscLevel] = useState<number>(90);
   const [crescendo, setCrescendo] = useState(1);
   const [supportPhase, setSupportPhase] = useState(9);
 
   useEffect(() => {
-    setLevelKey('lv90');
+    setDiscLevel(90);
     setCrescendo(1);
     setSupportPhase(9);
   }, [disc.id]);
@@ -246,7 +217,7 @@ export default function DiscDetailClient({
   const isFourStar = disc.star === 4;
   const elementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
   const fullArtUrl = getDiscOutfitIconUrl(disc.id, 'full');
-  const statSummary = getDiscStatSummary(disc, levelKey, crescendo);
+  const statSummary = getDiscStatSummary(disc, discLevel, crescendo);
   const supportNotes = getDiscSupportNotesAtPhase(disc, supportPhase);
   const supportNoteEntries = Object.entries(supportNotes);
   const maxPhase = Math.max(1, disc.supportNote?.length || 9);
@@ -315,7 +286,7 @@ export default function DiscDetailClient({
             />
 
             {/* Top-left Element Pill */}
-            <div className="absolute top-3 left-3 z-20 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-sm text-xs font-bold text-white border border-white/15">
+            <div className="absolute top-3 left-3 z-20 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/75 text-xs font-bold text-white border border-white/15">
               {disc.element !== 'None' ? (
                 <img
                   src={`/ss-element/${disc.element}.webp`}
@@ -329,7 +300,7 @@ export default function DiscDetailClient({
             </div>
 
             {/* Bottom-left Rarity Pill */}
-            <div className="absolute bottom-3.5 left-3 z-20 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-sm border border-white/15">
+            <div className="absolute bottom-3.5 left-3 z-20 px-2.5 py-1 rounded-full bg-black/75 border border-white/15">
               <RarityStars count={disc.star} size="md" />
             </div>
 
@@ -339,7 +310,7 @@ export default function DiscDetailClient({
               target="_blank"
               rel="noopener noreferrer"
               title="Open full artwork in new tab"
-              className="absolute bottom-3.5 right-3 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/65 hover:bg-black/80 backdrop-blur-sm text-xs font-semibold text-white border border-white/15 transition-colors"
+              className="absolute bottom-3.5 right-3 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/75 hover:bg-black/90 text-xs font-semibold text-white border border-white/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
               <span>Full Art</span>
               <ExternalLink className="size-3" aria-hidden="true" />
@@ -360,10 +331,10 @@ export default function DiscDetailClient({
 
           {/* Metadata Card: Tags & Exclusive Featured Trekker */}
           {((disc.tag && disc.tag.length > 0) || exclusiveBanner) && (
-            <div className="game-card celestial-card p-4 space-y-3">
+            <div className="rounded-xl border border-border bg-surface-card p-3.5 space-y-3">
               {disc.tag && disc.tag.length > 0 && (
                 <div className="space-y-1.5">
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-white/70">
+                  <div className="text-xs font-semibold text-slate-600 dark:text-white/75">
                     Tags
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -386,13 +357,8 @@ export default function DiscDetailClient({
                     disc.tag && disc.tag.length > 0 && 'pt-2 border-t border-border-subtle'
                   )}
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-white/70">
-                      Featured Trekker
-                    </div>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/35 text-xs font-semibold text-amber-700 dark:text-amber-300">
-                      {exclusiveBanner.bannerKind} Banner · {exclusiveBanner.bannerName}
-                    </span>
+                  <div className="text-xs font-semibold text-slate-600 dark:text-white/75">
+                    Featured trekker
                   </div>
 
                   <div className="flex flex-wrap gap-2">
@@ -424,17 +390,13 @@ export default function DiscDetailClient({
             <div className="px-4 sm:px-5 pt-4 pb-3.5 space-y-3">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[var(--dc-emblem-bg)] ring-1 ring-[var(--dc-emblem-ring)]">
-                    {disc.element !== 'None' ? (
-                      <img
-                        src={`/ss-element/${disc.element}.webp`}
-                        alt={disc.element}
-                        className="size-7 object-contain"
-                      />
-                    ) : (
-                      <Disc className="size-6 text-[#e7b98a]" aria-hidden="true" />
-                    )}
-                  </span>
+                  {disc.element !== 'None' && (
+                    <img
+                      src={`/ss-element/${disc.element}.webp`}
+                      alt={disc.element}
+                      className="size-8 shrink-0 object-contain"
+                    />
+                  )}
 
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
@@ -449,29 +411,22 @@ export default function DiscDetailClient({
                   </div>
                 </div>
 
-                {/* Level Toggle + Crest C0-C5 Stepper */}
+                {/* Level Slider + Crest C1-C6 Stepper */}
                 <div className="flex flex-wrap items-center gap-2">
-                  <div
-                    className="inline-flex rounded-lg border border-[var(--dc-plate-border)] bg-[var(--dc-plate)] p-0.5"
-                    role="group"
-                    aria-label="Disc level"
-                  >
-                    {(['lv1', 'lv80', 'lv90'] as const).map((lk) => (
-                      <button
-                        key={lk}
-                        type="button"
-                        aria-pressed={levelKey === lk}
-                        onClick={() => setLevelKey(lk)}
-                        className={cn(
-                          'px-2.5 py-1 rounded-md text-xs font-bold tabular-nums transition-colors cursor-pointer',
-                          levelKey === lk
-                            ? 'bg-[var(--dc-ribbon)] text-white'
-                            : 'text-[var(--dc-muted)] hover:text-[var(--dc-ink)]'
-                        )}
-                      >
-                        {lk === 'lv1' ? 'Lv.1' : lk === 'lv80' ? 'Lv.80' : 'Lv.90'}
-                      </button>
-                    ))}
+                  <div className="inline-flex items-center gap-2 rounded-lg border border-[var(--dc-plate-border)] bg-[var(--dc-plate)] px-2.5 py-1">
+                    <span className="min-w-[3.1rem] text-xs font-bold tabular-nums text-[var(--dc-value)]">
+                      Lv. {discLevel}
+                    </span>
+                    <input
+                      type="range"
+                      aria-label="Disc level"
+                      min={1}
+                      max={90}
+                      step={1}
+                      value={discLevel}
+                      onChange={(e) => setDiscLevel(Number(e.target.value))}
+                      className="w-24 sm:w-28 h-1.5 bg-slate-200 dark:bg-slate-700/60 rounded-lg appearance-none cursor-pointer accent-teal-600 dark:accent-teal-400"
+                    />
                   </div>
 
                   <div className="inline-flex items-center gap-1 rounded-lg border border-[var(--dc-plate-border)] bg-[var(--dc-plate)] px-1.5 py-0.5">
@@ -484,7 +439,7 @@ export default function DiscDetailClient({
                     >
                       −
                     </button>
-                    <span className="px-1.5 font-mono text-xs font-bold tabular-nums text-[var(--dc-value)]">
+                    <span className="px-1.5 text-xs font-bold tabular-nums text-[var(--dc-value)]">
                       C{crescendo}
                     </span>
                     <button
@@ -500,35 +455,28 @@ export default function DiscDetailClient({
                 </div>
               </div>
 
-              {/* Authentic Teal-Bordered StatPills */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <DiscStatPill
-                  icon={<Sword className="size-3.5" aria-hidden="true" />}
-                  label="Base ATK"
-                  value={statSummary.totalAtk.toLocaleString('en-US')}
-                  bonusText={
-                    statSummary.bonusAtk > 0
-                      ? `(+${statSummary.bonusAtk.toLocaleString('en-US')})`
-                      : undefined
-                  }
-                />
-                <DiscStatPill
-                  icon={
-                    statSummary.secondaryLabel === 'HP' ? (
-                      <Heart className="size-3.5 fill-current" aria-hidden="true" />
-                    ) : disc.element !== 'None' ? (
-                      <img
-                        src={`/ss-element/${disc.element}.webp`}
-                        alt=""
-                        className="size-4 object-contain drop-shadow"
-                      />
-                    ) : (
-                      <Disc className="size-3.5" aria-hidden="true" />
-                    )
-                  }
-                  label={statSummary.secondaryLabel}
-                  value={statSummary.secondaryValue}
-                />
+              {/* Base Stat Strip */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[var(--dc-plate-border)] rounded-lg border border-[var(--dc-plate-border)] bg-[var(--dc-plate)]">
+                <div className="flex items-center justify-between gap-2 px-3.5 py-2">
+                  <span className={cn('text-xs font-semibold text-[var(--dc-muted)]')}>Base ATK</span>
+                  <span className={cn('text-sm font-bold tabular-nums', INK)}>
+                    {statSummary.totalAtk.toLocaleString('en-US')}
+                    {statSummary.bonusAtk > 0 && (
+                      <span className="text-xs font-semibold text-[var(--dc-value)]">
+                        {' '}
+                        (+{statSummary.bonusAtk.toLocaleString('en-US')})
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2 px-3.5 py-2">
+                  <span className={cn('text-xs font-semibold text-[var(--dc-muted)]')}>
+                    {statSummary.secondaryLabel}
+                  </span>
+                  <span className={cn('text-sm font-bold tabular-nums', INK)}>
+                    {statSummary.secondaryValue}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -544,7 +492,7 @@ export default function DiscDetailClient({
                       name={disc.mainSkill.name}
                     >
                       <span
-                        className="flex size-7 shrink-0 items-center justify-center rounded-full border border-[var(--dc-violet-border)] bg-[var(--dc-violet-bg)] text-xs font-bold text-[var(--dc-violet-ink)]"
+                        className="inline-flex shrink-0 items-center px-2 py-0.5 rounded-md border border-border bg-surface-elevated text-xs font-bold tabular-nums text-[var(--dc-ink)]"
                         title="Melody Skill Level"
                       >
                         C{crescendo}
@@ -586,7 +534,7 @@ export default function DiscDetailClient({
                   </div>
                 ) : (
                   <div className={cn(PLATE, 'p-3 text-xs text-[var(--dc-muted)]')}>
-                    3★ Runic Discs only carry a Melody Skill and Support Notes. Equip them in Support slots to supply starting Musical Notes.
+                    3-Star Runic Discs only carry a Melody Skill and Support Notes. Equip them in Support slots to supply starting Musical Notes.
                   </div>
                 )}
               </section>
@@ -636,7 +584,7 @@ export default function DiscDetailClient({
                                 </div>
                               )}
                             </div>
-                            <span className={cn('shrink-0 font-mono text-sm font-bold tabular-nums', INK)}>
+                            <span className={cn('shrink-0 text-sm font-bold tabular-nums', INK)}>
                               +{count}
                             </span>
                           </div>
