@@ -5,6 +5,7 @@ import path from 'node:path';
 import robots from '../../app/robots.ts';
 import sitemap from '../../app/sitemap.ts';
 import { GET as getLlmsTxt } from '../../app/llms.txt/route.ts';
+import { getResolvedCommunityPresets } from '../community-presets.ts';
 import {
   buildBreadcrumbJsonLd,
   buildPageMetadata,
@@ -55,9 +56,10 @@ describe('KiyoStella SEO & AI Discoverability', () => {
     assert.ok(config.sitemap && String(config.sitemap).endsWith('/sitemap.xml'));
   });
 
-  it('sitemap() includes 172 canonical URLs, excludes /damage and numeric aliases', () => {
+  it('sitemap() includes canonical URLs, excludes /damage and numeric aliases', () => {
     const entries = sitemap();
-    assert.equal(entries.length, 172); // 10 static + 42 trekkers + 106 discs + 14 builds
+    const expectedCount = 158 + getResolvedCommunityPresets().length; // 10 static + 42 trekkers + 106 discs + public builds
+    assert.equal(entries.length, expectedCount);
 
     const urls = entries.map((e) => e.url);
     assert.equal(new Set(urls).size, entries.length, 'Sitemap URLs must be unique');
@@ -76,7 +78,6 @@ describe('KiyoStella SEO & AI Discoverability', () => {
     assert.ok(urls.some((u) => u.endsWith('/trekkers/Snowish%20Laru')));
     assert.ok(urls.some((u) => u.endsWith('/discs/beneath-billowing-sails')));
     assert.ok(urls.some((u) => u.endsWith('/builds')));
-    assert.ok(urls.some((u) => u.endsWith('/builds/eleanor-skill-willow')));
   });
 
   it('buildPageMetadata, JSON-LD builders, and serializeJsonLd escape safely', () => {

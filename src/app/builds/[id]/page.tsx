@@ -18,6 +18,9 @@ import { BuildDetailClient, type SlicedPotentialMeta } from './build-detail-clie
 
 export function generateStaticParams() {
   const presets = getResolvedCommunityPresets(undefined, { includeArchived: true });
+  if (presets.length === 0) {
+    return [{ id: '_placeholder' }];
+  }
   return presets.map((preset) => ({ id: preset.id }));
 }
 

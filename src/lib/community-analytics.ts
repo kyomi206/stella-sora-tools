@@ -19,7 +19,8 @@ export {
 } from './community-analytics-utils.ts';
 import type { CommunityBuildAnalytics } from './community-analytics-utils.ts';
 
-const ANALYTICS_MAP = communityBuildAnalyticsData as Record<string, CommunityBuildAnalytics>;
+const ANALYTICS_MAP =
+  communityBuildAnalyticsData as unknown as Record<string, CommunityBuildAnalytics>;
 
 export function getCommunityBuildAnalytics(presetId: string): CommunityBuildAnalytics | null {
   if (!presetId) return null;

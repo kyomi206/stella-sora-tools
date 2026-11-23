@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import charactersData from '../../data/characters.json' with { type: 'json' };
 import communityPresetsData from '../../data/community-presets.json' with { type: 'json' };
+import referencePresetsData from '../calculator/__tests__/fixtures/reference-presets.json' with { type: 'json' };
 import blitzData from '../../data/datamined-blitz.json' with { type: 'json' };
 import discsData from '../../data/discs.json' with { type: 'json' };
 import { MUSICAL_NOTES } from '../../data/notes.ts';
@@ -22,8 +23,11 @@ const SAMPLE_IN_GAME_CODE = 'AAAAbgAAAJEAAACOzbAYAAbNgBsAAGwAwAwA'; // Trekkers 
 const SAMPLE_IN_GAME_CODE_2 = 'AAAAkAAAAIIAAACgzbADDADNgBgMADAGw22A'; // Trekkers [144, 130, 160]
 
 describe('community-presets data & resolver', () => {
-  it('validates every entry in src/data/community-presets.json against characters, discs, and potentials', () => {
-    const entries = communityPresetsData as CommunityPresetEntry[];
+  it('validates every entry in src/data/community-presets.json and reference fixtures against characters, discs, and potentials', () => {
+    const entries = [
+      ...(communityPresetsData as unknown as CommunityPresetEntry[]),
+      ...(referencePresetsData as unknown as CommunityPresetEntry[]),
+    ];
     const seenIds = new Set<string>();
     const hasCjk = /[\u4e00-\u9fff]/;
 

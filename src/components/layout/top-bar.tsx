@@ -139,9 +139,9 @@ function TopBarContent() {
     const rawId = pathname.replace('/builds/', '').replace(/\/+$/, '');
     if (rawId) {
       const decodedId = decodeURIComponent(rawId);
-      const matched = (communityPresetsData as Array<{ id: string; title: string }>).find(
-        (preset) => preset.id === decodedId
-      );
+      const matched = (
+        communityPresetsData as unknown as Array<{ id: string; title: string }>
+      ).find((preset) => preset.id === decodedId);
       const formattedId = decodedId
         .replace(/-/g, ' ')
         .replace(/\b\w/g, (ch) => ch.toUpperCase());

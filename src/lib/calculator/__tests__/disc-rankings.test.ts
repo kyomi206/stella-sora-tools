@@ -2,8 +2,8 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import charactersData from '../../../data/characters.json' with { type: 'json' };
 import characterCombatData from '../../../data/character-combat.json' with { type: 'json' };
-import communityAnalyticsData from '../../../data/community-build-analytics.json' with { type: 'json' };
-import communityPresetsData from '../../../data/community-presets.json' with { type: 'json' };
+import communityAnalyticsData from './fixtures/reference-build-analytics.json' with { type: 'json' };
+import communityPresetsData from './fixtures/reference-presets.json' with { type: 'json' };
 import discsData from '../../../data/discs.json' with { type: 'json' };
 import {
   resolveCommunityPreset,

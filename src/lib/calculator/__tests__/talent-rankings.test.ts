@@ -2,7 +2,10 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { getResolvedCommunityPresets } from '../../community-presets.ts';
+import {
+  getResolvedCommunityPresets,
+  type CommunityPresetEntry,
+} from '../../community-presets.ts';
 import { buildDiscRankingContext } from '../disc-rankings.ts';
 import { DEFAULT_DISC_RANKING_ASSUMPTIONS } from '../disc-rankings-client.ts';
 import { computeEstimatedTalentRankings } from '../potential-emblem-rankings.ts';
@@ -21,8 +24,12 @@ const allCombat = loadJson<AllCombat>('src/data/character-combat.json');
 const allDiscs = loadJson<Record<string, SSDisc>>('src/data/discs.json');
 const allPotentials = loadJson<AllPotentials>('src/data/potentials-db.json');
 
+const referencePresets = loadJson<CommunityPresetEntry[]>(
+  'src/lib/calculator/__tests__/fixtures/reference-presets.json'
+);
+
 describe('estimated talent rankings engine (T1..T5 vs T0)', () => {
-  const presets = getResolvedCommunityPresets();
+  const presets = getResolvedCommunityPresets(referencePresets);
 
   it('produces valid 5-tier TalentTrekkerTable entries for all 14 community presets', () => {
     for (const preset of presets) {

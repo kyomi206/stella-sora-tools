@@ -10,7 +10,11 @@ import {
 import type { EnemyInput } from '../damage-engine.ts';
 import { computeDiscContributions, computePenCurve } from '../sensitivity-engine.ts';
 import { getTalentMinorStatBonuses, mapTalentRow } from '../talent-emblem.ts';
-import { getResolvedCommunityPresetById } from '../../community-presets.ts';
+import {
+  getResolvedCommunityPresetById,
+  type CommunityPresetEntry,
+} from '../../community-presets.ts';
+import referencePresetsData from './fixtures/reference-presets.json' with { type: 'json' };
 import { extractDiscPresetBuffs, extractPotentialPresetBuffs, extractSkillKitPresetBuffs } from '../preset-buffs.ts';
 import { aggregateDamageSources, calculateTeam, formatPartOptionLabel } from '../fighter-calc.ts';
 import { calculateSupportStartingNotes, MUSICAL_NOTES } from '../../../data/notes.ts';
@@ -271,7 +275,10 @@ describe('spreadsheet parity tests (Maygi V1.1.0 / ZiLenTz / AutumnVN)', () => {
   });
 
   it('computeDiscContributions with rebuildBuffs ranks Main Disc Deer\'s Song > Support Discs (>20% loss) on eleanor-skill-willow', () => {
-    const preset = getResolvedCommunityPresetById('eleanor-skill-willow');
+    const preset = getResolvedCommunityPresetById(
+      'eleanor-skill-willow',
+      referencePresetsData as unknown as CommunityPresetEntry[]
+    );
     assert.ok(preset);
     const chars = charactersData as unknown as Record<string, SSCharacter>;
     const discs = discsData as unknown as Record<string, SSDisc>;

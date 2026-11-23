@@ -230,8 +230,11 @@ export function resolveCommunityPreset(
   };
 }
 
+const DEFAULT_COMMUNITY_PRESET_ENTRIES =
+  communityPresetsData as unknown as CommunityPresetEntry[];
+
 export function getResolvedCommunityPresets(
-  entries: CommunityPresetEntry[] = communityPresetsData as CommunityPresetEntry[],
+  entries: CommunityPresetEntry[] = DEFAULT_COMMUNITY_PRESET_ENTRIES,
   options: {
     includeArchived?: boolean;
     customCharacters?: Record<string, unknown>;
@@ -263,7 +266,7 @@ export function getResolvedCommunityPresets(
 
 export function getResolvedCommunityPresetById(
   id: string,
-  entries: CommunityPresetEntry[] = communityPresetsData as CommunityPresetEntry[]
+  entries: CommunityPresetEntry[] = DEFAULT_COMMUNITY_PRESET_ENTRIES
 ): ResolvedCommunityPreset | null {
   if (!id) return null;
   const entry = entries.find((e) => e.id === id);
@@ -273,7 +276,7 @@ export function getResolvedCommunityPresetById(
 
 export function getCommunityPresetsForTrekker(
   trekkerId: number,
-  entries: CommunityPresetEntry[] = communityPresetsData as CommunityPresetEntry[]
+  entries: CommunityPresetEntry[] = DEFAULT_COMMUNITY_PRESET_ENTRIES
 ): ResolvedCommunityPreset[] {
   return getResolvedCommunityPresets(entries).filter(
     (p) =>
@@ -286,7 +289,7 @@ export function getCommunityPresetsForTrekker(
 
 export function getCommunityPresetsForDisc(
   discId: number,
-  entries: CommunityPresetEntry[] = communityPresetsData as CommunityPresetEntry[]
+  entries: CommunityPresetEntry[] = DEFAULT_COMMUNITY_PRESET_ENTRIES
 ): ResolvedCommunityPreset[] {
   return getResolvedCommunityPresets(entries).filter(
     (p) =>
@@ -305,7 +308,7 @@ export function getCommunityPresetsForDisc(
 export function getCommunityPresetsForBlitz(
   blitzId: string,
   weakToElements: ElementType[],
-  entries: CommunityPresetEntry[] = communityPresetsData as CommunityPresetEntry[]
+  entries: CommunityPresetEntry[] = DEFAULT_COMMUNITY_PRESET_ENTRIES
 ): { presets: ResolvedCommunityPreset[]; matchKind: 'explicit' | 'element' | 'none' } {
   const all = getResolvedCommunityPresets(entries);
   const explicit = all.filter((p) => p.blitzIds.includes(blitzId));
