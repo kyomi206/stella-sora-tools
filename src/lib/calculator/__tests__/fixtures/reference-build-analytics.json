@@ -450,7 +450,7 @@
         {
           "name": "Petals of Blooming Mirage",
           "discId": 214045,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 37.98
         },
         {
@@ -462,7 +462,7 @@
         {
           "name": "Ride the Waves With Me",
           "discId": 214057,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 31.55
         },
         {
@@ -480,7 +480,7 @@
         {
           "name": "Witch's Swing",
           "discId": 214006,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 26.02
         },
         {
@@ -504,13 +504,13 @@
         {
           "name": "Dream Factory of ☆Truth",
           "discId": 214032,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 24
         },
         {
           "name": "Wisteria Dream",
           "discId": 214004,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 19.61
         },
         {
@@ -522,19 +522,19 @@
         {
           "name": "Those with Ambition",
           "discId": 214012,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 17.55
         },
         {
           "name": "Phantom of the Banquet",
           "discId": 214050,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 17.18
         },
         {
           "name": "Summer March",
           "discId": 214058,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 17.04
         },
         {
@@ -546,19 +546,19 @@
         {
           "name": "The Meow",
           "discId": 214022,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 14.18
         },
         {
           "name": "Traces of Starlight",
           "discId": 214049,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 13.74
         },
         {
           "name": "The Bud of Change",
           "discId": 214043,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 10.79
         },
         {
@@ -568,24 +568,26 @@
         },
         {
           "name": "Off-element",
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 5.36
         },
         {
           "name": "1 Empty Slot",
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 0
         }
       ],
       "support": [
         {
-          "name": "A Finale Echoing",
+          "name": "New Star Prelude",
+          "discId": 214009,
           "dupe": "C6",
           "value": 25.72
         },
         {
-          "name": "A Finale Echoing",
-          "dupe": "Base",
+          "name": "New Star Prelude",
+          "discId": 214009,
+          "dupe": "C1",
           "value": 21.5
         },
         {
@@ -600,7 +602,7 @@
         },
         {
           "name": "Umbra Standard",
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 10.3
         },
         {
@@ -611,7 +613,7 @@
         },
         {
           "name": "Umbra Event | Cataclysm",
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 8.96
         },
         {
@@ -627,22 +629,22 @@
         {
           "name": "Sunlit Blossom",
           "discId": 214005,
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 5.93
         },
         {
           "name": "Off-element",
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 4.98
         },
         {
           "name": "Off-element",
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 4.72
         },
         {
           "name": "1 Empty Slot",
-          "dupe": "Base",
+          "dupe": "C1",
           "value": 0
         }
       ]

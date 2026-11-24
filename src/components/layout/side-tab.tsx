@@ -12,6 +12,7 @@ import {
   Calendar,
   Calculator,
   Layers,
+  MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/components/layout/sidebar-context';
@@ -82,6 +83,17 @@ export function SideTab() {
     },
   ];
 
+  const feedbackHref =
+    pathname &&
+    pathname !== '/' &&
+    !pathname.startsWith('/feedback') &&
+    !pathname.startsWith('/admin')
+      ? `/feedback?from=${encodeURIComponent(pathname)}`
+      : '/feedback';
+  const isFeedbackActive =
+    pathname === '/feedback' || pathname.startsWith('/feedback/');
+  const isRailCollapsed = isCollapsed && !isMobileOpen && !isMobileClosing;
+
   return (
     <>
       {/* Mobile Backdrop Overlay */}
@@ -116,7 +128,7 @@ export function SideTab() {
         <div
           className={cn(
             'flex items-center border-b border-border-subtle h-12 px-3 shrink-0',
-            isCollapsed ? 'justify-center' : 'justify-start'
+            isRailCollapsed ? 'justify-center' : 'justify-start'
           )}
         >
           <div className="relative group">
@@ -131,13 +143,13 @@ export function SideTab() {
               <span
                 className={cn(
                   'font-bold text-sm tracking-tight text-slate-900 leading-tight rail-label',
-                  isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                  isRailCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
                 )}
               >
                 Stella Sora Tools
               </span>
             </Link>
-            {isCollapsed && (
+            {isRailCollapsed && (
               <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 z-50 whitespace-nowrap rounded-md bg-surface-elevated px-2.5 py-1 text-xs font-medium text-slate-800 border border-border-hover shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">
                 Stella Sora Tools
                 <div className="absolute -left-1 top-1/2 -translate-y-1/2 size-2 rotate-45 border-l border-b border-border-hover bg-surface-elevated" />
@@ -166,13 +178,13 @@ export function SideTab() {
                 <span
                   className={cn(
                     'rail-label',
-                    isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                    isRailCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
                   )}
                 >
                   Home
                 </span>
               </Link>
-              {isCollapsed && (
+              {isRailCollapsed && (
                 <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 z-50 whitespace-nowrap rounded-md bg-surface-elevated px-2.5 py-1 text-xs font-medium text-slate-800 border border-border-hover shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">
                   Home
                   <div className="absolute -left-1 top-1/2 -translate-y-1/2 size-2 rotate-45 border-l border-b border-border-hover bg-surface-elevated" />
@@ -187,7 +199,7 @@ export function SideTab() {
               <span
                 className={cn(
                   'text-xs font-medium text-slate-500 dark:text-slate-400 rail-label',
-                  isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                  isRailCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
                 )}
               >
                 Tools
@@ -195,7 +207,7 @@ export function SideTab() {
               <div
                 className={cn(
                   'w-5 h-px bg-border-subtle mx-auto transition-opacity duration-200',
-                  isCollapsed ? 'opacity-100' : 'opacity-0 hidden'
+                  isRailCollapsed ? 'opacity-100' : 'opacity-0 hidden'
                 )}
               />
             </div>
@@ -224,13 +236,13 @@ export function SideTab() {
                       <span
                         className={cn(
                           'rail-label',
-                          isCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                          isRailCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
                         )}
                       >
                         {tool.name}
                       </span>
                     </Link>
-                    {isCollapsed && (
+                    {isRailCollapsed && (
                       <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 z-50 whitespace-nowrap rounded-md bg-surface-elevated px-2.5 py-1 text-xs font-medium text-slate-800 border border-border-hover shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">
                         {tool.name}
                         <div className="absolute -left-1 top-1/2 -translate-y-1/2 size-2 rotate-45 border-l border-b border-border-hover bg-surface-elevated" />
@@ -240,6 +252,40 @@ export function SideTab() {
                 );
               })}
             </div>
+          </div>
+        </div>
+
+        {/* Bottom Utility Footer */}
+        <div className="border-t border-border-subtle p-2 shrink-0">
+          <div className="relative group">
+            <Link
+              href={feedbackHref}
+              aria-label="Feedback"
+              aria-current={isFeedbackActive ? 'page' : undefined}
+              onClick={() => { if (isMobileOpen) handleCloseMobile(); }}
+              className={cn(
+                'flex items-center rounded-lg transition-colors text-sm press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 h-10 px-2.5 gap-3',
+                isFeedbackActive
+                  ? 'bg-surface-elevated text-slate-900 dark:text-white font-semibold border border-border-subtle'
+                  : 'text-slate-600 hover:text-slate-900 focus-visible:text-slate-900 hover:bg-surface-hover focus-visible:bg-surface-hover border border-transparent'
+              )}
+            >
+              <MessageSquare className="size-4 shrink-0" aria-hidden="true" />
+              <span
+                className={cn(
+                  'rail-label',
+                  isRailCollapsed ? 'rail-label-collapsed' : 'rail-label-expanded'
+                )}
+              >
+                Feedback
+              </span>
+            </Link>
+            {isRailCollapsed && (
+              <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 z-50 whitespace-nowrap rounded-md bg-surface-elevated px-2.5 py-1 text-xs font-medium text-slate-800 border border-border-hover shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">
+                Feedback
+                <div className="absolute -left-1 top-1/2 -translate-y-1/2 size-2 rotate-45 border-l border-b border-border-hover bg-surface-elevated" />
+              </div>
+            )}
           </div>
         </div>
       </aside>

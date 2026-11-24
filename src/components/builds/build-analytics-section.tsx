@@ -18,6 +18,7 @@ import {
   type CompareBaseline,
   type DiscRankingAssumptions,
   type DiscRankingContext,
+  type EmblemBaselineMode,
   type EnemyResPreset,
   type FightMode,
   type NotesMode,
@@ -787,6 +788,7 @@ export function BuildAnalyticsSection({
       assumptions.uptimeMode !== DEFAULT_DISC_RANKING_ASSUMPTIONS.uptimeMode,
       assumptions.enemyRes !== DEFAULT_DISC_RANKING_ASSUMPTIONS.enemyRes,
       assumptions.potentialLevelMode !== DEFAULT_DISC_RANKING_ASSUMPTIONS.potentialLevelMode,
+      assumptions.emblemBaseline !== DEFAULT_DISC_RANKING_ASSUMPTIONS.emblemBaseline,
       assumptions.compareBaseline !== DEFAULT_DISC_RANKING_ASSUMPTIONS.compareBaseline,
     ] as const
   ).filter(Boolean).length;
@@ -1037,12 +1039,37 @@ export function BuildAnalyticsSection({
                 label="Musical Notes"
                 value={assumptions.notesMode}
                 options={[
+                  {
+                    id: 'lv1-harmony',
+                    label: 'Lv 1 Harmony',
+                    title: 'Keep Build Target note stats while locking Disc Harmony skills to Lv 1 (ZiLenTz sheet default)',
+                  },
                   { id: 'target', label: 'Build Target' },
                   { id: 'starting', label: 'Starting Only' },
                   { id: 'max-harmony', label: 'Max Harmony' },
                 ]}
                 onChange={(notesMode) =>
                   setAssumptions((prev) => ({ ...prev, notesMode }))
+                }
+              />
+
+              <SegmentedGroup<EmblemBaselineMode>
+                label="Emblem Baseline"
+                value={assumptions.emblemBaseline}
+                options={[
+                  {
+                    id: 'none',
+                    label: 'None (0)',
+                    title: '0 Emblems baseline (ZiLenTz Summary default)',
+                  },
+                  {
+                    id: 'synthetic',
+                    label: 'Loadout Sim',
+                    title: 'Simulate typical carry and sub-DPS Emblems in Disc/Potential/Talent baselines',
+                  },
+                ]}
+                onChange={(emblemBaseline) =>
+                  setAssumptions((prev) => ({ ...prev, emblemBaseline }))
                 }
               />
 

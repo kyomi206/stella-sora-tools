@@ -18,6 +18,7 @@ const STATIC_ROUTES: ReadonlyArray<{
   { path: '/bond', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/calculator', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/roadmap', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/feedback', changeFrequency: 'monthly', priority: 0.4 },
   { path: '/credits', changeFrequency: 'monthly', priority: 0.4 },
 ];
 

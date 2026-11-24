@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import {
   AlertTriangle,
   ArrowLeft,
+  BadgeCheck,
   Check,
   ExternalLink,
   Info,
@@ -13,6 +14,7 @@ import {
 import { DiscSkillText } from '@/components/builder/disc-detail-card';
 import { PotentialDesc } from '@/components/builder/potential-desc';
 import { BuildAnalyticsSection } from '@/components/builds/build-analytics-section';
+import { BuildMetricsBar, type BuildMetricValues } from '@/components/builds/build-metrics-bar';
 import {
   calculateSupportStartingNotes,
   getDiscOutfitIconUrl,
@@ -25,7 +27,10 @@ import {
 import type { BuildRotation } from '@/lib/calculator/build-rotation';
 import type { DiscRankingContext } from '@/lib/calculator/disc-rankings-client';
 import type { CommunityBuildAnalytics } from '@/lib/community-analytics-utils';
-import type { ResolvedCommunityPreset } from '@/lib/community-presets';
+import {
+  COMMUNITY_MODE_LABELS,
+  type ResolvedCommunityPreset,
+} from '@/lib/community-presets';
 import { getDiscSlug } from '@/lib/disc-utils';
 import { getPotentialImageUrl } from '@/lib/potential-utils';
 import {
@@ -66,26 +71,30 @@ const PRIORITY_DEFINITIONS = [
   {
     key: 'Core',
     label: 'Core',
-    headerBg: 'bg-[#2dd4bf]',
-    boxBorder: 'border-[2.5px] border-[#2dd4bf] bg-[#2dd4bf]/10',
+    headerBg: 'bg-[#0f766e]',
+    headerText: 'text-white',
+    boxBorder: 'border-[2.5px] border-[#14b8a6] bg-[#14b8a6]/10',
   },
   {
     key: 'Medium',
     label: 'Medium',
-    headerBg: 'bg-[#6366f1]',
-    boxBorder: 'border-[2.5px] border-[#6366f1] bg-[#6366f1]/10',
+    headerBg: 'bg-[#0369a1]',
+    headerText: 'text-white',
+    boxBorder: 'border-[2.5px] border-[#0ea5e9] bg-[#0ea5e9]/10',
   },
   {
     key: 'Low',
     label: 'Low',
     headerBg: 'bg-[#f59e0b]',
+    headerText: 'text-slate-950',
     boxBorder: 'border-[2.5px] border-[#f59e0b] bg-[#f59e0b]/10',
   },
   {
     key: 'Optional',
     label: 'Optional',
-    headerBg: 'bg-[#f43f5e]',
-    boxBorder: 'border-[2.5px] border-dashed border-[#f43f5e] bg-[#f43f5e]/10',
+    headerBg: 'bg-[#be123c]',
+    headerText: 'text-white',
+    boxBorder: 'border-[2.5px] border-dashed border-[#e11d48] bg-[#e11d48]/10',
   },
 ] as const;
 
@@ -445,6 +454,33 @@ export function BuildDetailClient({
 }: BuildDetailClientProps) {
   const router = useRouter();
   const [copiedKind, setCopiedKind] = useState<'ingame' | 'sst1' | null>(null);
+  const [liveMetric, setLiveMetric] = useState<BuildMetricValues>({
+    views: preset.viewsCount ?? 0,
+    upvotes: preset.upvotesCount ?? 0,
+    voted: false,
+  });
+
+  useEffect(() => {
+    if (isLocal || !preset.id) return;
+    let cancelled = false;
+    fetch(`/api/builds/metrics?ids=${encodeURIComponent(preset.id)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { metrics?: Record<string, BuildMetricValues> } | null) => {
+        const fetched = data?.metrics?.[preset.id];
+        if (cancelled || !fetched) return;
+        setLiveMetric((prev) => ({
+          views: Math.max(prev.views, fetched.views),
+          upvotes: fetched.upvotes,
+          voted: fetched.voted,
+        }));
+      })
+      .catch(() => {
+        // Non-blocking metrics hydration
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isLocal, preset.id]);
   const [savedLocal, setSavedLocal] = useState(false);
   const [activeTab, setActiveTab] = useState<BuildDetailTabId>(initialTab);
   const [potPopover, setPotPopover] = useState<PotentialPopoverState | null>(null);
@@ -483,11 +519,16 @@ export function BuildDetailClient({
   const copyTimerRef = useRef<number | null>(null);
   const savedTimerRef = useRef<number | null>(null);
 
+  const externalSources = useMemo(
+    () => preset.sources.filter((src) => Boolean(src.url && src.url.trim())),
+    [preset.sources]
+  );
+
   const hasNotes =
     Boolean(preset.potentialNote) ||
     preset.rotation.length > 0 ||
     preset.substitutions.length > 0 ||
-    preset.sources.length > 0;
+    externalSources.length > 0;
 
   const detailTabs = useMemo(() => {
     const items: Array<{ id: BuildDetailTabId; label: string }> = [
@@ -587,6 +628,7 @@ export function BuildDetailClient({
 
   const tierLabel = TIER_LABELS[preset.tier] || 'Standard';
   const primarySource = preset.sources[0];
+  const nonGeneralModes = preset.modes.filter((m) => m !== 'general');
 
   const squadRows: ReadonlyArray<{
     slotKey: SlotType;
@@ -657,56 +699,76 @@ export function BuildDetailClient({
         </Link>
       </div>
 
-      {/* Compact Header Card */}
-      <header className="game-card celestial-card p-4 sm:p-5">
+      {/* Two-Tier Editorial Header Card */}
+      <header className="game-card celestial-card p-4 sm:p-5 space-y-3.5">
+        {/* Top Row: Eyebrow + Title on left, Action Buttons on right */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
-          <div className="space-y-1 min-w-0">
-            <div className="flex items-start gap-2 min-w-0">
-              <img
-                src={`/ss-element/${preset.element}.webp`}
-                alt={preset.element}
-                width={22}
-                height={22}
-                className="size-5.5 mt-0.5 sm:mt-1 object-contain shrink-0"
-              />
-              <h1 className="text-lg sm:text-2xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
-                {preset.title}
-              </h1>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-600 dark:text-white/70">
-              <span className="font-semibold text-slate-800 dark:text-white/90">{tierLabel}</span>
-              <span aria-hidden="true">·</span>
-              <span>{preset.archetype}</span>
+          <div className="space-y-1.5 min-w-0">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-slate-600 dark:text-slate-400">
+              <span>{tierLabel}</span>
+              {nonGeneralModes.length > 0 && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <span>
+                    {nonGeneralModes.map((m) => COMMUNITY_MODE_LABELS[m] || m).join(', ')}
+                  </span>
+                </>
+              )}
               <span aria-hidden="true">·</span>
               <span className="tabular-nums">v{preset.verifiedPatch}</span>
               {preset.isStale && (
                 <>
                   <span aria-hidden="true">·</span>
-                  <span className="inline-flex items-center gap-1 font-semibold text-amber-700 dark:text-amber-400">
-                    <AlertTriangle className="size-3" aria-hidden="true" />
+                  <span className="inline-flex items-center gap-1 text-amber-700 font-semibold">
+                    <AlertTriangle className="size-3.5" aria-hidden="true" />
                     <span>Older Patch</span>
                   </span>
                 </>
               )}
-              {primarySource && (
+              {!isLocal && (
                 <>
                   <span aria-hidden="true">·</span>
-                  <a
-                    href={primarySource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-semibold text-sky-700 dark:text-sky-400 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                  <span
+                    className={cn(
+                      'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md border text-[11px] font-semibold',
+                      (preset.isVerified ?? preset.origin !== 'community')
+                        ? 'border-teal-500/35 bg-teal-500/10 text-teal-700'
+                        : 'border-border bg-surface-subtle text-slate-600 dark:text-slate-400'
+                    )}
                   >
-                    <span>{primarySource.author}</span>
-                    <ExternalLink className="size-3" aria-hidden="true" />
-                  </a>
+                    {(preset.isVerified ?? preset.origin !== 'community') && (
+                      <BadgeCheck className="size-3 shrink-0" aria-hidden="true" />
+                    )}
+                    <span>
+                      {(preset.isVerified ?? preset.origin !== 'community')
+                        ? 'Verified'
+                        : 'Community'}
+                    </span>
+                  </span>
                 </>
               )}
             </div>
+
+            <div className="flex items-start gap-2.5 min-w-0">
+              <img
+                src={`/ss-element/${preset.element}.webp`}
+                alt={preset.element}
+                width={24}
+                height={24}
+                className="size-6 mt-0.5 object-contain shrink-0"
+              />
+              <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white line-clamp-2 break-words min-w-0">
+                {preset.title}
+              </h1>
+            </div>
+            {preset.summary?.trim() && (
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl pt-0.5 break-words">
+                {preset.summary}
+              </p>
+            )}
           </div>
 
-          {/* Single-row Action Bar */}
+          {/* Action Buttons */}
           <div className="flex flex-wrap items-center gap-2 shrink-0">
             <Link
               href={
@@ -714,32 +776,38 @@ export function BuildDetailClient({
                   ? localRecordId
                     ? `/builder/advanced?saved=${encodeURIComponent(localRecordId)}`
                     : `/builder/advanced?adv=${encodeURIComponent(preset.advCode)}`
-                  : `/builder/advanced?community=${encodeURIComponent(preset.id)}`
+                  : preset.origin === 'community'
+                    ? `/builder/advanced?adv=${encodeURIComponent(preset.advCode)}`
+                    : `/builder/advanced?community=${encodeURIComponent(preset.id)}`
               }
               className="inline-flex items-center px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
               Open in Builder
             </Link>
 
-            <Link
-              href={
-                isLocal
-                  ? `/calculator?saved=${encodeURIComponent(localRecordId || preset.id)}`
-                  : `/calculator?community=${encodeURIComponent(preset.id)}`
-              }
-              className="inline-flex items-center px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            <button
+              type="button"
+              onClick={handleSaveCopy}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
-              Damage Calc
-            </Link>
+              {savedLocal ? (
+                <>
+                  <Check className="size-3.5 text-emerald-700" aria-hidden="true" />
+                  <span className="text-emerald-700">Saved</span>
+                </>
+              ) : (
+                <span>Save</span>
+              )}
+            </button>
 
             <Link
               href={
-                isLocal
+                isLocal || preset.origin === 'community'
                   ? `/damage?b=${encodeURIComponent(
                       compressAdvancedBuild({
                         id: preset.id,
                         name: preset.title,
-                        createdAt: Date.now(),
+                        createdAt: 0,
                         slots: preset.advData.slots,
                         mainDiscs: preset.advData.mainDiscs,
                         supportDiscs: preset.advData.supportDiscs,
@@ -762,8 +830,8 @@ export function BuildDetailClient({
               >
                 {copiedKind === 'ingame' ? (
                   <>
-                    <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
-                    <span className="text-emerald-600 dark:text-emerald-400">Copied</span>
+                    <Check className="size-3.5 text-emerald-700" aria-hidden="true" />
+                    <span className="text-emerald-700">Copied</span>
                   </>
                 ) : (
                   <span>Copy Code</span>
@@ -771,36 +839,101 @@ export function BuildDetailClient({
               </button>
             )}
 
-            <button
-              type="button"
-              onClick={handleSaveCopy}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-            >
-              {savedLocal ? (
-                <>
-                  <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
-                  <span className="text-emerald-600 dark:text-emerald-400">Saved</span>
-                </>
-              ) : (
-                <span>Save</span>
-              )}
-            </button>
-
             {preset.advCode && (
               <button
                 type="button"
                 onClick={() => handleCopy(preset.advCode, 'sst1')}
                 title="Copy Advanced Builder SST1 code"
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border-subtle bg-surface-subtle hover:bg-surface-hover text-xs font-semibold text-slate-600 dark:text-white/70 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-slate-700 dark:text-white/90 transition-colors cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
-                {copiedKind === 'sst1' && (
-                  <Check className="size-3 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                {copiedKind === 'sst1' ? (
+                  <>
+                    <Check className="size-3.5 text-emerald-700" aria-hidden="true" />
+                    <span className="text-emerald-700">Copied</span>
+                  </>
+                ) : (
+                  <span>SST1</span>
                 )}
-                <span>SST1</span>
               </button>
             )}
           </div>
         </div>
+
+        {/* Bottom Metadata & Telemetry Bar (Views + Date + Author on left, Upvote on right) */}
+        {(!isLocal || preset.authorName || primarySource) && (
+          <div className="pt-3 border-t border-border-subtle flex items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs text-slate-600 dark:text-slate-400 min-w-0">
+              {!isLocal && (
+                <BuildMetricsBar
+                  buildId={preset.id}
+                  views={liveMetric.views}
+                  upvotes={liveMetric.upvotes}
+                  voted={liveMetric.voted}
+                  recordViewOnMount
+                  onViewRecorded={(viewsCount) =>
+                    setLiveMetric((prev) => ({
+                      ...prev,
+                      views: Math.max(prev.views, viewsCount),
+                    }))
+                  }
+                  part="views"
+                />
+              )}
+
+              {(preset.createdAt || preset.verifiedAt) && (
+                <span className="inline-flex items-center gap-1 tabular-nums">
+                  <span>Published</span>
+                  <span className="font-semibold text-slate-800 dark:text-white/90">
+                    {new Intl.DateTimeFormat('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      timeZone: 'UTC',
+                    }).format(new Date(preset.createdAt || preset.verifiedAt))}
+                  </span>
+                </span>
+              )}
+
+              {(preset.authorName || primarySource) && (
+                <span className="inline-flex items-center gap-1 min-w-0">
+                  <span>by</span>
+                  {primarySource?.url ? (
+                    <a
+                      href={primarySource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-semibold text-sky-700 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 truncate"
+                    >
+                      <span className="truncate">{primarySource.author}</span>
+                      <ExternalLink className="size-3 shrink-0" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <span className="font-semibold text-slate-800 dark:text-white/90 truncate">
+                      {preset.authorName || primarySource?.author || 'Anonymous'}
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
+
+            {!isLocal && (
+              <BuildMetricsBar
+                buildId={preset.id}
+                views={liveMetric.views}
+                upvotes={liveMetric.upvotes}
+                voted={liveMetric.voted}
+                onMetricChange={(next) =>
+                  setLiveMetric((prev) => ({
+                    views: Math.max(prev.views, next.views),
+                    upvotes: next.upvotes,
+                    voted: next.voted,
+                  }))
+                }
+                part="upvote"
+              />
+            )}
+          </div>
+        )}
       </header>
 
       {/* Clean View Switcher: Build | Notes | Math */}
@@ -980,8 +1113,9 @@ export function BuildDetailClient({
                               <div className="self-start relative z-10 -mb-[2.5px]">
                                 <span
                                   className={cn(
-                                    'px-3.5 py-0.5 text-xs font-bold text-white rounded-t-md shadow-xs inline-block tracking-wide',
-                                    prio.headerBg
+                                    'px-3.5 py-0.5 text-xs font-bold rounded-t-md shadow-xs inline-block tracking-wide',
+                                    prio.headerBg,
+                                    prio.headerText
                                   )}
                                 >
                                   {prio.label}
@@ -1283,23 +1417,30 @@ export function BuildDetailClient({
             </section>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div
+            className={cn(
+              'grid grid-cols-1 gap-4',
+              preset.rotation.length > 0 &&
+                (preset.substitutions.length > 0 || externalSources.length > 0 || preset.isStale) &&
+                'lg:grid-cols-2'
+            )}
+          >
             {preset.rotation.length > 0 && (
               <section className="game-card celestial-card p-4 sm:p-5 space-y-3">
                 <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                  Rotation
+                  Author Notes
                 </h2>
-                <ol className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-white/85 list-decimal list-inside">
+                <ul className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-white/85 list-disc pl-5">
                   {preset.rotation.map((step, idx) => (
-                    <li key={idx} className="leading-relaxed">
-                      {step}
+                    <li key={idx} className="leading-relaxed break-words">
+                      {step.replace(/^(?:[•\-*]\s+|\d+[.)]\s+)/, '')}
                     </li>
                   ))}
-                </ol>
+                </ul>
               </section>
             )}
 
-            {(preset.substitutions.length > 0 || preset.sources.length > 0 || preset.isStale) && (
+            {(preset.substitutions.length > 0 || externalSources.length > 0 || preset.isStale) && (
               <section className="game-card celestial-card p-4 sm:p-5 space-y-4">
                 {preset.substitutions.length > 0 && (
                   <div className="space-y-2.5">
@@ -1340,13 +1481,18 @@ export function BuildDetailClient({
                   </div>
                 )}
 
-                {preset.sources.length > 0 && (
-                  <div className="space-y-2 pt-2 border-t border-border-subtle">
+                {externalSources.length > 0 && (
+                  <div
+                    className={cn(
+                      'space-y-2',
+                      preset.substitutions.length > 0 && 'pt-2 border-t border-border-subtle'
+                    )}
+                  >
                     <h2 className="text-xs font-semibold text-slate-600 dark:text-white/70">
                       Sources
                     </h2>
                     <div className="flex flex-wrap gap-2">
-                      {preset.sources.map((src, idx) => (
+                      {externalSources.map((src, idx) => (
                         <a
                           key={idx}
                           href={src.url}

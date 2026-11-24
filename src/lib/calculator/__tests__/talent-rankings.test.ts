@@ -189,4 +189,193 @@ describe('estimated talent rankings engine (T1..T5 vs T0)', () => {
       assert.ok(Number.isFinite(row.teamInc));
     }
   });
+
+  it('gates Eleanor T2 Ventus Mark, scales Nazuka T1 realistic tornado uptime, scopes F.Noya T2/T5 DMG Multiplier, and uses Mistique T3 14% ATK%', () => {
+    const eleanorWillow = presets.find((p) => p.id === 'eleanor-skill-willow')!;
+    const ewCtx = buildDiscRankingContext(eleanorWillow, allCharacters, allCombat, allDiscs, allPotentials);
+    const ewTables = computeEstimatedTalentRankings(ewCtx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+    const eleanorOnWillow = ewTables.find((t) => t.label === 'Eleanor')!;
+    const nazukaOnWillow = ewTables.find((t) => t.label === 'Nazuka')!;
+
+    // No Ventus Mark trigger in eleanor-skill-willow -> Eleanor T2 conditional ATK% skipped
+    assert.ok(
+      eleanorOnWillow.tiers[2].personalInc >= 14 && eleanorOnWillow.tiers[2].personalInc <= 24,
+      `Expected Eleanor T2 personalInc in [14, 24]% without Ventus Mark trigger, got ${eleanorOnWillow.tiers[2].personalInc}%`
+    );
+    // Nazuka T1 tornado uptime (~22%) -> teamInc < 6% under realistic uptime
+    assert.ok(
+      nazukaOnWillow.tiers[1].teamInc < 6,
+      `Expected Nazuka T1 realistic teamInc < 6%, got ${nazukaOnWillow.tiers[1].teamInc}%`
+    );
+
+    // Ideal uptime removes realisticUptime attenuation on Nazuka T1
+    const ewIdeal = computeEstimatedTalentRankings(ewCtx, {
+      ...DEFAULT_DISC_RANKING_ASSUMPTIONS,
+      uptimeMode: 'ideal',
+    });
+    const nazukaIdeal = ewIdeal.find((t) => t.label === 'Nazuka')!;
+    assert.ok(
+      nazukaIdeal.tiers[1].teamInc > nazukaOnWillow.tiers[1].teamInc * 2,
+      `Expected Nazuka T1 ideal (${nazukaIdeal.tiers[1].teamInc}%) >> realistic (${nazukaOnWillow.tiers[1].teamInc}%)`
+    );
+
+    // Wraith + Eleanor + Ann has active Ventus Mark trigger -> Eleanor T2 conditional ATK% active
+    const wraithEleanor = presets.find((p) => p.id === 'wraith-aa-eleanor')!;
+    const weCtx = buildDiscRankingContext(wraithEleanor, allCharacters, allCombat, allDiscs, allPotentials);
+    const weTables = computeEstimatedTalentRankings(weCtx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+    const eleanorOnWraith = weTables.find((t) => t.label === 'Eleanor')!;
+    assert.ok(
+      eleanorOnWraith.tiers[2].personalInc >= 24,
+      `Expected Eleanor T2 personalInc >= 24% when Wraith triggers Ventus Mark, got ${eleanorOnWraith.tiers[2].personalInc}%`
+    );
+
+    // Firstlight Noya AA: T2/T5 exclude Mark damage
+    const fnoyaAa = presets.find((p) => p.id === 'firstlight-noya-aa')!;
+    const faCtx = buildDiscRankingContext(fnoyaAa, allCharacters, allCombat, allDiscs, allPotentials);
+    const faTables = computeEstimatedTalentRankings(faCtx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+    const fnoyaTable = faTables.find((t) => t.label === 'Firstlight Noya')!;
+    assert.ok(
+      fnoyaTable.tiers[2].teamInc < 40,
+      `Expected F.Noya AA T2 teamInc < 40%, got ${fnoyaTable.tiers[2].teamInc}%`
+    );
+    assert.ok(
+      fnoyaTable.tiers[5].teamInc < 105,
+      `Expected F.Noya AA T5 teamInc < 105%, got ${fnoyaTable.tiers[5].teamInc}%`
+    );
+
+    // Mistique T3 should grant +14% squad ATK% (4 * 3.5%), not +35%
+    const otohaMistique = presets.find((p) => p.id === 'otoha-dps-mistique')!;
+    const omCtx = buildDiscRankingContext(otohaMistique, allCharacters, allCombat, allDiscs, allPotentials);
+    const omTables = computeEstimatedTalentRankings(omCtx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+    const mistiqueTable = omTables.find((t) => t.label === 'Mistique')!;
+    assert.ok(
+      mistiqueTable.tiers[3].teamRelativeInc < 7,
+      `Expected Mistique T3 step gain < 7% (14% ATK%, not 35%), got ${mistiqueTable.tiers[3].teamRelativeInc}%`
+    );
+  });
+
+  it('enforces extra deterministic talent squad gates (Nazuka T4, Tilia T4/T5, S.Willow T2, 3-element Support T5s, Otoha T3)', () => {
+    const basePreset = presets[0];
+    const cloneWithTeam = (vId: number, veId: number, suId: number) => {
+      const cloned = {
+        ...basePreset,
+        id: `test-${vId}-${veId}-${suId}`,
+        advData: {
+          ...basePreset.advData,
+          slots: {
+            vanguard: { characterId: vId, potentials: [] },
+            versatile: { characterId: veId, potentials: [] },
+            support: { characterId: suId, potentials: [] },
+          },
+          notes: {},
+        },
+      };
+      const ctx = buildDiscRankingContext(cloned, allCharacters, allCombat, allDiscs, allPotentials);
+      return computeEstimatedTalentRankings(ctx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+    };
+
+    // 1. 3-same-element Support T5 gates (Tilia, Nazuna, Ann, Cosette, Flora, Teresa)
+    const t5Cases: Array<{
+      name: string;
+      id: number;
+      mixed: [number, number, number];
+      mono: [number, number, number];
+    }> = [
+      { name: 'Tilia', id: 107, mixed: [134, 158, 107], mono: [162, 150, 107] },
+      { name: 'Nazuna', id: 156, mixed: [134, 158, 156], mono: [161, 149, 156] },
+      { name: 'Ann', id: 123, mixed: [134, 158, 123], mono: [119, 133, 123] },
+      { name: 'Cosette', id: 142, mixed: [134, 158, 142], mono: [110, 145, 142] },
+      { name: 'Flora', id: 126, mixed: [144, 127, 126], mono: [134, 158, 126] },
+      { name: 'Teresa', id: 127, mixed: [134, 158, 127], mono: [144, 160, 127] },
+    ];
+    for (const tc of t5Cases) {
+      const mixedRow = cloneWithTeam(...tc.mixed).find((t) => t.label === tc.name)!;
+      const mixedTeammateDelta =
+        mixedRow.tiers[5].teamDmg -
+        mixedRow.tiers[5].personalDmg -
+        (mixedRow.tiers[4].teamDmg - mixedRow.tiers[4].personalDmg);
+      assert.equal(
+        mixedTeammateDelta,
+        0,
+        `Expected ${tc.name} T5 Squad buff teammate delta === 0 in mixed squad, got ${mixedTeammateDelta}`
+      );
+      const monoRow = cloneWithTeam(...tc.mono).find((t) => t.label === tc.name)!;
+      const monoTeammateDelta =
+        monoRow.tiers[5].teamDmg -
+        monoRow.tiers[5].personalDmg -
+        (monoRow.tiers[4].teamDmg - monoRow.tiers[4].personalDmg);
+      assert.ok(
+        monoTeammateDelta > 0,
+        `Expected ${tc.name} T5 Squad buff teammate delta > 0 in 3-element squad, got ${monoTeammateDelta}`
+      );
+    }
+
+    // 2. Nazuka T4 gated on squad Ventus Mark trigger (minor stat node only ~5.6% vs minor +28% Skill >= 11%)
+    const nazMixed = cloneWithTeam(134, 133, 126).find((t) => t.label === 'Nazuka')!;
+    const nazVentus = cloneWithTeam(143, 133, 123).find((t) => t.label === 'Nazuka')!;
+    assert.ok(
+      nazMixed.tiers[4].personalRelativeInc < 8,
+      `Expected Nazuka T4 personalRelativeInc < 8% (minor stats only, no +28% Skill) without Ventus Mark, got ${nazMixed.tiers[4].personalRelativeInc}%`
+    );
+    assert.ok(
+      nazVentus.tiers[4].personalRelativeInc > nazMixed.tiers[4].personalRelativeInc + 5,
+      `Expected Nazuka T4 personalRelativeInc (${nazVentus.tiers[4].personalRelativeInc}%) > no-Mark (${nazMixed.tiers[4].personalRelativeInc}%) + 5%`
+    );
+
+    // 3. Tilia T4 gated on squad Lux Mark trigger
+    const tiliaNoMark = cloneWithTeam(144, 127, 107).find((t) => t.label === 'Tilia')!;
+    const tiliaNoMarkMainDelta =
+      tiliaNoMark.tiers[4].teamDmg -
+      tiliaNoMark.tiers[4].personalDmg -
+      (tiliaNoMark.tiers[3].teamDmg - tiliaNoMark.tiers[3].personalDmg);
+    assert.equal(
+      tiliaNoMarkMainDelta,
+      0,
+      `Expected Tilia T4 Main Ult buff delta === 0 without Lux Mark trigger, got ${tiliaNoMarkMainDelta}`
+    );
+    const tiliaWithMark = cloneWithTeam(162, 150, 107).find((t) => t.label === 'Tilia')!;
+    const tiliaWithMarkMainDelta =
+      tiliaWithMark.tiers[4].teamDmg -
+      tiliaWithMark.tiers[4].personalDmg -
+      (tiliaWithMark.tiers[3].teamDmg - tiliaWithMark.tiers[3].personalDmg);
+    assert.ok(
+      tiliaWithMarkMainDelta > 0,
+      `Expected Tilia T4 Main Ult buff delta > 0 with Lux Mark trigger, got ${tiliaWithMarkMainDelta}`
+    );
+
+    // 4. Suntide Willow T2 gated on squad Aqua Mark trigger (teammate Aqua taken delta = 0 without Aqua Mark trigger)
+    const willowNoMark = cloneWithTeam(134, 111, 160).find((t) => t.label === 'Suntide Willow')!;
+    const willowNoMarkTeammateDelta =
+      willowNoMark.tiers[2].teamDmg -
+      willowNoMark.tiers[2].personalDmg -
+      (willowNoMark.tiers[1].teamDmg - willowNoMark.tiers[1].personalDmg);
+    assert.equal(
+      willowNoMarkTeammateDelta,
+      0,
+      `Expected S.Willow T2 teammate delta === 0 without Aqua Mark trigger, got ${willowNoMarkTeammateDelta}`
+    );
+    const willowWithMark = cloneWithTeam(144, 127, 160).find((t) => t.label === 'Suntide Willow')!;
+    const willowWithMarkTeammateDelta =
+      willowWithMark.tiers[2].teamDmg -
+      willowWithMark.tiers[2].personalDmg -
+      (willowWithMark.tiers[1].teamDmg - willowWithMark.tiers[1].personalDmg);
+    assert.ok(
+      willowWithMarkTeammateDelta > 0,
+      `Expected S.Willow T2 teammate delta > 0 with Aqua Mark trigger, got ${willowWithMarkTeammateDelta}`
+    );
+
+    // 5. Otoha T3 scopes +15% Crit DMG to Umbra teammates (not Ignis teammates)
+    const otohaMixed = cloneWithTeam(134, 145, 126).find((t) => t.label === 'Otoha')!;
+    const otohaT2NonSelf = otohaMixed.tiers[2].teamDmg - otohaMixed.tiers[2].personalDmg;
+    const otohaT3NonSelf = otohaMixed.tiers[3].teamDmg - otohaMixed.tiers[3].personalDmg;
+    assert.equal(
+      otohaT3NonSelf,
+      otohaT2NonSelf,
+      `Expected Otoha T3 not to buff non-Umbra allies (T2 non-self=${otohaT2NonSelf}, T3=${otohaT3NonSelf})`
+    );
+    assert.ok(
+      otohaMixed.tiers[3].personalRelativeInc > 0,
+      `Expected Otoha T3 personalRelativeInc > 0 for Umbra Otoha, got ${otohaMixed.tiers[3].personalRelativeInc}%`
+    );
+  });
 });

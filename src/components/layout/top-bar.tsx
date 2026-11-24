@@ -92,6 +92,18 @@ const ROUTE_BREADCRUMBS: Record<string, BreadcrumbConfig> = {
     name: 'Credits & Attributions',
     href: '/credits',
   },
+  '/feedback': {
+    name: 'Send Feedback',
+    href: '/feedback',
+  },
+  '/admin/builds': {
+    name: 'Admin · Build Moderation',
+    href: '/admin/builds',
+  },
+  '/admin/feedback': {
+    name: 'Admin · Feedback Inbox',
+    href: '/admin/feedback',
+  },
 };
 
 function TopBarContent() {

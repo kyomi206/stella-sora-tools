@@ -42,13 +42,13 @@ const rarityTheme: Record<
   5: {
     label: 'Exquisite Gift',
     shortLabel: 'EXQ',
-    cardBorder: 'border-teal-500/35 hover:border-teal-500/60',
-    cardBg: 'bg-teal-50',
-    badgeStyle: 'bg-teal-500/15 text-teal-700 border-teal-500/40',
-    titleColor: 'text-teal-700',
-    totalExpColor: 'text-teal-700',
-    fillBtnStyle: 'border-teal-500/40 bg-teal-500/15 hover:bg-teal-500/25 text-teal-700',
-    inputFocus: 'focus:border-teal-500',
+    cardBorder: 'border-purple-500/35 hover:border-purple-500/60',
+    cardBg: 'bg-purple-50',
+    badgeStyle: 'bg-purple-500/20 text-purple-700 border-purple-500/40',
+    titleColor: 'text-purple-700',
+    totalExpColor: 'text-purple-700',
+    fillBtnStyle: 'border-purple-500/40 bg-purple-500/15 hover:bg-purple-500/25 text-purple-700',
+    inputFocus: 'focus:border-purple-500',
   },
   4: {
     label: 'Rare Gift',
@@ -84,7 +84,7 @@ function AffinityMoodFace({ mood }: { mood: GiftAffinityMood }) {
         <svg
           viewBox="0 0 24 24"
           fill="none"
-          className="size-2.5 sm:size-3 text-amber-950"
+          className="size-2.5 sm:size-3 text-slate-950"
           strokeWidth="2.2"
           stroke="currentColor"
           aria-hidden="true"
@@ -112,7 +112,7 @@ function AffinityMoodFace({ mood }: { mood: GiftAffinityMood }) {
         <svg
           viewBox="0 0 24 24"
           fill="none"
-          className="size-2.5 sm:size-3 text-slate-900"
+          className="size-2.5 sm:size-3 text-slate-950"
           strokeWidth="2.2"
           stroke="currentColor"
           aria-hidden="true"
@@ -136,7 +136,7 @@ function AffinityMoodFace({ mood }: { mood: GiftAffinityMood }) {
       <svg
         viewBox="0 0 24 24"
         fill="none"
-        className="size-2.5 sm:size-3 text-emerald-950"
+        className="size-2.5 sm:size-3 text-slate-950"
         strokeWidth="2.2"
         stroke="currentColor"
         aria-hidden="true"
@@ -529,7 +529,7 @@ export function BondClient() {
                 className={cn(
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
                   giftFilter === 5
-                    ? 'bg-teal-500/20 text-teal-800 border-teal-500/45'
+                    ? 'bg-purple-500/20 text-purple-800 border-purple-500/40'
                     : 'bg-base text-slate-600 border-border hover:text-slate-900'
                 )}
               >

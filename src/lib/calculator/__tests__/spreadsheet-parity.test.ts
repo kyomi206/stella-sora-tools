@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  applyBuffStat,
   buildCharacterStats,
   calculateAbilityDamage,
   calculateResAmend,
@@ -474,5 +475,70 @@ describe('spreadsheet parity tests (Maygi V1.1.0 / ZiLenTz / AutumnVN)', () => {
       formatPartOptionLabel('Fireworks Jam', { label: 'Fireworks Jam', mvPct: 106, damageType: 'Skill' }),
       'Skill · 106%'
     );
+  });
+
+  it('scopes typeSkillIntensityPct by damage type, converts aaDmg->markDmg via aaToMarkRatio77, and clamps negative crit rate at 0%', () => {
+    const bonuses = createEmptyStatBlock();
+    applyBuffStat(bonuses, 'ultSkillIntensity', 200);
+    applyBuffStat(bonuses, 'aaToMarkRatio77', 200);
+    applyBuffStat(bonuses, 'aaDmg', 120);
+    applyBuffStat(bonuses, 'markCritRate', -100);
+
+    const stats = buildCharacterStats({
+      characterBaseAtk: 10000,
+      affinityLevel: 0,
+      recordLevel: 0,
+      squadDiscBaseAtk: 0,
+      element: 'Aqua',
+      bonuses,
+    });
+
+    // 120 / 1.3 = 92.307692... added to Mark DMG
+    assertClose(stats.typeDmgPct.Mark, 120 / 1.3, 1e-4, 'aaToMarkRatio77 conversion');
+
+    const enemy: EnemyInput = { def: 0, res: 0, resilienceBroken: false };
+    const ultRes = calculateAbilityDamage(
+      stats,
+      { name: 'Ult', motionValuePct: 100, hits: 1, casts: 1, damageType: 'Ultimate', scalingStat: 'ATK' },
+      enemy
+    );
+    const aaRes = calculateAbilityDamage(
+      stats,
+      { name: 'AA', motionValuePct: 100, hits: 1, casts: 1, damageType: 'Auto Attack', scalingStat: 'ATK' },
+      enemy
+    );
+    const markRes = calculateAbilityDamage(
+      stats,
+      { name: 'Mark', motionValuePct: 100, hits: 1, casts: 1, damageType: 'Mark', scalingStat: 'ATK' },
+      enemy
+    );
+
+    assertClose(ultRes.skillIntensityMult, 3.0, 1e-9, 'Ultimate intensity mult');
+    assertClose(aaRes.skillIntensityMult, 1.0, 1e-9, 'AA intensity mult');
+    assertClose(markRes.skillIntensityMult, 1.0, 1e-9, 'Mark intensity mult');
+    assert.ok(markRes.expectedDamage === markRes.nonCritDamage && markRes.expectedDamage > 0, 'Mark crit rate <= 0% clamps at 0%');
+
+    // Cap check: 390% AA DMG -> 300% raw -> capped at 200%
+    const cappedBonuses = createEmptyStatBlock();
+    applyBuffStat(cappedBonuses, 'aaToMarkRatio77', 200);
+    applyBuffStat(cappedBonuses, 'aaDmg', 390);
+    const cappedStats = buildCharacterStats({
+      characterBaseAtk: 10000,
+      affinityLevel: 0,
+      recordLevel: 0,
+      squadDiscBaseAtk: 0,
+      element: 'Aqua',
+      bonuses: cappedBonuses,
+    });
+    assertClose(cappedStats.typeDmgPct.Mark, 200, 1e-6, 'aaToMarkRatio77 cap at 200%');
+
+    // mapTalentRow typed DMG Multiplier
+    const typedRow = mapTalentRow({
+      stat: 'DMG Multiplier',
+      value: 0.36,
+      target: 'F.Noya',
+      damageTypes: ['Skill', 'Auto Attack'],
+    });
+    assert.deepEqual(typedRow?.keys, ['skillSkillIntensity', 'aaSkillIntensity']);
   });
 });

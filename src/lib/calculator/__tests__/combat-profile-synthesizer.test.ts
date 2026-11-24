@@ -244,4 +244,62 @@ describe('combat-profile-synthesizer (zero hardcoding)', () => {
       'Ventus'
     );
   });
+
+  it('keeps dual-DPS off-field shares realistic, bounds non-conversion Mark dominance, and attributes Main-Skill-spawned AA to skill', () => {
+    const fuyuka = synthesizeForPreset('fuyuka-ultimate-slaru');
+    const slaru = fuyuka.summary.slots.find((s) => s.slot === 'versatile');
+    assert.ok(
+      slaru && slaru.sharePct >= 16,
+      `Expected dual-DPS Snowish Laru share >= 16%, got ${slaru?.sharePct}%`
+    );
+
+    const eleanorWillow = synthesizeForPreset('eleanor-skill-willow');
+    const nazuka = eleanorWillow.summary.slots.find((s) => s.slot === 'support');
+    const willow = eleanorWillow.summary.slots.find((s) => s.slot === 'vanguard');
+    assert.ok(
+      nazuka && nazuka.sharePct >= 14,
+      `Expected off-field Versatile Nazuka share >= 14%, got ${nazuka?.sharePct}%`
+    );
+    assert.ok(
+      willow && willow.sharePct < 12,
+      `Expected Vanguard Support Suntide Willow share < 12%, got ${willow?.sharePct}%`
+    );
+
+    for (const presetId of ['gerie-mark-leafia', 'chitose-mark-willow']) {
+      const synthesized = synthesizeForPreset(presetId);
+      const carrySlot = synthesized.summary.carrySlot;
+      const carrySlices = synthesized.profile.slots[carrySlot] ?? [];
+      const totalWeight = carrySlices.reduce((sum, slice) => sum + slice.weight, 0);
+      const markWeight = carrySlices
+        .filter((slice) => slice.type === 'Mark')
+        .reduce((sum, slice) => sum + slice.weight, 0);
+      const markPct = totalWeight > 0 ? (markWeight / totalWeight) * 100 : 0;
+      const nonMarkPct = 100 - markPct;
+      assert.ok(
+        markPct <= 82 && nonMarkPct >= 18,
+        `Expected ${presetId} carry Mark <= 82% and non-Mark >= 18%, got ${markPct.toFixed(1)}% / ${nonMarkPct.toFixed(1)}%`
+      );
+    }
+
+    // Allie converts Auto Attack DMG to Mark DMG via Wide Blade Arc, so Mark dominance stays high
+    const allieSyn = synthesizeForPreset('allie-mark-teresa');
+    const allieSlices = allieSyn.profile.slots[allieSyn.summary.carrySlot] ?? [];
+    const allieTotal = allieSlices.reduce((sum, slice) => sum + slice.weight, 0);
+    const allieMark = allieSlices
+      .filter((slice) => slice.type === 'Mark')
+      .reduce((sum, slice) => sum + slice.weight, 0);
+    assert.ok(
+      allieTotal > 0 && (allieMark / allieTotal) * 100 >= 80,
+      `Expected allie-mark-teresa AA->Mark conversion to keep Mark >= 80%`
+    );
+
+    const wraith = synthesizeForPreset('wraith-aa-eleanor');
+    const vanguardSlices = wraith.profile.slots.vanguard ?? [];
+    const primaryAaSlice = vanguardSlices.find((slice) => slice.type === 'Auto Attack');
+    assert.equal(
+      primaryAaSlice?.skillSource,
+      'skill',
+      `Expected Wraith primary Auto Attack slice to use skillSource: 'skill', got ${primaryAaSlice?.skillSource}`
+    );
+  });
 });

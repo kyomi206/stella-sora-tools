@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import charactersData from '../../../data/characters.json' with { type: 'json' };
 import characterCombatData from '../../../data/character-combat.json' with { type: 'json' };
 import discsData from '../../../data/discs.json' with { type: 'json' };
+import potentialsDbData from '../../../data/potentials-db.json' with { type: 'json' };
 import {
   estimatePotentialRealisticUptime,
   extractDiscPresetBuffs,
@@ -25,12 +26,16 @@ import type {
   NoteName,
   SSCharacter,
   SSDisc,
+  SSPotentialFull,
   SelectedPotential,
 } from '../../../types/index.ts';
 
 const characters = charactersData as unknown as Record<string, SSCharacter>;
 const combatDb = characterCombatData as unknown as Record<string, CharacterCombatEntry>;
 const discs = discsData as unknown as Record<string, SSDisc>;
+const potentialsDb = potentialsDbData as unknown as Record<string, SSPotentialFull[]>;
+const potLookup = (cid: number | null, pid: number) =>
+  cid ? potentialsDb[String(cid)]?.find((p) => p.id === pid) : undefined;
 
 function makeEmptyBuild(): AdvancedTeamBuild {
   const emptyPotentials: SelectedPotential[] = [];
@@ -666,5 +671,361 @@ describe('Phase 2 preset-buffs disc & potential auto-importer', () => {
       [{ slot: 'vanguard', character: fnoya }, { slot: 'versatile', character: null }, { slot: 'support', character: tilia }]
     );
     assert.ok(tiliaBuffs.some((b) => b.sourceName === 'Tilia' && b.stat === 'atkPct' && b.target === 'team'));
+  });
+
+  it('fixes RC-3 parser bugs: Cat\'s Treasure stack bleed, Words Unchanged, Touch \'n\' Bounce uptime, Mindflare Butterfly, Forest Princess\' Blessing, Swift Wipe, Wide Blade Arc, Blinding Beam, Lethal Inferno, Hovering Gale metadata', () => {
+    // 1. The Cat's Treasure (214029 C6): Melody skillDmg = 50 (unstacked), Harmony Dark Evil Eye = 3 stacks
+    const fuyuka = characters['134']; // Ignis Vanguard
+    const sLaru = characters['158']; // Ignis Versatile
+    const flora = characters['126']; // Ignis Support
+    const ignisRoster: PresetBuffRosterSlot[] = [
+      { slot: 'vanguard', character: fuyuka },
+      { slot: 'versatile', character: sLaru },
+      { slot: 'support', character: flora },
+    ];
+    const catBuffs = extractDiscPresetBuffs(
+      [{ discId: 214029, level: 90, crescendo: 6 }],
+      {},
+      discs,
+      ignisRoster,
+      undefined,
+      { enforceTriggers: true, forceHarmonyLevel: 5 }
+    );
+    const catSkillDmg = catBuffs.find((b) => b.origin === 'melody' && b.stat === 'skillDmg');
+    assert.ok(catSkillDmg, 'Expected Cat\'s Treasure Melody skillDmg');
+    assert.equal(catSkillDmg.value, 50);
+    assert.equal(catSkillDmg.stacks, undefined);
+    const catHarmonyCrit = catBuffs.find((b) => b.origin === 'harmony' && b.stat === 'skillCritDmg');
+    assert.ok(catHarmonyCrit, 'Expected Cat\'s Treasure Harmony skillCritDmg');
+    assert.equal(catHarmonyCrit.stacks, 3);
+
+    // 2. Words Unchanged (516025 Lv 6): elementTaken (Aqua) stacks: 12, value: 24
+    const sWillow = Object.values(characters).find((c) => c.name.EN === 'Suntide Willow')!;
+    const chitose = characters['144'];
+    const teresa = characters['127'];
+    const aquaRoster: PresetBuffRosterSlot[] = [
+      { slot: 'vanguard', character: chitose },
+      { slot: 'versatile', character: teresa },
+      { slot: 'support', character: sWillow },
+    ];
+    const aquaBuild = makeEmptyBuild();
+    aquaBuild.slots.vanguard = { characterId: chitose.id, potentials: [] };
+    aquaBuild.slots.versatile = { characterId: teresa.id, potentials: [] };
+    aquaBuild.slots.support = {
+      characterId: sWillow.id,
+      potentials: [
+        { id: 516025, rarity: 2, level: 6 },
+        { id: 516009, rarity: 2, level: 6 },
+      ],
+    };
+    const aquaPotBuffs = extractPotentialPresetBuffs(aquaBuild, aquaRoster, { potentialLookup: potLookup });
+    const wordsBuff = aquaPotBuffs.find((b) => b.potentialId === 516025 && b.stat === 'elementTaken');
+    assert.ok(wordsBuff, 'Expected Words Unchanged elementTaken');
+    assert.equal(wordsBuff.stacks, 12);
+    assert.equal(wordsBuff.value, 24);
+
+    // 3. Touch 'n' Bounce (516009 Lv 6): squad skillDmg = 40 & non-Aqua skillDmg = 56 with realisticUptime >= 0.85
+    const eleanor = characters['137'];
+    const nazuka = characters['133'];
+    const willowEleanorRoster: PresetBuffRosterSlot[] = [
+      { slot: 'vanguard', character: sWillow },
+      { slot: 'versatile', character: eleanor },
+      { slot: 'support', character: nazuka },
+    ];
+    const weBuild = makeEmptyBuild();
+    weBuild.slots.vanguard = { characterId: sWillow.id, potentials: [{ id: 516009, rarity: 2, level: 6 }] };
+    weBuild.slots.versatile = { characterId: eleanor.id, potentials: [] };
+    weBuild.slots.support = { characterId: nazuka.id, potentials: [] };
+    const touchBuffs = extractPotentialPresetBuffs(weBuild, willowEleanorRoster, { potentialLookup: potLookup });
+    const touchTeam = touchBuffs.find((b) => b.stat === 'skillDmg' && b.target === 'team');
+    const touchNonAqua = touchBuffs.filter((b) => b.stat === 'skillDmg' && b.value === 56);
+    assert.ok(touchTeam && touchTeam.value === 40, `Expected Touch 'n' Bounce team skillDmg=40, got ${JSON.stringify(touchBuffs)}`);
+    assert.ok(touchNonAqua.length >= 1, `Expected Touch 'n' Bounce non-Aqua skillDmg=56, got ${JSON.stringify(touchBuffs)}`);
+    assert.ok((touchTeam.realisticUptime ?? 1) >= 0.85, `Expected realisticUptime >= 0.85 on Touch 'n' Bounce, got ${touchTeam.realisticUptime}`);
+    assert.ok((touchNonAqua[0].realisticUptime ?? 1) >= 0.85, `Expected realisticUptime >= 0.85 on Touch 'n' Bounce non-Aqua, got ${touchNonAqua[0].realisticUptime}`);
+
+    // 4. Reinforced Impression (512629 Lv 6): Mindflare Butterfly -> stacks: 4, value: 12.8
+    const floraBuild = makeEmptyBuild();
+    floraBuild.slots.vanguard = { characterId: fuyuka.id, potentials: [] };
+    floraBuild.slots.versatile = { characterId: sLaru.id, potentials: [] };
+    floraBuild.slots.support = {
+      characterId: flora.id,
+      potentials: [
+        { id: 512629, rarity: 2, level: 6 },
+        { id: 512641, rarity: 2, level: 6 },
+      ],
+    };
+    const floraBuffs = extractPotentialPresetBuffs(floraBuild, ignisRoster, { potentialLookup: potLookup });
+    const reinforced = floraBuffs.find((b) => b.potentialId === 512629 && b.stat === 'critRate');
+    assert.ok(reinforced, 'Expected Reinforced Impression critRate');
+    assert.equal(reinforced.stacks, 4);
+    assert.equal(reinforced.value, 12.8);
+
+    // 8b. Lethal Inferno (512641 Lv 6): realisticUptime in [0.58, 0.72]
+    const lethal = floraBuffs.find((b) => b.potentialId === 512641 && b.stat === 'elementTaken');
+    assert.ok(lethal, 'Expected Lethal Inferno elementTaken');
+    assert.ok(
+      (lethal.realisticUptime ?? 1) >= 0.58 && (lethal.realisticUptime ?? 1) <= 0.72,
+      `Expected Lethal Inferno realisticUptime in [0.58, 0.72], got ${lethal.realisticUptime}`
+    );
+
+    // 5. Forest Princess' Blessing (512333 Lv 6) + Rocket Cart (515643 Lv 6)
+    const wraith = characters['143'];
+    const ann = characters['123'];
+    const ventusRoster: PresetBuffRosterSlot[] = [
+      { slot: 'vanguard', character: wraith },
+      { slot: 'versatile', character: eleanor },
+      { slot: 'support', character: ann },
+    ];
+    const annBuild = makeEmptyBuild();
+    annBuild.slots.vanguard = { characterId: wraith.id, potentials: [] };
+    annBuild.slots.versatile = { characterId: eleanor.id, potentials: [] };
+    annBuild.slots.support = { characterId: ann.id, potentials: [{ id: 512333, rarity: 2, level: 6 }] };
+    const annBuffs = extractPotentialPresetBuffs(annBuild, ventusRoster, { potentialLookup: potLookup });
+    const fpb = annBuffs.find((b) => b.potentialId === 512333 && b.stat === 'elementDmg');
+    assert.ok(fpb, 'Expected Forest Princess Blessing elementDmg');
+    assert.equal(fpb.target, 'team');
+    assert.equal(fpb.value, 54.25);
+
+    const nazuna = characters['156'];
+    const gerie = characters['149'];
+    const leafia = characters['161'];
+    const terraRoster: PresetBuffRosterSlot[] = [
+      { slot: 'vanguard', character: leafia },
+      { slot: 'versatile', character: gerie },
+      { slot: 'support', character: nazuna },
+    ];
+    const rocketBuild = makeEmptyBuild();
+    rocketBuild.slots.vanguard = { characterId: leafia.id, potentials: [] };
+    rocketBuild.slots.versatile = { characterId: gerie.id, potentials: [] };
+    rocketBuild.slots.support = { characterId: nazuna.id, potentials: [{ id: 515643, rarity: 2, level: 6 }] };
+    const rocketBuffs = extractPotentialPresetBuffs(rocketBuild, terraRoster, { potentialLookup: potLookup });
+    const rocket = rocketBuffs.find((b) => b.potentialId === 515643 && b.stat === 'elementTaken');
+    assert.ok(rocket, 'Expected Rocket Cart elementTaken');
+    assert.ok(
+      (rocket.realisticUptime ?? 1) <= 0.15,
+      `Expected Rocket Cart multi-stack chance uptime <= 0.15, got ${rocket.realisticUptime}`
+    );
+
+    // 6. Swift Wipe (513942 Lv 6) -> ultSkillIntensity: 200
+    // 7. Wide Blade Arc (513908 Lv 6, all-Aqua) -> aaToMarkRatio77: 200, markCritRate: -100
+    const allie = characters['139'];
+    const allieRoster: PresetBuffRosterSlot[] = [
+      { slot: 'vanguard', character: allie },
+      { slot: 'versatile', character: teresa },
+      { slot: 'support', character: sWillow },
+    ];
+    const allieBuild = makeEmptyBuild();
+    allieBuild.slots.vanguard = {
+      characterId: allie.id,
+      potentials: [
+        { id: 513942, rarity: 2, level: 6 },
+        { id: 513908, rarity: 2, level: 6 },
+      ],
+    };
+    allieBuild.slots.versatile = { characterId: teresa.id, potentials: [] };
+    allieBuild.slots.support = { characterId: sWillow.id, potentials: [] };
+    const allieBuffs = extractPotentialPresetBuffs(allieBuild, allieRoster, { potentialLookup: potLookup });
+    assert.ok(
+      allieBuffs.some((b) => b.potentialId === 513942 && b.stat === 'ultSkillIntensity' && b.value === 200),
+      `Expected Swift Wipe ultSkillIntensity=200, got ${JSON.stringify(allieBuffs.filter((b) => b.potentialId === 513942))}`
+    );
+    assert.ok(
+      !allieBuffs.some((b) => b.potentialId === 513942 && b.stat === 'skillIntensity'),
+      'Swift Wipe must not emit whole-kit skillIntensity'
+    );
+    assert.ok(
+      allieBuffs.some((b) => b.potentialId === 513908 && b.stat === 'aaToMarkRatio77' && b.value === 200),
+      `Expected Wide Blade Arc aaToMarkRatio77=200, got ${JSON.stringify(allieBuffs.filter((b) => b.potentialId === 513908))}`
+    );
+    assert.ok(
+      allieBuffs.some((b) => b.potentialId === 513908 && b.stat === 'markCritRate' && b.value === -100),
+      `Expected Wide Blade Arc markCritRate=-100, got ${JSON.stringify(allieBuffs.filter((b) => b.potentialId === 513908))}`
+    );
+
+    // 8a. Blinding Beam (510726 Lv 6): realisticUptime in [0.4, 0.5]
+    const tilia = characters['107'];
+    const blindingBuild = makeEmptyBuild();
+    blindingBuild.slots.vanguard = { characterId: chitose.id, potentials: [] };
+    blindingBuild.slots.versatile = { characterId: tilia.id, potentials: [{ id: 510726, rarity: 2, level: 6 }] };
+    blindingBuild.slots.support = { characterId: sWillow.id, potentials: [] };
+    const blindingBuffs = extractPotentialPresetBuffs(blindingBuild, [
+      { slot: 'vanguard', character: chitose },
+      { slot: 'versatile', character: tilia },
+      { slot: 'support', character: sWillow },
+    ], { potentialLookup: potLookup });
+    const blinding = blindingBuffs.find((b) => b.potentialId === 510726 && b.stat === 'markTaken');
+    assert.ok(blinding, 'Expected Blinding Beam markTaken');
+    assert.ok(
+      (blinding.realisticUptime ?? 1) >= 0.4 && (blinding.realisticUptime ?? 1) <= 0.5,
+      `Expected Blinding Beam realisticUptime in [0.4, 0.5], got ${blinding.realisticUptime}`
+    );
+
+    // 9. Hovering Gale metadata (icdSec, isMarkReaction, perStackBonusPct) & skip "received this time" buff
+    const hgText =
+      'When a target with Smiling Sanction has Aqua Mark triggered, this target is immediately inflicted with Aqua Mark: Torrent again and receives an additional 474% of ATK as Aqua Mark DMG. For each stack of Smiling Sanction this target has, increases the Mark DMG received this time by 8.4%. This effect can only be triggered once every 1.5s.';
+    const hgSpecs = extractPotentialExtraHitSpecs(hgText);
+    assert.equal(hgSpecs[0]?.icdSec, 1.5);
+    assert.equal(hgSpecs[0]?.isMarkReaction, true);
+    assert.equal(hgSpecs[0]?.perStackBonusPct, 8.4);
+    assert.equal(extractEffectsFromText(hgText, 'own').length, 0);
+  });
+
+  it('enforces Natsu 6 hardened parser guards across corpus edge cases', () => {
+    // Guard 1: "for 4s, up to 2 stacks" keeps stacks=2 while Nazuka #513305 / S.Willow #516024 isolate unstacked leading part
+    const compoundDur = extractEffectsFromText('Increases ATK by 10% for 4s, up to 2 stacks.', 'own');
+    assert.equal(compoundDur[0]?.stacks, 2);
+    assert.equal(compoundDur[0]?.value, 20);
+
+    const nazuka = characters['133']; // Ventus Versatile
+    const eleanor = characters['137']; // Ventus Versatile
+    const ann = characters['123']; // Ventus Support
+    const sWillow = characters['160']; // Aqua Support
+    const leafia = characters['161']; // Terra Versatile
+    const nanoha = characters['119']; // Ventus Vanguard
+    const canace = characters['120']; // Ventus Versatile
+    const flora = characters['126']; // Ignis Support
+    const laru = characters['150']; // Lux Vanguard
+    const karin = characters['157']; // Umbra Support
+    const cosette = characters['142']; // Umbra Support
+    const mistique = characters['135']; // Ignis Versatile (for slot filler)
+
+    // Nazuka #513305: Main Skill Ventus DMG unstacked (34), target Ventus DMG Taken stacked (2 * 10 = 20)
+    const nazBuild = makeEmptyBuild();
+    nazBuild.slots.vanguard = { characterId: nanoha.id, potentials: [] };
+    nazBuild.slots.versatile = { characterId: nazuka.id, potentials: [{ id: 513305, rarity: 2, level: 6 }] };
+    nazBuild.slots.support = { characterId: ann.id, potentials: [] };
+    const nazBuffs = extractPotentialPresetBuffs(nazBuild, [
+      { slot: 'vanguard', character: nanoha },
+      { slot: 'versatile', character: nazuka },
+      { slot: 'support', character: ann },
+    ], { potentialLookup: potLookup });
+    const nazEl = nazBuffs.find((b) => b.potentialId === 513305 && b.stat === 'skillDmg');
+    const nazTaken = nazBuffs.find((b) => b.potentialId === 513305 && b.stat === 'elementTaken');
+    assert.equal(nazEl?.stacks, undefined);
+    assert.equal(nazEl?.value, 34);
+    assert.equal(nazTaken?.stacks, 10);
+    assert.equal(nazTaken?.value, 20);
+
+    // Suntide Willow #516024: DMG Multiplier unstacked (50), Aqua DMG Taken stacked (16 * 1.1 = 17.6)
+    const willowBuild = makeEmptyBuild();
+    willowBuild.slots.vanguard = { characterId: sWillow.id, potentials: [{ id: 516024, rarity: 2, level: 6 }] };
+    const willowBuffs = extractPotentialPresetBuffs(willowBuild, [
+      { slot: 'vanguard', character: sWillow },
+      { slot: 'versatile', character: null },
+      { slot: 'support', character: null },
+    ], { potentialLookup: potLookup });
+    const willowInt = willowBuffs.find((b) => b.potentialId === 516024 && b.stat === 'skillIntensity');
+    const willowTaken = willowBuffs.find((b) => b.potentialId === 516024 && b.stat === 'elementTaken');
+    assert.equal(willowInt?.stacks, undefined);
+    assert.equal(willowInt?.value, 50);
+    assert.equal(willowTaken?.stacks, 16);
+    assert.equal(willowTaken?.value, 17.6);
+
+    // Guard 3 + Guard 5: Leafia #516122 ("This effect is permanent and stacks up to 4 times") -> skillIntensity=56, stacks=4
+    const leafiaBuild = makeEmptyBuild();
+    leafiaBuild.slots.support = { characterId: leafia.id, potentials: [{ id: 516122, rarity: 2, level: 6 }] };
+    const leafiaBuffs = extractPotentialPresetBuffs(leafiaBuild, [
+      { slot: 'vanguard', character: nanoha },
+      { slot: 'versatile', character: eleanor },
+      { slot: 'support', character: leafia },
+    ], { potentialLookup: potLookup });
+    const observer = leafiaBuffs.find((b) => b.potentialId === 516122);
+    assert.equal(observer?.stat, 'skillIntensity');
+    assert.equal(observer?.stacks, 4);
+    assert.equal(observer?.value, 56);
+
+    // Guard 4: Nanoha #511932 keeps own target (not leaked by "When an ally"), while "increases an ally's ATK" targets squad
+    const nanBuild = makeEmptyBuild();
+    nanBuild.slots.versatile = { characterId: nanoha.id, potentials: [{ id: 511932, rarity: 2, level: 6 }] };
+    const nanBuffs = extractPotentialPresetBuffs(nanBuild, [
+      { slot: 'vanguard', character: eleanor },
+      { slot: 'versatile', character: nanoha },
+      { slot: 'support', character: ann },
+    ], { potentialLookup: potLookup });
+    const tenderTrap = nanBuffs.find((b) => b.potentialId === 511932);
+    assert.ok(tenderTrap);
+    assert.equal(tenderTrap.target, 'versatile');
+    const allyAction = extractEffectsFromText("Increases an ally's ATK by 20%.", 'own');
+    assert.equal(allyAction[0]?.targetHint, 'squad');
+
+    // Guard 4: Rapid on-hit refresh (Canace #512012 & Disc 214002) and Flora #512624 ("for each" + "chance to") skip chance/4-stack scaling
+    const canBuild = makeEmptyBuild();
+    canBuild.slots.versatile = { characterId: canace.id, potentials: [{ id: 512012, rarity: 2, level: 6 }] };
+    const canBuffs = extractPotentialPresetBuffs(canBuild, [
+      { slot: 'vanguard', character: nanoha },
+      { slot: 'versatile', character: canace },
+      { slot: 'support', character: ann },
+    ], { potentialLookup: potLookup });
+    assert.equal(canBuffs.find((b) => b.potentialId === 512012)?.value, 54);
+
+    const disc214002Buffs = extractDiscPresetBuffs(
+      [{ discId: 214002, level: 90, crescendo: 1 }],
+      {},
+      discs,
+      [
+        { slot: 'vanguard', character: nanoha },
+        { slot: 'versatile', character: eleanor },
+        { slot: 'support', character: ann },
+      ],
+      undefined,
+      { enforceTriggers: true }
+    );
+    const laceration = disc214002Buffs.find((b) => b.origin === 'melody' && b.stat === 'elementTaken');
+    assert.equal(laceration?.value, 10);
+
+    const floraSparkBuild = makeEmptyBuild();
+    floraSparkBuild.slots.support = { characterId: flora.id, potentials: [{ id: 512624, rarity: 2, level: 6 }] };
+    const floraSparkBuffs = extractPotentialPresetBuffs(floraSparkBuild, [
+      { slot: 'vanguard', character: mistique },
+      { slot: 'versatile', character: eleanor },
+      { slot: 'support', character: flora },
+    ], { potentialLookup: potLookup });
+    const spark = floraSparkBuffs.find((b) => b.potentialId === 512624);
+    assert.equal(spark?.stacks, undefined);
+    assert.equal(spark?.value, 14);
+
+    // Guard 5: Eleanor #513723 ("Sentry DMG multiplier") -> skillIntensity (not skillSkillIntensity); Karin #515709 -> aaSkillIntensity
+    const elBuild = makeEmptyBuild();
+    elBuild.slots.support = { characterId: eleanor.id, potentials: [{ id: 513723, rarity: 2, level: 6 }] };
+    const elBuffs = extractPotentialPresetBuffs(elBuild, [
+      { slot: 'vanguard', character: nanoha },
+      { slot: 'versatile', character: canace },
+      { slot: 'support', character: eleanor },
+    ], { potentialLookup: potLookup });
+    const funcSustain = elBuffs.find((b) => b.potentialId === 513723 && b.stat === 'skillIntensity');
+    assert.ok(funcSustain, `Expected skillIntensity on Eleanor #513723, got ${JSON.stringify(elBuffs)}`);
+    assert.equal(funcSustain.stacks, 9);
+    assert.equal(funcSustain.value, 124.2);
+
+    const umbraF = characters['145']; // Otoha Umbra
+    const karinBuild = makeEmptyBuild();
+    karinBuild.slots.support = { characterId: karin.id, potentials: [{ id: 515709, rarity: 2, level: 6 }] };
+    const karinBuffs = extractPotentialPresetBuffs(karinBuild, [
+      { slot: 'vanguard', character: umbraF },
+      { slot: 'versatile', character: cosette },
+      { slot: 'support', character: karin },
+    ], { potentialLookup: potLookup });
+    const karinAa = karinBuffs.find((b) => b.potentialId === 515709);
+    assert.equal(karinAa?.stat, 'aaSkillIntensity');
+    assert.equal(karinAa?.value, 40);
+
+    // Guard 6: Laru #515043 ("hits a different target") uses Ult duration scaling (~0.3333) instead of 0.65; >15s Ult not 0.65
+    const laruBuild = makeEmptyBuild();
+    laruBuild.slots.vanguard = { characterId: laru.id, potentials: [{ id: 515043, rarity: 2, level: 6 }] };
+    const laruBuffs = extractPotentialPresetBuffs(laruBuild, [
+      { slot: 'vanguard', character: laru },
+      { slot: 'versatile', character: null },
+      { slot: 'support', character: null },
+    ], { potentialLookup: potLookup });
+    const thunderSurge = laruBuffs.find((b) => b.potentialId === 515043);
+    assert.ok(
+      (thunderSurge?.realisticUptime ?? 1) < 0.4,
+      `Expected Laru #515043 realisticUptime < 0.4, got ${thunderSurge?.realisticUptime}`
+    );
+    assert.equal(
+      estimatePotentialRealisticUptime('When Heroic (Ultimate) fires, increases ATK by 20% for 18s, up to 5 stacks.', 5, 18),
+      1
+    );
   });
 });

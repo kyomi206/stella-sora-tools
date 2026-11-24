@@ -1,13 +1,15 @@
 import type { ResolvedCommunityPreset } from '../community-presets.ts';
 import { getPotentialById } from '../potentials.ts';
 import type {
+  ElementType,
   SSCharacter,
   SSDisc,
   SSPotentialFull,
 } from '../../types/index.ts';
-import type { ScalingStat } from './damage-engine.ts';
+import { ELEMENTS, type ScalingStat } from './damage-engine.ts';
 import type {
   CharacterCombatEntry,
+  FighterInput,
   SlotKey,
   TeamBuffInput,
 } from './fighter-calc.ts';
@@ -16,6 +18,8 @@ import {
   extractEffectsFromText,
   extractPotentialExtraHitSpecs,
   extractPotentialPresetBuffs,
+  extractSkillKitPresetBuffs,
+  isPotentialSquadConditionBlocked,
   renderPotentialAtLevel,
   resolveTargetsForEffect,
   type PresetBuffRosterSlot,
@@ -23,6 +27,7 @@ import {
 import {
   detectScalingStat,
   hasGenericSecondaryStat,
+  type BaseSkillBuffInput,
   type DiscRankingContext,
   type DiscRankingRosterEntry,
   type SkillLevelSource,
@@ -86,6 +91,9 @@ function extractSkillLv3BuffPair(
     const effects = extractEffectsFromText(txt, 'own');
     const out: TeamBuffInput[] = [];
     for (const eff of effects) {
+      if (isPotentialSquadConditionBlocked(eff.clause, roster)) continue;
+      if (/Safety\s+Alert:\s*\d+%/i.test(eff.clause)) continue;
+      if (Math.abs(eff.value) > 500 && !eff.stacks) continue;
       const clauseWithContext = isUltimate ? `(Ultimate) ${eff.clause}` : eff.clause;
       const uptime = estimatePotentialRealisticUptime(
         clauseWithContext,
@@ -188,6 +196,41 @@ export function buildDiscRankingContext(
       ...(b.realisticUptime !== undefined ? { realisticUptime: b.realisticUptime } : {}),
     }));
 
+  const emptyEmblems = { '70': [], '80': [], '90': [] };
+  const tempFighters: FighterInput[] = roster.map((r) => {
+    const cid = preset.advData.slots[r.slot]?.characterId;
+    const fullCombat = cid ? allCombat[String(cid)] || null : null;
+    return {
+      state: {
+        slot: r.slot,
+        level: '90',
+        skillLevel: 10,
+        affinityLevel: 30,
+        talentTier: r.character?.star === 4 ? 5 : 0,
+        emblems: emptyEmblems,
+        rotation: [],
+      },
+      character: r.character,
+      combat: fullCombat,
+    };
+  });
+  const baseSkillBuffs: BaseSkillBuffInput[] = extractSkillKitPresetBuffs(
+    tempFighters,
+    presetRoster
+  )
+    .filter((b) => b.enabled)
+    .map((b) => {
+      const skillSource = b.id.split('-')[2] as SkillLevelSource | undefined;
+      return {
+        target: b.target,
+        stat: b.stat,
+        value: b.value,
+        ...(b.realisticUptime !== undefined ? { realisticUptime: b.realisticUptime } : {}),
+        ...(b.slot ? { slot: b.slot } : {}),
+        ...(skillSource ? { skillSource } : {}),
+      };
+    });
+
   const corePotentialBuffs: TeamBuffInput[] = [];
   const potentials: SlicedPotentialEntry[] = [];
   const skillLv3Ratios: Partial<Record<SlotKey, Partial<Record<SkillLevelSource, number>>>> = {};
@@ -257,140 +300,153 @@ export function buildDiscRankingContext(
       }
     }
 
-    if (!cid || !slotData?.potentials?.length) {
-      synthRoster.push({
-        slot: slotKey,
-        character: r.character,
-        combat: fullCombat,
-        potentials: slotPotsForSynth,
-      });
-      continue;
-    }
-    const charName = r.character?.name?.EN ?? `Slot ${slotKey}`;
-    const defaultScaling: ScalingStat = r.combat?.scalingStat ?? 'ATK';
+    if (cid && slotData?.potentials?.length) {
+      const charName = r.character?.name?.EN ?? `Slot ${slotKey}`;
+      const defaultScaling: ScalingStat = r.combat?.scalingStat ?? 'ATK';
 
-    const extractSinglePotAtLevel = (pot: SSPotentialFull, lvl: number): TeamBuffInput[] => {
-      const singleBuild = {
-        id: preset.id,
-        name: preset.title,
-        createdAt: 0,
-        ...preset.advData,
-        slots: {
-          vanguard: {
-            characterId: preset.advData.slots.vanguard?.characterId ?? null,
-            potentials: slotKey === 'vanguard' ? [{ id: pot.id, rarity: pot.rarityNum, level: lvl }] : [],
+      const extractSinglePotAtLevel = (pot: SSPotentialFull, lvl: number): TeamBuffInput[] => {
+        const singleBuild = {
+          id: preset.id,
+          name: preset.title,
+          createdAt: 0,
+          ...preset.advData,
+          slots: {
+            vanguard: {
+              characterId: preset.advData.slots.vanguard?.characterId ?? null,
+              potentials: slotKey === 'vanguard' ? [{ id: pot.id, rarity: pot.rarityNum, level: lvl }] : [],
+            },
+            versatile: {
+              characterId: preset.advData.slots.versatile?.characterId ?? null,
+              potentials: slotKey === 'versatile' ? [{ id: pot.id, rarity: pot.rarityNum, level: lvl }] : [],
+            },
+            support: {
+              characterId: preset.advData.slots.support?.characterId ?? null,
+              potentials: slotKey === 'support' ? [{ id: pot.id, rarity: pot.rarityNum, level: lvl }] : [],
+            },
           },
-          versatile: {
-            characterId: preset.advData.slots.versatile?.characterId ?? null,
-            potentials: slotKey === 'versatile' ? [{ id: pot.id, rarity: pot.rarityNum, level: lvl }] : [],
-          },
-          support: {
-            characterId: preset.advData.slots.support?.characterId ?? null,
-            potentials: slotKey === 'support' ? [{ id: pot.id, rarity: pot.rarityNum, level: lvl }] : [],
-          },
-        },
+        };
+        return extractPotentialPresetBuffs(singleBuild, presetRoster, {
+          levelOverrides: { [`${slotKey}:${pot.id}`]: lvl },
+          potentialLookup: potLookup,
+        })
+          .filter((b) => b.enabled)
+          .map((b) => ({
+            target: b.target,
+            stat: b.stat,
+            value: b.value,
+            ...(b.realisticUptime !== undefined ? { realisticUptime: b.realisticUptime } : {}),
+          }));
       };
-      return extractPotentialPresetBuffs(singleBuild, presetRoster, {
-        levelOverrides: { [`${slotKey}:${pot.id}`]: lvl },
-        potentialLookup: potLookup,
-      })
-        .filter((b) => b.enabled)
-        .map((b) => ({
-          target: b.target,
-          stat: b.stat,
-          value: b.value,
-          ...(b.realisticUptime !== undefined ? { realisticUptime: b.realisticUptime } : {}),
-        }));
-    };
 
-    for (const sel of slotData.potentials) {
-      const pot = potLookup(cid, sel.id);
-      if (!pot) continue;
-      slotPotsForSynth.push({ pot, level: Math.max(1, Math.round(Number(sel.level) || 6)) });
+      for (const sel of slotData.potentials) {
+        const pot = potLookup(cid, sel.id);
+        if (!pot) continue;
+        slotPotsForSynth.push({ pot, level: Math.max(1, Math.round(Number(sel.level) || 6)) });
 
-      if (pot.isCore) {
-        corePotentialBuffs.push(...extractSinglePotAtLevel(pot, 1));
-        continue;
+        if (pot.isCore) {
+          corePotentialBuffs.push(...extractSinglePotAtLevel(pot, 1));
+          continue;
+        }
+
+        const maxLevel = getPotentialTierCap(pot);
+        const presetLevel = Math.min(maxLevel, Math.max(1, Math.round(Number(sel.level) || 6)));
+        const presetPlus3 = Math.min(maxLevel, presetLevel + 3);
+        const lv6 = Math.min(maxLevel, 6);
+        const lv9 = Math.min(maxLevel, 9);
+
+        const buffsAtPreset = extractSinglePotAtLevel(pot, presetLevel);
+        const buffsAtPresetPlus3 =
+          presetPlus3 === presetLevel ? buffsAtPreset : extractSinglePotAtLevel(pot, presetPlus3);
+        const buffsAtLv6 = lv6 === presetLevel ? buffsAtPreset : extractSinglePotAtLevel(pot, lv6);
+        const buffsAtLv9 = lv9 === presetPlus3 ? buffsAtPresetPlus3 : extractSinglePotAtLevel(pot, lv9);
+
+        const extraHitsAtPreset = extractPotentialExtraHitSpecs(
+          renderPotentialAtLevel(pot.descTemplate, pot.params, presetLevel),
+          defaultScaling
+        );
+        const extraHitsAtPresetPlus3 =
+          presetPlus3 === presetLevel
+            ? extraHitsAtPreset
+            : extractPotentialExtraHitSpecs(
+                renderPotentialAtLevel(pot.descTemplate, pot.params, presetPlus3),
+                defaultScaling
+              );
+        const extraHitsAtLv6 =
+          lv6 === presetLevel
+            ? extraHitsAtPreset
+            : extractPotentialExtraHitSpecs(
+                renderPotentialAtLevel(pot.descTemplate, pot.params, lv6),
+                defaultScaling
+              );
+        const extraHitsAtLv9 =
+          lv9 === presetPlus3
+            ? extraHitsAtPresetPlus3
+            : extractPotentialExtraHitSpecs(
+                renderPotentialAtLevel(pot.descTemplate, pot.params, lv9),
+                defaultScaling
+              );
+
+        const hasBuffs =
+          buffsAtPreset.length > 0 ||
+          buffsAtPresetPlus3.length > 0 ||
+          buffsAtLv6.length > 0 ||
+          buffsAtLv9.length > 0;
+        const hasExtraHits =
+          extraHitsAtPreset.length > 0 ||
+          extraHitsAtPresetPlus3.length > 0 ||
+          extraHitsAtLv6.length > 0 ||
+          extraHitsAtLv9.length > 0;
+
+        const kind: SlicedPotentialEntry['kind'] =
+          hasBuffs && hasExtraHits
+            ? 'hybrid'
+            : hasBuffs
+              ? 'stat'
+              : hasExtraHits
+                ? 'proc'
+                : 'mechanic';
+
+        potentials.push({
+          potentialId: pot.id,
+          slot: slotKey,
+          characterId: cid,
+          characterName: charName,
+          name: pot.name,
+          rarity: pot.rarity,
+          presetLevel,
+          maxLevel,
+          kind,
+          buffsAtPreset,
+          buffsAtPresetPlus3,
+          buffsAtLv6,
+          buffsAtLv9,
+          extraHitsAtPreset,
+          extraHitsAtPresetPlus3,
+          extraHitsAtLv6,
+          extraHitsAtLv9,
+        });
       }
-
-      const maxLevel = getPotentialTierCap(pot);
-      const presetLevel = Math.min(maxLevel, Math.max(1, Math.round(Number(sel.level) || 6)));
-      const presetPlus3 = Math.min(maxLevel, presetLevel + 3);
-      const lv6 = Math.min(maxLevel, 6);
-      const lv9 = Math.min(maxLevel, 9);
-
-      const buffsAtPreset = extractSinglePotAtLevel(pot, presetLevel);
-      const buffsAtPresetPlus3 =
-        presetPlus3 === presetLevel ? buffsAtPreset : extractSinglePotAtLevel(pot, presetPlus3);
-      const buffsAtLv6 = lv6 === presetLevel ? buffsAtPreset : extractSinglePotAtLevel(pot, lv6);
-      const buffsAtLv9 = lv9 === presetPlus3 ? buffsAtPresetPlus3 : extractSinglePotAtLevel(pot, lv9);
-
-      const extraHitsAtPreset = extractPotentialExtraHitSpecs(
-        renderPotentialAtLevel(pot.descTemplate, pot.params, presetLevel),
-        defaultScaling
-      );
-      const extraHitsAtPresetPlus3 =
-        presetPlus3 === presetLevel
-          ? extraHitsAtPreset
-          : extractPotentialExtraHitSpecs(
-              renderPotentialAtLevel(pot.descTemplate, pot.params, presetPlus3),
-              defaultScaling
-            );
-      const extraHitsAtLv6 =
-        lv6 === presetLevel
-          ? extraHitsAtPreset
-          : extractPotentialExtraHitSpecs(
-              renderPotentialAtLevel(pot.descTemplate, pot.params, lv6),
-              defaultScaling
-            );
-      const extraHitsAtLv9 =
-        lv9 === presetPlus3
-          ? extraHitsAtPresetPlus3
-          : extractPotentialExtraHitSpecs(
-              renderPotentialAtLevel(pot.descTemplate, pot.params, lv9),
-              defaultScaling
-            );
-
-      const hasBuffs =
-        buffsAtPreset.length > 0 ||
-        buffsAtPresetPlus3.length > 0 ||
-        buffsAtLv6.length > 0 ||
-        buffsAtLv9.length > 0;
-      const hasExtraHits =
-        extraHitsAtPreset.length > 0 ||
-        extraHitsAtPresetPlus3.length > 0 ||
-        extraHitsAtLv6.length > 0 ||
-        extraHitsAtLv9.length > 0;
-
-      const kind: SlicedPotentialEntry['kind'] =
-        hasBuffs && hasExtraHits
-          ? 'hybrid'
-          : hasBuffs
-            ? 'stat'
-            : hasExtraHits
-              ? 'proc'
-              : 'mechanic';
-
-      potentials.push({
-        potentialId: pot.id,
-        slot: slotKey,
-        characterId: cid,
-        characterName: charName,
-        name: pot.name,
-        rarity: pot.rarity,
-        presetLevel,
-        maxLevel,
-        kind,
-        buffsAtPreset,
-        buffsAtPresetPlus3,
-        buffsAtLv6,
-        buffsAtLv9,
-        extraHitsAtPreset,
-        extraHitsAtPresetPlus3,
-        extraHitsAtLv6,
-        extraHitsAtLv9,
-      });
     }
+
+    if (r.combat && fullCombat) {
+      const activeDescs = [
+        ...(slotKey === 'vanguard'
+          ? [fullCombat.normalAtk?.desc, fullCombat.skill?.desc, fullCombat.ultimate?.desc]
+          : [fullCombat.supportSkill?.desc, fullCombat.ultimate?.desc]),
+        ...slotPotsForSynth.map((x) => x.pot.descTemplate),
+      ].filter((d): d is string => Boolean(d));
+      const triggers: ElementType[] = [];
+      const inflicts: ElementType[] = [];
+      for (const el of ELEMENTS) {
+        const trigRe = new RegExp(`\\btrigger(?:s|ing)?\\s+(?:##)?${el}\\s*Mark\\b`, 'i');
+        const inflictRe = new RegExp(`\\binflict(?:s|ing)?\\s+(?:a\\s+)?(?:##)?${el}\\s*Mark\\b`, 'i');
+        if (activeDescs.some((d) => trigRe.test(d))) triggers.push(el);
+        if (activeDescs.some((d) => inflictRe.test(d))) inflicts.push(el);
+      }
+      if (triggers.length > 0) r.combat.triggersMarkElements = triggers;
+      if (inflicts.length > 0) r.combat.inflictsMarkElements = inflicts;
+    }
+
     synthRoster.push({
       slot: slotKey,
       character: r.character,
@@ -435,6 +491,7 @@ export function buildDiscRankingContext(
     roster,
     basePotentialBuffs,
     corePotentialBuffs,
+    ...(baseSkillBuffs.length > 0 ? { baseSkillBuffs } : {}),
     potentials,
     skillLv3Ratios,
     ...(Object.keys(skillLv3BuffPairs).length > 0 ? { skillLv3BuffPairs } : {}),

@@ -8,7 +8,6 @@ import {
   Bookmark,
   ChevronDown,
   Copy,
-  ExternalLink,
   Layers,
   RotateCcw,
   Search,
@@ -17,8 +16,13 @@ import {
   X,
 } from 'lucide-react';
 import { CommunityPresetCard } from '@/components/builder/community-preset-card';
+import type { BuildMetricValues } from '@/components/builds/build-metrics-bar';
 import { hasActiveRotationEntries } from '@/lib/calculator/build-rotation';
-import type { ResolvedCommunityPreset } from '@/lib/community-presets';
+import {
+  COMMUNITY_MODE_LABELS,
+  type CommunityPresetMode,
+  type ResolvedCommunityPreset,
+} from '@/lib/community-presets';
 import { unpackAdvancedPresetCode } from '@/lib/preset-code';
 import {
   deleteSavedPreset,
@@ -30,6 +34,23 @@ import {
 import { cn } from '@/lib/utils';
 import { getTrekkerImageUrl } from '@/lib/wikitide';
 import type { ElementType, SSCharacter, SSDisc } from '@/types';
+
+type SourceFilter = 'all' | 'verified' | 'community';
+type ModeFilter = 'all' | 'general' | 'boss-blitz' | 'cataclysm';
+type SortOption = 'featured' | 'upvoted' | 'viewed' | 'newest';
+
+const SOURCE_FILTERS: ReadonlyArray<{ value: SourceFilter; label: string }> = [
+  { value: 'all', label: 'All' },
+  { value: 'verified', label: 'Verified' },
+  { value: 'community', label: 'Community' },
+];
+
+const MODE_FILTERS: ReadonlyArray<{ value: ModeFilter; label: string }> = [
+  { value: 'all', label: 'All Modes' },
+  { value: 'general', label: COMMUNITY_MODE_LABELS.general },
+  { value: 'boss-blitz', label: COMMUNITY_MODE_LABELS['boss-blitz'] },
+  { value: 'cataclysm', label: COMMUNITY_MODE_LABELS.cataclysm },
+];
 
 const ELEMENT_FILTERS: ReadonlyArray<'all' | ElementType> = [
   'all',
@@ -112,6 +133,20 @@ export function BuildsClient({
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [elementFilter, setElementFilter] = useState<'all' | ElementType>('all');
+  const [sourceFilter, setSourceFilter] = useState<SourceFilter>('all');
+  const [modeFilter, setModeFilter] = useState<ModeFilter>('all');
+  const [sortBy, setSortBy] = useState<SortOption>('featured');
+  const [liveMetrics, setLiveMetrics] = useState<Record<string, BuildMetricValues>>(() => {
+    const initial: Record<string, BuildMetricValues> = {};
+    for (const p of presets) {
+      initial[p.id] = {
+        views: p.viewsCount ?? 0,
+        upvotes: p.upvotesCount ?? 0,
+        voted: false,
+      };
+    }
+    return initial;
+  });
   const [trekkerFilter, setTrekkerFilter] = useState<number | null>(null);
   const [trekkerPickerOpen, setTrekkerPickerOpen] = useState(false);
   const [trekkerSearch, setTrekkerSearch] = useState('');
@@ -119,6 +154,39 @@ export function BuildsClient({
   useEffect(() => {
     setSavedRecords(loadSavedPresetsFromStorage());
   }, [activeHubTab]);
+
+  useEffect(() => {
+    if (presets.length === 0) return;
+    let cancelled = false;
+    const ids = presets.map((p) => p.id);
+    const chunks: string[][] = [];
+    for (let i = 0; i < ids.length; i += 100) {
+      chunks.push(ids.slice(i, i + 100));
+    }
+
+    Promise.all(
+      chunks.map((chunk) =>
+        fetch(`/api/builds/metrics?ids=${encodeURIComponent(chunk.join(','))}`)
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null)
+      )
+    ).then((responses) => {
+      if (cancelled) return;
+      const merged: Record<string, BuildMetricValues> = {};
+      for (const res of responses) {
+        if (res && res.metrics && typeof res.metrics === 'object') {
+          Object.assign(merged, res.metrics);
+        }
+      }
+      if (Object.keys(merged).length > 0) {
+        setLiveMetrics((prev) => ({ ...prev, ...merged }));
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [presets]);
 
   const setHubTab = (tab: 'public' | 'saved') => {
     setActiveHubTab(tab);
@@ -190,14 +258,24 @@ export function BuildsClient({
   }, [trekkerPickerOpen]);
 
   const hasActiveFilters =
-    search.trim().length > 0 || elementFilter !== 'all' || trekkerFilter !== null;
+    search.trim().length > 0 ||
+    elementFilter !== 'all' ||
+    sourceFilter !== 'all' ||
+    modeFilter !== 'all' ||
+    trekkerFilter !== null;
 
   const resetFilters = () => {
     setSearch('');
     setElementFilter('all');
+    setSourceFilter('all');
+    setModeFilter('all');
     setTrekkerFilter(null);
     setTrekkerSearch('');
     setTrekkerPickerOpen(false);
+  };
+
+  const handleMetricChange = (id: string, next: BuildMetricValues) => {
+    setLiveMetrics((prev) => ({ ...prev, [id]: next }));
   };
 
   // Unique Trekkers present across presets, sorted by name
@@ -224,14 +302,23 @@ export function BuildsClient({
     );
   }, [availableTrekkers, trekkerSearch]);
 
-  // Pre-element filtered list so element pills show live counts for current search + Trekker
+  // Pre-element filtered list so element pills show live counts for current search + Trekker + Mode
   const presetsMatchingSearchAndTrekker = useMemo(() => {
     const q = search.trim().toLowerCase();
     return presets.filter((preset) => {
+      if (sourceFilter === 'verified') {
+        const verified = preset.isVerified ?? preset.origin !== 'community';
+        if (!verified) return false;
+      } else if (sourceFilter === 'community') {
+        if (preset.origin !== 'community') return false;
+      }
+      if (modeFilter !== 'all' && !preset.modes.includes(modeFilter as CommunityPresetMode)) {
+        return false;
+      }
       if (trekkerFilter !== null && !preset.characterIds.includes(trekkerFilter)) return false;
       return matchesSearchQuery(preset, q, characters, discs);
     });
-  }, [presets, search, trekkerFilter, characters, discs]);
+  }, [presets, search, sourceFilter, modeFilter, trekkerFilter, characters, discs]);
 
   const elementCounts = useMemo(() => {
     const counts: Record<string, number> = { all: presetsMatchingSearchAndTrekker.length };
@@ -242,66 +329,103 @@ export function BuildsClient({
   }, [presetsMatchingSearchAndTrekker]);
 
   const filteredPresets = useMemo(() => {
-    if (elementFilter === 'all') return presetsMatchingSearchAndTrekker;
-    return presetsMatchingSearchAndTrekker.filter((preset) => preset.element === elementFilter);
-  }, [presetsMatchingSearchAndTrekker, elementFilter]);
+    const base =
+      elementFilter === 'all'
+        ? [...presetsMatchingSearchAndTrekker]
+        : presetsMatchingSearchAndTrekker.filter((preset) => preset.element === elementFilter);
+
+    const getMetric = (p: ResolvedCommunityPreset) =>
+      liveMetrics[p.id] ?? {
+        views: p.viewsCount ?? 0,
+        upvotes: p.upvotesCount ?? 0,
+        voted: false,
+      };
+
+    if (sortBy === 'upvoted') {
+      base.sort((a, b) => {
+        const ma = getMetric(a);
+        const mb = getMetric(b);
+        return mb.upvotes - ma.upvotes || mb.views - ma.views;
+      });
+    } else if (sortBy === 'viewed') {
+      base.sort((a, b) => {
+        const ma = getMetric(a);
+        const mb = getMetric(b);
+        return mb.views - ma.views || mb.upvotes - ma.upvotes;
+      });
+    } else if (sortBy === 'newest') {
+      base.sort((a, b) =>
+        (b.createdAt || b.verifiedAt || '').localeCompare(a.createdAt || a.verifiedAt || '')
+      );
+    } else {
+      base.sort((a, b) => {
+        const va = a.isVerified ?? a.origin !== 'community' ? 1 : 0;
+        const vb = b.isVerified ?? b.origin !== 'community' ? 1 : 0;
+        if (vb !== va) return vb - va;
+        const ma = getMetric(a);
+        const mb = getMetric(b);
+        return mb.upvotes - ma.upvotes || mb.views - ma.views;
+      });
+    }
+    return base;
+  }, [presetsMatchingSearchAndTrekker, elementFilter, sortBy, liveMetrics]);
 
   const selectedTrekker = trekkerFilter !== null ? characters[String(trekkerFilter)] || null : null;
 
   return (
-    <div className="max-w-6xl mx-auto px-3 sm:px-6 py-4 sm:py-5 space-y-4">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-5 space-y-4">
       <Suspense fallback={null}>
         <BuildsQuerySync onTabSync={setActiveHubTab} />
       </Suspense>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          Community Builds
-        </h1>
-      </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Community Builds
+          </h1>
 
-      {/* Public Builds vs My Saved Hub Switcher */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div
-          role="tablist"
-          aria-label="Builds hub sections"
-          className="inline-flex items-center p-1 rounded-xl border border-border bg-surface-subtle"
-        >
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeHubTab === 'public'}
-            onClick={() => setHubTab('public')}
-            className={cn(
-              'px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
-              activeHubTab === 'public'
-                ? 'bg-surface-card text-slate-900 dark:text-white'
-                : 'text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white'
-            )}
+          {/* Public Builds vs My Saved Hub Switcher */}
+          <div
+            role="tablist"
+            aria-label="Builds hub sections"
+            className="inline-flex items-center p-1 rounded-xl border border-border bg-surface-subtle"
           >
-            Public Builds ({presets.length})
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeHubTab === 'saved'}
-            onClick={() => setHubTab('saved')}
-            className={cn(
-              'px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
-              activeHubTab === 'saved'
-                ? 'bg-surface-card text-slate-900 dark:text-white'
-                : 'text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white'
-            )}
-          >
-            My Saved ({savedRecords.length})
-          </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeHubTab === 'public'}
+              onClick={() => setHubTab('public')}
+              className={cn(
+                'px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
+                activeHubTab === 'public'
+                  ? 'bg-surface-card text-slate-900 dark:text-white'
+                  : 'text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              Public ({presets.length})
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeHubTab === 'saved'}
+              onClick={() => setHubTab('saved')}
+              className={cn(
+                'px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
+                activeHubTab === 'saved'
+                  ? 'bg-surface-card text-slate-900 dark:text-white'
+                  : 'text-slate-600 dark:text-white/75 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              My Saved ({savedRecords.length})
+            </button>
+          </div>
         </div>
 
         <Link
           href="/builder/advanced"
-          className="inline-flex items-center px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+          className="inline-flex items-center px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-600 text-xs font-bold text-slate-950 transition-colors press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
         >
-          New Build in Builder
+          New Build
         </Link>
       </div>
 
@@ -400,8 +524,8 @@ export function BuildsClient({
                         className={cn(
                           'shrink-0 px-2 py-0.5 rounded-full border text-xs font-semibold',
                           hasCustomRotation
-                            ? 'border-amber-500/40 bg-amber-500/15 text-amber-800 dark:text-amber-300'
-                            : 'border-teal-500/35 bg-teal-500/10 text-teal-800 dark:text-teal-300'
+                            ? 'border-amber-500/40 bg-amber-500/15 text-amber-700'
+                            : 'border-teal-500/35 bg-teal-500/10 text-teal-700'
                         )}
                       >
                         {hasCustomRotation ? 'Custom Rotation' : 'Auto-Estimated'}
@@ -464,7 +588,7 @@ export function BuildsClient({
                           <button
                             type="button"
                             onClick={() => handleDeleteSaved(record.id)}
-                            className="h-7 px-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-bold cursor-pointer"
+                            className="h-7 px-2 rounded-lg bg-[#be123c] hover:bg-[#e11d48] text-white text-[11px] font-bold cursor-pointer"
                           >
                             Delete
                           </button>
@@ -651,6 +775,42 @@ export function BuildsClient({
             )}
           </div>
 
+          {/* Mode Filter */}
+          <select
+            id="builds-mode-select"
+            aria-label="Filter by game mode"
+            value={modeFilter}
+            onChange={(e) => setModeFilter(e.target.value as ModeFilter)}
+            className="rounded-lg border border-border bg-surface-card px-2.5 py-1.5 text-xs font-semibold text-slate-800 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer"
+          >
+            {MODE_FILTERS.map((mf) => (
+              <option key={mf.value} value={mf.value}>
+                {mf.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Sort Selector */}
+          <div className="flex items-center gap-1.5">
+            <label
+              htmlFor="builds-sort-select"
+              className="sr-only sm:not-sr-only text-xs font-semibold text-slate-600 dark:text-slate-400"
+            >
+              Sort
+            </label>
+            <select
+              id="builds-sort-select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="rounded-lg border border-border bg-surface-card px-2.5 py-1.5 text-xs font-semibold text-slate-800 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer"
+            >
+              <option value="featured">Featured</option>
+              <option value="upvoted">Most Upvoted</option>
+              <option value="viewed">Most Viewed</option>
+              <option value="newest">Newest</option>
+            </select>
+          </div>
+
           {hasActiveFilters && (
             <button
               type="button"
@@ -662,74 +822,95 @@ export function BuildsClient({
             </button>
           )}
 
-          {/* Count + Subtle Submit Link */}
-          <div className="flex items-center gap-2 ml-auto shrink-0">
-            <span
-              data-testid="builds-count-badge"
-              className="px-2 py-0.5 rounded-md border border-border bg-surface-elevated text-xs tabular-nums font-bold text-slate-700 dark:text-white/85"
-            >
-              {hasActiveFilters
-                ? `${filteredPresets.length} / ${presets.length}`
-                : `${presets.length} builds`}
-            </span>
-
-            <a
-              href="https://github.com/kyomi206/stella-sora-tools/issues/new?template=community-build.yml"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border bg-surface-card hover:bg-surface-hover text-xs font-semibold text-sky-700 dark:text-sky-400 transition-colors press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-            >
-              <span>Submit Build</span>
-              <ExternalLink className="size-3" aria-hidden="true" />
-            </a>
-          </div>
+          {/* Build Count */}
+          <span
+            data-testid="builds-count-badge"
+            className="ml-auto shrink-0 px-2.5 py-1 rounded-md border border-border-subtle bg-surface-subtle text-xs tabular-nums font-semibold text-slate-600 dark:text-slate-400"
+          >
+            {hasActiveFilters
+              ? `${filteredPresets.length} / ${presets.length}`
+              : `${presets.length} ${presets.length === 1 ? 'build' : 'builds'}`}
+          </span>
         </div>
 
-        {/* Element Pills with Live Counts */}
-        <div
-          className="flex flex-wrap items-center gap-1.5"
-          role="group"
-          aria-label="Filter by element"
-        >
-          {ELEMENT_FILTERS.map((el) => {
-            const count = elementCounts[el] || 0;
-            const active = elementFilter === el;
-            return (
-              <button
-                key={el}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setElementFilter(el)}
-                className={cn(
-                  'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-semibold transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
-                  active
-                    ? 'bg-amber-500 border-amber-600 text-slate-950 font-bold'
-                    : count === 0
-                      ? 'bg-surface-subtle border-border-subtle text-slate-500 dark:text-white/40 hover:bg-surface-hover'
-                      : 'bg-surface-card border-border text-slate-700 dark:text-white/85 hover:bg-surface-hover'
-                )}
-              >
-                {el !== 'all' && (
-                  <img
-                    src={`/ss-element/${el}.webp`}
-                    alt=""
-                    width={14}
-                    height={14}
-                    className="size-3.5 object-contain"
-                  />
-                )}
-                <span>{el === 'all' ? 'All' : el}</span>
-                <span
+        {/* Row 2: Source Pills + Element Pills (horizontally scrollable on mobile so cards stay above the fold) */}
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-thin pb-0.5 -mx-1 px-1 sm:mx-0 sm:px-0 sm:pb-0 sm:flex-wrap">
+          <div
+            className="inline-flex items-center gap-1 shrink-0"
+            role="group"
+            aria-label="Filter by build source"
+          >
+            {SOURCE_FILTERS.map((sf) => {
+              const active = sourceFilter === sf.value;
+              return (
+                <button
+                  key={sf.value}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setSourceFilter(sf.value)}
                   className={cn(
-                    'text-[11px] tabular-nums',
-                    active ? 'text-slate-950/80' : 'text-slate-500 dark:text-white/55'
+                    'px-2.5 py-1 rounded-lg border text-xs whitespace-nowrap transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
+                    active
+                      ? 'border-teal-500/60 bg-teal-500/15 text-teal-700 font-bold'
+                      : 'bg-surface-card border-border text-slate-700 dark:text-white/85 font-semibold hover:bg-surface-hover'
                   )}
                 >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+                  {sf.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <span
+            aria-hidden="true"
+            className="h-4 w-px bg-border shrink-0"
+          />
+
+          <div
+            className="inline-flex sm:flex sm:flex-wrap items-center gap-1.5 shrink-0"
+            role="group"
+            aria-label="Filter by element"
+          >
+            {ELEMENT_FILTERS.map((el) => {
+              const count = elementCounts[el] || 0;
+              const active = elementFilter === el;
+              return (
+                <button
+                  key={el}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setElementFilter(el)}
+                  className={cn(
+                    'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs whitespace-nowrap transition-colors cursor-pointer press-feedback focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
+                    active
+                      ? 'border-teal-500/60 bg-teal-500/15 text-teal-700 font-bold'
+                      : count === 0
+                        ? 'bg-surface-subtle border-border-subtle text-slate-500 dark:text-white/45 font-medium hover:bg-surface-hover'
+                        : 'bg-surface-card border-border text-slate-700 dark:text-white/85 font-semibold hover:bg-surface-hover'
+                  )}
+                >
+                  {el !== 'all' && (
+                    <img
+                      src={`/ss-element/${el}.webp`}
+                      alt=""
+                      width={14}
+                      height={14}
+                      className="size-3.5 object-contain shrink-0"
+                    />
+                  )}
+                  <span>{el === 'all' ? 'All Elements' : el}</span>
+                  <span
+                    className={cn(
+                      'text-[11px] tabular-nums',
+                      active ? 'text-teal-700/80' : 'text-slate-500 dark:text-white/55'
+                    )}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -760,6 +941,8 @@ export function BuildsClient({
               characters={characters}
               discs={discs}
               hasAnalytics={analyticsSet.has(preset.id)}
+              metrics={liveMetrics[preset.id]}
+              onMetricChange={handleMetricChange}
             />
           ))}
         </div>

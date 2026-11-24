@@ -28,6 +28,7 @@ import { DiscsAndNotesSection } from '@/components/builder/discs-and-notes-secti
 import { AdvancedBuildCardExport } from '@/components/builder/advanced-build-card-export';
 import { PresetCodeBar } from '@/components/builder/preset-code-bar';
 import { SavedPresetsControl, useDebouncedDraftSave } from '@/components/builder/saved-presets-drawer';
+import { PublishBuildModal } from '@/components/builder/publish-build-modal';
 import {
   compressBuild,
   compressAdvancedBuild,
@@ -44,7 +45,7 @@ import {
   MAX_PRESET_NAME_LENGTH,
 } from '@/lib/saved-presets';
 import { getResolvedCommunityPresetById } from '@/lib/community-presets';
-import { RotateCcw, ArrowLeft, Layers } from 'lucide-react';
+import { RotateCcw, ArrowLeft, Layers, Globe } from 'lucide-react';
 
 interface SavedAdvancedDraftSnapshot {
   id: string;
@@ -196,6 +197,7 @@ export function AdvancedBuilderClient() {
   const [draggedSlot, setDraggedSlot] = useState<SlotType | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<SlotType | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [publishModalOpen, setPublishModalOpen] = useState(false);
   const [isDraftReady, setIsDraftReady] = useState(false);
   const [restorableDraft, setRestorableDraft] = useState<SavedAdvancedDraftSnapshot | null>(null);
 
@@ -349,6 +351,11 @@ export function AdvancedBuilderClient() {
     return encoded ? `/builder?b=${encoded}` : '/builder';
   })();
 
+  const hasAnyTrekker = Boolean(
+    build.slots.vanguard.characterId ||
+      build.slots.versatile.characterId ||
+      build.slots.support.characterId
+  );
   const damageHref = `/damage?b=${compressAdvancedBuild(build)}`;
 
   return (
@@ -416,6 +423,21 @@ export function AdvancedBuilderClient() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <button
+            type="button"
+            disabled={!hasAnyTrekker}
+            onClick={() => setPublishModalOpen(true)}
+            title={
+              hasAnyTrekker
+                ? 'Publish this squad to Community Builds'
+                : 'Add at least 1 Trekker to publish'
+            }
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-45 disabled:cursor-not-allowed disabled:hover:bg-amber-500 border border-amber-600 text-xs font-bold text-slate-950 transition-colors shrink-0 cursor-pointer press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+          >
+            <Globe className="size-3.5" aria-hidden="true" />
+            <span>Publish</span>
+          </button>
+
           <SavedPresetsControl
             mode="advanced"
             buildId={build.id}
@@ -622,6 +644,14 @@ export function AdvancedBuilderClient() {
           onSwapSlots={handleSwapSlots}
         />
       )}
+
+      <PublishBuildModal
+        isOpen={publishModalOpen}
+        onClose={() => setPublishModalOpen(false)}
+        build={build}
+        characters={characters}
+        discs={discs}
+      />
 
       {activeDiscSlot && (
         <DiscPickerModal

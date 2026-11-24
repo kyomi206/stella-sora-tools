@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import characterCombatData from '@/data/character-combat.json';
@@ -8,10 +9,8 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { buildDiscRankingContext } from '@/lib/calculator/disc-rankings';
 import type { CharacterCombatEntry } from '@/lib/calculator/fighter-calc';
 import { getCommunityBuildAnalytics } from '@/lib/community-analytics';
-import {
-  getResolvedCommunityPresetById,
-  getResolvedCommunityPresets,
-} from '@/lib/community-presets';
+import { getCachedCommunityBuildById } from '@/lib/community-builds/store';
+import { getResolvedCommunityPresets } from '@/lib/community-presets';
 import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo';
 import type { SSCharacter, SSDisc, SSPotentialFull } from '@/types';
 import { BuildDetailClient, type SlicedPotentialMeta } from './build-detail-client';
@@ -30,7 +29,7 @@ interface BuildPageProps {
 
 export async function generateMetadata({ params }: BuildPageProps): Promise<Metadata> {
   const { id } = await params;
-  const preset = getResolvedCommunityPresetById(id);
+  const preset = await getCachedCommunityBuildById(id);
 
   if (!preset) {
     return buildPageMetadata({
@@ -43,21 +42,55 @@ export async function generateMetadata({ params }: BuildPageProps): Promise<Meta
 
   return buildPageMetadata({
     title: preset.title,
-    description: `${preset.element} ${preset.archetype} build guide in Stella Sora. ${preset.summary}`,
+    description: preset.summary
+      ? `${preset.element} build guide in Stella Sora. ${preset.summary}`
+      : `${preset.element} squad build guide in Stella Sora.`,
     path: `/builds/${preset.id}`,
     type: 'article',
     keywords: [
       preset.title,
       `Stella Sora ${preset.element} team`,
-      `Stella Sora ${preset.archetype} build`,
       'Stella Sora build guide',
     ],
   });
 }
 
-export default async function BuildDetailPage({ params }: BuildPageProps) {
+function BuildDetailSkeleton() {
+  return (
+    <div
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <div className="h-4 w-32 rounded bg-surface-subtle border border-border-subtle" />
+      <div className="game-card celestial-card p-4 sm:p-5 space-y-3.5">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
+          <div className="space-y-2 min-w-0">
+            <div className="h-4 w-36 rounded bg-surface-subtle" />
+            <div className="h-7 w-72 max-w-full rounded bg-surface-subtle" />
+          </div>
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <div className="h-8 w-28 rounded-lg bg-surface-subtle border border-border-subtle" />
+            <div className="h-8 w-16 rounded-lg bg-surface-subtle border border-border-subtle" />
+            <div className="h-8 w-36 rounded-lg bg-surface-subtle border border-border-subtle" />
+          </div>
+        </div>
+        <div className="pt-3 border-t border-border-subtle flex items-center justify-between">
+          <div className="h-5 w-48 rounded bg-surface-subtle" />
+          <div className="h-7 w-14 rounded-md bg-surface-subtle" />
+        </div>
+      </div>
+      <div className="game-card celestial-card p-4 sm:p-5 space-y-4">
+        <div className="h-5 w-40 rounded bg-surface-subtle" />
+        <div className="h-36 w-full rounded-lg bg-surface-subtle" />
+      </div>
+    </div>
+  );
+}
+
+async function BuildDetailContent({ params }: BuildPageProps) {
   const { id } = await params;
-  const preset = getResolvedCommunityPresetById(id);
+  const preset = await getCachedCommunityBuildById(id);
 
   if (!preset) {
     notFound();
@@ -140,5 +173,13 @@ export default async function BuildDetailPage({ params }: BuildPageProps) {
         discRankingContext={discRankingContext}
       />
     </>
+  );
+}
+
+export default function BuildDetailPage({ params }: BuildPageProps) {
+  return (
+    <Suspense fallback={<BuildDetailSkeleton />}>
+      <BuildDetailContent params={params} />
+    </Suspense>
   );
 }

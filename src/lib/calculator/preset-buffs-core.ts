@@ -179,7 +179,11 @@ function detectTargetHint(
   if (isEnemyTaken) return 'enemy';
 
   const checkText = subj;
-  if (/\b(?:squad|squadmates|teammates|all\s+(?:other\s+)?friendly\s+units|friendly\s+units)\b/i.test(checkText)) {
+  if (
+    /\b(?:squad|squadmates|teammates|all\s+(?:other\s+)?friendly\s+units|friendly\s+units|a\s+random\s+ally|an\s+ally|allies)\b/i.test(
+      checkText
+    )
+  ) {
     return 'squad';
   }
   if (/\bVersatile\s+(?:[A-Za-z]+\s+)?Trekkers?\b/i.test(checkText)) {
@@ -212,7 +216,7 @@ function detectTargetHint(
   if (/\b(?:squad|squadmates|teammates|friendly\s+units)\b/i.test(clause)) {
     // Only if not preceded by "When any ... in the squad" alone
     const afterIncreases = clause.replace(/^.*?\b(?:increas(?:es?|ing)|boost(?:s|ing)?|deals?)\b/i, '');
-    if (/\b(?:squad|squadmates|teammates|friendly\s+units)\b/i.test(afterIncreases)) return 'squad';
+    if (/\b(?:squad|squadmates|teammates|friendly\s+units|a\s+random\s+ally|an\s+ally|allies)\b/i.test(afterIncreases)) return 'squad';
   }
 
   return defaultTarget;
@@ -223,7 +227,11 @@ interface StatMatch {
   elementScope?: ElementType;
 }
 
-function parseStatPhrase(phrase: string, isEnemyTaken: boolean): StatMatch[] {
+function parseStatPhrase(
+  phrase: string,
+  isEnemyTaken: boolean,
+  scopeContext = ''
+): StatMatch[] {
   const stats: StatMatch[] = [];
   // Ignore trailing "when ..." condition inside subject (e.g. "ATK when a Bouncing Bomb deals DMG")
   const cleanPhrase = phrase.replace(/\bwhen\s+[^,.;]+$/i, '').trim() || phrase;
@@ -284,7 +292,25 @@ function parseStatPhrase(phrase: string, isEnemyTaken: boolean): StatMatch[] {
     return stats;
   }
   if (/\bDMG\s+Multiplier\b/i.test(cleanPhrase)) {
-    stats.push({ stat: 'skillIntensity' });
+    if (/\(Ultimate[^)]*\)|\bUltimate(?:\s+Phase\s+\d+)?'?s?\b/i.test(cleanPhrase)) {
+      stats.push({ stat: 'ultSkillIntensity' });
+    } else if (/\((?:Main|Support)\s+Skill\)|\b(?:Main|Support|next)\s+Skill\b/i.test(cleanPhrase)) {
+      stats.push({ stat: 'skillSkillIntensity' });
+    } else if (/\(Auto\s*Attack\)|\bAuto\s*Attacks?(?:'s)?\b/i.test(cleanPhrase)) {
+      stats.push({ stat: 'aaSkillIntensity' });
+    } else if (/\b(?:its|their)\s+DMG\s+multiplier\b|^DMG\s+multiplier\b/i.test(cleanPhrase)) {
+      if (/\(Ultimate[^)]*\)/i.test(scopeContext)) {
+        stats.push({ stat: 'ultSkillIntensity' });
+      } else if (/\(Auto\s*Attack\)/i.test(scopeContext)) {
+        stats.push({ stat: 'aaSkillIntensity' });
+      } else if (/\((?:Main|Support)\s+Skill\)/i.test(scopeContext)) {
+        stats.push({ stat: 'skillSkillIntensity' });
+      } else {
+        stats.push({ stat: 'skillIntensity' });
+      }
+    } else {
+      stats.push({ stat: 'skillIntensity' });
+    }
     return stats;
   }
 
@@ -408,17 +434,34 @@ function parseClauseStats(
   }
 
   if (/\b(?:reduces?|decreases?)\s+(?:the\s+)?DMG\s+taken\s+by\b/i.test(clause)) return out;
-  if (!/\b(?:increas|boost|more\s+\w+|DMG\s*\+|ATK\s*\+|gains?\s+[+-]?\d)/i.test(clause)) return out;
+  if (
+    !/\b(?:increas|boost|more\s+\w+|DMG\s*\+|ATK\s*\+|gains?\s+[+-]?\d|reduces?\s+[^.;]*?\bCrit\s+Rate)/i.test(
+      clause
+    )
+  ) {
+    return out;
+  }
 
   let stacks = 1;
   const localStack =
     clause.match(/(?:stacking\s+up\s+to|up\s+to)\s+(\d+)\s+(?:times|stacks)/i) ??
+    clause.match(/(?:max\s+stack\s+limit\s+of\s+[^,.;]+?\s+is\s+)?increased\s+to\s+(\d+)\s+stacks/i) ??
     clause.match(/\bgains?\s+(\d+)\s+stacks?\s+of\b[\s\S]{0,40}?\beach\s+increas(?:es?|ing)\b/i);
   if (localStack) {
     stacks = Number(localStack[1]);
+  } else if (/\bEach\s+Mindflare\s+Butterfly\b/i.test(clause) && !/\bchance\s+to\b/i.test(clause)) {
+    stacks = 4;
   } else if (/\beach\s+stack\b|\bevery\s+stack\b|\bper\s+stack\b|\beach\s+tier\b/i.test(clause) && rememberedStackCap) {
     stacks = rememberedStackCap;
   }
+  const clauseStacks = stacks;
+
+  const chanceMatch = clause.match(/\bthere\s+is\s+a\s+(\d+(?:\.\d+)?)%\s+chance\s+to\b/i);
+  const chancePct = chanceMatch ? parseFloat(chanceMatch[1]) : null;
+  const isRapidOnHitRefresh =
+    /\bWhen\b[^.;]*?\bdeals?\s+(?:[^.;]{0,30}\s+)?DMG\b/i.test(clause) &&
+    /\bfor\s+([5-9]|\d{2,})(?:\.\d+)?\s*s\b/i.test(clause) &&
+    !/\(Ultimate\)/i.test(clause);
 
   const multStackMatch = clause.match(
     /\b(?:increas(?:es?|ing)|boosts?)\s+([^.;]+?)\s+by\s+the\s+number\s+of\s+.*?\s+stacks\s*x\s*(\d+(?:\.\d+)?)%/i
@@ -439,6 +482,23 @@ function parseClauseStats(
       });
     }
     if (out.length) return out;
+  }
+
+  const convMatch = clause.match(
+    /\bevery\s+1\.3%\s+increase\s+in\s+Auto\s+Attack\s+DMG\s+additionally\s+increases\s+[^,.;]*?\bMark\s+DMG\s+by\s+1%,\s*up\s+to\s+(\d+(?:\.\d+)?)%/i
+  );
+  if (convMatch) {
+    const cap = parseFloat(convMatch[1]);
+    if (Number.isFinite(cap) && cap > 0) {
+      out.push({
+        stat: 'aaToMarkRatio77',
+        baseValue: cap,
+        value: cap,
+        targetHint: 'own',
+        clause,
+      });
+    }
+    return out;
   }
 
   const subParts = splitCompoundSubClause(clause);
@@ -464,6 +524,38 @@ function parseClauseStats(
       if (vm) lastVerb = vm[1];
     }
 
+    const laterJoined = subParts.slice(idx + 1).join(', ');
+    const stackOnlyInLaterGrant =
+      !/(?:stacking\s+up\s+to|up\s+to|increased\s+to)\s+\d+\s+(?:times|stacks)/i.test(part) &&
+      /\bgrants?\s+\d+\s+stacks?\s+of\b[\s\S]*?(?:stacking\s+up\s+to|up\s+to)\s+\d+\s+(?:times|stacks)/i.test(laterJoined);
+    const stackOnlyInLaterEnemyDebuff =
+      idx === 0 &&
+      !/\b(?:When|Whenever|If|Each\s+time|After|Casting)\b/i.test(part) &&
+      !/\bfor\s+\d+(?:\.\d+)?s\b/i.test(part) &&
+      !/(?:stacking\s+up\s+to|up\s+to)\s+\d+\s+(?:times|stacks)/i.test(part) &&
+      /\btaken\b[\s\S]*?\bfor\s+\d+(?:\.\d+)?s\b[\s\S]*?(?:stacking\s+up\s+to|up\s+to)\s+\d+\s+(?:times|stacks)/i.test(laterJoined);
+    stacks = (stackOnlyInLaterGrant || stackOnlyInLaterEnemyDebuff) ? 1 : clauseStacks;
+
+    const redCritMatch = part.match(
+      /\breduces?\s+([^,.;]+?\bCrit\s+Rate)\s+by\s+-?(\d+(?:\.\d+)?)%/i
+    );
+    if (redCritMatch) {
+      const critSubj = redCritMatch[1].trim();
+      const val = -Math.abs(parseFloat(redCritMatch[2]));
+      const stats = parseStatPhrase(critSubj, false);
+      const targetHint = detectTargetHint(critSubj, clause, false, defaultTarget);
+      for (const s of stats) {
+        out.push({
+          stat: s.stat,
+          elementScope: s.elementScope,
+          baseValue: val,
+          value: val,
+          targetHint,
+          clause,
+        });
+      }
+    }
+
     const grantDefMatch = part.match(/\bgrants?\s+(\d+(?:\.\d+)?)\s+DEF\b/i);
     if (grantDefMatch) {
       const val = parseFloat(grantDefMatch[1]);
@@ -484,6 +576,7 @@ function parseClauseStats(
       const rawSubj = m[1].trim();
       const rawVal = m[2].trim();
       const isPct = rawVal.includes('%');
+      if (/\breceived\s+this\s+time\b/i.test(rawSubj)) continue;
       if (isNonDamageStatSubject(rawSubj)) continue;
       const subj = stripNonStatLeading(rawSubj);
       if (!isPct && !/\b(?:DEF|PEN|HP|ATK)\b/i.test(subj)) continue;
@@ -493,7 +586,7 @@ function parseClauseStats(
       if (!Number.isFinite(baseVal) || baseVal === 0) continue;
 
       const isEnemyTaken = /\btaken\b/i.test(subj) || /\btarget(?:s)?\s+takes?\b/i.test(part);
-      let stats = parseStatPhrase(subj, isEnemyTaken);
+      let stats = parseStatPhrase(subj, isEnemyTaken, `${clause} ${lastSubjContext} ${clauseContext}`);
 
       if (stats.length === 0 && /\b(?:DMG|damage)\b/i.test(subj)) {
         stats = parseStatPhrase(`${lastSubjContext} ${subj}`, isEnemyTaken);
@@ -718,7 +811,7 @@ function parseClauseStats(
       if (!Number.isFinite(baseVal) || baseVal === 0) continue;
 
       const isEnemyTaken = /\btaken\b/i.test(subj) || /\btarget(?:s)?\s+takes?\b/i.test(part);
-      let stats = parseStatPhrase(subj, isEnemyTaken);
+      let stats = parseStatPhrase(subj, isEnemyTaken, `${clause} ${lastSubjContext} ${clauseContext}`);
       if (stats.length === 0 && /\b(?:DMG|damage)\b/i.test(subj)) {
         stats = parseStatPhrase(`${lastSubjContext} ${subj}`, isEnemyTaken);
       }
@@ -740,6 +833,15 @@ function parseClauseStats(
           targetHint,
           clause,
         });
+      }
+    }
+  }
+
+  if (chancePct !== null && !isRapidOnHitRefresh && !/\bfor\s+each\b/i.test(clause)) {
+    for (const e of out) {
+      if ((e.stacks ?? 1) < 4) {
+        e.baseValue = +(e.baseValue * (chancePct / 100)).toFixed(4);
+        e.value = +(e.value * (chancePct / 100)).toFixed(4);
       }
     }
   }
@@ -1018,7 +1120,7 @@ export function extractEffectsFromText(
     }
 
     const stackCapMatch =
-      clause.match(/(?:stacking\s+up\s+to|up\s+to|can\s+stack\s+up\s+to)\s+(\d+)\s+(?:times|stacks)/i) ??
+      clause.match(/(?:stacking\s+up\s+to|up\s+to|can\s+stack\s+up\s+to|increased\s+to)\s+(\d+)\s+(?:times|stacks)/i) ??
       clause.match(/\bgains?\s+(\d+)\s+stacks?\s+of\b[\s\S]{0,40}?\beach\s+increas(?:es?|ing)\b/i);
     if (stackCapMatch) {
       const localCap = Number(stackCapMatch[1]);
@@ -1087,7 +1189,7 @@ export function extractEffectsFromText(
       rememberedBaseStatDesc = refined;
     } else {
       const trailingStackMatch = clause.match(
-        /^This\s+effect\s+(?:lasts\s+([^,]+),\s*)?(?:stacking\s+up\s+to|stacks?\s+up\s+to|can\s+stack\s+up\s+to)\s+(\d+)\s+(?:times|stacks)/i
+        /^This\s+effect\s+(?:(?:lasts\s+([^,]+),\s*)|(?:is\s+permanent\s+and\s+))?(?:stacking\s+up\s+to|stacks?\s+up\s+to|can\s+stack\s+up\s+to)\s+(\d+)\s+(?:times|stacks)/i
       );
       if (trailingStackMatch && results.length > lastEffectStartIdx) {
         const durText = trailingStackMatch[1] || '';
@@ -1103,6 +1205,13 @@ export function extractEffectsFromText(
             }
             if (trailingDur !== undefined && r.durationSec === undefined) {
               r.durationSec = trailingDur;
+            }
+            if (
+              i > lastEffectStartIdx &&
+              /\bEach\s+time\b[^.;]*\bbounces?\b/i.test(results[lastEffectStartIdx].clause) &&
+              !/\bbounces?\b/i.test(r.clause)
+            ) {
+              r.clause = `${results[lastEffectStartIdx].clause} ${r.clause}`;
             }
           }
         }
@@ -1326,6 +1435,9 @@ export interface PotentialExtraHitSpec {
   hits: number;
   scalingStat: ScalingStat;
   damageType: DamageType;
+  icdSec?: number;
+  isMarkReaction?: boolean;
+  perStackBonusPct?: number;
 }
 
 export function extractPotentialExtraHitSpecs(
@@ -1335,6 +1447,15 @@ export function extractPotentialExtraHitSpecs(
   const specs: PotentialExtraHitSpec[] = [];
   const text = (renderedDesc || '').replace(/\s+/g, ' ').trim();
   if (!text) return specs;
+
+  const icdMatch = text.match(/\btriggered\s+once\s+(?:every|per)\s+(\d+(?:\.\d+)?)\s*s\b/i);
+  const icdSec = icdMatch ? parseFloat(icdMatch[1]) : undefined;
+  const isMarkReaction =
+    icdSec !== undefined && /\bWhen\s+a\s+target\b[^.]*?\bMark\s+triggered\b/i.test(text);
+  const perStackMatch = text.match(
+    /\bFor\s+each\s+stack\s+of\s+[^,]+?,\s*increases\s+the\s+[^,]+?\s+received\s+this\s+time\s+by\s+(\d+(?:\.\d+)?)%/i
+  );
+  const perStackBonusPct = perStackMatch ? parseFloat(perStackMatch[1]) : undefined;
 
   const re =
     /(?:(?:(\d+)\s+[A-Za-z][A-Za-z'\s-]{1,28}?\s+that\s+each\s+deal\s+|(?:shoots?|fires?)\s+(\d+)\s+times,\s*each\s+dealing\s+)|deals?(?:ing)?\s+(?:an\s+additional\s+)?|receives?\s+(?:an\s+additional\s+)?)?(\d+(?:\.\d+)?)%\s*(?:x\s*(\d+))?\s*of\s+(?:[A-Z][A-Za-z\s'-]{0,24}?(?:'s)?\s+)?(?:Base\s+)?(?:Max\s+)?(ATK|HP|DEF)(?:\s*x\s*(\d+))?\s+as\s+([^.;,]+?\bDMG\b)/gi;
@@ -1377,7 +1498,15 @@ export function extractPotentialExtraHitSpecs(
       damageType = 'Skill';
     }
 
-    specs.push({ mvPct, hits, scalingStat, damageType });
+    specs.push({
+      mvPct,
+      hits,
+      scalingStat,
+      damageType,
+      ...(icdSec !== undefined ? { icdSec } : {}),
+      ...(isMarkReaction ? { isMarkReaction: true } : {}),
+      ...(perStackBonusPct !== undefined ? { perStackBonusPct } : {}),
+    });
   }
 
   return specs;
@@ -1441,6 +1570,40 @@ export function estimatePotentialRealisticUptime(
   }
 
   if (
+    /\(Ultimate\)/i.test(clause) &&
+    stacks !== undefined &&
+    stacks >= 5 &&
+    dur !== undefined &&
+    dur >= 8 &&
+    dur <= 15 &&
+    !/\bhits?\s+a\s+different\s+target\b/i.test(clause)
+  ) {
+    return 0.65;
+  }
+
+  if (
+    !/\(Ultimate\)|\bcasts?\s+(?:her|his|their)?\s*Ultimate\b/i.test(clause) &&
+    /\b(?:inflicts?|triggers?)\b[^.;]*\bMark\b/i.test(clause) &&
+    /\bMark\s+DMG\s+taken\b/i.test(clause) &&
+    dur !== undefined &&
+    dur > 0 &&
+    dur <= 6 &&
+    !stacks
+  ) {
+    return 0.45;
+  }
+
+  if (
+    /\bthere\s+is\s+a\s+\d+(?:\.\d+)?%\s+chance\s+to\b/i.test(clause) &&
+    stacks !== undefined &&
+    stacks >= 4 &&
+    /\(Ultimate\)|\bcasts?\s+(?:her|his|their)?\s*Ultimate\b/i.test(clause)
+  ) {
+    const base = dur !== undefined && dur > 0 && dur <= 15 ? Math.max(0.18, Math.min(0.38, dur / 45)) : 1;
+    return +(base * 0.7).toFixed(4);
+  }
+
+  if (
     /\(Ultimate\)|\bcasts?\s+(?:her|his|their)?\s*Ultimate\b/i.test(clause) &&
     dur !== undefined &&
     dur > 0 &&
@@ -1449,7 +1612,14 @@ export function estimatePotentialRealisticUptime(
     return +Math.max(0.18, Math.min(0.38, dur / 45)).toFixed(4);
   }
 
-  if (stacks !== undefined && stacks >= 6 && dur !== undefined && dur > 0 && dur <= 3) {
+  if (
+    stacks !== undefined &&
+    stacks >= 6 &&
+    dur !== undefined &&
+    dur > 0 &&
+    dur <= 3 &&
+    !/\bEach\s+time\b[^.;]*\bbounces?\b/i.test(clause)
+  ) {
     return 0.4;
   }
 

@@ -92,6 +92,7 @@ export interface TeamCalcInput {
   buffs: TeamBuffInput[];
   recordLevel: number;
   enemy: EnemyInput;
+  uptimeMode?: 'realistic' | 'ideal';
 }
 
 export interface FighterCalcTotals {
@@ -150,12 +151,64 @@ interface ResolvedFighter extends FighterInput {
   talentKey: string;
 }
 
+function getActiveSkillDescs(fighter: FighterInput): string[] {
+  const combat = fighter.combat;
+  if (!combat) return [];
+  const keys: Array<'normalAtk' | 'skill' | 'supportSkill' | 'ultimate'> =
+    fighter.state.slot === 'vanguard'
+      ? ['normalAtk', 'skill', 'ultimate']
+      : ['supportSkill', 'ultimate'];
+  const descs: string[] = [];
+  for (const k of keys) {
+    const desc = combat[k]?.desc;
+    if (desc) descs.push(desc);
+  }
+  return descs;
+}
+
+function rosterTriggersElementMark(
+  roster: ResolvedFighter[],
+  element: ElementType
+): boolean {
+  const trigRe = new RegExp(`\\btrigger(?:s|ing)?\\s+(?:##)?${element}\\s*Mark\\b`, 'i');
+  const inflictRe = new RegExp(
+    `\\binflict(?:s|ing)?\\s+(?:a\\s+)?(?:##)?${element}\\s*Mark\\b`,
+    'i'
+  );
+  let hasTrigger = false;
+  let hasInflict = false;
+  for (const f of roster) {
+    const sliced = f.combat as (CharacterCombatEntry & {
+      triggersMarkElements?: ElementType[];
+      inflictsMarkElements?: ElementType[];
+    }) | null;
+    if (sliced?.triggersMarkElements?.includes(element)) hasTrigger = true;
+    if (sliced?.inflictsMarkElements?.includes(element)) hasInflict = true;
+    for (const desc of getActiveSkillDescs(f)) {
+      if (trigRe.test(desc)) hasTrigger = true;
+      if (inflictRe.test(desc)) hasInflict = true;
+    }
+    if (
+      f.element === element &&
+      f.state.rotation.some((ab) => ab.damageType === 'Mark')
+    ) {
+      hasTrigger = true;
+    }
+  }
+  return hasTrigger && hasInflict;
+}
+
 /**
  * Apply every fighter's unlocked talent tiers to every fighter they target.
  * Talents are team-wide in the spreadsheet: a support's "Squad" row also
  * buffs the vanguard. Element-scoped rows only land on matching elements.
  */
-function applyTalents(recipient: ResolvedFighter, roster: ResolvedFighter[], bonuses: StatBlock): void {
+function applyTalents(
+  recipient: ResolvedFighter,
+  roster: ResolvedFighter[],
+  bonuses: StatBlock,
+  uptimeMode: 'realistic' | 'ideal'
+): void {
   for (const source of roster) {
     if (!source.character) continue;
     const tiers = getTalentTiers(String(source.character.id), source.character.name.EN);
@@ -164,6 +217,20 @@ function applyTalents(recipient: ResolvedFighter, roster: ResolvedFighter[], bon
       for (const row of tiers[tier] ?? []) {
         const bonus = mapTalentRow(row);
         if (!bonus) continue;
+        if (
+          bonus.requiresSquadMarkElement &&
+          !rosterTriggersElementMark(roster, bonus.requiresSquadMarkElement)
+        ) {
+          continue;
+        }
+        if (bonus.requiresElementCount) {
+          const matchingCount = roster.filter(
+            (f) => f.character !== null && f.element === bonus.requiresElementCount!.element
+          ).length;
+          if (matchingCount < bonus.requiresElementCount.min) {
+            continue;
+          }
+        }
 
         const target = resolveTalentTarget(bonus.target, {
           slot: source.state.slot,
@@ -179,7 +246,13 @@ function applyTalents(recipient: ResolvedFighter, roster: ResolvedFighter[], bon
 
         if (!applies) continue;
         if (bonus.element && bonus.element !== recipient.element) continue;
-        applyBuffStat(bonuses, bonus.key, bonus.value);
+        const effectiveValue =
+          uptimeMode === 'realistic' && bonus.realisticUptime !== undefined
+            ? bonus.value * bonus.realisticUptime
+            : bonus.value;
+        for (const statKey of bonus.keys ?? [bonus.key]) {
+          applyBuffStat(bonuses, statKey, effectiveValue);
+        }
       }
     }
   }
@@ -218,7 +291,7 @@ export function calculateTeam(input: TeamCalcInput): TeamCalcResult {
     const bonuses = buildPresetBonusBlock(element, input.contributions);
     if (levelStats?.vul) bonuses.vulPct += Number(levelStats.vul) || 0;
 
-    applyTalents(fighter, roster, bonuses);
+    applyTalents(fighter, roster, bonuses, input.uptimeMode ?? 'ideal');
 
     // Emblems: this fighter's own level 70/80/90 rows.
     for (const level of EMBLEM_LEVELS) {

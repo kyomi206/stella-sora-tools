@@ -1,6 +1,6 @@
 import raw from '../../data/talent-emblem.json' with { type: 'json' };
 import trekkerTalentsRaw from '../../data/trekker-talents.json' with { type: 'json' };
-import type { BuffStatKey } from './damage-engine.ts';
+import type { BuffStatKey, DamageType } from './damage-engine.ts';
 import type { ElementType } from '../../types/index.ts';
 
 export type EmblemRarity = 'Green' | 'Blue' | 'Yellow' | 'Rainbow';
@@ -126,6 +126,10 @@ export interface TalentRow {
   stat: string;
   value: number;
   target: string;
+  damageTypes?: DamageType[];
+  requiresSquadMarkElement?: ElementType;
+  requiresElementCount?: { element: ElementType; min: number };
+  realisticUptime?: number;
 }
 
 const TALENT_TABLE = raw.talents as Record<string, TalentRow[][]>;
@@ -180,13 +184,25 @@ const TYPE_CRIT_DMG_KEYS: Record<string, BuffStatKey> = {
   'Minion Crit dmg%': 'minionCritDmg',
 };
 
+const TYPE_SKILL_INTENSITY_KEYS: Record<DamageType, BuffStatKey> = {
+  'Auto Attack': 'aaSkillIntensity',
+  Skill: 'skillSkillIntensity',
+  Ultimate: 'ultSkillIntensity',
+  Mark: 'markSkillIntensity',
+  Minion: 'minionSkillIntensity',
+};
+
 export interface TalentBonus {
   key: BuffStatKey;
+  keys?: BuffStatKey[];
   value: number;
   /** Resolved at render time: all, main/vanguard, one element, one slot, or self. */
   target: string;
   /** Element the bonus applies to, when the row is element-scoped. */
   element?: ElementType;
+  requiresSquadMarkElement?: ElementType;
+  requiresElementCount?: { element: ElementType; min: number };
+  realisticUptime?: number;
 }
 
 /** Turn a spreadsheet talent row into a calculator stat bonus. */
@@ -201,34 +217,53 @@ export function mapTalentRow(row: TalentRow): TalentBonus | null {
     ELEMENT_NAMES.find((element) => stat === `${element} taken`);
   const element = targetElement ?? statElement;
 
-  if (stat === 'ATK%') return { key: 'atkPct', value: pct, target };
-  if (stat === 'ATK% (Perma)') return { key: 'atkPctPerma', value: pct, target };
-  if (stat === 'Crit rate%') return { key: 'critRate', value: pct, target };
-  if (stat === 'Crit dmg%') return { key: 'critDmg', value: pct, target };
+  const withMeta = (bonus: TalentBonus): TalentBonus => ({
+    ...bonus,
+    ...(row.requiresSquadMarkElement
+      ? { requiresSquadMarkElement: row.requiresSquadMarkElement }
+      : {}),
+    ...(row.requiresElementCount
+      ? { requiresElementCount: row.requiresElementCount }
+      : {}),
+    ...(row.realisticUptime !== undefined ? { realisticUptime: row.realisticUptime } : {}),
+  });
+
+  if (stat === 'ATK%') return withMeta({ key: 'atkPct', value: pct, target });
+  if (stat === 'ATK% (Perma)') return withMeta({ key: 'atkPctPerma', value: pct, target });
+  if (stat === 'Crit rate%') return withMeta({ key: 'critRate', value: pct, target });
+  if (stat === 'Crit dmg%') return withMeta({ key: 'critDmg', value: pct, target });
 
   const critRateType = TYPE_CRIT_RATE_KEYS[stat];
   if (critRateType) {
-    return { key: critRateType, value: pct, target, element };
+    return withMeta({ key: critRateType, value: pct, target, element });
   }
   const critDmgType = TYPE_CRIT_DMG_KEYS[stat];
   if (critDmgType) {
-    return { key: critDmgType, value: pct, target, element };
+    return withMeta({ key: critDmgType, value: pct, target, element });
   }
-  if (stat === 'DMG Multiplier') return { key: 'skillIntensity', value: pct, target };
-  if (stat === 'HP') return { key: 'hpPct', value: pct, target };
-  if (stat === 'DEF') return { key: 'defPct', value: pct, target };
+  if (stat === 'DMG Multiplier') {
+    if (row.damageTypes && row.damageTypes.length > 0) {
+      const keys = row.damageTypes.map((dt) => TYPE_SKILL_INTENSITY_KEYS[dt]);
+      return withMeta({ key: keys[0], keys, value: pct, target });
+    }
+    return withMeta({ key: 'skillIntensity', value: pct, target });
+  }
+  if (stat === 'HP') return withMeta({ key: 'hpPct', value: pct, target });
+  if (stat === 'DEF') return withMeta({ key: 'defPct', value: pct, target });
 
   if (stat in TYPE_STAT_KEYS) {
-    return { key: TYPE_STAT_KEYS[stat], value: pct, target, element };
+    return withMeta({ key: TYPE_STAT_KEYS[stat], value: pct, target, element });
   }
   if (stat in TYPE_TAKEN_KEYS) {
-    return { key: TYPE_TAKEN_KEYS[stat], value: pct, target, element };
+    return withMeta({ key: TYPE_TAKEN_KEYS[stat], value: pct, target, element });
   }
 
   if (statElement) {
-    return statElement === stat
-      ? { key: 'elementDmg', value: pct, target, element }
-      : { key: 'elementTaken', value: pct, target, element };
+    return withMeta(
+      statElement === stat
+        ? { key: 'elementDmg', value: pct, target, element }
+        : { key: 'elementTaken', value: pct, target, element }
+    );
   }
 
   return null;

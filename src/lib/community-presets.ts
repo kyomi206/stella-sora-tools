@@ -25,6 +25,13 @@ export type CommunityPresetMode = 'general' | 'boss-blitz' | 'cataclysm' | 'mono
 export type CommunityPresetTier = 'f2p' | 'standard' | 'premium';
 export type CommunityPresetStatus = 'verified' | 'outdated' | 'archived';
 
+export const COMMUNITY_MODE_LABELS: Record<CommunityPresetMode, string> = {
+  general: 'General',
+  'boss-blitz': 'Boss Blitz',
+  cataclysm: 'Cataclysm',
+  monolith: 'Monolith',
+};
+
 export interface CommunityPresetSubstitution {
   replacesType: 'trekker' | 'mainDisc' | 'supportDisc';
   replacesId: number;
@@ -91,6 +98,12 @@ export interface ResolvedCommunityPreset {
   verifiedAt: string;
   status: CommunityPresetStatus;
   isStale: boolean;
+  origin?: 'curated' | 'community';
+  isVerified?: boolean;
+  authorName?: string;
+  createdAt?: string;
+  viewsCount?: number;
+  upvotesCount?: number;
 }
 
 function parsePatchParts(patch: string): [number, number] | null {

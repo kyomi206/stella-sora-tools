@@ -3,7 +3,7 @@ import charactersData from '@/data/characters.json';
 import discsData from '@/data/discs.json';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getPresetIdsWithAnalytics } from '@/lib/community-analytics';
-import { getResolvedCommunityPresets } from '@/lib/community-presets';
+import { getCachedCommunityBuilds } from '@/lib/community-builds/store';
 import { buildBreadcrumbJsonLd, buildPageMetadata, toAbsoluteUrl } from '@/lib/seo';
 import type { SSCharacter, SSDisc } from '@/types';
 import { BuildsClient } from './builds-client';
@@ -24,21 +24,15 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-export default function BuildsPage() {
-  const presets = getResolvedCommunityPresets();
+export default async function BuildsPage() {
+  const presets = await getCachedCommunityBuilds();
   const analyticsPresetIds = getPresetIdsWithAnalytics();
 
   const allCharacters = charactersData as Record<string, SSCharacter>;
   const allDiscs = discsData as Record<string, SSDisc>;
-  const slicedCharacters: Record<string, SSCharacter> = {};
   const slicedDiscs: Record<string, SSDisc> = {};
 
   for (const preset of presets) {
-    for (const cid of preset.characterIds) {
-      if (allCharacters[String(cid)]) {
-        slicedCharacters[String(cid)] = allCharacters[String(cid)];
-      }
-    }
     for (const did of preset.allDiscIds) {
       if (allDiscs[String(did)]) {
         slicedDiscs[String(did)] = allDiscs[String(did)];
@@ -46,9 +40,7 @@ export default function BuildsPage() {
     }
     for (const sub of preset.substitutions) {
       for (const altId of [sub.replacesId, ...sub.alternativeIds]) {
-        if (sub.replacesType === 'trekker' && allCharacters[String(altId)]) {
-          slicedCharacters[String(altId)] = allCharacters[String(altId)];
-        } else if (sub.replacesType !== 'trekker' && allDiscs[String(altId)]) {
+        if (sub.replacesType !== 'trekker' && allDiscs[String(altId)]) {
           slicedDiscs[String(altId)] = allDiscs[String(altId)];
         }
       }

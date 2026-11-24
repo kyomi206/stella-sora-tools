@@ -10,7 +10,13 @@ import type {
 } from '../community-analytics-utils.ts';
 import type { BuffStatKey, DamageType, ScalingStat } from './damage-engine.ts';
 import { getEmblemValue } from './talent-emblem.ts';
-import type { RotationAbility, SlotKey, TeamBuffInput } from './fighter-calc.ts';
+import type {
+  FighterInput,
+  RotationAbility,
+  SlotKey,
+  TeamBuffInput,
+  TeamCalcResult,
+} from './fighter-calc.ts';
 import type { PotentialExtraHitSpec, PresetBuffRosterSlot } from './preset-buffs-core.ts';
 import {
   buildFighters,
@@ -76,11 +82,15 @@ function clamp(min: number, max: number, val: number): number {
   return Math.max(min, Math.min(max, val));
 }
 
+function effectiveExtraHitMv(s: PotentialExtraHitSpec): number {
+  return s.mvPct * (1 + ((s.perStackBonusPct ?? 0) * 10) / 100);
+}
+
 function sumExtraHitNormMv(specs: PotentialExtraHitSpec[], hpNorm: number): number {
   let sum = 0;
   for (const s of specs) {
     const norm = s.scalingStat === 'HP' ? hpNorm : 1;
-    sum += s.mvPct * s.hits * norm;
+    sum += effectiveExtraHitMv(s) * s.hits * norm;
   }
   return sum;
 }
@@ -98,6 +108,14 @@ function buildExtraHitSlicesForPotential(
   const specNorm = sumExtraHitNormMv(specs, hpNorm);
   if (specNorm <= 0) return [];
 
+  const shortIcdSpec = specs.find(
+    (s) => s.isMarkReaction && s.icdSec !== undefined && s.icdSec <= 2.5
+  );
+  const isShortIcdMarkReaction = shortIcdSpec !== undefined;
+  const effectiveAnchorWeight = isShortIcdMarkReaction
+    ? Math.max(ownerUnnormalizedWeight, totalTeamWeight)
+    : ownerUnnormalizedWeight;
+
   const refNorm = lv6Norm > 0 ? lv6Norm : specNorm;
   const ownerShare = ownerUnnormalizedWeight / totalTeamWeight;
   const supportBoost =
@@ -107,8 +125,9 @@ function buildExtraHitSlicesForPotential(
   // Smooth continuous taper from sub-DPS shares (<= 48%) down to hypercarry shares (>= 56%)
   const carryRamp = clamp(0, 1, (ownerShare - 0.48) / 0.08);
   const hybridCap = 0.315 - 0.175 * carryRamp;
-  const lv6Share =
-    p.kind === 'proc'
+  const lv6Share = isShortIcdMarkReaction
+    ? clamp(0.25, 1.15, (refNorm * (12 / Math.max(1, shortIcdSpec.icdSec!))) / 6500)
+    : p.kind === 'proc'
       ? clamp(0.035, 0.25, refNorm / 2400)
       : refNorm < 350
         ? clamp(0.035, 0.048, refNorm / 6500)
@@ -117,10 +136,10 @@ function buildExtraHitSlicesForPotential(
   const scaledShare = lv6Share * (specNorm / refNorm);
 
   return specs.map((spec, idx) => {
-    const partNorm = spec.mvPct * spec.hits * (spec.scalingStat === 'HP' ? hpNorm : 1);
+    const partNorm = effectiveExtraHitMv(spec) * spec.hits * (spec.scalingStat === 'HP' ? hpNorm : 1);
     const partFrac = partNorm / specNorm;
     const statScaleNorm = spec.scalingStat === 'HP' ? 0.16 : 1;
-    const mv = ownerUnnormalizedWeight * scaledShare * partFrac * statScaleNorm;
+    const mv = effectiveAnchorWeight * scaledShare * partFrac * statScaleNorm;
     return {
       id: `pot-proc-${p.potentialId}-${idx}`,
       source: 'custom',
@@ -246,7 +265,6 @@ export function computeEstimatedPotentialRankings(
     {
       potentialBuffs: allBaseBuffs,
       extraRotations: allBaseRotations,
-      includeSyntheticEmblems: true,
     }
   );
 
@@ -316,7 +334,6 @@ export function computeEstimatedPotentialRankings(
       {
         potentialBuffs: withoutBuffs,
         extraRotations: withoutRotations,
-        includeSyntheticEmblems: true,
       }
     );
 
@@ -362,7 +379,6 @@ export function computeEstimatedPotentialRankings(
       {
         potentialBuffs: plus3Buffs,
         extraRotations: plus3Rotations,
-        includeSyntheticEmblems: true,
       }
     );
 
@@ -456,6 +472,64 @@ const TYPE_EMBLEM_SPECS: Record<
   ],
 };
 
+function evaluateSlotSkillPlus3(
+  ctx: DiscRankingContext,
+  discsLookup: Record<string, SSDisc>,
+  fighters: FighterInput[],
+  presetRoster: PresetBuffRosterSlot[],
+  baseMain: SelectedMainDisc[],
+  baseSupport: SelectedSupportDisc[],
+  assumptions: DiscRankingAssumptions,
+  allBaseBuffs: TeamBuffInput[],
+  allBaseRotations: Partial<Record<SlotKey, RotationAbility[]>>,
+  baseResult: TeamCalcResult,
+  slot: SlotKey,
+  skillSource: SkillLevelSource,
+  isDps: boolean
+): number | null {
+  const baseFighter = baseResult.fighters.find((f) => f.state.slot === slot);
+  if (!baseFighter) return null;
+
+  const hasMvSlice = baseFighter.state.rotation.some((ab) => ab.source === skillSource);
+  const buffPair = ctx.skillLv3BuffPairs?.[slot]?.[skillSource];
+  if (!hasMvSlice && !buffPair) return null;
+
+  const ratio = ctx.skillLv3Ratios?.[slot]?.[skillSource] ?? 1.21;
+  const afterResult = evaluateTeamLoadout(
+    ctx,
+    discsLookup,
+    fighters,
+    presetRoster,
+    baseMain,
+    baseSupport,
+    assumptions,
+    {
+      potentialBuffs: allBaseBuffs,
+      extraRotations: allBaseRotations,
+      includeSyntheticEmblems: false,
+      ...(hasMvSlice ? { skillLv3Scale: { slot, skillSource, ratio } } : {}),
+      ...(buffPair
+        ? {
+            skillLv3BuffOverride: {
+              slot,
+              skillSource,
+              buffs: buffPair.atLv13,
+            },
+          }
+        : {}),
+    }
+  );
+
+  const beforeMetric = isDps ? baseFighter.totals.expected : baseResult.totalExpected;
+  const afterMetric = isDps
+    ? (afterResult.fighters.find((f) => f.state.slot === slot)?.totals.expected ?? 0)
+    : afterResult.totalExpected;
+
+  if (beforeMetric <= 0) return null;
+  const gain = round2(((afterMetric - beforeMetric) / beforeMetric) * 100);
+  return gain >= 0.05 ? gain : null;
+}
+
 export function computeEstimatedEmblemRankings(
   ctx: DiscRankingContext,
   assumptions: DiscRankingAssumptions
@@ -518,10 +592,17 @@ export function computeEstimatedEmblemRankings(
     // Skill Lv +3 sources come strictly from base kit abilities (not potential procs)
     const activeTypes = new Set<DamageType>();
     const activeSources = new Set<SkillLevelSource>();
+    const allowedSources: SkillLevelSource[] =
+      slot === 'vanguard' ? ['normalAtk', 'skill', 'ultimate'] : ['supportSkill', 'ultimate'];
     for (const ab of baseFighter.state.rotation) {
       activeTypes.add(ab.damageType);
-      if (ab.source !== 'custom') {
+      if (ab.source !== 'custom' && allowedSources.includes(ab.source)) {
         activeSources.add(ab.source);
+      }
+    }
+    for (const src of allowedSources) {
+      if (ctx.skillLv3BuffPairs?.[slot]?.[src]) {
+        activeSources.add(src);
       }
     }
     for (const ab of allBaseRotations[slot] ?? []) {
@@ -613,11 +694,10 @@ export function computeEstimatedEmblemRankings(
       );
     }
 
-    // 3. Skill Lv +3 for each active kit skill source
+    // 3. Skill Lv +3 for each active kit skill source (unified with Skill +3 Matrix)
     for (const skillSource of activeSources) {
       const label = SKILL_LV3_LABEL[skillSource];
-      const ratio = ctx.skillLv3Ratios?.[slot]?.[skillSource] ?? 1.21;
-      const res = evaluateTeamLoadout(
+      const gain = evaluateSlotSkillPlus3(
         ctx,
         discsLookup,
         fighters,
@@ -625,16 +705,14 @@ export function computeEstimatedEmblemRankings(
         baseMain,
         baseSupport,
         assumptions,
-        {
-          potentialBuffs: allBaseBuffs,
-          extraRotations: allBaseRotations,
-          includeSyntheticEmblems: false,
-          skillLv3Scale: { slot, skillSource, ratio },
-        }
+        allBaseBuffs,
+        allBaseRotations,
+        baseResult,
+        slot,
+        skillSource,
+        true
       );
-      const after = res.fighters.find((f) => f.state.slot === slot)?.totals.expected ?? 0;
-      const gain = round2(((after - ownerBase) / ownerBase) * 100);
-      if (gain >= 0.05) {
+      if (gain !== null) {
         candidates.push({ stat: label, dmgGain: gain, groupKey: `skill-${skillSource}` });
       }
     }
@@ -774,32 +852,7 @@ export function computeEstimatedSkillPlus3Matrix(
   const rawValues: Array<Array<number | null>> = SKILL_MATRIX_ROWS.map((rowDef) =>
     colMeta.map((col) => {
       if (!rowDef.slots.includes(col.slot)) return null;
-
-      const hasMvSlice = col.fighter.state.rotation.some((ab) => ab.source === rowDef.source);
-      const buffPair = ctx.skillLv3BuffPairs?.[col.slot]?.[rowDef.source];
-      if (!hasMvSlice && !buffPair) return null;
-
-      const beforeResult =
-        buffPair && buffPair.atLv10.length > 0
-          ? evaluateTeamLoadout(
-              ctx,
-              discsLookup,
-              fighters,
-              presetRoster,
-              baseMain,
-              baseSupport,
-              assumptions,
-              {
-                potentialBuffs: allBaseBuffs,
-                extraRotations: allBaseRotations,
-                includeSyntheticEmblems: false,
-                extraBuffs: buffPair.atLv10,
-              }
-            )
-          : baseResult;
-
-      const ratio = ctx.skillLv3Ratios?.[col.slot]?.[rowDef.source] ?? 1.21;
-      const afterResult = evaluateTeamLoadout(
+      return evaluateSlotSkillPlus3(
         ctx,
         discsLookup,
         fighters,
@@ -807,25 +860,13 @@ export function computeEstimatedSkillPlus3Matrix(
         baseMain,
         baseSupport,
         assumptions,
-        {
-          potentialBuffs: allBaseBuffs,
-          extraRotations: allBaseRotations,
-          includeSyntheticEmblems: false,
-          ...(hasMvSlice ? { skillLv3Scale: { slot: col.slot, skillSource: rowDef.source, ratio } } : {}),
-          ...(buffPair ? { extraBuffs: buffPair.atLv13 } : {}),
-        }
+        allBaseBuffs,
+        allBaseRotations,
+        baseResult,
+        col.slot,
+        rowDef.source,
+        col.isDps
       );
-
-      const beforeMetric = col.isDps
-        ? (beforeResult.fighters.find((f) => f.state.slot === col.slot)?.totals.expected ?? 0)
-        : beforeResult.totalExpected;
-      const afterMetric = col.isDps
-        ? (afterResult.fighters.find((f) => f.state.slot === col.slot)?.totals.expected ?? 0)
-        : afterResult.totalExpected;
-
-      if (beforeMetric <= 0) return null;
-      const gain = round2(((afterMetric - beforeMetric) / beforeMetric) * 100);
-      return gain >= 0.05 ? gain : null;
     })
   );
 

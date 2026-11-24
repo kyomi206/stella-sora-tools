@@ -379,6 +379,12 @@ export type BuffStatKey =
   | 'resIgnore'
   | 'vul'
   | 'skillIntensity'
+  | 'aaSkillIntensity'
+  | 'skillSkillIntensity'
+  | 'ultSkillIntensity'
+  | 'markSkillIntensity'
+  | 'minionSkillIntensity'
+  | 'aaToMarkRatio77'
   | 'customMultiplier'
   | 'breakDmg';
 
@@ -419,6 +425,12 @@ export const BUFF_STAT_OPTIONS: BuffStatOption[] = [
   { key: 'markDmg', label: 'Mark DMG%', group: 'Damage bonuses', percent: true },
   { key: 'minionDmg', label: 'Minion DMG%', group: 'Damage bonuses', percent: true },
   { key: 'skillIntensity', label: 'Skill Intensity%', group: 'Damage bonuses', percent: true },
+  { key: 'aaSkillIntensity', label: 'AA Intensity%', group: 'Damage bonuses', percent: true },
+  { key: 'skillSkillIntensity', label: 'Skill DMG Intensity%', group: 'Damage bonuses', percent: true },
+  { key: 'ultSkillIntensity', label: 'Ultimate Intensity%', group: 'Damage bonuses', percent: true },
+  { key: 'markSkillIntensity', label: 'Mark Intensity%', group: 'Damage bonuses', percent: true },
+  { key: 'minionSkillIntensity', label: 'Minion Intensity%', group: 'Damage bonuses', percent: true },
+  { key: 'aaToMarkRatio77', label: 'AA→Mark Conversion Cap%', group: 'Damage bonuses', percent: true },
   { key: 'customMultiplier', label: 'Custom Multiplier%', group: 'Damage bonuses', percent: true },
 
   { key: 'dmgTaken', label: 'Damage Taken% (All)', group: 'Enemy debuffs', percent: true },
@@ -471,6 +483,14 @@ const TYPE_CRIT_DMG_KEYS: Partial<Record<BuffStatKey, DamageType>> = {
   minionCritDmg: 'Minion',
 };
 
+const TYPE_SKILL_INTENSITY_KEYS: Partial<Record<BuffStatKey, DamageType>> = {
+  aaSkillIntensity: 'Auto Attack',
+  skillSkillIntensity: 'Skill',
+  ultSkillIntensity: 'Ultimate',
+  markSkillIntensity: 'Mark',
+  minionSkillIntensity: 'Minion',
+};
+
 export interface StatBlock {
   baseAtk: number;
   baseHp: number;
@@ -489,6 +509,8 @@ export interface StatBlock {
   typeCritDmgPct: Record<DamageType, number>;
   typeDmgPct: Record<DamageType, number>;
   typeTakenPct: Record<DamageType, number>;
+  typeSkillIntensityPct: Record<DamageType, number>;
+  aaToMarkCapPct: number;
   defPen: number;
   defPenPct: number;
   defIgnorePct: number;
@@ -524,6 +546,8 @@ export function createEmptyStatBlock(): StatBlock {
     typeCritDmgPct: createEmptyTypeRecord(),
     typeDmgPct: createEmptyTypeRecord(),
     typeTakenPct: createEmptyTypeRecord(),
+    typeSkillIntensityPct: createEmptyTypeRecord(),
+    aaToMarkCapPct: 0,
     defPen: 0,
     defPenPct: 0,
     defIgnorePct: 0,
@@ -557,6 +581,11 @@ export function applyBuffStat(target: StatBlock, key: BuffStatKey, value: number
   const typeCritDmg = TYPE_CRIT_DMG_KEYS[key];
   if (typeCritDmg) {
     target.typeCritDmgPct[typeCritDmg] += amount;
+    return;
+  }
+  const typeIntensity = TYPE_SKILL_INTENSITY_KEYS[key];
+  if (typeIntensity) {
+    target.typeSkillIntensityPct[typeIntensity] += amount;
     return;
   }
 
@@ -624,6 +653,9 @@ export function applyBuffStat(target: StatBlock, key: BuffStatKey, value: number
     case 'skillIntensity':
       target.skillIntensityPct += amount;
       break;
+    case 'aaToMarkRatio77':
+      target.aaToMarkCapPct += amount;
+      break;
     case 'customMultiplier':
       target.customMultiplierPct += amount;
       break;
@@ -688,6 +720,7 @@ export interface CharacterStats {
 
   typeDmgPct: Record<DamageType, number>;
   typeTakenPct: Record<DamageType, number>;
+  typeSkillIntensityPct: Record<DamageType, number>;
 
   defPen: number;
   defPenPct: number;
@@ -742,6 +775,15 @@ export function buildCharacterStats(input: CharacterStatInput): CharacterStats {
   const baseDef = Math.max(0, input.characterBaseDef ?? 0) + input.bonuses.baseDef;
   const defPct = input.bonuses.defPct;
 
+  const typeDmgPct = { ...input.bonuses.typeDmgPct };
+  if (input.bonuses.aaToMarkCapPct > 0) {
+    const convertedMarkDmg = Math.min(
+      input.bonuses.aaToMarkCapPct,
+      Math.max(0, typeDmgPct['Auto Attack']) / 1.3
+    );
+    typeDmgPct.Mark += convertedMarkDmg;
+  }
+
   return {
     element: input.element,
     baseAtk,
@@ -770,8 +812,9 @@ export function buildCharacterStats(input: CharacterStatInput): CharacterStats {
 
     typeCritRatePct: { ...input.bonuses.typeCritRatePct },
     typeCritDmgPct: { ...input.bonuses.typeCritDmgPct },
-    typeDmgPct: { ...input.bonuses.typeDmgPct },
+    typeDmgPct,
     typeTakenPct: { ...input.bonuses.typeTakenPct },
+    typeSkillIntensityPct: { ...input.bonuses.typeSkillIntensityPct },
 
     defPen: input.bonuses.defPen,
     defPenPct: input.bonuses.defPenPct,
@@ -852,7 +895,8 @@ export function calculateAbilityDamage(
   const dmgTakenMult = 1 + stats.dmgTakenPct / 100;
   const typeMult = 1 + (stats.typeDmgPct[ability.damageType] || 0) / 100;
   const typeTakenMult = 1 + (stats.typeTakenPct[ability.damageType] || 0) / 100;
-  const skillIntensityMult = 1 + stats.skillIntensityPct / 100;
+  const skillIntensityMult =
+    1 + (stats.skillIntensityPct + (stats.typeSkillIntensityPct[ability.damageType] || 0)) / 100;
   const customMultiplier = 1 + stats.customMultiplierPct / 100;
 
   const critRate =

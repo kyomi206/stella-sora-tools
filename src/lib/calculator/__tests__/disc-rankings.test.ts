@@ -17,7 +17,10 @@ import {
   buildDiscRankingContext,
   computeEstimatedDiscRankings,
   DEFAULT_DISC_RANKING_ASSUMPTIONS,
+  getEffectiveNotes,
 } from '../disc-rankings.ts';
+import { computeEstimatedPotentialRankings } from '../potential-emblem-rankings.ts';
+import { computePresetContributions } from '../damage-engine.ts';
 import { extractDiscPresetBuffs } from '../preset-buffs.ts';
 
 const characters = charactersData as unknown as Record<string, SSCharacter>;
@@ -115,22 +118,23 @@ describe('estimated disc rankings engine & calibration', () => {
     const preset = presets.find((p) => p.id === 'eleanor-skill-willow')!;
     const ctx = buildDiscRankingContext(preset, characters, combatDb, discs);
     const est = computeEstimatedDiscRankings(ctx);
+    const iso = computeEstimatedDiscRankings(ctx, { baselineContext: 'isolated' });
     const sheet = analytics['eleanor-skill-willow'].discRankings!;
 
-    // Top 3 Main Discs match ZiLenTz's exact top 3: Deer's Song C6, Deer's Song C1, Fly O Caged Bird C6
-    assert.deepEqual(
-      est.main.slice(0, 3).map((r) => `${r.discId}:${r.dupe}`),
-      sheet.main.slice(0, 3).map((r) => `${r.discId}:${r.dupe}`)
-    );
+    // Top 3 Main Discs contain ZiLenTz's exact top 3 set under both default equipped & isolated (empty_0) modes
+    const sheetTop3 = new Set(sheet.main.slice(0, 3).map((r) => `${r.discId}:${r.dupe}`));
+    assert.equal(est.main[0].discId, 214015);
+    assert.deepEqual(new Set(est.main.slice(0, 3).map((r) => `${r.discId}:${r.dupe}`)), sheetTop3);
+    assert.deepEqual(new Set(iso.main.slice(0, 3).map((r) => `${r.discId}:${r.dupe}`)), sheetTop3);
 
-    const estMainByKey = new Map(est.main.map((r) => [`${r.discId}:${r.dupe}`, r.value]));
+    const isoMainByKey = new Map(iso.main.map((r) => [`${r.discId}:${r.dupe}`, r.value]));
     for (const key of ['214015:C6', '214015:C1', '214059:C6', '214059:C1', '214002:C6', '214024:C6']) {
       const sheetRow = sheet.main.find((r) => `${r.discId}:${r.dupe}` === key)!;
-      const estVal = estMainByKey.get(key)!;
-      // Foam Echo (+74.4% ATK% to non-Aqua squadmates) now applies to Eleanor, shifting Deer's Song C6 from ~71.5% to ~69.7% (within 4.8% of 74.37%).
+      const estVal = isoMainByKey.get(key)!;
+      // Isolated (empty_0) + Lv 1 Harmony + 0 Emblems tracks ZiLenTz's empty_0 sheet within 3% across top discs
       assert.ok(
-        Math.abs(estVal - sheetRow.value) <= 5.1,
-        `Eleanor Main ${sheetRow.name} ${sheetRow.dupe}: expected ${estVal}% within 5.1% of ${sheetRow.value}%`
+        Math.abs(estVal - sheetRow.value) <= 3.0,
+        `Eleanor Main ${sheetRow.name} ${sheetRow.dupe}: expected ${estVal}% within 3.0% of ${sheetRow.value}%`
       );
     }
 
@@ -244,5 +248,72 @@ describe('estimated disc rankings engine & calibration', () => {
     assert.equal(iso.support[0].discId, 214005);
     const offEl = iso.support.find((r) => r.name === 'Off-Element (Atk 1,492)')!;
     assert.ok(offEl.value >= 1 && offEl.value <= 3.5, `Expected Off-Element ATK 1,492 near 1.76% on HP carry, got ${offEl.value}%`);
+  });
+
+  it('defaults to lv1-harmony + 0 emblems while keeping target note passives and syncing baseSkillBuffs', () => {
+    assert.equal(DEFAULT_DISC_RANKING_ASSUMPTIONS.baselineContext, 'equipped');
+    assert.equal(DEFAULT_DISC_RANKING_ASSUMPTIONS.notesMode, 'lv1-harmony');
+    assert.equal(DEFAULT_DISC_RANKING_ASSUMPTIONS.emblemBaseline, 'none');
+
+    // Passive Musical Note stats in lv1-harmony match target mode identically
+    const alliePreset = presets.find((p) => p.id === 'allie-mark-teresa')!;
+    const allieCtx = buildDiscRankingContext(alliePreset, characters, combatDb, discs);
+    const notesLv1 = getEffectiveNotes('lv1-harmony', allieCtx.supportDiscs, allieCtx);
+    const notesTarget = getEffectiveNotes('target', allieCtx.supportDiscs, allieCtx);
+    assert.deepEqual(notesLv1, notesTarget);
+    const contribLv1 = computePresetContributions(allieCtx.mainDiscs, allieCtx.supportDiscs, notesLv1, discs);
+    const contribTarget = computePresetContributions(allieCtx.mainDiscs, allieCtx.supportDiscs, notesTarget, discs);
+    assert.deepEqual(contribLv1, contribTarget);
+
+    // Bedtime Story C6 (214061) in isolated + lv1-harmony drops sharply vs target Harmony (~70% -> ~57.5%)
+    const allieIso = computeEstimatedDiscRankings(allieCtx, {
+      baselineContext: 'isolated',
+      notesMode: 'lv1-harmony',
+    });
+    const allieIsoTarget = computeEstimatedDiscRankings(allieCtx, {
+      baselineContext: 'isolated',
+      notesMode: 'target',
+    });
+    const bedtime = allieIso.main.find((r) => r.discId === 214061 && r.dupe === 'C6');
+    const bedtimeTarget = allieIsoTarget.main.find((r) => r.discId === 214061 && r.dupe === 'C6');
+    assert.ok(bedtime && bedtimeTarget, 'Expected Bedtime Story C6 in allie-mark-teresa main rankings');
+    assert.ok(
+      bedtime.value <= 60 && bedtime.value <= bedtimeTarget.value - 10,
+      `Expected Bedtime Story C6 <= 60% and >= 10pp lower under lv1-harmony (${bedtime.value}%) vs target (${bedtimeTarget.value}%)`
+    );
+
+    // The Cat's Treasure C6 (214029) on fuyuka-ultimate-slaru ranks below Snowy Night Surprise C1 (214048)
+    const fuyukaPreset = presets.find((p) => p.id === 'fuyuka-ultimate-slaru')!;
+    const fuyukaCtx = buildDiscRankingContext(fuyukaPreset, characters, combatDb, discs);
+    const fuyukaIso = computeEstimatedDiscRankings(fuyukaCtx, { baselineContext: 'isolated' });
+    const catIdx = fuyukaIso.main.findIndex((r) => r.discId === 214029 && r.dupe === 'C6');
+    const snowyC1Idx = fuyukaIso.main.findIndex((r) => r.discId === 214048 && r.dupe === 'C1');
+    assert.ok(catIdx !== -1 && snowyC1Idx !== -1, 'Expected Cat\'s Treasure C6 and Snowy Night Surprise C1');
+    assert.ok(
+      catIdx > snowyC1Idx,
+      `Expected Cat's Treasure C6 (#${catIdx + 1}) below Snowy Night Surprise C1 (#${snowyC1Idx + 1})`
+    );
+
+    // Toggling emblemBaseline: 'none' vs 'synthetic' deterministically shifts additive potential gains
+    const potNone = computeEstimatedPotentialRankings(fuyukaCtx, {
+      ...DEFAULT_DISC_RANKING_ASSUMPTIONS,
+      emblemBaseline: 'none',
+    });
+    const potSynth = computeEstimatedPotentialRankings(fuyukaCtx, {
+      ...DEFAULT_DISC_RANKING_ASSUMPTIONS,
+      emblemBaseline: 'synthetic',
+    });
+    assert.notDeepEqual(potNone.potRank.slice(0, 5), potSynth.potRank.slice(0, 5));
+
+    // ctx.baseSkillBuffs populated on karin-ultimate-umbra (Cosette Umbra DMG Taken) and eleanor-skill-willow
+    const karinPreset = presets.find((p) => p.id === 'karin-ultimate-umbra')!;
+    const karinCtx = buildDiscRankingContext(karinPreset, characters, combatDb, discs);
+    assert.ok(
+      karinCtx.baseSkillBuffs?.some((b) => b.stat === 'elementTaken' && b.value > 0),
+      `Expected Cosette Umbra DMG Taken in karinCtx.baseSkillBuffs, got ${JSON.stringify(karinCtx.baseSkillBuffs)}`
+    );
+    const eleanorPreset = presets.find((p) => p.id === 'eleanor-skill-willow')!;
+    const eleanorCtx = buildDiscRankingContext(eleanorPreset, characters, combatDb, discs);
+    assert.ok((eleanorCtx.baseSkillBuffs?.length ?? 0) > 0, 'Expected non-empty baseSkillBuffs on eleanor-skill-willow');
   });
 });

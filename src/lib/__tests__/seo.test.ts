@@ -58,7 +58,7 @@ describe('KiyoStella SEO & AI Discoverability', () => {
 
   it('sitemap() includes canonical URLs, excludes /damage and numeric aliases', () => {
     const entries = sitemap();
-    const expectedCount = 158 + getResolvedCommunityPresets().length; // 10 static + 42 trekkers + 106 discs + public builds
+    const expectedCount = 159 + getResolvedCommunityPresets().length; // 11 static + 42 trekkers + 106 discs + public builds
     assert.equal(entries.length, expectedCount);
 
     const urls = entries.map((e) => e.url);
@@ -78,6 +78,7 @@ describe('KiyoStella SEO & AI Discoverability', () => {
     assert.ok(urls.some((u) => u.endsWith('/trekkers/Snowish%20Laru')));
     assert.ok(urls.some((u) => u.endsWith('/discs/beneath-billowing-sails')));
     assert.ok(urls.some((u) => u.endsWith('/builds')));
+    assert.ok(urls.some((u) => u.endsWith('/feedback')));
   });
 
   it('buildPageMetadata, JSON-LD builders, and serializeJsonLd escape safely', () => {

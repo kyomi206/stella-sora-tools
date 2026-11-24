@@ -84,11 +84,12 @@ import type { SynthesizedProfileSummary } from './combat-profile-synthesizer.ts'
 export type FightMode = 'single' | 'multi';
 export type BaselineDupePreset = 'c1-paid-c6-f2p' | 'all-c1' | 'all-c6';
 export type BaselineContextMode = 'equipped' | 'isolated';
-export type NotesMode = 'target' | 'starting' | 'max-harmony';
+export type NotesMode = 'lv1-harmony' | 'target' | 'starting' | 'max-harmony';
 export type UptimeMode = 'realistic' | 'ideal';
 export type EnemyResPreset = 'boss-blitz' | 'neutral' | 'low';
 export type CompareBaseline = 'empty' | 'slot-0' | 'slot-1' | 'slot-2';
 export type PotentialLevelMode = 'preset' | 'lv6';
+export type EmblemBaselineMode = 'none' | 'synthetic';
 export type SkillLevelSource = 'normalAtk' | 'skill' | 'supportSkill' | 'ultimate';
 
 export interface DiscRankingAssumptions {
@@ -100,17 +101,19 @@ export interface DiscRankingAssumptions {
   enemyRes: EnemyResPreset;
   compareBaseline: CompareBaseline;
   potentialLevelMode: PotentialLevelMode;
+  emblemBaseline: EmblemBaselineMode;
 }
 
 export const DEFAULT_DISC_RANKING_ASSUMPTIONS: DiscRankingAssumptions = {
   fightMode: 'single',
   baselineDupes: 'c1-paid-c6-f2p',
   baselineContext: 'equipped',
-  notesMode: 'target',
+  notesMode: 'lv1-harmony',
   uptimeMode: 'realistic',
   enemyRes: 'boss-blitz',
   compareBaseline: 'empty',
   potentialLevelMode: 'preset',
+  emblemBaseline: 'none',
 };
 
 export interface SlotDamageSlice {
@@ -136,6 +139,8 @@ export interface SlicedCombatStats {
   class: string;
   scalingStat: ScalingStat;
   stats: CharacterCombatEntry['stats'];
+  triggersMarkElements?: ElementType[];
+  inflictsMarkElements?: ElementType[];
 }
 
 export interface DiscRankingRosterEntry {
@@ -174,6 +179,11 @@ export interface SkillLv3BuffPair {
   atLv13: TeamBuffInput[];
 }
 
+export interface BaseSkillBuffInput extends TeamBuffInput {
+  slot?: SlotKey;
+  skillSource?: SkillLevelSource;
+}
+
 export interface DiscRankingContext {
   presetId: string;
   element: ElementType;
@@ -184,6 +194,7 @@ export interface DiscRankingContext {
   roster: DiscRankingRosterEntry[];
   basePotentialBuffs: TeamBuffInput[];
   corePotentialBuffs?: TeamBuffInput[];
+  baseSkillBuffs?: BaseSkillBuffInput[];
   potentials?: SlicedPotentialEntry[];
   skillLv3Ratios?: Partial<Record<SlotKey, Partial<Record<SkillLevelSource, number>>>>;
   skillLv3BuffPairs?: Partial<Record<SlotKey, Partial<Record<SkillLevelSource, SkillLv3BuffPair>>>>;
@@ -316,8 +327,12 @@ export function buildFighters(ctx: DiscRankingContext): FighterInput[] {
               : s.type === 'Ultimate'
                 ? 'ultimate'
                 : s.type === 'Auto Attack'
-                  ? 'normalAtk'
-                  : 'custom');
+                  ? entry.slot === 'vanguard'
+                    ? 'normalAtk'
+                    : 'supportSkill'
+                  : s.type === 'Mark' && entry.slot !== 'vanguard'
+                    ? 'supportSkill'
+                    : 'custom');
           return {
             id: `${entry.slot}-${idx}`,
             source: resolvedSource,
@@ -352,6 +367,7 @@ export interface EvaluateTeamLoadoutOptions {
   includeSyntheticEmblems?: boolean;
   extraBuffs?: TeamBuffInput[];
   skillLv3Scale?: { slot: SlotKey; skillSource: SkillLevelSource; ratio: number };
+  skillLv3BuffOverride?: { slot: SlotKey; skillSource: SkillLevelSource; buffs: TeamBuffInput[] };
   talentTierOverrides?: Partial<Record<SlotKey, number>>;
 }
 
@@ -378,7 +394,12 @@ export function evaluateTeamLoadout(
     fightMode: assumptions.fightMode,
     uptimeMode: assumptions.uptimeMode,
     destinyCards: assumptions.notesMode === 'starting' ? 0 : 10,
-    forceHarmonyLevel: assumptions.notesMode === 'max-harmony' ? 5 : undefined,
+    forceHarmonyLevel:
+      assumptions.notesMode === 'lv1-harmony'
+        ? 1
+        : assumptions.notesMode === 'max-harmony'
+          ? 5
+          : undefined,
   };
 
   const discBuffs = extractDiscPresetBuffs(
@@ -395,7 +416,8 @@ export function evaluateTeamLoadout(
   const carryPrimaryStat: BuffStatKey =
     carryScaling === 'HP' ? 'hpPct' : carryScaling === 'DEF' ? 'defPct' : 'atkPctPerma';
 
-  const includeSynthetic = options?.includeSyntheticEmblems !== false;
+  const includeSynthetic =
+    options?.includeSyntheticEmblems ?? assumptions.emblemBaseline === 'synthetic';
   const syntheticBuffs: TeamBuffInput[] = [];
   if (includeSynthetic) {
     const SLOTS: SlotKey[] = ['vanguard', 'versatile', 'support'];
@@ -410,7 +432,7 @@ export function evaluateTeamLoadout(
     // Only grant synthetic +110 PEN on slots whose fixed baseline kit has < 90 PEN
     for (const slot of SLOTS) {
       let kitPen = 0;
-      for (const b of ctx.basePotentialBuffs) {
+      for (const b of [...ctx.basePotentialBuffs, ...(ctx.baseSkillBuffs ?? [])]) {
         if (b.stat === 'resPen' && (b.target === 'team' || b.target === slot)) {
           kitPen += b.value;
         }
@@ -456,10 +478,23 @@ export function evaluateTeamLoadout(
   const scalePotentialBuff = (b: TeamBuffInput): TeamBuffInput =>
     isRealisticUptime && b.realisticUptime !== undefined && b.realisticUptime !== 1
       ? { target: b.target, stat: b.stat, value: +(b.value * b.realisticUptime).toFixed(4) }
-      : b;
+      : { target: b.target, stat: b.stat, value: b.value };
+
+  const overrideSkill = options?.skillLv3BuffOverride;
+  const activeBaseSkillBuffs = (ctx.baseSkillBuffs ?? [])
+    .filter(
+      (b) =>
+        !overrideSkill ||
+        b.slot !== overrideSkill.slot ||
+        b.skillSource !== overrideSkill.skillSource
+    )
+    .map(scalePotentialBuff);
+  const replacedSkillBuffs = (overrideSkill?.buffs ?? []).map(scalePotentialBuff);
 
   const buffs: TeamBuffInput[] = [
     ...(options?.potentialBuffs ?? ctx.basePotentialBuffs).map(scalePotentialBuff),
+    ...activeBaseSkillBuffs,
+    ...replacedSkillBuffs,
     ...discBuffs.map((b) => ({ target: b.target, stat: b.stat, value: b.value })),
     ...syntheticBuffs,
     ...(options?.extraBuffs ?? []).map(scalePotentialBuff),
@@ -497,11 +532,13 @@ export function evaluateTeamLoadout(
     fighters: effectiveFighters,
     contributions,
     buffs,
-    recordLevel: 35,
+    recordLevel: 31,
+    uptimeMode: assumptions.uptimeMode,
     enemy: {
-      def: 300,
+      def: 500,
       res: ENEMY_RES_BY_PRESET[assumptions.enemyRes],
       resilienceBroken: false,
+      resilienceBreakUptimePct: 27.7778,
     },
   });
 }

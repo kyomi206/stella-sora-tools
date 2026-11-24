@@ -107,8 +107,8 @@ describe('estimated potential rankings & +3 scaling engine', () => {
 
     const astralRank = res.potRank.find((r) => r.name === 'Astral Brilliance')!;
     assert.ok(
-      astralRank.value !== null && astralRank.value >= 15 && astralRank.value <= 19,
-      `Expected Astral Brilliance potRank in [15, 19], got ${astralRank.value}`
+      astralRank.value !== null && astralRank.value >= 14 && astralRank.value <= 19,
+      `Expected Astral Brilliance potRank in [14, 19], got ${astralRank.value}`
     );
     const astralPlus3 = res.potPlus3.find((r) => r.name === 'Astral Brilliance')!;
     assert.ok(
@@ -122,8 +122,8 @@ describe('estimated potential rankings & +3 scaling engine', () => {
 
     const bladePlus3 = res.potPlus3.find((r) => r.name === 'Blade of Falling Petals')!;
     assert.ok(
-      bladePlus3.teamDmg !== null && bladePlus3.teamDmg <= 1.4,
-      `Expected Blade of Falling Petals +3 teamDmg <= 1.4, got ${bladePlus3.teamDmg}`
+      bladePlus3.teamDmg !== null && bladePlus3.teamDmg <= 1.7,
+      `Expected Blade of Falling Petals +3 teamDmg <= 1.7 under 0 Emblems, got ${bladePlus3.teamDmg}`
     );
     assert.ok(
       bladePlus3.personalDmg !== null && bladePlus3.personalDmg <= 5.5,
@@ -134,8 +134,30 @@ describe('estimated potential rankings & +3 scaling engine', () => {
     assert.ok(
       lightforgedPlus3.personalDmg !== null &&
         lightforgedPlus3.personalDmg >= 13.5 &&
-        lightforgedPlus3.personalDmg <= 19.5,
-      `Expected Lightforged Blade +3 personalDmg in [13.5, 19.5], got ${lightforgedPlus3.personalDmg}`
+        lightforgedPlus3.personalDmg <= 22.0,
+      `Expected Lightforged Blade +3 personalDmg in [13.5, 22.0] under 0 Emblems, got ${lightforgedPlus3.personalDmg}`
+    );
+
+    // Toggling back to target Harmony + synthetic Emblems reproduces the earlier baseline range
+    const legacySim = computeEstimatedPotentialRankings(ctx, {
+      ...DEFAULT_DISC_RANKING_ASSUMPTIONS,
+      notesMode: 'target',
+      emblemBaseline: 'synthetic',
+    });
+    const legacyAstral = legacySim.potRank.find((r) => r.name === 'Astral Brilliance')!;
+    const legacyBlade = legacySim.potPlus3.find((r) => r.name === 'Blade of Falling Petals')!;
+    const legacyLightforged = legacySim.potPlus3.find((r) => r.name === 'Lightforged Blade')!;
+    assert.ok(
+      legacyAstral.value !== null && legacyAstral.value >= 15 && legacyAstral.value <= 19,
+      `Expected legacy target+synthetic Astral Brilliance in [15, 19], got ${legacyAstral.value}`
+    );
+    assert.ok(
+      legacyBlade.teamDmg !== null && legacyBlade.teamDmg <= 1.4,
+      `Expected legacy synthetic Blade of Falling Petals +3 teamDmg <= 1.4, got ${legacyBlade.teamDmg}`
+    );
+    assert.ok(
+      legacyLightforged.personalDmg !== null && legacyLightforged.personalDmg <= 19.5,
+      `Expected legacy synthetic Lightforged Blade +3 personalDmg <= 19.5, got ${legacyLightforged.personalDmg}`
     );
 
     const top5Names = res.potRank.slice(0, 5).map((r) => r.name);
@@ -446,5 +468,80 @@ describe('estimated Skill +3 gain matrix engine', () => {
       `Expected Cosette (Team) Support Skill +3 near ZiLenTz 3.80%, got ${cosetteSup.value}%`
     );
     assert.equal(cosetteSup.highlight, 'cyan');
+  });
+
+  it('attributes off-field AA to supportSkill (RC-2), aligns Emblem Skill +3 with Matrix (RC-6), and scales Hovering Gale Mark reaction (RC-4)', () => {
+    // 1. RC-2: Eleanor (versatile) Support Skill +3 on wraith-aa-eleanor and eleanor-aa-canace >= 15%
+    for (const id of ['wraith-aa-eleanor', 'eleanor-aa-canace']) {
+      const preset = presets.find((p) => p.id === id)!;
+      const ctx = buildDiscRankingContext(preset, characters, combatDb, discs, potentialsDb);
+      const matrix = computeEstimatedSkillPlus3Matrix(ctx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+      const emb = computeEstimatedEmblemRankings(ctx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+      const supRow = matrix.rows.find((r) => r.skill === 'Support Skill')!;
+      const eleanorMatrixCell = supRow.cells[1]?.value ?? 0;
+      const eleanorEmbCol = emb.find((c) => c.slot === 'versatile')!;
+      const eleanorEmbVal =
+        eleanorEmbCol?.rows.find((r) => r.stat === 'Support Skill +3')?.dmgGain ?? 0;
+      assert.ok(
+        eleanorMatrixCell >= 15,
+        `Expected ${id} Eleanor Support Skill +3 in Matrix >= 15%, got ${eleanorMatrixCell}%`
+      );
+      assert.ok(
+        eleanorEmbVal >= 15,
+        `Expected ${id} Eleanor Support Skill +3 in Emblems >= 15%, got ${eleanorEmbVal}%`
+      );
+    }
+
+    // 2. RC-6: Across all 14 presets, Emblem Skill +3 rows match Skill +3 Matrix cells within ±0.02%
+    const LABEL_TO_ROW: Record<string, string> = {
+      'Auto Attack +3': 'AA',
+      'Main Skill +3': 'Main Skill',
+      'Support Skill +3': 'Support Skill',
+      'Ultimate +3': 'Ultimate',
+    };
+    const SLOT_INDEX: Record<string, number> = { vanguard: 0, versatile: 1, support: 2 };
+    for (const preset of presets) {
+      const ctx = buildDiscRankingContext(preset, characters, combatDb, discs, potentialsDb);
+      const matrix = computeEstimatedSkillPlus3Matrix(ctx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+      const emb = computeEstimatedEmblemRankings(ctx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+      for (const col of emb) {
+        const colIdx = SLOT_INDEX[col.slot];
+        for (const row of col.rows) {
+          const matrixSkillName = LABEL_TO_ROW[row.stat];
+          if (!matrixSkillName) continue;
+          const matrixCell = matrix.rows.find((r) => r.skill === matrixSkillName)?.cells[colIdx]?.value;
+          assert.ok(
+            matrixCell !== null && matrixCell !== undefined && Math.abs(row.dmgGain - matrixCell) <= 0.02,
+            `${preset.id} ${col.label} ${row.stat}: Emblem (${row.dmgGain}%) != Matrix (${matrixCell}%)`
+          );
+        }
+      }
+    }
+
+    // 3. RC-4: Hovering Gale on chitose-mark-willow (top 2 rank >= 30%, top 2 +3 >= 18%) & allie-mark-teresa (+3 >= 5%)
+    const chitosePreset = presets.find((p) => p.id === 'chitose-mark-willow')!;
+    const chitoseCtx = buildDiscRankingContext(chitosePreset, characters, combatDb, discs, potentialsDb);
+    const chitosePot = computeEstimatedPotentialRankings(chitoseCtx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+    const hgRankIdx = chitosePot.potRank.findIndex((r) => r.name === 'Hovering Gale');
+    const hgPlus3Idx = chitosePot.potPlus3.findIndex((r) => r.name === 'Hovering Gale');
+    const hgRank = chitosePot.potRank[hgRankIdx];
+    const hgPlus3 = chitosePot.potPlus3[hgPlus3Idx];
+    assert.ok(
+      hgRankIdx >= 0 && hgRankIdx <= 1 && (hgRank.value ?? 0) >= 30,
+      `Expected Hovering Gale in top 2 potRank with >= 30%, got #${hgRankIdx + 1} (${hgRank?.value}%)`
+    );
+    assert.ok(
+      hgPlus3Idx >= 0 && hgPlus3Idx <= 1 && (hgPlus3.teamDmg ?? 0) >= 18,
+      `Expected Hovering Gale in top 2 potPlus3 with teamDmg >= 18%, got #${hgPlus3Idx + 1} (${hgPlus3?.teamDmg}%)`
+    );
+
+    const alliePreset = presets.find((p) => p.id === 'allie-mark-teresa')!;
+    const allieCtx = buildDiscRankingContext(alliePreset, characters, combatDb, discs, potentialsDb);
+    const alliePot = computeEstimatedPotentialRankings(allieCtx, DEFAULT_DISC_RANKING_ASSUMPTIONS);
+    const allieHg = alliePot.potPlus3.find((r) => r.name === 'Hovering Gale');
+    assert.ok(
+      allieHg && (allieHg.teamDmg ?? 0) >= 5,
+      `Expected Hovering Gale +3 on allie-mark-teresa >= 5%, got ${allieHg?.teamDmg}%`
+    );
   });
 });

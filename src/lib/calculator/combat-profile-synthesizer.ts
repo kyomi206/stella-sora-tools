@@ -117,8 +117,13 @@ function getSlotAbilitySources(slot: SlotKey): AbilitySource[] {
 }
 
 function canonicalSkillSource(type: DamageType, slot: SlotKey): AbilitySource | undefined {
+  if (slot !== 'vanguard') {
+    if (type === 'Ultimate') return 'ultimate';
+    if (type === 'Skill' || type === 'Auto Attack' || type === 'Mark') return 'supportSkill';
+    return undefined;
+  }
   if (type === 'Auto Attack') return 'normalAtk';
-  if (type === 'Skill') return slot === 'vanguard' ? 'skill' : 'supportSkill';
+  if (type === 'Skill') return 'skill';
   if (type === 'Ultimate') return 'ultimate';
   return undefined;
 }
@@ -152,10 +157,20 @@ function computeSlotDpsAndTypes(
     if (parts.length === 0) continue;
 
     const cd = parseCooldownSec(skill, source);
+    const descClean = String(skill.desc ?? '').replace(/<[^>]*>|##[^#]*#\d+#/g, '');
+    const projMatch = descClean.match(/\bfires?\s+(\d+)\s+[a-z\s]{2,25}?\s+(?:at|toward|into)\b/i);
+    const projectileMult =
+      projMatch && /\beach\b[^.]{0,30}\bdeals?\b/i.test(descClean)
+        ? Math.max(1, Math.min(10, Number(projMatch[1])))
+        : 1;
     let skillDps = 0;
     for (const part of parts) {
       const normFactor = part.scalingStat === 'HP' ? 1 / 0.16 : 1;
-      const partDps = (part.mvPct * Math.max(1, part.hits) * normFactor) / cd;
+      const effectiveHits =
+        part.hits === 1 && projectileMult > 1 && part.damageType !== 'Minion'
+          ? projectileMult
+          : Math.max(1, part.hits);
+      const partDps = (part.mvPct * effectiveHits * normFactor) / cd;
       skillDps += partDps;
       skillTypeShares[part.damageType] += partDps;
       const canonical = canonicalSkillSource(part.damageType, slotInput.slot);
@@ -292,7 +307,8 @@ export function synthesizeCombatProfile(input: SynthesizeProfileInput): {
             if (isCritTypeStat) {
               ownCritTypeScores[mappedType] += 1.5 * typePotWeight;
             } else {
-              ownTypeScores[mappedType] += 3.0 * typePotWeight;
+              const highBuffScale = eff.value >= 150 ? Math.min(2.5, eff.value / 100) : 1;
+              ownTypeScores[mappedType] += 3.0 * typePotWeight * highBuffScale;
             }
           } else if (
             eff.stat === 'atkPct' ||
@@ -307,7 +323,8 @@ export function synthesizeCombatProfile(input: SynthesizeProfileInput): {
 
       for (const hit of extraHits) {
         personalPts += 2.5 * potWeight;
-        ownTypeScores[hit.damageType] += 3.5 * typePotWeight;
+        const lowMvScale = hit.mvPct < 150 ? Math.max(0.65, hit.mvPct / 120) : 1;
+        ownTypeScores[hit.damageType] += 3.5 * typePotWeight * lowMvScale;
       }
 
       if (/\bmark(?:'s)?\s+(?:dmg|damage)\b/i.test(rendered)) {
@@ -337,13 +354,22 @@ export function synthesizeCombatProfile(input: SynthesizeProfileInput): {
     if (r.slot === 'vanguard' && (charClass ?? '').toLowerCase() !== 'support') {
       base = Math.max(1.42, base + 0.38);
     } else if (r.slot === 'support') {
-      base *= 0.36;
+      const isOffensiveVersatile =
+        (charClass ?? '').toLowerCase() === 'versatile' && personalFocus >= 0.45;
+      base *= isOffensiveVersatile ? 0.70 : 0.36;
     }
 
     // Smooth continuous scaling for off-field element-matching DPS (no step cliff)
     if (r.slot !== 'vanguard' && squadElement && r.character?.element === squadElement) {
       const smoothFocus = Math.max(0, Math.min(1, (personalFocus - 0.80) / 0.07));
       base *= 1 + 1.24 * smoothFocus;
+      if (
+        r.slot === 'versatile' &&
+        (charClass ?? '').toLowerCase() === 'versatile' &&
+        skillData.dpsProxy >= 120
+      ) {
+        base = Math.max(base, 0.92);
+      }
     }
 
     const rawFocusScale = 0.35 + 1.25 * personalFocus;
@@ -468,10 +494,17 @@ export function synthesizeCombatProfile(input: SynthesizeProfileInput): {
     const coreMentionsMainSkill = /\bmain\s+skill\b/i.test(coreTexts);
     const coreMentionsSupportSkill = /\bsupport\s+skill\b/i.test(coreTexts);
     const coreMentionsUltDmg = /\bultimate\s+dmg\b/i.test(coreTexts);
+    const coreMainSkillDirectlySpawnsAaDmg =
+      /\bwhen\s+casting\b[^.\n]{0,120}\bmain\s+skill\b[^.\n]{0,160}\bdeals?\b[^.\n]{0,120}\bauto\s+attack\s+dmg\b/i.test(
+        coreTexts
+      );
     if (coreMentionsUltDmg && r.slot === 'vanguard' && coreMentionsMainSkill) {
       skillData.primarySkillSourceByType.Ultimate = 'skill';
     } else if (coreMentionsUltDmg && r.slot !== 'vanguard' && coreMentionsSupportSkill) {
       skillData.primarySkillSourceByType.Ultimate = 'supportSkill';
+    }
+    if (coreMainSkillDirectlySpawnsAaDmg && r.slot === 'vanguard') {
+      skillData.primarySkillSourceByType['Auto Attack'] = 'skill';
     }
 
     const potWeightSum = ALL_DAMAGE_TYPES.reduce((acc, t) => acc + ownScores[t], 0);
@@ -553,6 +586,20 @@ export function synthesizeCombatProfile(input: SynthesizeProfileInput): {
       combined.Ultimate = Math.min(combined.Skill * 0.065, combined.Ultimate);
     }
 
+    const hasAaToMarkConversion = r.potentials.some(({ pot, level }) => {
+      const rendered = renderPotentialAtLevel(pot.descTemplate, pot.params, Math.max(1, level));
+      return extractEffectsFromText(rendered, 'own').some((eff) => eff.stat === 'aaToMarkRatio77');
+    });
+    if (!hasAaToMarkConversion && combined.Mark > 0) {
+      const nonMarkScoreSum = ALL_DAMAGE_TYPES.filter((t) => t !== 'Mark').reduce(
+        (acc, t) => acc + combined[t],
+        0
+      );
+      if (nonMarkScoreSum > 0) {
+        combined.Mark = Math.min(combined.Mark, nonMarkScoreSum * 3.6);
+      }
+    }
+
     const adjustedTotalTypeScore = ALL_DAMAGE_TYPES.reduce((acc, t) => acc + combined[t], 0);
     const keptTypes = ALL_DAMAGE_TYPES.filter((t) => combined[t] / adjustedTotalTypeScore >= 0.005);
     const activeTypes = keptTypes.length > 0 ? keptTypes : ALL_DAMAGE_TYPES.filter((t) => combined[t] > 0);
@@ -567,6 +614,11 @@ export function synthesizeCombatProfile(input: SynthesizeProfileInput): {
         const ultPart = Math.max(1, w - mainSkillPart);
         slotSlices.push({ type: 'Ultimate', weight: mainSkillPart, skillSource: 'skill' });
         slotSlices.push({ type: 'Ultimate', weight: ultPart, skillSource: 'ultimate' });
+      } else if (t === 'Auto Attack' && r.slot === 'vanguard' && coreMainSkillDirectlySpawnsAaDmg) {
+        const mainSkillPart = Math.max(1, Math.round(w * 0.87));
+        const aaPart = Math.max(1, w - mainSkillPart);
+        slotSlices.push({ type: 'Auto Attack', weight: mainSkillPart, skillSource: 'skill' });
+        slotSlices.push({ type: 'Auto Attack', weight: aaPart, skillSource: 'normalAtk' });
       } else {
         slotSlices.push({
           type: t,

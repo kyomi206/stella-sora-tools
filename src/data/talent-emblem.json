@@ -69,14 +69,19 @@
         {
           "stat": "Ult",
           "value": 0.12,
-          "target": "Main"
+          "target": "Main",
+          "requiresSquadMarkElement": "Lux"
         }
       ],
       [
         {
           "stat": "Skill",
           "value": 0.13,
-          "target": "Squad"
+          "target": "Squad",
+          "requiresElementCount": {
+            "element": "Lux",
+            "min": 3
+          }
         }
       ]
     ],
@@ -567,7 +572,11 @@
         {
           "stat": "Skill",
           "value": 0.13,
-          "target": "Squad"
+          "target": "Squad",
+          "requiresElementCount": {
+            "element": "Ventus",
+            "min": 3
+          }
         }
       ]
     ],
@@ -641,7 +650,11 @@
         {
           "stat": "Crit dmg%",
           "value": 0.12,
-          "target": "Squad"
+          "target": "Squad",
+          "requiresElementCount": {
+            "element": "Ignis",
+            "min": 3
+          }
         }
       ]
     ],
@@ -678,7 +691,11 @@
         {
           "stat": "Skill",
           "value": 0.13,
-          "target": "Squad"
+          "target": "Squad",
+          "requiresElementCount": {
+            "element": "Aqua",
+            "min": 3
+          }
         }
       ]
     ],
@@ -761,17 +778,20 @@
         {
           "stat": "Skill",
           "value": 0.45,
-          "target": "Trekker1"
+          "target": "Trekker1",
+          "realisticUptime": 0.22
         },
         {
           "stat": "Skill",
           "value": 0.45,
-          "target": "Trekker2"
+          "target": "Trekker2",
+          "realisticUptime": 0.22
         },
         {
           "stat": "Skill",
           "value": 0.45,
-          "target": "Trekker3"
+          "target": "Trekker3",
+          "realisticUptime": 0.22
         }
       ],
       [
@@ -792,7 +812,8 @@
         {
           "stat": "Skill",
           "value": 0.28,
-          "target": "Nazuka"
+          "target": "Nazuka",
+          "requiresSquadMarkElement": "Ventus"
         }
       ],
       [
@@ -868,17 +889,17 @@
       [
         {
           "stat": "ATK%",
-          "value": 0.35,
+          "value": 0.14,
           "target": "Trekker1"
         },
         {
           "stat": "ATK%",
-          "value": 0.35,
+          "value": 0.14,
           "target": "Trekker2"
         },
         {
           "stat": "ATK%",
-          "value": 0.35,
+          "value": 0.14,
           "target": "Trekker3"
         }
       ],
@@ -914,7 +935,8 @@
         {
           "stat": "ATK%",
           "value": 0.33,
-          "target": "Eleanor"
+          "target": "Eleanor",
+          "requiresSquadMarkElement": "Ventus"
         }
       ],
       [
@@ -1113,7 +1135,11 @@
         {
           "stat": "Skill",
           "value": 0.13,
-          "target": "Squad"
+          "target": "Squad",
+          "requiresElementCount": {
+            "element": "Umbra",
+            "min": 3
+          }
         }
       ]
     ],
@@ -1220,7 +1246,7 @@
         {
           "stat": "Crit dmg%",
           "value": 0.15,
-          "target": "Squad"
+          "target": "Umbra"
         }
       ],
       [
@@ -1419,7 +1445,11 @@
         {
           "stat": "Terra",
           "value": 0.14,
-          "target": "Squad"
+          "target": "Squad",
+          "requiresElementCount": {
+            "element": "Terra",
+            "min": 3
+          }
         }
       ]
     ],
@@ -1556,7 +1586,8 @@
         {
           "stat": "Aqua taken",
           "value": 0.27,
-          "target": "Aqua"
+          "target": "Aqua",
+          "requiresSquadMarkElement": "Aqua"
         }
       ],
       [
@@ -1603,7 +1634,12 @@
         {
           "stat": "DMG Multiplier",
           "value": 0.36,
-          "target": "F.Noya"
+          "target": "F.Noya",
+          "damageTypes": [
+            "Skill",
+            "Auto Attack"
+          ],
+          "realisticUptime": 0.65
         }
       ],
       [
@@ -1624,12 +1660,18 @@
         {
           "stat": "DMG Multiplier",
           "value": 0.21,
-          "target": "F.Noya"
+          "target": "F.Noya",
+          "damageTypes": [
+            "Skill"
+          ]
         },
         {
           "stat": "DMG Multiplier",
           "value": 0.18,
-          "target": "F.Noya"
+          "target": "F.Noya",
+          "damageTypes": [
+            "Auto Attack"
+          ]
         }
       ]
     ],
