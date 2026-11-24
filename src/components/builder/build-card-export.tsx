@@ -107,6 +107,14 @@ export function BuildCardExport({ build, characters: externalCharacters }: Build
       dashed: false,
     },
     {
+      key: 'High',
+      label: 'High',
+      headerBg: 'bg-[#0ea5e9]',
+      boxBorder: 'border-[2.5px] border-[#0ea5e9] bg-[#0ea5e9]/10',
+      divideBorder: 'divide-x-[2px] divide-[#0ea5e9]',
+      dashed: false,
+    },
+    {
       key: 'Medium',
       label: 'Medium',
       headerBg: 'bg-[#6366f1]',

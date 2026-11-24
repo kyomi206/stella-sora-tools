@@ -16,12 +16,14 @@ import type {
 const characters = charactersData as Record<string, unknown>;
 const discs = discsData as Record<string, unknown>;
 const SLOT_KEYS: readonly SlotType[] = ['vanguard', 'versatile', 'support'];
-const PRIORITIES: readonly PotentialPriority[] = ['Core', 'Medium', 'Low', 'Optional'];
+const PRIORITIES_V1: readonly PotentialPriority[] = ['Core', 'Medium', 'Low', 'Optional'];
+const PRIORITIES_V2: readonly PotentialPriority[] = ['Core', 'Medium', 'Low', 'Optional', 'High'];
 const VALID_DISC_LEVELS: readonly (1 | 80 | 90)[] = [1, 80, 90];
 const NOTE_NAMES_SET = new Set<NoteName>(MUSICAL_NOTES.map((n) => n.name));
 
-// 24-bit magic header [0x49, 0x24, 0xF5] encodes cleanly to "SST1" in Base64.
-const ADV_MAGIC_BYTES: readonly [number, number, number] = [0x49, 0x24, 0xf5];
+// 24-bit magic headers: [0x49, 0x24, 0xF5] -> "SST1" (2-bit priority), [0x49, 0x24, 0xF6] -> "SST2" (3-bit priority with "High").
+const ADV_MAGIC_BYTES_V1: readonly [number, number, number] = [0x49, 0x24, 0xf5];
+const ADV_MAGIC_BYTES_V2: readonly [number, number, number] = [0x49, 0x24, 0xf6];
 
 export type AdvancedPresetData = Pick<
   AdvancedTeamBuild,
@@ -214,7 +216,7 @@ export function packPresetCode(slots: TeamBuild['slots']): string | null {
 }
 
 function encodePriority(priority: PotentialPriority | undefined, isCore: boolean): number {
-  const idx = priority ? PRIORITIES.indexOf(priority) : -1;
+  const idx = priority ? PRIORITIES_V2.indexOf(priority) : -1;
   if (idx >= 0) return idx;
   return isCore ? 0 : 1; // 'Core' for core, 'Medium' for normal
 }
@@ -240,8 +242,8 @@ export function normalizeAdvancedPresetCodeInput(rawInput: string): string | nul
   let b64 = text.replace(/[\s\u200B-\u200D\uFEFF]+/g, '').replace(/-/g, '+').replace(/_/g, '/');
   if (!b64) return null;
 
-  if (!b64.startsWith('SST1') || !/^[A-Za-z0-9+/]+={0,2}$/.test(b64)) {
-    const tokenMatch = b64.match(/(SST1[A-Za-z0-9+/]+={0,2})/);
+  if (!/^SST[12]/.test(b64) || !/^[A-Za-z0-9+/]+={0,2}$/.test(b64)) {
+    const tokenMatch = b64.match(/(SST[12][A-Za-z0-9+/]+={0,2})/);
     if (!tokenMatch) return null;
     b64 = tokenMatch[1];
   }
@@ -251,13 +253,13 @@ export function normalizeAdvancedPresetCodeInput(rawInput: string): string | nul
   if (remainder > 0) {
     b64 += '='.repeat(4 - remainder);
   }
-  return b64.startsWith('SST1') ? b64 : null;
+  return /^SST[12]/.test(b64) ? b64 : null;
 }
 
 /**
  * Encodes a complete Advanced Visualizer setup (3 Trekker slots with potentials/levels/priorities,
  * 3 Main Discs + 3 Support Discs with level/crescendo/phase, and all 13 Musical Notes) into a
- * compact Base64 code prefixed with `SST1`.
+ * compact Base64 code prefixed with `SST1` (or `SST2` when the `High` priority is used).
  */
 export function packAdvancedPresetCode(
   build: AdvancedPresetData,
@@ -281,6 +283,12 @@ export function packAdvancedPresetCode(
     return null;
   }
 
+  const usesExtendedPriority = SLOT_KEYS.some((k) =>
+    (build.slots[k]?.potentials || []).some((p) => p.priority === 'High')
+  );
+  const magicBytes = usesExtendedPriority ? ADV_MAGIC_BYTES_V2 : ADV_MAGIC_BYTES_V1;
+  const priorityBits = usesExtendedPriority ? 3 : 2;
+
   const bits: number[] = [];
   const writeBits = (value: number, numBits: number) => {
     for (let i = numBits - 1; i >= 0; i--) {
@@ -288,7 +296,7 @@ export function packAdvancedPresetCode(
     }
   };
 
-  for (const magicByte of ADV_MAGIC_BYTES) {
+  for (const magicByte of magicBytes) {
     writeBits(magicByte, 8);
   }
 
@@ -337,7 +345,7 @@ export function packAdvancedPresetCode(
         writeBits(0, 1);
       } else {
         writeBits(1, 1);
-        writeBits(encodePriority(sel.priority, true), 2);
+        writeBits(encodePriority(sel.priority, true), priorityBits);
       }
     }
 
@@ -348,7 +356,7 @@ export function packAdvancedPresetCode(
       } else {
         const lvl = Math.min(Math.max(Math.round(Number(sel.level) || 6), 1), 9);
         writeBits(lvl, 4);
-        writeBits(encodePriority(sel.priority, false), 2);
+        writeBits(encodePriority(sel.priority, false), priorityBits);
       }
     }
   }
@@ -447,14 +455,23 @@ export function unpackAdvancedPresetCode(
     return null;
   }
 
-  if (
-    binStr.length < 16 ||
-    binStr.charCodeAt(0) !== ADV_MAGIC_BYTES[0] ||
-    binStr.charCodeAt(1) !== ADV_MAGIC_BYTES[1] ||
-    binStr.charCodeAt(2) !== ADV_MAGIC_BYTES[2]
-  ) {
+  const isV1 =
+    binStr.length >= 16 &&
+    binStr.charCodeAt(0) === ADV_MAGIC_BYTES_V1[0] &&
+    binStr.charCodeAt(1) === ADV_MAGIC_BYTES_V1[1] &&
+    binStr.charCodeAt(2) === ADV_MAGIC_BYTES_V1[2];
+  const isV2 =
+    binStr.length >= 16 &&
+    binStr.charCodeAt(0) === ADV_MAGIC_BYTES_V2[0] &&
+    binStr.charCodeAt(1) === ADV_MAGIC_BYTES_V2[1] &&
+    binStr.charCodeAt(2) === ADV_MAGIC_BYTES_V2[2];
+
+  if (!isV1 && !isV2) {
     return null;
   }
+
+  const priorityBits = isV2 ? 3 : 2;
+  const priorities = isV2 ? PRIORITIES_V2 : PRIORITIES_V1;
 
   const bits: number[] = [];
   for (let i = 0; i < binStr.length; i++) {
@@ -516,12 +533,12 @@ export function unpackAdvancedPresetCode(
       const selected = readBits(1);
       if (truncated) return null;
       if (selected === 1) {
-        const prioIdx = readBits(2);
-        if (truncated || prioIdx >= PRIORITIES.length) return null;
+        const prioIdx = readBits(priorityBits);
+        if (truncated || prioIdx >= priorities.length) return null;
         coreSelected.push({
           id: p.id,
           rarity: 0,
-          priority: PRIORITIES[prioIdx],
+          priority: priorities[prioIdx],
         });
       }
     }
@@ -531,13 +548,13 @@ export function unpackAdvancedPresetCode(
       const level = readBits(4);
       if (truncated || level > 9) return null;
       if (level > 0) {
-        const prioIdx = readBits(2);
-        if (truncated || prioIdx >= PRIORITIES.length) return null;
+        const prioIdx = readBits(priorityBits);
+        if (truncated || prioIdx >= priorities.length) return null;
         normalSelected.push({
           id: p.id,
           rarity: p.rarityNum,
           level,
-          priority: PRIORITIES[prioIdx],
+          priority: priorities[prioIdx],
         });
       }
     }

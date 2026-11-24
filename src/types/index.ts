@@ -63,7 +63,7 @@ export interface SSPotentialFull {
   damageType?: string[];
 }
 
-export type PotentialPriority = 'Core' | 'Medium' | 'Optional' | 'Low';
+export type PotentialPriority = 'Core' | 'High' | 'Medium' | 'Low' | 'Optional';
 
 export interface SelectedPotential {
   id: number;

@@ -675,6 +675,8 @@ export function PotentialsPickerModal({
                               'w-full appearance-none bg-surface-subtle hover:bg-surface-hover border rounded-md text-[9.5px] sm:text-[10px] font-semibold text-center py-0.5 pr-4 pl-1 focus:outline-none cursor-pointer transition-colors',
                               currentPriority === 'Core'
                                 ? 'text-teal-700 border-teal-500/50'
+                                : currentPriority === 'High'
+                                ? 'text-sky-700 border-sky-500/50'
                                 : currentPriority === 'Medium'
                                 ? 'text-indigo-700 border-indigo-500/50'
                                 : currentPriority === 'Low'
@@ -684,6 +686,9 @@ export function PotentialsPickerModal({
                           >
                             <option value="Core" className="bg-surface-card text-teal-600">
                               Core
+                            </option>
+                            <option value="High" className="bg-surface-card text-sky-600">
+                              High
                             </option>
                             <option value="Medium" className="bg-surface-card text-indigo-600">
                               Medium

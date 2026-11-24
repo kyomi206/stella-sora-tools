@@ -164,6 +164,13 @@ export function AdvancedBuildCardExport({
       divideBorder: 'divide-x-[2px] divide-[#2dd4bf]',
     },
     {
+      key: 'High',
+      label: 'High',
+      headerBg: 'bg-[#0ea5e9]',
+      boxBorder: 'border-[2.5px] border-[#0ea5e9] bg-[#0ea5e9]/10',
+      divideBorder: 'divide-x-[2px] divide-[#0ea5e9]',
+    },
+    {
       key: 'Medium',
       label: 'Medium',
       headerBg: 'bg-[#6366f1]',

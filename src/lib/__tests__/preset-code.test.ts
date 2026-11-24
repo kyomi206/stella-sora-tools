@@ -309,4 +309,46 @@ describe('Advanced Visualizer preset code codec (SST1)', () => {
     const corruptedCode = btoa(String.fromCharCode(...corrupted));
     assert.strictEqual(unpackAdvancedPresetCode(corruptedCode), null);
   });
+
+  it('packs and unpacks High priority using SST2 while keeping non-High builds on SST1', () => {
+    const baseSlots = unpackPresetCode('AAAAkAAAAKAAAAB9zbALDAAwBsNsAGwA2GwA')!;
+    assert.ok(baseSlots);
+
+    const buildWithHigh: AdvancedPresetData = {
+      slots: {
+        vanguard: {
+          characterId: baseSlots.vanguard.characterId,
+          potentials: baseSlots.vanguard.potentials.map((p, idx) => ({
+            ...p,
+            priority: idx === 0 ? ('High' as const) : idx === 2 ? ('High' as const) : p.priority,
+          })),
+        },
+        versatile: baseSlots.versatile,
+        support: baseSlots.support,
+      },
+      mainDiscs: [
+        { discId: realDiscIds[0], level: 90, crescendo: 6 },
+        { discId: null, crescendo: 1, level: 90 },
+        { discId: null, crescendo: 1, level: 90 },
+      ],
+      supportDiscs: [
+        { discId: null, phase: 8, level: 80, crescendo: 1 },
+        { discId: null, phase: 8, level: 80, crescendo: 1 },
+        { discId: null, phase: 8, level: 80, crescendo: 1 },
+      ],
+      targetNotes: {},
+    };
+
+    const packed = packAdvancedPresetCode(buildWithHigh);
+    assert.ok(packed, 'Expected SST2 code to pack');
+    assert.ok(packed.startsWith('SST2'), `Expected SST2 prefix, got: ${packed.slice(0, 6)}`);
+
+    const unpacked = unpackAdvancedPresetCode(packed);
+    assert.ok(unpacked, 'Expected SST2 code to unpack');
+
+    const highPots = unpacked.slots.vanguard.potentials.filter((p) => p.priority === 'High');
+    assert.strictEqual(highPots.length, 2, 'Expected both Core and Normal High priorities preserved');
+    assert.strictEqual(packAdvancedPresetCode(unpacked), packed);
+    assert.deepStrictEqual(unpackAdvancedPresetCode(`https://kiyostella.vercel.app/builder/advanced?adv=${packed}`), unpacked);
+  });
 });

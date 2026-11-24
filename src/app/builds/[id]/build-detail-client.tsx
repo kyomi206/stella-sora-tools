@@ -76,11 +76,18 @@ const PRIORITY_DEFINITIONS = [
     boxBorder: 'border-[2.5px] border-[#14b8a6] bg-[#14b8a6]/10',
   },
   {
-    key: 'Medium',
-    label: 'Medium',
+    key: 'High',
+    label: 'High',
     headerBg: 'bg-[#0369a1]',
     headerText: 'text-white',
     boxBorder: 'border-[2.5px] border-[#0ea5e9] bg-[#0ea5e9]/10',
+  },
+  {
+    key: 'Medium',
+    label: 'Medium',
+    headerBg: 'bg-[#4338ca]',
+    headerText: 'text-white',
+    boxBorder: 'border-[2.5px] border-[#6366f1] bg-[#6366f1]/10',
   },
   {
     key: 'Low',

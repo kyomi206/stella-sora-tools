@@ -23,7 +23,8 @@ describe('share-link validation', () => {
           characterId: 103,
           potentials: [
             { id: 10301, rarity: 0, level: '5', priority: 'Core' },
-            { id: 10302, rarity: 1, level: 6, priority: 'Medium' },
+            { id: 10302, rarity: 1, level: 6, priority: 'High' },
+            { id: 10303, rarity: 1, level: 5, priority: 'Medium' },
           ],
         },
         versatile: {
@@ -54,7 +55,8 @@ describe('share-link validation', () => {
           characterId: 103,
           potentials: [
             { id: 10301, rarity: 0, level: '5', priority: 'Core' },
-            { id: 10302, rarity: 1, level: 6, priority: 'Medium' },
+            { id: 10302, rarity: 1, level: 6, priority: 'High' },
+            { id: 10303, rarity: 1, level: 5, priority: 'Medium' },
           ],
         },
         versatile: {

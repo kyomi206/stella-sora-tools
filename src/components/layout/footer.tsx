@@ -6,7 +6,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex flex-col gap-1 text-center sm:text-left">
           <p className="font-medium text-slate-700">
-            Stella Sora Tools v0.1.2
+            Stella Sora Tools v0.1.3
           </p>
           <p className="text-slate-600 dark:text-slate-400">
             Stella Sora and all related assets, characters, and trademarks are property of Yostar.
