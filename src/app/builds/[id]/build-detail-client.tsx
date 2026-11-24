@@ -194,8 +194,8 @@ function ReadOnlyDiscSkillBubble({
               <span className="min-w-0 flex-1 truncate text-[11px] font-bold text-slate-900 dark:text-white">
                 {disc.name}
               </span>
-              <span className="shrink-0 rounded bg-surface-subtle px-1.5 py-0.5 text-[11px] font-bold tabular-nums text-slate-700 dark:text-white/80">
-                {disc.star}-Star
+              <span className="shrink-0 rounded bg-surface-subtle px-1 text-[11px] font-bold tabular-nums text-slate-700 dark:text-white/80">
+                {disc.star}★
               </span>
             </div>
 
@@ -393,8 +393,8 @@ function ReadOnlyDiscTile({ disc, badges, bubble, leftMeta }: ReadOnlyDiscTilePr
           />
         )}
 
-        <span className="pointer-events-none absolute left-1 bottom-1 rounded bg-black/80 px-1 text-[11px] font-bold leading-tight tabular-nums text-amber-400">
-          {disc.star}-Star
+        <span className="pointer-events-none absolute left-1 bottom-1 rounded bg-black/80 px-1 text-[11px] font-bold leading-tight text-amber-400">
+          {disc.star}★
         </span>
       </Link>
 
