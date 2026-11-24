@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache.js';
 import type { BuildRotation } from '../calculator/build-rotation.ts';
 import {
   CURRENT_PATCH,
@@ -117,8 +117,10 @@ export function mapDbRowToResolvedPreset(
 
 export async function getCachedCommunityBuilds(): Promise<ResolvedCommunityPreset[]> {
   'use cache';
-  cacheTag('community-builds');
-  cacheLife('minutes');
+  if (process.env.__NEXT_USE_CACHE) {
+    cacheTag('community-builds');
+    cacheLife('minutes');
+  }
 
   const curated = getResolvedCommunityPresets().map((preset) => ({
     ...preset,
@@ -199,9 +201,11 @@ export async function getCachedCommunityBuildById(
   id: string
 ): Promise<ResolvedCommunityPreset | null> {
   'use cache';
-  cacheTag('community-builds');
-  cacheTag(`build:${id}`);
-  cacheLife('minutes');
+  if (process.env.__NEXT_USE_CACHE) {
+    cacheTag('community-builds');
+    cacheTag(`build:${id}`);
+    cacheLife('minutes');
+  }
 
   const curated = getResolvedCommunityPresetById(id);
   const sql = getSql();

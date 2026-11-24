@@ -11,6 +11,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import {
   buildBreadcrumbJsonLd,
   buildPageMetadata,
+  buildTrekkerDescription,
   toAbsoluteUrl,
 } from '@/lib/seo';
 import type { SSCharacter, SSPotentialFull } from '@/types';
@@ -66,24 +67,6 @@ function getLoreForCharacter(char: SSCharacter): Record<string, any> | null {
   return loreMap[String(char.id)] || loreMap[char.name.EN] || null;
 }
 
-function buildTrekkerDescription(
-  char: SSCharacter,
-  lore: Record<string, any> | null,
-  combat: Record<string, any> | null
-): string {
-  const factionPart = lore?.faction ? ` Faction: ${lore.faction}.` : '';
-  const skillNames = [
-    combat?.normalAtk?.name,
-    combat?.skill?.name,
-    combat?.supportSkill?.name,
-    combat?.ultimate?.name,
-  ].filter(Boolean);
-  const skillsPart =
-    skillNames.length > 0 ? ` Skills: ${skillNames.join(', ')}.` : '';
-
-  return `${char.star}★ ${char.element} ${char.class} (${char.attackType}) Trekker in Stella Sora.${factionPart}${skillsPart} Full Lv.1–90 stats, potentials, T1–T5 talents, and loved gifts on KiyoStella.`;
-}
-
 export async function generateMetadata({
   params,
 }: TrekkerPageProps): Promise<Metadata> {
@@ -109,6 +92,12 @@ export async function generateMetadata({
     description: buildTrekkerDescription(char, lore, combat),
     path: canonicalPath,
     type: 'article',
+    ogImage: {
+      url: `/api/og?type=trekker&id=${char.id}`,
+      width: 1200,
+      height: 630,
+      alt: `${char.name.EN} — Stella Sora Trekker`,
+    },
     keywords: [
       char.name.EN,
       `Stella Sora ${char.name.EN}`,

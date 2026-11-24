@@ -9,6 +9,7 @@ import {
 import { JsonLd } from '@/components/seo/json-ld';
 import {
   buildBreadcrumbJsonLd,
+  buildDiscDescription,
   buildPageMetadata,
   toAbsoluteUrl,
 } from '@/lib/seo';
@@ -36,22 +37,6 @@ interface DiscPageProps {
   params: Promise<{ slug: string }>;
 }
 
-function buildDiscDescription(disc: NonNullable<ReturnType<typeof getDiscBySlugOrId>>) {
-  const elementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
-  const lv90Atk = disc.stats?.lv90?.ATK ?? disc.stats?.lv80?.ATK;
-  const atkNote = lv90Atk ? ` Lv.90 Base ATK ${lv90Atk}.` : '';
-  const melodyNote = disc.mainSkill?.name ? ` Melody Skill: ${disc.mainSkill.name}.` : '';
-  const harmonyNames = [disc.secondarySkill1?.name, disc.secondarySkill2?.name].filter(
-    Boolean
-  );
-  const harmonyNote =
-    harmonyNames.length > 0 ? ` Harmony Skills: ${harmonyNames.join(', ')}.` : '';
-  const exclusive = getExclusiveBannerByDiscId(disc.id);
-  const trekkerNote = exclusive ? ` Featured Trekker: ${exclusive.trekkerName}.` : '';
-
-  return `${disc.star}★ ${elementLabel} Runic Disc in Stella Sora.${atkNote}${melodyNote}${harmonyNote}${trekkerNote}`;
-}
-
 export async function generateMetadata({ params }: DiscPageProps): Promise<Metadata> {
   const { slug } = await params;
   const disc = getDiscBySlugOrId(slug);
@@ -65,14 +50,21 @@ export async function generateMetadata({ params }: DiscPageProps): Promise<Metad
     });
   }
 
+  const exclusive = getExclusiveBannerByDiscId(disc.id);
   const elementLabel = disc.element === 'None' ? 'Neutral' : disc.element;
   const canonicalPath = `/discs/${getDiscSlug(disc.name)}`;
 
   return buildPageMetadata({
     title: disc.name,
-    description: buildDiscDescription(disc),
+    description: buildDiscDescription(disc, exclusive?.trekkerName),
     path: canonicalPath,
     type: 'article',
+    ogImage: {
+      url: `/api/og?type=disc&id=${disc.id}`,
+      width: 1200,
+      height: 630,
+      alt: `${disc.name} — Stella Sora Runic Disc`,
+    },
     keywords: [
       disc.name,
       `Stella Sora ${disc.name}`,
@@ -119,7 +111,7 @@ export default async function DiscPage({ params }: DiscPageProps) {
     : null;
 
   const canonicalPath = `/discs/${getDiscSlug(disc.name)}`;
-  const description = buildDiscDescription(disc);
+  const description = buildDiscDescription(disc, exclusive?.trekkerName);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [

@@ -47,6 +47,12 @@ export async function generateMetadata({ params }: BuildPageProps): Promise<Meta
       : `${preset.element} squad build guide in Stella Sora.`,
     path: `/builds/${preset.id}`,
     type: 'article',
+    ogImage: {
+      url: `/api/og?type=build&id=${encodeURIComponent(preset.id)}`,
+      width: 1200,
+      height: 630,
+      alt: `${preset.title} — Stella Sora Community Build`,
+    },
     keywords: [
       preset.title,
       `Stella Sora ${preset.element} team`,

@@ -13,7 +13,7 @@ import {
 } from '@/lib/seo';
 
 const HOME_DESCRIPTION =
-  'KiyoStella is a Stella Sora web companion with a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.';
+  'KiyoStella is a Stella Sora web companion with Community Builds, a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.';
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Stella Sora Tools | kiyostella',

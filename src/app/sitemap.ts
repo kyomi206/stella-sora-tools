@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import charactersData from '../data/characters.json' with { type: 'json' };
-import { getResolvedCommunityPresets } from '../lib/community-presets.ts';
+import { getCachedCommunityBuilds } from '../lib/community-builds/store.ts';
 import { getAllDiscs, getDiscSlug } from '../lib/discs.ts';
 import { CONTENT_LAST_MODIFIED, toAbsoluteUrl } from '../lib/seo.ts';
 
@@ -22,7 +22,7 @@ const STATIC_ROUTES: ReadonlyArray<{
   { path: '/credits', changeFrequency: 'monthly', priority: 0.4 },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const seenUrls = new Set<string>();
   const entries: MetadataRoute.Sitemap = [];
 
@@ -62,10 +62,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  for (const preset of getResolvedCommunityPresets()) {
+  const communityBuilds = await getCachedCommunityBuilds();
+  for (const preset of communityBuilds) {
     pushEntry({
       url: toAbsoluteUrl(`/builds/${encodeURIComponent(preset.id)}`),
-      lastModified: CONTENT_LAST_MODIFIED,
+      lastModified: preset.verifiedAt || CONTENT_LAST_MODIFIED,
       changeFrequency: 'weekly',
       priority: 0.8,
     });

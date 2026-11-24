@@ -1,5 +1,5 @@
 import charactersData from '../../data/characters.json' with { type: 'json' };
-import { getResolvedCommunityPresets } from '../../lib/community-presets.ts';
+import { getCachedCommunityBuilds } from '../../lib/community-builds/store.ts';
 import { getAllDiscs, getDiscSlug } from '../../lib/discs.ts';
 import { getSiteUrl } from '../../lib/site-url.ts';
 
@@ -9,7 +9,7 @@ export async function GET() {
     a.name.EN.localeCompare(b.name.EN)
   );
   const allDiscs = getAllDiscs();
-  const communityPresets = getResolvedCommunityPresets();
+  const communityBuilds = await getCachedCommunityBuilds();
   const fiveStarDiscs = allDiscs.filter((disc) => disc.star >= 5);
   const fourStarCount = allDiscs.filter((disc) => disc.star === 4).length;
   const threeStarCount = allDiscs.filter((disc) => disc.star === 3).length;
@@ -26,6 +26,24 @@ export async function GET() {
     return `- [${disc.name}](${siteUrl}/discs/${slug}): 5★ ${elementLabel} Runic Disc${melody}`;
   });
 
+  const buildsDescriptionLine =
+    communityBuilds.length > 0
+      ? `- [Community Builds & Guides](${siteUrl}/builds): Browse ${communityBuilds.length} community and curated squad builds across all 6 elements with 36-char in-game Potential codes, F2P substitutions, and theorycraft breakdown tables.`
+      : `- [Community Builds & Guides](${siteUrl}/builds): Browse and publish community squad builds across all 6 elements with 36-char in-game Potential codes, F2P substitutions, and theorycraft breakdown tables.`;
+
+  const communityBuildSection =
+    communityBuilds.length > 0
+      ? [
+          '',
+          `## Community Builds (${communityBuilds.length} Published)`,
+          '',
+          ...communityBuilds.slice(0, 25).map((build) => {
+            const author = build.authorName || build.sources[0]?.author || 'Anonymous';
+            return `- [${build.title}](${siteUrl}/builds/${encodeURIComponent(build.id)}): ${build.element} · ${build.tier} by ${author}`;
+          }),
+        ]
+      : [];
+
   const body = [
     '# KiyoStella',
     '',
@@ -37,12 +55,14 @@ export async function GET() {
     '',
     `- [Preset Visualizer & Squad Builder](${siteUrl}/builder): Build 3-Trekker squads (Vanguard, Versatile, Support), pick Core and Normal Potentials, import/export in-game 36-character preset codes, save local squad bookmarks, and export shareable build cards.`,
     `- [Advanced Preset Visualizer](${siteUrl}/builder/advanced): Configure full squad presets including 3 Main Runic Discs, 3 Support Runic Discs, Musical Notes harmony requirements, and SST1 advanced preset codes.`,
-    `- [Community Builds & Guides](${siteUrl}/builds): Browse ${communityPresets.length} curated squad blueprints across all 6 elements with 36-char in-game Potential codes, F2P substitutions, and theorycraft breakdown tables.`,
+    buildsDescriptionLine,
     `- [Affinity Calculator](${siteUrl}/bond): Plan Heartlink/Affinity leveling using loved (+50% EXP) vs. neutral gifts, auto-fill optimal gift allocations, and calculate the days needed under the 10 gifts/day mail limit.`,
     `- [Resource Calculator](${siteUrl}/calculator): Calculate exact Dorra, level-up EXP, class breakthrough materials, and skill cartridge costs for any Trekker from level 1–90 and skill ranks 1–10.`,
     `- [Events Roadmap & Banner Schedule](${siteUrl}/roadmap): Track active and upcoming character recruitment banners, Runic Disc banners, Boss Blitz seasons, story events, and Cataclysm Survivor schedules.`,
     `- [Trekker Encyclopedia](${siteUrl}/trekkers): Browse and filter all ${characters.length} playable Trekkers by Element, Style, Class, Rarity, Combat Type, and Faction.`,
     `- [Runic Disc Encyclopedia](${siteUrl}/discs): Browse and filter all ${allDiscs.length} Runic Discs by Element, Rarity, Tags, Support Notes, and Harmony Notes.`,
+    `- [Send Feedback](${siteUrl}/feedback): Submit bug reports, math or data corrections, and feature ideas privately to the site maintainer.`,
+    ...communityBuildSection,
     '',
     '## Stella Sora Terminology',
     '',

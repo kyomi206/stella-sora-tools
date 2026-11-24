@@ -23,6 +23,9 @@ export const viewport: Viewport = {
   colorScheme: 'light dark',
 };
 
+const SITE_DESCRIPTION =
+  'KiyoStella is a Stella Sora web companion featuring Community Builds, a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.';
+
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   applicationName: SITE_NAME,
@@ -30,10 +33,13 @@ export const metadata: Metadata = {
     default: 'Stella Sora Tools | kiyostella',
     template: '%s | kiyostella',
   },
-  description:
-    'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
+  description: SITE_DESCRIPTION,
   icons: {
-    icon: '/bastelina.png',
+    icon: [
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   robots: {
     index: true,
@@ -52,8 +58,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     url: '/',
     title: 'Stella Sora Tools | kiyostella',
-    description:
-      'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
+    description: SITE_DESCRIPTION,
     images: [
       {
         url: DEFAULT_OG_IMAGE,
@@ -66,8 +71,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Stella Sora Tools | kiyostella',
-    description:
-      'KiyoStella is a Stella Sora web companion featuring a Squad & Preset Visualizer, Affinity Gift Calculator, Resource Calculator, Events Roadmap, Trekker Encyclopedia, and Runic Disc Encyclopedia.',
+    description: SITE_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE],
   },
 };
